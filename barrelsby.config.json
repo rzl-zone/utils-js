@@ -1,0 +1,26 @@
+{
+  "baseUrl": "../",
+  "delete": true,
+  "directory": "src/",
+  "exclude": [
+    "/next",
+    "/types/index\\.ts$",
+    "/_types-entry\\.ts$",
+    "deprecated$",
+    "deprecated/",
+    "deprecated\\.ts$",
+    "deprecated",
+    "private$",
+    "private/",
+    "private\\.ts$",
+    "private",
+    "types$",
+    "types/",
+    "types\\.ts$",
+    "types"
+  ],
+  "extension": "ts",
+  "location": "all",
+  "single": false,
+  "verbose": false
+}

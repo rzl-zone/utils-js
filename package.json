@@ -1,0 +1,148 @@
+{
+  "contributors": [
+    "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/rzl-zone/utils-js/issues"
+  },
+  "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "server-only": "^0.0.1"
+  },
+  "description": "A modern, lightweight set of JavaScript utility functions for everyday development, crafted to enhance code readability and maintainability.",
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/node": "^20.19.4",
+    "@types/rollup": "^0.51.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "barrelsby": "^2.8.1",
+    "del-cli": "^6.0.0",
+    "dts-bundle-generator": "^9.5.1",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "next": "^15.4.5",
+    "release-please": "^17.1.1",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.45.1",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-tsconfig-paths": "^1.5.2",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "type-samurai": "^1.1.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.37.0",
+    "vitest": "^3.2.4"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=16"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./next": {
+      "import": {
+        "types": "./dist/next/index.d.ts",
+        "default": "./dist/next/index.js"
+      },
+      "require": {
+        "types": "./dist/next/index.d.ts",
+        "default": "./dist/next/index.cjs"
+      }
+    },
+    "./next/server": {
+      "import": {
+        "types": "./dist/next/server/index.d.ts",
+        "default": "./dist/next/server/index.js"
+      },
+      "require": {
+        "types": "./dist/next/server/index.d.ts",
+        "default": "./dist/next/server/index.cjs"
+      }
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "homepage": "https://github.com/rzl-zone/utils-js#readme",
+  "jsdelivr": "./dist/rzl-utils.global.js",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "utils",
+    "helpers",
+    "library",
+    "@rzl-zone/utils-js",
+    "rzl",
+    "rzl-zone",
+    "utils-js",
+    "utility",
+    "rzl-utils",
+    "helper",
+    "functions"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "name": "@rzl-zone/utils-js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rzl-zone/utils-js.git"
+  },
+  "scripts": {
+    "barrel": "npx barrelsby --config barrelsby.config.json",
+    "build": "npm run clean && npm run barrel && tsup && npm run build:types && npm run minify-dist && npm run postbuild",
+    "build:types": "npm run build:types-dts && npm run build:types:bundle",
+    "build:types-all": "npm run build:types-dts && npm run build:types:bundle",
+    "build:types-dts": "dts-bundle-generator --config dts-config.cjs --silent --external-imports next",
+    "build:types:bundle": "rollup -c",
+    "check-publish": "npm pack --dry-run",
+    "clean": "rimraf dist",
+    "coverage": "vitest run --coverage",
+    "dev": "tsc --watch",
+    "format": "prettier --check .",
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix",
+    "minify-dist": "tsx scripts/minify-dist.ts",
+    "postbuild": "del-cli \"dist/**/*.d.cts\"",
+    "prepare": "npm run build",
+    "release-patch": "npm version patch && git push && git push --tags && npm publish"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "next": [
+        "dist/next/index.d.ts"
+      ],
+      "next/server": [
+        "dist/next/server/index.d.ts"
+      ],
+      "types": [
+        "dist/types/index.d.ts"
+      ]
+    }
+  },
+  "unpkg": "./dist/rzl-utils.global.js",
+  "version": "0.0.1"
+}

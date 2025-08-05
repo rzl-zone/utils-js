@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "stripInternal": true,
+    "outDir": "dist",
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@root-app/*": [
+        "./*"
+      ],
+    },
+    "skipLibCheck": true
+  },
+  "include": [
+    "src",
+    "tests",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist/**/*",
+  ]
+}

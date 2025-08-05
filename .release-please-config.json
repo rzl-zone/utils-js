@@ -1,0 +1,26 @@
+{
+  "auto-merge": true,
+  "bump-minor-pre-major": true,
+  "changelog-path": "CHANGELOG.md",
+  "changelog-sections": {
+    "refactor": {
+      "title": "Refactors",
+      "type": "patch"
+    },
+    "test": {
+      "title": "Tests",
+      "type": "patch"
+    }
+  },
+  "extra-files": [],
+  "include-v-in-tag": true,
+  "package-name": "@rzl-zone/utils-js",
+  "packages": {
+    ".": {
+      "release-type": "node"
+    }
+  },
+  "pull-request-title-pattern": "chore${component ? `(${component})` : ''}: release ${version}",
+  "release-type": "node",
+  "skip-github-release": false
+}
