@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.2](https://github.com/rzl-zone/utils-js/compare/v1.0.1...v1.0.2) (2025-08-06)
+
+
+### Bug Fixes
+
+* 'isObject' generic narrowing types on result logic with custom types, change unknown props as Record&lt;string, unknown&gt; result ([a4364f8](https://github.com/rzl-zone/utils-js/commit/a4364f8f49509aedc0afaf7b607c3cbadb58eccd))
+* `deleteNestedKey` generic types props ([b656df6](https://github.com/rzl-zone/utils-js/commit/b656df68b8f243e55f24f90032126a05982dd24c))
+* `isObject` generic narrowing types on result logic ([1c53ff6](https://github.com/rzl-zone/utils-js/commit/1c53ff699c4f7a25d48be61a72f37d66e57e0b50))
+* `isObject` generic narrowing types on result logic with custom types ([fd251c9](https://github.com/rzl-zone/utils-js/commit/fd251c90e2098cab58c9edf3eb82212ce2010d87))
+* `isObject` with internal func isNil && isArray ([efec254](https://github.com/rzl-zone/utils-js/commit/efec254375db2231370c395c7a0f6430bc7ddc4d))
+* `isObjectOrArray` generic narrowing types on result logic with custom types ([38dda18](https://github.com/rzl-zone/utils-js/commit/38dda18ffb1c1af7f62b94646644029262bf16d0))
+* improve `formatDateIntl` type safety and fix optional locale destructuring ([e1dc600](https://github.com/rzl-zone/utils-js/commit/e1dc600be642083f26b20c487f5141cdbc6da96c))
+* resolve bug in core logic and sync types/tests ([ad03f7a](https://github.com/rzl-zone/utils-js/commit/ad03f7a7732fe3d87eced817271ab1d6fa797f45))
+
 ## [1.0.1](https://github.com/rzl-zone/utils-js/compare/v1.0.0...v1.0.1) (2025-08-06)
 
 
