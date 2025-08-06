@@ -1,5 +1,9 @@
 import { isArray, isNil } from "@/predicates";
+import { Prettify } from "type-samurai";
 
+type IsValidObject<T> = NonNullable<
+  Extract<Prettify<T, { recursive: true }>, Record<string, unknown>>
+>;
 /** ---------------------------------------------------------
  * * ***Type guard: Checks if a value is a plain object.***
  * ---------------------------------------------------------
@@ -15,10 +19,13 @@ import { isArray, isNil } from "@/predicates";
  * isObject(null);              // false
  * isObject(undefined);         // false
  */
-export function isObject(val: unknown): val is Record<string, unknown>;
 export function isObject<T>(
   val: T
-): val is NonNullable<Extract<T, Record<string, unknown>>>;
+  // @ts-expect-error no check infer
+): val is IsValidObject<T>;
+export function isObject(
+  val: unknown
+): val is NonNullable<Record<string, unknown>>;
 export function isObject(val: unknown): boolean {
   return typeof val === "object" && !isNil(val) && !isArray(val);
 }
