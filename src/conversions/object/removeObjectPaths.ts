@@ -28,7 +28,7 @@ const deleteShallowKey = <T extends Record<string, unknown>>(
   return obj;
 };
 
-const deleteNestedKey = <T extends Record<string, unknown>>(
+const deleteNestedKey = <T extends Record<string, unknown> | unknown[]>(
   obj: T,
   path: string[]
 ): T => {
@@ -36,7 +36,7 @@ const deleteNestedKey = <T extends Record<string, unknown>>(
 
   const [currentKey, ...rest] = path;
 
-  if (Array.isArray(obj)) {
+  if (isArray(obj)) {
     for (const item of obj) {
       if (isObjectOrArray(item) && !isNull(item)) {
         deleteNestedKey(item, path); // 💥 recursive pass same path
