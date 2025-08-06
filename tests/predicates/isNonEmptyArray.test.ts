@@ -22,8 +22,8 @@ describe("isNonEmptyArray", () => {
   });
 
   it("should narrow type correctly", () => {
-    const data: unknown = [1, 2, 3];
-    if (isNonEmptyArray<number>(data)) {
+    const data = [1, 2, 3];
+    if (isNonEmptyArray(data)) {
       // Within this block, TypeScript knows data is number[]
       const sum = data.reduce((a, b) => a + b, 0);
       expect(sum).toBe(6);

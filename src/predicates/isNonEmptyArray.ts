@@ -15,6 +15,10 @@
  * isNonEmptyArray(null);     // false
  * isNonEmptyArray("test");   // false
  */
-export const isNonEmptyArray = <T = unknown>(value: unknown): value is T[] => {
+export function isNonEmptyArray(value: unknown): value is unknown[];
+export function isNonEmptyArray<T>(
+  value: T
+): value is NonNullable<Extract<T, unknown[]>>;
+export function isNonEmptyArray(value: unknown): boolean {
   return Array.isArray(value) && value.length > 0;
-};
+}
