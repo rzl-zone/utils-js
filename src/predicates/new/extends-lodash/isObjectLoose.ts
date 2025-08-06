@@ -1,3 +1,5 @@
+import { isFunction, isNil, isObjectOrArray } from "@/index";
+
 /** --------------------------------------------------
  * * ***Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -22,8 +24,10 @@
  *
  * isObjectLoose(null);
  * // => false
+ *
+ * isObjectLoose(undefined);
+ * // => false
  */
-export function isObjectLoose(value: unknown): value is object {
-  const type = typeof value;
-  return value != null && (type == "object" || type == "function");
+export function isObjectLoose<T = object>(value: unknown): value is T {
+  return !isNil(value) && (isObjectOrArray(value) || isFunction(value));
 }
