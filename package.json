@@ -144,5 +144,5 @@
     }
   },
   "unpkg": "./dist/rzl-utils.global.js",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
