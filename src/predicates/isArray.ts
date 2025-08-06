@@ -18,8 +18,10 @@
  * isArray(null); // false
  * isArray(undefined); // false
  */
-export const isArray = <T>(
+export function isArray(value: unknown): value is unknown[];
+export function isArray<T>(
   value: T
-): value is NonNullable<Extract<T, unknown[]>> => {
+): value is NonNullable<Extract<T, unknown[]>>;
+export function isArray(value: unknown): boolean {
   return Array.isArray(value);
-};
+}
