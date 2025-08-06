@@ -21,6 +21,6 @@
  * isSafeInteger('3');
  * // => false
  */
-export function isSafeInteger(value: unknown): value is object {
+export function isSafeInteger(value: unknown): value is number {
   return typeof value === "number" && Number.isSafeInteger(value);
 }
