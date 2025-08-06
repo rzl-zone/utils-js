@@ -1,16 +1,28 @@
 {
+  "name": "@rzl-zone/utils-js",
+  "version": "1.0.2",
+  "type": "module",
+  "sideEffects": false,
+  "engineStrict": true,
+  "license": "MIT",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "unpkg": "./dist/rzl-utils.global.js",
+  "jsdelivr": "./dist/rzl-utils.global.js",
+  "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
+  "homepage": "https://github.com/rzl-zone/utils-js#readme",
+  "description": "A modern, lightweight set of JavaScript utility functions for everyday development, crafted to enhance code readability and maintainability.",
   "contributors": [
     "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>"
   ],
   "bugs": {
     "url": "https://github.com/rzl-zone/utils-js/issues"
   },
-  "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
   "dependencies": {
     "date-fns": "^4.1.0",
     "server-only": "^0.0.1"
   },
-  "description": "A modern, lightweight set of JavaScript utility functions for everyday development, crafted to enhance code readability and maintainability.",
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "@rollup/plugin-typescript": "^12.1.4",
@@ -36,7 +48,6 @@
     "typescript-eslint": "^8.37.0",
     "vitest": "^3.2.4"
   },
-  "engineStrict": true,
   "engines": {
     "node": ">=16"
   },
@@ -75,13 +86,24 @@
       "types": "./dist/types/index.d.ts"
     }
   },
+  "typesVersions": {
+    "*": {
+      "next": [
+        "dist/next/index.d.ts"
+      ],
+      "next/server": [
+        "dist/next/server/index.d.ts"
+      ],
+      "types": [
+        "dist/types/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist",
     "README.md",
     "LICENSE.md"
   ],
-  "homepage": "https://github.com/rzl-zone/utils-js#readme",
-  "jsdelivr": "./dist/rzl-utils.global.js",
   "keywords": [
     "javascript",
     "typescript",
@@ -97,10 +119,6 @@
     "helper",
     "functions"
   ],
-  "license": "MIT",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "name": "@rzl-zone/utils-js",
   "publishConfig": {
     "access": "public"
   },
@@ -126,23 +144,5 @@
     "postbuild": "del-cli \"dist/**/*.d.cts\"",
     "prepare": "npm run build",
     "release-patch": "npm version patch && git push && git push --tags && npm publish"
-  },
-  "sideEffects": false,
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "next": [
-        "dist/next/index.d.ts"
-      ],
-      "next/server": [
-        "dist/next/server/index.d.ts"
-      ],
-      "types": [
-        "dist/types/index.d.ts"
-      ]
-    }
-  },
-  "unpkg": "./dist/rzl-utils.global.js",
-  "version": "1.0.2"
+  }
 }
