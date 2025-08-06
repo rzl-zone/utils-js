@@ -1,4 +1,4 @@
-import { isEqualWith } from "@/predicates";
+import { isEqualWith } from "@/predicates/new/extends-lodash/isEqualWith";
 import { describe, it, expect } from "vitest";
 
 describe("isEqualWith", () => {

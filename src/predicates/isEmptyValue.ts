@@ -26,17 +26,16 @@ import { isArray, isEmptyString, isNil, isObject, isString } from "./";
  * isEmptyValue(() => {}); // false
  */
 export const isEmptyValue = (value: unknown): boolean => {
-  if (isNil(value) || value === false) return true;
   if (typeof value === "number" && Number.isNaN(value)) return true;
   if (isString(value)) return isEmptyString(value);
   if (isArray(value)) return value.length === 0;
-
   if (isObject(value)) {
     return (
       Object.keys(value).length === 0 &&
       Object.getOwnPropertySymbols(value).length === 0
     );
   }
+  if (isNil(value) || value === false) return true;
 
   return false;
 };

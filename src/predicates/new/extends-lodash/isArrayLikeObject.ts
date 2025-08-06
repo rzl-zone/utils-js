@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isLength, isObjectOrArray } from "@/index";
 import type { AnyFunction } from "@/types";
 
@@ -27,18 +26,11 @@ export function isArrayLikeObject<T extends { __anyHack: unknown }>(
   value: T
 ): boolean;
 export function isArrayLikeObject(
-  value:
-    | ((...args: any[]) => any)
-    | AnyFunction
-    | string
-    | boolean
-    | number
-    | null
-    | undefined
+  value: AnyFunction | string | boolean | number | null | undefined
 ): value is never;
 export function isArrayLikeObject(
   value: unknown
 ): value is object & { length: number };
 export function isArrayLikeObject(value?: unknown) {
-  return isObjectOrArray(value) && isLength((value as any).length);
+  return isObjectOrArray(value) && isLength(value.length);
 }

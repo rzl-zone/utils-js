@@ -3,6 +3,7 @@ import {
   isEmptyArray,
   isEmptyString,
   isNumber,
+  isObject,
   isObjectOrArray,
   isString,
 } from "./";
@@ -40,21 +41,20 @@ import {
 export const isEmptyDeep = (value: unknown): boolean => {
   if (isString(value)) return isEmptyString(value);
   if (isNumber(value)) return false;
-  if (!value) return true;
-
   if (isArray(value)) {
     return isEmptyArray(value) || value.every(isEmptyDeep);
   }
-
   if (isObjectOrArray(value)) {
     const keys = Object.keys(value);
     const symbols = Object.getOwnPropertySymbols(value);
     return (
       [...keys, ...symbols].length === 0 ||
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      [...keys, ...symbols].every((key) => isEmptyDeep((value as any)[key]))
+      [...keys, ...symbols].every((key) =>
+        isObject(value) && isString(key) ? isEmptyDeep(value[key]) : key
+      )
     );
   }
+  if (!value) return true;
 
   return false;
 };

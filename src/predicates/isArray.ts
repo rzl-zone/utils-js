@@ -1,3 +1,11 @@
+type IsArray<T> = unknown extends T
+  ? unknown[]
+  : T extends object
+  ? T extends unknown[]
+    ? T
+    : never
+  : never;
+
 /** ----------------------------------------------------------
  * * ***Type guard: Checks if a value is an array.***
  * ----------------------------------------------------------
@@ -18,10 +26,9 @@
  * isArray(null); // false
  * isArray(undefined); // false
  */
-export function isArray(value: unknown): value is unknown[];
-export function isArray<T>(
-  value: T
-): value is NonNullable<Extract<T, unknown[]>>;
-export function isArray(value: unknown): boolean {
+// export function isArray(value: unknown): value is unknown[];
+// export function isArray<T>(value: T): value is Extract<T, unknown[]>;
+// @ts-expect-error ignore error `T` inferred for more strict.
+export function isArray<T>(value: T): value is IsArray<T> {
   return Array.isArray(value);
 }

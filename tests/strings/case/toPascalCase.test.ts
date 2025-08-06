@@ -1,4 +1,4 @@
-import { toPascalCase } from "@/index";
+import { toPascalCase } from "@/strings/case";
 import { describe, it, expect } from "vitest";
 
 describe("toPascalCase", () => {

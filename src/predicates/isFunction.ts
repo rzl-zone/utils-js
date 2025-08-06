@@ -1,3 +1,5 @@
+import type { AnyFunction } from "@/types";
+
 /**
  * ----------------------------------------------------------
  * * ***Type guard: Checks if a value is a function.***
@@ -16,9 +18,6 @@
  * isFunction(null); // false
  * isFunction({}); // false
  */
-export const isFunction = (
-  value: unknown
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): value is (...args: any[]) => any => {
+export const isFunction = (value: unknown): value is AnyFunction => {
   return typeof value === "function";
 };

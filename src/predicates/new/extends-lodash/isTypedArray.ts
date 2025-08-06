@@ -1,15 +1,4 @@
-type TypedArray =
-  | Int8Array
-  | Uint8Array
-  | Uint8ClampedArray
-  | Int16Array
-  | Uint16Array
-  | Int32Array
-  | Uint32Array
-  | Float32Array
-  | Float64Array
-  | BigInt64Array
-  | BigUint64Array;
+import type { TypedArray } from "@/types";
 
 /** --------------------------------------------------
  * * ***Checks if `value` is classified as a typed array.***

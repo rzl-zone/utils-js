@@ -140,18 +140,10 @@ export const formatDateIntl = (
   const parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) return null; // Handle invalid dates
 
-  function assertIsValidDateTimeOptions(
-    value: unknown
-  ): asserts value is Intl.DateTimeFormatOptions & {
-    locale?: SupportedLocales | SupportedLocales[];
-  } {
-    if (!isObject(value)) {
-      throw new TypeError(`props 'options' must be \`object\` or unset type!`);
-    }
-  }
-
   // Ensure options is an object and Defensive options check
-  assertIsValidDateTimeOptions(options);
+  if (!isObject(options)) {
+    options = {};
+  }
 
   const { locale = "en-US", ...restProps } = options;
 

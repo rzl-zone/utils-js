@@ -3,8 +3,8 @@ import {
   isEmptyArray,
   isFunction,
   isNull,
+  isObject,
   isObjectOrArray,
-  isUndefined,
 } from "@/predicates";
 import type { ConfigRemoveObjectPaths } from "./removeObjectPaths.types";
 
@@ -43,12 +43,9 @@ const deleteNestedKey = <T extends Record<string, unknown> | unknown[]>(
       }
     }
   } else if (isEmptyArray(rest)) {
-    delete obj[currentKey];
-  } else if (
-    !isUndefined(obj[currentKey]) &&
-    isObjectOrArray(obj[currentKey])
-  ) {
-    deleteNestedKey(obj[currentKey] as T, rest);
+    if (isObject(obj)) delete obj[currentKey];
+  } else if (isObject(obj) && isObjectOrArray(obj[currentKey])) {
+    deleteNestedKey(obj[currentKey], rest);
   }
 
   return obj;

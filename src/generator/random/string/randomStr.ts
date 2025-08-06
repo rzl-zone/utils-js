@@ -1,6 +1,5 @@
-import { isBoolean, isInteger, isObject } from "@/predicates";
+import { isBoolean, isInteger, isObject, randomInt } from "@/index";
 import type { RandomStringOptions } from "@/types/private";
-import { randomInt } from "../integer";
 
 /** ---------------------------------------------------------------------------------
  * * ***Generates a random alphanumeric string or number with a specified length range.***

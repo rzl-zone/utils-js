@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { isLength } from "@/index";
+import { isFunction, isLength, isObjectOrArray } from "@/index";
 
 /** ----------------------------------------------------
  * * ***Checks if `value` is array-like. A value is considered array-like if it's
@@ -20,7 +20,7 @@ import { isLength } from "@/index";
  * // => true
  *
  * isArrayLike('abc');
- * // => true
+ * // => false
  *
  * isArrayLike(noop);
  * // => false
@@ -34,8 +34,6 @@ export function isArrayLike(
 export function isArrayLike(value: unknown): value is { length: number };
 export function isArrayLike(value?: unknown) {
   return (
-    value != null &&
-    typeof value !== "function" &&
-    isLength((value as any)?.length)
+    !isFunction(value) && isObjectOrArray(value) && isLength(value?.length)
   );
 }

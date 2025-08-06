@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { randomStr } from "@/index";
+import { randomStr } from "@/generator/random/string/randomStr";
 
 describe("randomStr", () => {
   it("should generate a string with exact length when minLength equals maxLength", () => {

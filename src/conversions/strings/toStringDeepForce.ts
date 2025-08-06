@@ -114,13 +114,6 @@ export const toStringDeepForce = (
       : value;
   }
 
-  // other primitives
-  if (isBoolean(value) || isBigInt(value) || isNil(value)) {
-    return forceToString === "primitives" || forceToString === "all"
-      ? String(value)
-      : value;
-  }
-
   // symbol
   if (isSymbol(value)) {
     return forceToString === "all" ? value.toString() : value;
@@ -184,6 +177,13 @@ export const toStringDeepForce = (
       );
     }
     return result;
+  }
+
+  // other primitives
+  if (isBoolean(value) || isBigInt(value) || isNil(value)) {
+    return forceToString === "primitives" || forceToString === "all"
+      ? String(value)
+      : value;
   }
 
   return value;

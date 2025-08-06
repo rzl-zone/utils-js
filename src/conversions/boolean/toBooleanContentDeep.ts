@@ -45,11 +45,9 @@ import {
  * toBooleanContentDeep({ a: { b: "x" }}); // true
  */
 export const toBooleanContentDeep = (value?: unknown): boolean => {
-  if (isNil(value)) return false;
   if (isString(value)) return !isEmptyString(value);
   if (isBoolean(value)) return value;
   if (isNumber(value)) return value !== 0;
-
   if (isArray(value)) {
     return value.some((item) => toBooleanContentDeep(item));
   }
@@ -57,6 +55,7 @@ export const toBooleanContentDeep = (value?: unknown): boolean => {
   if (isObject(value)) {
     return Object.values(value).some((val) => toBooleanContentDeep(val));
   }
+  if (isNil(value)) return false;
 
   return false;
 };

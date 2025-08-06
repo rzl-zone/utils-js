@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { AnyFunction } from "@/types";
 
 const funcToString = Function.prototype.toString;
 const reIsNative = /\{\s*\[native code\]\s*\}/;
@@ -27,7 +27,7 @@ const reIsNative = /\{\s*\[native code\]\s*\}/;
  * isNative(RzlUtilsJs);
  * // => false
  */
-export function isNative(value?: unknown): value is (...args: any[]) => any {
+export function isNative(value?: unknown): value is AnyFunction {
   if (typeof value !== "function") return false;
 
   try {

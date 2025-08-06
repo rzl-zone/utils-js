@@ -34,10 +34,10 @@ import {
  * toBooleanLoose({ a: 1 });  // true
  */
 export const toBooleanLoose = (value?: unknown): boolean => {
-  if (isNil(value)) return false;
   if (isString(value)) return !isEmptyString(value);
   if (isBoolean(value)) return value;
   if (isNumber(value)) return value !== 0;
   if (isArray(value)) return value.length > 0;
+  if (isNil(value)) return false;
   return Boolean(value);
 };

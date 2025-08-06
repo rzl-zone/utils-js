@@ -1,9 +1,4 @@
-import {
-  isEmptyString,
-  isNonEmptyString,
-  isObject,
-  isString,
-} from "@/predicates";
+import { isEmptyString, isNonEmptyString, isObject, isString } from "@/index";
 
 /** ----------------------------------------------------------
  * * ***Normalizes whitespace in a string by reducing multiple spaces

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalizeString } from "@/strings";
+import { normalizeString } from "@/strings/sanitize";
 
 describe("normalizeString", () => {
   it("should trim a valid non-empty string", () => {

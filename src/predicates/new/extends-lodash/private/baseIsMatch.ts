@@ -1,4 +1,4 @@
-import { isMatchWith, isObjectOrArray } from "@/index";
+import { isArray, isMatchWith, isObjectOrArray, isUndefined } from "@/index";
 import type { isMatchWithCustomizer } from "@/types/private/predicates/new/isMatchWith";
 
 // #Private - local
@@ -16,16 +16,16 @@ export function baseIsMatch(
 ): boolean {
   if (object === source) return true;
 
-  if (source === null || typeof source !== "object") {
+  if (!isObjectOrArray(source)) {
     return isSameValue(object, source);
   }
 
-  if (object === null || typeof object !== "object") {
+  if (!isObjectOrArray(object)) {
     return false;
   }
 
-  const keys = Reflect.ownKeys(source as object).filter(
-    (k) => !(Array.isArray(source) && k === "length")
+  const keys = Reflect.ownKeys(source).filter(
+    (k) => !(isArray(source) && k === "length")
   );
 
   for (const key of keys) {
@@ -34,21 +34,14 @@ export function baseIsMatch(
     const objValue = (object as Record<string | symbol, unknown>)[key];
     const srcValue = (source as Record<string | symbol, unknown>)[key];
 
-    const result = customizer?.(
-      objValue,
-      srcValue,
-      key,
-      object as object,
-      source as object
-    );
-    if (result !== undefined) {
+    const result = customizer?.(objValue, srcValue, key, object, source);
+    if (!isUndefined(result)) {
       if (!result) return false;
       continue; // skip default comparison
     }
 
     if (isObjectOrArray(objValue) && isObjectOrArray(srcValue)) {
-      if (!isMatchWith(objValue as object, srcValue as object, customizer))
-        return false;
+      if (!isMatchWith(objValue, srcValue, customizer)) return false;
     } else {
       if (!isSameValue(objValue, srcValue)) return false;
     }

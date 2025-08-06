@@ -459,3 +459,144 @@ export type ChangeTypeOfValuesArray<Arr, Target, NewType> = Arr extends object
  * console.log(fn(1, 2)); // 3
  */
 export type AnyFunction = (...args: any[]) => any;
+
+/** --------------------------------------------------
+ * * ***Represents all JavaScript TypedArray types used for binary data manipulation.***
+ * --------------------------------------------------
+ *
+ * Includes all standard built-in typed arrays like:
+ * - `Int8Array`
+ * - `Uint8Array`
+ * - `Uint8ClampedArray`
+ * - `Int16Array`
+ * - `Uint16Array`
+ * - `Int32Array`
+ * - `Uint32Array`
+ * - `Float32Array`
+ * - `Float64Array`
+ * - `BigInt64Array`
+ * - `BigUint64Array`
+ */
+export type TypedArray =
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array
+  | BigInt64Array
+  | BigUint64Array;
+
+/** --------------------------------------------------
+ * * ***Represents common Web API object types available in the browser environment.***
+ * --------------------------------------------------
+ *
+ * Includes:
+ * - URL handling: `URL`, `URLSearchParams`
+ * - Networking: `Request`, `Response`, `Headers`, `WebSocket`
+ * - Streams: `ReadableStream`, `WritableStream`, `TransformStream`
+ * - Events and messaging: `Event`, `CustomEvent`, `MessageChannel`, `MessagePort`, `MessageEvent`
+ * - DOM-related: `HTMLElement`, `Node`, `Document`, `Window`, `CanvasRenderingContext2D`
+ * - Encoding and decoding: `TextEncoder`, `TextDecoder`
+ * - File-related: `File`, `FileList`, `ImageBitmap`, `FormData`
+ * - Abort handling: `AbortController`, `AbortSignal`
+ * - Cryptography: `CryptoKey`
+ */
+export type WebApiObjects =
+  | URL
+  | URLSearchParams
+  | FormData
+  | Headers
+  | Response
+  | Request
+  | ReadableStream<any>
+  | WritableStream<any>
+  | TransformStream<any, any>
+  | MessageChannel
+  | MessagePort
+  | MessageEvent
+  | Event
+  | CustomEvent
+  | HTMLElement
+  | Node
+  | Document
+  | Window
+  | AbortController
+  | AbortSignal
+  | TextEncoder
+  | TextDecoder
+  | CryptoKey
+  | File
+  | FileList
+  | ImageBitmap
+  | CanvasRenderingContext2D
+  | WebSocket;
+
+/** --------------------------------------------------
+ * * ***Represents all ECMAScript Internationalization API objects from the `Intl` namespace.***
+ * --------------------------------------------------
+ *
+ * Includes:
+ * - `Intl.Collator`
+ * - `Intl.DateTimeFormat`
+ * - `Intl.NumberFormat`
+ * - `Intl.RelativeTimeFormat`
+ * - `Intl.PluralRules`
+ * - `Intl.ListFormat`
+ * - `Intl.Locale`
+ */
+export type IntlObjects =
+  | Intl.Collator
+  | Intl.DateTimeFormat
+  | Intl.NumberFormat
+  | Intl.RelativeTimeFormat
+  | Intl.PluralRules
+  | Intl.ListFormat
+  | Intl.Locale;
+
+/** --------------------------------------------------
+ * * ***Represents Node.js built-in core objects.***
+ * --------------------------------------------------
+ *
+ * Currently includes:
+ * - `Buffer`
+ */
+export type NodeBuiltins = Buffer;
+
+/** --------------------------------------------------
+ * * ***Represents all known non-plain object types that are excluded
+ * from being considered as a "plain object" (i.e., `{ [key: string]: any }`).***
+ * --------------------------------------------------
+ *
+ * Includes:
+ * - Functions
+ * - Arrays
+ * - Native objects like: `Date`, `RegExp`, `Map`, `Set`, `WeakMap`, `WeakSet`
+ * - Built-in classes and browser APIs: `Promise`, `Error`, `ArrayBuffer`, `DataView`
+ * - `TypedArray`, `WebApiObjects`, `IntlObjects`, and `NodeBuiltins`
+ * - Symbols
+ * - Proxies and the `Reflect` object
+ */
+export type NonPlainObject =
+  | AnyFunction
+  | Array<any>
+  | Date
+  | RegExp
+  | Map<any, any>
+  | Set<any>
+  | WeakMap<any, any>
+  | WeakSet<any>
+  | Error
+  | Promise<any>
+  | ArrayBuffer
+  | DataView
+  | TypedArray
+  | WebApiObjects
+  | IntlObjects
+  | NodeBuiltins
+  | symbol
+  | { [Symbol.toStringTag]: "Proxy" }
+  | typeof Reflect;

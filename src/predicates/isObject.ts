@@ -1,14 +1,10 @@
-import type { AnyFunction } from "@/types";
+import type { NonPlainObject } from "@/types";
 import { isArray, isNil } from "@/index";
 
-export type IsObject<T> = unknown extends T
-  ? Record<string, unknown>
+type IsObject<T = unknown> = unknown extends T
+  ? Record<string, unknown> & unknown
   : T extends object
-  ? T extends AnyFunction
-    ? never
-    : T extends readonly unknown[]
-    ? never
-    : T extends null
+  ? T extends NonPlainObject
     ? never
     : T
   : never;
@@ -28,7 +24,7 @@ export type IsObject<T> = unknown extends T
  * isObject(null);              // false
  * isObject(undefined);         // false
  */
-// @ts-expect-error ignore error `T` inferred for more strict.
-export function isObject<T>(val: T): val is IsObject<T> {
+export function isObject<T>(val: T): val is IsObject<T>;
+export function isObject(val: unknown): boolean {
   return typeof val === "object" && !isNil(val) && !isArray(val);
 }

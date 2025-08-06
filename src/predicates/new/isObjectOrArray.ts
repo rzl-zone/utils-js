@@ -1,14 +1,12 @@
-import type { AnyFunction } from "@/types";
+import type { NonPlainObject } from "@/types";
 import { isNil } from "@/index";
 
 export type IsObjectOrArray<T> = unknown extends T
   ? Record<string, unknown> | unknown[]
   : T extends object
-  ? T extends AnyFunction
-    ? never
-    : T extends readonly unknown[]
+  ? T extends unknown[]
     ? T
-    : T extends null
+    : T extends NonPlainObject
     ? never
     : T
   : never;
@@ -30,6 +28,7 @@ export type IsObjectOrArray<T> = unknown extends T
  * isObjectOrArray("hello");           // false
  */
 // @ts-expect-error ignore error `T` inferred for more strict.
-export function isObjectOrArray<T>(value: T): value is IsObjectOrArray<T> {
+export function isObjectOrArray<T>(value: T): value is IsObjectOrArray<T>;
+export function isObjectOrArray<T>(value: T): boolean {
   return typeof value === "object" && !isNil(value);
 }

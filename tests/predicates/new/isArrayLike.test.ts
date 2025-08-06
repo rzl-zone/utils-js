@@ -7,9 +7,9 @@ describe("isArrayLike", () => {
     expect(isArrayLike([])).toBe(true);
   });
 
-  it("should return true for strings", () => {
-    expect(isArrayLike("abc")).toBe(true);
-    expect(isArrayLike("")).toBe(true);
+  it("should return false for strings", () => {
+    expect(isArrayLike("abc")).toBe(false);
+    expect(isArrayLike("")).toBe(false);
   });
 
   it("should return true for array-like objects", () => {
