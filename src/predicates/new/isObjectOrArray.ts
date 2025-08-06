@@ -1,4 +1,17 @@
+import type { AnyFunction } from "@/types";
 import { isNil } from "@/index";
+
+export type IsObjectOrArray<T> = unknown extends T
+  ? Record<string, unknown> | unknown[]
+  : T extends object
+  ? T extends AnyFunction
+    ? never
+    : T extends readonly unknown[]
+    ? T
+    : T extends null
+    ? never
+    : T
+  : never;
 
 /** ---------------------------------------------------------
  * * ***Type guard: Checks if a value is an object or array.***
@@ -16,16 +29,7 @@ import { isNil } from "@/index";
  * isObjectOrArray(undefined);         // false
  * isObjectOrArray("hello");           // false
  */
-export function isObjectOrArray(value: null | undefined): false;
-export function isObjectOrArray(
-  value: unknown
-): value is unknown[] | Record<string, unknown>;
-export function isObjectOrArray<T>(
-  value: T
-): value is Extract<
-  Exclude<T, null | undefined>,
-  Record<string, unknown> | unknown[]
->;
-export function isObjectOrArray(value: unknown): boolean {
+// @ts-expect-error ignore error `T` inferred for more strict.
+export function isObjectOrArray<T>(value: T): value is IsObjectOrArray<T> {
   return typeof value === "object" && !isNil(value);
 }
