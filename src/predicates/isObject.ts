@@ -15,6 +15,8 @@ import { isArray, isNil } from "@/predicates";
  * isObject(null);              // false
  * isObject(undefined);         // false
  */
-export const isObject = <T>(val: T): val is NonNullable<T> => {
+export const isObject = <T>(
+  val: T
+): val is NonNullable<Extract<T, Record<string, unknown>>> => {
   return typeof val === "object" && !isNil(val) && !isArray(val);
 };
