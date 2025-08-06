@@ -1,3 +1,5 @@
+import { isObject } from "@/predicates";
+
 /** ----------------------------------------------------
  * * ***Checks if `value` is a plain object, that is, an object created by the `Object` constructor or one with a `[[Prototype]]` of `null`..***
  * ----------------------------------------------------
@@ -22,10 +24,12 @@
  * isPlainObject(Object.create(null));
  * // => true
  */
-export function isPlainObject<T extends object = Record<string, unknown>>(
-  value: unknown
-): value is NonNullable<T> {
-  if (value === null || typeof value !== "object") return false;
+export function isPlainObject(value: unknown): value is Record<string, unknown>;
+export function isPlainObject<T>(
+  value: T
+): value is NonNullable<Extract<T, Record<string, unknown>>>;
+export function isPlainObject(value: unknown): boolean {
+  if (!isObject(value)) return false;
 
   const proto = Object.getPrototypeOf(value);
   return proto === Object.prototype || proto === null;
