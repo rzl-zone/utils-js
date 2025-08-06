@@ -1,4 +1,5 @@
 import type { AnyFunction } from "@/types";
+import { isArray, isNil } from "@/index";
 
 export type IsObject<T> = unknown extends T
   ? unknown
@@ -28,5 +29,5 @@ export type IsObject<T> = unknown extends T
  * isObject(undefined);         // false
  */
 export function isObject<T>(val: T): val is IsObject<T> {
-  return typeof val === "object" && val !== null && !Array.isArray(val);
+  return typeof val === "object" && !isNil(val) && !isArray(val);
 }
