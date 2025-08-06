@@ -1,9 +1,17 @@
-import { isArray, isNil } from "@/predicates";
-import { Prettify } from "type-samurai";
+import type { AnyFunction } from "@/types";
 
-type IsValidObject<T> = NonNullable<
-  Extract<Prettify<T, { recursive: true }>, Record<string, unknown>>
->;
+export type IsObject<T> = unknown extends T
+  ? unknown
+  : T extends object
+  ? T extends AnyFunction
+    ? never
+    : T extends readonly unknown[]
+    ? never
+    : T extends null
+    ? never
+    : T
+  : never;
+
 /** ---------------------------------------------------------
  * * ***Type guard: Checks if a value is a plain object.***
  * ---------------------------------------------------------
@@ -19,13 +27,6 @@ type IsValidObject<T> = NonNullable<
  * isObject(null);              // false
  * isObject(undefined);         // false
  */
-export function isObject<T>(
-  val: T
-  // @ts-expect-error no check infer
-): val is IsValidObject<T>;
-export function isObject(
-  val: unknown
-): val is NonNullable<Record<string, unknown>>;
-export function isObject(val: unknown): boolean {
-  return typeof val === "object" && !isNil(val) && !isArray(val);
+export function isObject<T>(val: T): val is IsObject<T> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
 }
