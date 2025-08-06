@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/rzl-zone/utils-js/compare/v1.0.2...v1.0.3) (2025-08-06)
+
+
+### Bug Fixes
+
+* **release:** bump version to 1.0.3 ([bef7064](https://github.com/rzl-zone/utils-js/commit/bef70641fc169483a3099e6e8181af6443171006))
+
 ## [1.0.2](https://github.com/rzl-zone/utils-js/compare/v1.0.1...v1.0.2) (2025-08-06)
 
 
