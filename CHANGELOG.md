@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/rzl-zone/utils-js/compare/v2.0.0...v2.0.1) (2025-08-07)
+
+
+### Bug Fixes
+
+* resolve bug in types return func `isArray` ([7643e91](https://github.com/rzl-zone/utils-js/commit/7643e91398c6c70d0664083b114dcb2791062509))
+
 ## [2.0.0](https://github.com/rzl-zone/utils-js/compare/v1.0.4...v2.0.0) (2025-08-06)
 
 
