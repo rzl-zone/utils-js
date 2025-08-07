@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/rzl-zone/utils-js/compare/v2.0.1...v2.1.0) (2025-08-07)
+
+
+### Features
+
+* add new enhance `getPreciseType` function with full type detection and comprehensive tests ([603a5c8](https://github.com/rzl-zone/utils-js/commit/603a5c8aa2768d73503345056d684585ddffde66))
+
 ## [2.0.1](https://github.com/rzl-zone/utils-js/compare/v2.0.0...v2.0.1) (2025-08-07)
 
 
