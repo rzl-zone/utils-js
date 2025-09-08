@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "stripInternal": true,
+    "outDir": "dist",
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "src/*": [
+        "./src/*"
+      ],
+      "@root-app/*": [
+        "./*"
+      ],
+    },
+    "skipLibCheck": true
+  },
+  "include": [
+    "src",
+    "tests",
+    "internal-global.d.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist/**/*",
+  ]
+}

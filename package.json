@@ -1,0 +1,317 @@
+{
+  "name": "@rzl-zone/utils-js",
+  "version": "3.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "engineStrict": true,
+  "license": "MIT",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "unpkg": "./dist/rzl-utils.global.js",
+  "jsdelivr": "./dist/rzl-utils.global.js",
+  "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
+  "homepage": "https://github.com/rzl-zone/utils-js#readme",
+  "description": "A modern, lightweight set of JavaScript utility functions for everyday development, crafted to enhance code readability and maintainability.",
+  "contributors": [
+    "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/rzl-zone/utils-js/issues"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "server-only": "^0.0.1",
+    "tailwind-merge-v3": "npm:tailwind-merge@2.6.0",
+    "tailwind-merge-v4": "npm:tailwind-merge@3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@types/node": "^20.19.11",
+    "@types/rollup": "^0.51.4",
+    "@vitest/coverage-v8": "^3.2.4",
+    "barrelsby": "^2.8.1",
+    "clsx": "latest",
+    "del-cli": "^6.0.0",
+    "dts-bundle-generator": "^9.5.1",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "next": "^15.5.2",
+    "release-please": "^17.1.1",
+    "tailwindcss": "^4.1.13",
+    "terser": "^5.44.0",
+    "tsc-alias": "^1.8.16",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "exports": {
+    "./assertions": {
+      "import": {
+        "types": "./dist/assertions/index.d.ts",
+        "default": "./dist/assertions/index.js"
+      },
+      "require": {
+        "types": "./dist/assertions/index.d.ts",
+        "default": "./dist/assertions/index.cjs"
+      }
+    },
+    "./conversions": {
+      "import": {
+        "types": "./dist/conversions/index.d.ts",
+        "default": "./dist/conversions/index.js"
+      },
+      "require": {
+        "types": "./dist/conversions/index.d.ts",
+        "default": "./dist/conversions/index.cjs"
+      }
+    },
+    "./env": {
+      "import": {
+        "types": "./dist/env/index.d.ts",
+        "default": "./dist/env/index.js"
+      },
+      "require": {
+        "types": "./dist/env/index.d.ts",
+        "default": "./dist/env/index.cjs"
+      }
+    },
+    "./events": {
+      "import": {
+        "types": "./dist/events/index.d.ts",
+        "default": "./dist/events/index.js"
+      },
+      "require": {
+        "types": "./dist/events/index.d.ts",
+        "default": "./dist/events/index.cjs"
+      }
+    },
+    "./formatting": {
+      "import": {
+        "types": "./dist/formatting/index.d.ts",
+        "default": "./dist/formatting/index.js"
+      },
+      "require": {
+        "types": "./dist/formatting/index.d.ts",
+        "default": "./dist/formatting/index.cjs"
+      }
+    },
+    "./generator": {
+      "import": {
+        "types": "./dist/generator/index.d.ts",
+        "default": "./dist/generator/index.js"
+      },
+      "require": {
+        "types": "./dist/generator/index.d.ts",
+        "default": "./dist/generator/index.cjs"
+      }
+    },
+    "./next": {
+      "import": {
+        "types": "./dist/next/index.d.ts",
+        "default": "./dist/next/index.js"
+      },
+      "require": {
+        "types": "./dist/next/index.d.ts",
+        "default": "./dist/next/index.cjs"
+      }
+    },
+    "./next/server": {
+      "import": {
+        "types": "./dist/next/server/index.d.ts",
+        "default": "./dist/next/server/index.js"
+      },
+      "require": {
+        "types": "./dist/next/server/index.d.ts",
+        "default": "./dist/next/server/index.cjs"
+      }
+    },
+    "./operations": {
+      "import": {
+        "types": "./dist/operations/index.d.ts",
+        "default": "./dist/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/operations/index.d.ts",
+        "default": "./dist/operations/index.cjs"
+      }
+    },
+    "./parsers": {
+      "import": {
+        "types": "./dist/parsers/index.d.ts",
+        "default": "./dist/parsers/index.js"
+      },
+      "require": {
+        "types": "./dist/parsers/index.d.ts",
+        "default": "./dist/parsers/index.cjs"
+      }
+    },
+    "./predicates": {
+      "import": {
+        "types": "./dist/predicates/index.d.ts",
+        "default": "./dist/predicates/index.js"
+      },
+      "require": {
+        "types": "./dist/predicates/index.d.ts",
+        "default": "./dist/predicates/index.cjs"
+      }
+    },
+    "./promise": {
+      "import": {
+        "types": "./dist/promise/index.d.ts",
+        "default": "./dist/promise/index.js"
+      },
+      "require": {
+        "types": "./dist/promise/index.d.ts",
+        "default": "./dist/promise/index.cjs"
+      }
+    },
+    "./strings": {
+      "import": {
+        "types": "./dist/strings/index.d.ts",
+        "default": "./dist/strings/index.js"
+      },
+      "require": {
+        "types": "./dist/strings/index.d.ts",
+        "default": "./dist/strings/index.cjs"
+      }
+    },
+    "./tailwind": {
+      "import": {
+        "types": "./dist/tailwind/index.d.ts",
+        "default": "./dist/tailwind/index.js"
+      },
+      "require": {
+        "types": "./dist/tailwind/index.d.ts",
+        "default": "./dist/tailwind/index.cjs"
+      }
+    },
+    "./urls": {
+      "import": {
+        "types": "./dist/urls/index.d.ts",
+        "default": "./dist/urls/index.js"
+      },
+      "require": {
+        "types": "./dist/urls/index.d.ts",
+        "default": "./dist/urls/index.cjs"
+      }
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "assertions": [
+        "dist/assertions/index.d.ts"
+      ],
+      "conversions": [
+        "dist/conversions/index.d.ts"
+      ],
+      "env": [
+        "dist/env/index.d.ts"
+      ],
+      "events": [
+        "dist/events/index.d.ts"
+      ],
+      "formatting": [
+        "dist/formatting/index.d.ts"
+      ],
+      "generator": [
+        "dist/generator/index.d.ts"
+      ],
+      "next": [
+        "dist/next/index.d.ts"
+      ],
+      "next/server": [
+        "dist/next/server/index.d.ts"
+      ],
+      "operations": [
+        "dist/operations/index.d.ts"
+      ],
+      "parsers": [
+        "dist/parsers/index.d.ts"
+      ],
+      "predicates": [
+        "dist/predicates/index.d.ts"
+      ],
+      "promise": [
+        "dist/promise/index.d.ts"
+      ],
+      "strings": [
+        "dist/strings/index.d.ts"
+      ],
+      "tailwind": [
+        "dist/tailwind/index.d.ts"
+      ],
+      "urls": [
+        "dist/urls/index.d.ts"
+      ],
+      "types": [
+        "dist/types/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "keywords": [
+    "javascript",
+    "typescript",
+    "utils",
+    "helpers",
+    "library",
+    "@rzl-zone/utils-js",
+    "rzl",
+    "rzl-zone",
+    "utils-js",
+    "utility",
+    "rzl-utils",
+    "helper",
+    "functions"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rzl-zone/utils-js.git"
+  },
+  "scripts": {
+    "clean": "del-cli \"dist/*\"",
+    "prepublish": "npm run clean",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run barrel",
+    "check-publish": "npm pack --dry-run",
+    "delete-dist:index": "del-cli \"dist/index.{js,js.map,cjs,cjs.map}\" \"dist/index.d.{ts,cts}\"",
+    "postbuild": "del-cli \"dist/**/*.d.cts\" && npm run delete-dist:index",
+    "barrel:generate": "npx barrelsby --config barrelsby.config.json",
+    "barrel": "npm run barrel:generate && npm run barrel:generate && npx tsx scripts/removeBarrelsbyComment.ts ",
+    "barrel:remove-comment-dist": "tsx scripts/removeBarrelsbyComment.ts",
+    "build": "npm run clean && npm run barrel && tsup && npm run minify-dist && npm run postbuild",
+    "build:dts": "tsc -p tsconfig.build.json && tsc-alias",
+    "build:types-dts": "dts-bundle-generator --config dts-config.cjs --silent --external-imports next",
+    "coverage": "vitest run --coverage",
+    "format": "prettier --check .",
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix",
+    "minify-dist": "tsx scripts/minify-dist.ts",
+    "release-patch": "npm version patch && git push && git push --tags && npm publish"
+  }
+}

@@ -1,0 +1,107 @@
+name: Release and Publish
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+
+  workflow_dispatch:
+    inputs:
+      force_publish:
+        description: 'Force publish even if no new release was created'
+        required: false
+        default: 'false'
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+
+    steps:
+      - id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: node
+          token: ${{ secrets.RELEASE_PAT }}
+          target-branch: ${{ github.ref_name || 'main' }}
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' || github.event_name == 'workflow_dispatch' || github.event.inputs.force_publish == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: Get previous version
+        id: prev
+        run: |
+          set +e
+          VERSION=$(npm view "$PACKAGE_NAME" version 2>/dev/null || echo "0.0.0")
+          echo "prev_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Found previous version: $VERSION"
+          set -e
+        env:
+          PACKAGE_NAME: "@rzl-zone/utils-js"
+
+      - run: npm ci
+
+      - name: Publish package
+        run: |
+          BRANCH_NAME="${GITHUB_REF##refs/heads/}"
+          BRANCH_NAME="${BRANCH_NAME:-${GITHUB_REF_NAME:-main}}"
+
+          if [[ "$BRANCH_NAME" == "beta" ]]; then
+            echo "Publishing with tag beta..."
+            npm publish --provenance --access public --tag beta
+          else
+            echo "Publishing with tag latest..."
+            npm publish --provenance --access public
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Deprecate previous version
+        if: steps.prev.outputs.prev_version != '0.0.0'
+        run: |
+            BRANCH_NAME="${GITHUB_REF##refs/heads/}"
+            BRANCH_NAME="${BRANCH_NAME:-${GITHUB_REF_NAME:-main}}"
+            PREV_VERSION="${{ steps.prev.outputs.prev_version }}"
+
+            if [ "$PREV_VERSION" != "0.0.0" ]; then
+              if [[ "$BRANCH_NAME" == "beta" && "$PREV_VERSION" == *"-beta."* ]]; then
+                echo "Marking previous beta version $PREV_VERSION as deprecated..."
+                npm deprecate "$PACKAGE_NAME@$PREV_VERSION" "Deprecated beta. Please upgrade to the latest beta with 'npm install $PACKAGE_NAME@beta'."
+              elif [[ "$BRANCH_NAME" != "beta" && "$PREV_VERSION" != *"-beta."* ]]; then
+                echo "Marking previous stable version $PREV_VERSION as deprecated..."
+                npm deprecate "$PACKAGE_NAME@$PREV_VERSION" "Deprecated stable. Please upgrade to the latest version with 'npm install $PACKAGE_NAME@latest'."
+              else
+                echo "Skipping deprecation (branch=$BRANCH_NAME, version=$PREV_VERSION)"
+              fi
+            else
+              echo "No previous version found, skipping deprecation."
+            fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGE_NAME: "@rzl-zone/utils-js"
+          BRANCH_NAME: ${{ github.ref_name }}

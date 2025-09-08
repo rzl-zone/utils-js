@@ -1,0 +1,97 @@
+import type { IsArray, IsReadonlyArray, IsUnknown } from "@/types";
+
+import { isArray } from "@/predicates/is/isArray";
+import {
+  resolveErrorMessageAssertions,
+  type OptionsAssertIs
+} from "../_private/assertIs";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type AssertIsArrayResult<T> = IsUnknown<T> extends true
+  ? unknown[] & T
+  : IsReadonlyArray<T> extends true
+  ? T
+  : T extends []
+  ? T
+  : IsArray<T> extends true
+  ? T
+  : Extract<T, unknown[] | [] | readonly []>;
+
+/** -------------------------------------------------------
+ * * ***Type guard assertion: `assertIsArray`.***
+ * -------------------------------------------------------
+ * **This function is an **assertion function**.**
+ * - Validates that the given `value` is a **array**.
+ * - After it returns successfully, TypeScript narrows the type of `value` to `array` **(generic support)**.
+ * - **Behavior:**
+ *    - ✅ If `value` is an `array` ➔ execution continues normally.
+ *    - ❌ If `value` is not an `array` ➔ throws a `TypeError` with either:
+ *      - A custom error message (`options.message`), or
+ *      - A default message including the actual type.
+ * @template T - The input type being asserted.
+ * @param {*} value - The value to validate.
+ * @param {OptionsAssertIs} [options] - Optional configuration:
+ *   - `message`: A custom error message (`string` or `function`).
+ *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
+ * @returns {boolean} Narrows `value` to an `array` **(generic support)** if no error is thrown.
+ * @throws {TypeError} If the value is not an array.
+ * @example
+ * ```ts
+ * // ✅ Simple usage
+ * assertIsArray([1, 2, 3]);
+ * // No error, value is array
+ *
+ * // ❌ Throws TypeError with default message
+ * assertIsArray({ a: 1 });
+ * // ➔ TypeError: "Parameter input (`value`) must be of type `array`, but received: `plain-object`."
+ *
+ * // ❌ Throws with custom string message
+ * assertIsArray(42, { message: "Must be an array!" });
+ * // ➔ TypeError: "Must be an array!"
+ *
+ * // ❌ Throws with custom function message + case formatting
+ * assertIsArray(42n, {
+ *   message: ({ currentType, validType }) =>
+ *     `Expected ${validType} but got (${currentType}).`,
+ *   formatCase: "toKebabCase"
+ * });
+ * // ➔ TypeError: "Expected array but got (big-int)."
+ * ```
+ *
+ * -------------------------------------------------------
+ * ✅ ***Real-world usage with generic narrowing***:
+ * ```ts
+ * const mixedValue: string | number[] | undefined = getUserInput();
+ *
+ * // ❌ Throws if not array
+ * // ⚠️ Code below after this call, will NOT be executed if TypeError is thrown
+ * assertIsArray(mixedValue, { message: "Must be an array!" });
+ *
+ * // ✅ After this call, TypeScript knows `mixedValue` is narrowed to number[]
+ * const result: number[] = mixedValue; // ➔ Safe to use
+ * console.log(result.length);
+ * ```
+ */
+export function assertIsArray<T extends unknown[]>(
+  value: T,
+  options?: OptionsAssertIs
+): value is Extract<T, unknown[]>;
+export function assertIsArray<T extends readonly unknown[]>(
+  value: T,
+  options?: OptionsAssertIs
+): value is Extract<T, readonly unknown[]>;
+export function assertIsArray(
+  value: unknown,
+  options?: OptionsAssertIs
+): value is unknown[];
+export function assertIsArray<T>(value: T, options?: OptionsAssertIs): unknown {
+  if (isArray(value)) return;
+
+  const errorMessage = resolveErrorMessageAssertions({
+    value,
+    options,
+    requiredValidType: "array"
+  });
+
+  throw new TypeError(errorMessage);
+}

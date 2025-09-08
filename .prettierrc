@@ -1,0 +1,19 @@
+{
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "objectWrap": "collapse",
+  "overrides": [
+    {
+      "files": "**/*.yml",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ],
+  "printWidth": 90,
+  "semi": true,
+  "singleAttributePerLine": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "none"
+}

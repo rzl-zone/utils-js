@@ -1,0 +1,35 @@
+{
+  "auto-merge": true,
+  "branches": [
+    {
+      "branch": "main",
+      "manifest": true,
+      "package-name": "main",
+      "release-type": "node"
+    },
+    {
+      "branch": "beta",
+      "manifest": false,
+      "package-name": "beta",
+      "prerelease": true,
+      "release-type": "node"
+    }
+  ],
+  "bump-minor-pre-major": true,
+  "changelog-path": "CHANGELOG.md",
+  "changelog-sections": {
+    "refactor": {
+      "title": "Refactors",
+      "type": "patch"
+    },
+    "test": {
+      "title": "Tests",
+      "type": "patch"
+    }
+  },
+  "extra-files": [],
+  "include-v-in-tag": true,
+  "pull-request-title-pattern": "chore${component ? `(${component})` : ''}: release${prerelease ? ' (beta)' : ''} ${version}",
+  "release-type": "node",
+  "skip-github-release": false
+}
