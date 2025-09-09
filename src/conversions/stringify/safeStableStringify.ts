@@ -197,7 +197,11 @@ export const safeStableStringify = (
     isNull(val) || (!isObjectOrArray(val) && !isFunction(val));
 
   const deepProcess = (val: unknown): unknown => {
-    if (val instanceof Number) return Number(val);
+    if (val instanceof Number) {
+      const valOf = val.valueOf();
+      if (isNaN(valOf) || valOf === Infinity || valOf === -Infinity) return null;
+      return valOf;
+    }
     if (val instanceof String) return String(val);
     if (val instanceof Boolean) return Boolean(val);
     if (isFunction(val) || isSymbol(val)) return undefined;
