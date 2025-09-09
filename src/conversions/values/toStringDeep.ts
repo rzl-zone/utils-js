@@ -50,12 +50,12 @@ type ToStringDeepOptions<
  *    - Converts boolean to string (e.g., `true` ➔ `"true"`).
  *    - Converts Date to ISO string (`Date ➔ string`).
  *    - Converts RegExp to string (e.g., `/abc/ ➔ "/abc/"`).
- *    - Converts Buffer, TypedArray, Set, Map, and arrays recursively to arrays of strings.
+ *    - Converts `Buffer`, `TypedArray`, `Set`, `Map`, and `arrays` recursively to `arrays of strings`.
  *    - Removes `null`, `undefined`, `NaN`, `Infinity`, `-Infinity`.
- *    - Removes unsupported types like functions, symbols, and BigInt.
- *    - Recursively processes nested objects, arrays, Sets, and Maps.
+ *    - Removes `unsupported` types like `functions`, `symbols`, and `BigInt`.
+ *    - Recursively processes nested `objects`, `arrays`, `Sets`, and `Maps`.
  *    - Can optionally remove empty arrays (`[]`) and/or empty objects (`{}`) **recursively**.
- * @template T - The input data type (primitive, object, array, Set, Map, or any nested combination).
+ * @template T - The input data type (`primitive`, `object`, `array`, `Set`, `Map`, or `any nested combination`).
  * @template RemoveEmptyObjects - If `true`, empty objects `{}` will be removed recursively.
  * @template RemoveEmptyArrays - If `true`, empty arrays `[]` will be removed recursively (including arrays nested in `objects` / `arrays` / `Sets` / `Maps`).
  * @param {*} input - The data to convert.
@@ -148,7 +148,7 @@ export function toStringDeep<
       isRoot: boolean;
     }
   ): ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays> | undefined {
-    if (isNil(input)) return undefined;
+    if (isNil(input) || input === Infinity || input === -Infinity) return undefined;
 
     const { removeEmptyArrays, removeEmptyObjects, isRoot } = options;
 
@@ -246,8 +246,7 @@ export function toStringDeep<
           _internal(v, { removeEmptyObjects, removeEmptyArrays, isRoot: false })
         ])
         .filter(([k, v]) => !isUndefined(k) && !isUndefined(v));
-      if (removeEmptyArrays && isEmptyArray(arr))
-        return undefined as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
       return arr as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
@@ -268,7 +267,6 @@ export function toStringDeep<
       }
 
       if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-
       return newArray as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
@@ -291,11 +289,9 @@ export function toStringDeep<
       }
 
       if (removeEmptyObjects && Object.keys(newObject).length === 0) {
-        return (isRoot ? {} : undefined) as ConvertedDeepString<
-          T,
-          RemoveEmptyObjects,
-          RemoveEmptyArrays
-        >;
+        return isRoot
+          ? ({} as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>)
+          : undefined;
       }
 
       return newObject as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;

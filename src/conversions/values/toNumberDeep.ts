@@ -48,12 +48,12 @@ type ToNumberDeepOptions<
  * **Converts deeply nested arrays, objects, buffers, sets, maps, or typed arrays into numbers while preserving structure.**
  * - **Features:**
  *    - Removes `null`, `undefined`, `NaN`, `Infinity`, `-Infinity`, empty-string, non-numeric strings, and functions.
- *    - Recursively processes nested objects, arrays, buffers, sets, maps, and typed arrays.
+ *    - Recursively processes `nested objects`, `arrays`, `buffers`, `sets`, `maps`, and `typed arrays`.
  *    - Converts numeric strings to numbers (e.g., `"3.5"` ➔ `3.5`).
  *    - Keeps empty objects `{}` unless `removeEmptyObjects: true`.
  *    - Keeps empty arrays `[]` unless `removeEmptyArrays: true`.
- *    - Buffers and TypedArrays are converted into arrays of numbers.
- *    - Date objects are converted into their timestamp (`number`).
+ *    - `Buffers` and `TypedArrays` are converted into `arrays of numbers`.
+ *    - `Date objects` are converted into their timestamp (`number`).
  * @template T - The input type.
  * @template RemoveEmptyObjects - Whether to remove empty objects.
  * @template RemoveEmptyArrays - Whether to remove empty arrays.
@@ -128,9 +128,8 @@ export function toNumberDeep<
     options: Required<ToNumberDeepOptions<RemoveEmptyObjects, RemoveEmptyArrays>> & {
       isRoot: boolean;
     }
-  ): ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays> {
-    if (isNil(input))
-      return undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+  ): ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays> | undefined {
+    if (isNil(input)) return undefined;
 
     const { removeEmptyArrays, removeEmptyObjects, isRoot } = options;
 
@@ -163,10 +162,7 @@ export function toNumberDeep<
         )
         .filter((item) => !isUndefined(item));
 
-      if (removeEmptyArrays && isEmptyArray(newArray)) {
-        return undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
-      }
-
+      if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
       return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
@@ -181,10 +177,7 @@ export function toNumberDeep<
         )
         .filter((item) => !isUndefined(item));
 
-      if (removeEmptyArrays && isEmptyArray(newArray)) {
-        return undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
-      }
-
+      if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
       return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
@@ -210,10 +203,7 @@ export function toNumberDeep<
         newArray = newArray.filter((v) => !(isArray(v) && v.length === 0));
       }
 
-      if (removeEmptyArrays && isEmptyArray(newArray)) {
-        return undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
-      }
-
+      if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
       return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
@@ -227,8 +217,7 @@ export function toNumberDeep<
           })
         )
         .filter((item) => !isUndefined(item));
-      if (removeEmptyArrays && isEmptyArray(arr))
-        return undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
       return arr as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
@@ -245,12 +234,7 @@ export function toNumberDeep<
           )
           .filter((item) => !isUndefined(item));
 
-        if (removeEmptyArrays && isEmptyArray(newArray))
-          return undefined as ConvertedDeepNumber<
-            T,
-            RemoveEmptyObjects,
-            RemoveEmptyArrays
-          >;
+        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
         return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
       } else {
         // All TypedArray based of number
@@ -264,12 +248,7 @@ export function toNumberDeep<
           )
           .filter((item) => !isUndefined(item));
 
-        if (removeEmptyArrays && isEmptyArray(newArray))
-          return undefined as ConvertedDeepNumber<
-            T,
-            RemoveEmptyObjects,
-            RemoveEmptyArrays
-          >;
+        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
         return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
       }
     }
@@ -299,13 +278,13 @@ export function toNumberDeep<
       if (removeEmptyObjects && isEmptyObject(newObject)) {
         return isRoot
           ? ({} as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>)
-          : (undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>);
+          : undefined;
       }
 
       return newObject as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
-    return undefined as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+    return undefined;
   }
 
   return _internal(input, {
