@@ -3,7 +3,7 @@ import { toStringDeep } from "@/conversions/values/toStringDeep";
 
 describe("toStringDeep - tests", () => {
   it("should return unknown for unknown", () => {
-    expect(toStringDeep("" as unknown)).toBe("");
+    expect(toStringDeep("")).toBe("");
   });
   it("should return empty-string for empty-string", () => {
     expect(toStringDeep("")).toBe("");
@@ -13,8 +13,10 @@ describe("toStringDeep - tests", () => {
     expect(toStringDeep(undefined)).toBeUndefined();
   });
 
-  it("should convert top-level numbers and strings to string", () => {
+  it("should convert top-level numbers, boolean and strings to string", () => {
     expect(toStringDeep(123)).toBe("123");
+    expect(toStringDeep(true)).toBe("true");
+    expect(toStringDeep(false)).toBe("false");
     expect(toStringDeep("hello")).toBe("hello");
   });
 
@@ -27,26 +29,26 @@ describe("toStringDeep - tests", () => {
   });
 
   it("should process deeply nested arrays", () => {
-    const input = [1, ["2", [3, [null, "4"]]]];
-    expect(toStringDeep(input)).toEqual(["1", ["2", ["3", ["4"]]]]);
+    const input = [1, ["2", [3, [null, "4", true, false]]]];
+    expect(toStringDeep(input)).toEqual(["1", ["2", ["3", ["4", "true", "false"]]]]);
   });
 
-  it("should process objects with number/string values", () => {
-    const input = { a: 1, b: "2", c: null, d: undefined };
-    expect(toStringDeep(input)).toEqual({ a: "1", b: "2" });
+  it("should process objects with boolean, number or string values", () => {
+    const input = { a: 1, b: "2", c: null, d: undefined, e: false };
+    expect(toStringDeep(input)).toEqual({ a: "1", b: "2", e: "false" });
   });
 
   it("should process deeply nested objects", () => {
     const input = {
       x: 1,
       y: {
-        z: [2, { w: "3" }, null]
+        z: [2, { w: "3", t: true }, null]
       }
     };
     expect(toStringDeep(input)).toEqual({
       x: "1",
       y: {
-        z: ["2", { w: "3" }]
+        z: ["2", { w: "3", t: "true" }]
       }
     });
   });
@@ -116,10 +118,10 @@ describe("toStringDeep - tests", () => {
   });
 
   it("should handle mixed nested structure with flags", () => {
-    const input = [{ a: {}, b: ["1", [], { c: {} }] }];
+    const input = [{ a: {}, b: ["1", [], { c: {} }, true, false] }];
     expect(
       toStringDeep(input, { removeEmptyObjects: true, removeEmptyArrays: true })
-    ).toEqual([{ b: ["1"] }]);
+    ).toEqual([{ b: ["1", "true", "false"] }]);
   });
 
   it("should remove array if empty after processing when removeEmptyArrays=true", () => {

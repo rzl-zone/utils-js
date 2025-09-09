@@ -47,6 +47,7 @@ type ToStringDeepOptions<
  * **Converts all values in an array, object, Set, Map, or deeply nested structure to string.**
  * - **Features:**
  *    - Converts numbers and strings to string (e.g., `123` ➔ `"123"`).
+ *    - Converts boolean to string (e.g., `true` ➔ `"true"`).
  *    - Converts Date to ISO string (`Date ➔ string`).
  *    - Converts RegExp to string (e.g., `/abc/ ➔ "/abc/"`).
  *    - Converts Buffer, TypedArray, Set, Map, and arrays recursively to arrays of strings.
@@ -67,13 +68,23 @@ type ToStringDeepOptions<
  * toStringDeep([1, "2", 3]);
  * // ➔ ["1", "2", "3"]
  *
+ * // Simple top-level conversion
+ * toStringDeep(123);
+ * // ➔ "123"
+ * toStringDeep("123");
+ * // ➔ "123"
+ * toStringDeep(true);
+ * // ➔ "true"
+ * toStringDeep(false);
+ * // ➔ "false"
+ *
  * // Nested arrays
- * toStringDeep([1, ["2", [3, [null, "4"]]]]);
- * // ➔ ["1", ["2", ["3", ["4"]]]]
+ * toStringDeep([1, ["2", [3, [null, "4", true, false]]]]);
+ * // ➔ ["1", ["2", ["3", ["4", "true", "false"]]]]
  *
  * // Object with nested values
- * toStringDeep({ a: 1, b: "2", c: { d: 3, e: null } });
- * // ➔ { a: "1", b: "2", c: { d: "3" } }
+ * toStringDeep({ a: 1, b: "2", c: { d: 3, e: null, f: true, g: false } });
+ * // ➔ { a: "1", b: "2", c: { d: "3", f: "true", g: "false" } }
  *
  * // Removing empty objects
  * toStringDeep({ a: {}, b: "1" }, { removeEmptyObjects: true });
@@ -149,7 +160,7 @@ export function toStringDeep<
       );
     }
 
-    if (isNumber(input) || isString(input)) {
+    if (isNumber(input) || isString(input) || isBoolean(input)) {
       return String(input) as ConvertedDeepString<
         T,
         RemoveEmptyObjects,
@@ -197,16 +208,11 @@ export function toStringDeep<
           .map((v) => String(v))
           .filter((item) => !isUndefined(item));
 
-        if (removeEmptyArrays && isEmptyArray(newArray))
-          return undefined as ConvertedDeepString<
-            T,
-            RemoveEmptyObjects,
-            RemoveEmptyArrays
-          >;
+        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
         return newArray as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
       } else {
         // All TypedArray based of number
-        const newArray = Array.from(input as Iterable<string>)
+        const newArray = Array.from(input)
           .map((item) =>
             _internal(item, {
               removeEmptyObjects,
@@ -217,12 +223,7 @@ export function toStringDeep<
           .map((v) => String(v))
           .filter((item) => !isUndefined(item));
 
-        if (removeEmptyArrays && isEmptyArray(newArray))
-          return undefined as ConvertedDeepString<
-            T,
-            RemoveEmptyObjects,
-            RemoveEmptyArrays
-          >;
+        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
         return newArray as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
       }
     }
@@ -233,8 +234,7 @@ export function toStringDeep<
           _internal(v, { removeEmptyObjects, removeEmptyArrays, isRoot: false })
         )
         .filter((v) => !isUndefined(v));
-      if (removeEmptyArrays && isEmptyArray(arr))
-        return undefined as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
       return arr as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
     }
 
