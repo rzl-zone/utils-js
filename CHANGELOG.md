@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.1.0](https://github.com/rzl-zone/utils-js/compare/v3.0.0...v3.1.0) (2025-09-11)
+
+
+### Features
+
+* add new function `isBooleanObject`, `isStringObject`, `isNumberObject`, `isInfinityNumber`, (with the tests),  fixing `toNumberDeep` and `toStringDeep` also narrows type and tests, update all of function which using (`isBooleanObject`, `isStringObject`, `isNumberObject`), update `isDate` will extra options include with tests, and rest fixing tsDoc. ([b26c5a5](https://github.com/rzl-zone/utils-js/commit/b26c5a5210b95a38a41bfdaa3af77f60b531097c))
+
+
+### Bug Fixes
+
+* fixing `safeStableStringify` enhance more safe for handling NaN, Infinity, -Infinity for boxed primitives (new Number()). ([e89d28a](https://github.com/rzl-zone/utils-js/commit/e89d28a2ac31156b07183322ec3f1002640e37cf))
+* fixing `toStringDeep`  to support handling boolean. ([1bd62be](https://github.com/rzl-zone/utils-js/commit/1bd62be4bc23101dd699b2d6efe18c8947a4f7e2))
+* fixing to support handling Infinity and -Infinity at `toStringDeep` and fixing `toNumberDeep`. ([89ebcbc](https://github.com/rzl-zone/utils-js/commit/89ebcbc65c462f5eff8af94258a2570578343b33))
+
 ## [3.0.0](https://github.com/rzl-zone/utils-js/compare/v2.0.1...v3.0.0) (2025-09-03)
 
 
