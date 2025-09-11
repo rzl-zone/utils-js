@@ -63,24 +63,28 @@ type ToNumberDeepOptions<
  *    - Converts `Buffer`, `TypedArray`, `Set`, `Map`, and `arrays` recursively to `arrays of numbers`.
  *    - Converts boxed primitives box into their primitive equivalents then convert to number:
  *      - For `new String` we convert everything to number (behavior JS of new String):
- *        - `new String(123)` ➔ `Number("123".valueOf())` ➔ `123`.
- *        - `new String("123")` ➔ `Number("123".valueOf())` ➔ `123`.
- *        - If result from `valueOf()` is `NaN` or `Infinity` return `undefined` ***(will removing)***:
- *          - `new String("hi")` ➔ `Number("hi".valueOf())` ➔ `NaN` ***(remove)***.
+ *        - `new String(123)` ➔ `.valueOf()` ➔ `"123"` ➔ `Number("123")` ➔ `123`.
+ *        - `new String("123")` ➔ `.valueOf()` ➔ `"123"` ➔ `Number("123")` ➔ `123`.
+ *        - `new String(true)` ➔ `.valueOf()` ➔ `"true"` ➔ `Number(true)` ➔ `1`.
+ *        - `new String(false)` ➔ `.valueOf()` ➔ `"false"` ➔ `Number(false)` ➔ `0`.
+ *        - If result from `valueOf()` is `NaN` or `Infinity` ***(will removing)***:
+ *          - `new String("hi")` ➔ `.valueOf()` ➔ `"hi"` ➔ `Number("hi")` ➔ `NaN` ***(remove)***.
+ *          - `new String(()=>{})` ➔ `.valueOf()` ➔ `"()=>{}"` ➔ `Number("()=>{}")` ➔ `NaN` ***(remove)***.
  *      - For `new Boolean` we convert to boolean (behavior JS of new Boolean) then convert to number:
- *        - `new Boolean(true)` ➔ `Number(true.valueOf())` ➔ `1`.
- *        - `new Boolean(false)` ➔ `Number(false.valueOf())` ➔ `0`.
+ *        - `new Boolean(true)` ➔ `.valueOf()` ➔ `true` ➔ `Number(true)` ➔ `1`.
+ *        - `new Boolean(false)` ➔ `.valueOf()` ➔ `false` ➔ `Number(false)` ➔ `0`.
  *        - Special behavior JS of new Boolean, return `false` **(convert to number: `0`)**
  *          for `false`, (`0` / `-0`), `""` (empty-string),
  *          `null`, `undefined`, `NaN`, otherwise `true` **(convert to number: `1`)**.
  *      - For `new Number`:
- *        - `new Number(42)` ➔ `42.valueOf()` ➔ `42`.
- *        - `new Number(null)` ➔ `null.valueOf()` ➔ `0` (`null` is `0` behavior JS of new Number).
- *        - `new Number(undefined)` ➔ `undefined.valueOf()` ➔ `undefined` ***(remove)***.
- *           - If result from `valueOf()` is `NaN` or `Infinity` return `undefined` ***(will removing)***:
- *             - `new Number(NaN)` ➔ `NaN` ➔ `undefined` ***(remove)***.
- *             - `new Number(Infinity)` ➔ `Infinity` ➔ `undefined` ***(remove)***.
- *             - `new Number(-Infinity)` ➔ `-Infinity` ➔ `undefined` ***(remove)***.
+ *        - `new Number(42)` ➔ `.valueOf()` ➔ `42`.
+ *        - `new Number("42")` ➔ `.valueOf()` ➔ `42`.
+ *        - `new Number(null)` ➔ `.valueOf()` ➔ `0` (`null` is `0` behavior JS of new Number).
+ *        - If result from `valueOf()` is `NaN` or `Infinity` ***(will removing)***:
+ *          - `new Number(NaN)` ➔ `.valueOf()` ➔ `NaN` ***(remove)***.
+ *          - `new Number(undefined)` ➔ `.valueOf()` ➔ `NaN` ***(remove)***.
+ *          - `new Number(Infinity)` ➔ `.valueOf()` ➔ `Infinity` ***(remove)***.
+ *          - `new Number(-Infinity)` ➔ `.valueOf()` ➔ `-Infinity` ***(remove)***.
  *    - Recursively processes `nested objects`, `arrays`, `buffers`, `sets`, `maps`, and `typed arrays`.
  *    - Removes `empty-string`, `non-numeric strings`.
  *    - Removes `null`, `undefined`, `NaN`, `Infinity`, `-Infinity`.
