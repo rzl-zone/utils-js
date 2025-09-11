@@ -11,6 +11,24 @@ describe("safeStableStringify (advanced)", () => {
     expect(safeStableStringify(Infinity)).toBe("null");
   });
 
+  it("should stringify with options keep undefined correctly", () => {
+    expect(safeStableStringify(undefined)).toBe("null");
+    expect(safeStableStringify(undefined, { keepUndefined: true })).toBe("undefined");
+
+    const obj = { b: 2, a: 1, c: undefined, d: null };
+    expect(safeStableStringify(obj, { sortKeys: false })).toBe(
+      `{"b":2,"a":1,"c":null,"d":null}`
+    );
+    expect(safeStableStringify(obj, { sortKeys: false, keepUndefined: true })).toBe(
+      `{"b":2,"a":1,"d":null}`
+    );
+    const arr = [1, 2, null, undefined];
+    expect(safeStableStringify(arr, { sortKeys: false })).toBe(`[1,2,null,null]`);
+    expect(safeStableStringify(arr, { sortKeys: false, keepUndefined: true })).toBe(
+      `[1,2,null,null]`
+    );
+  });
+
   it("should stringify arrays with nested objects", () => {
     const arr = [1, { b: 2, a: 1 }];
     expect(

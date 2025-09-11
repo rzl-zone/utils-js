@@ -26,7 +26,9 @@ import { isInfinityNumber } from "@/predicates/is/isInfinityNumber";
  * -------------------------------------------------
  */
 type SafeStableStringifyOptions = {
-  /** Whether to sort **object keys** alphabetically (recursively).
+  /** -------------------------------------------------
+   * * ***Whether to sort **object keys** alphabetically (recursively).***
+   * -------------------------------------------------
    *
    * - `true` (default): object keys are sorted to ensure stable output.
    * - `false`: preserves original insertion order of keys.
@@ -34,7 +36,9 @@ type SafeStableStringifyOptions = {
    * @default true
    */
   sortKeys?: boolean;
-  /** Whether to sort **primitive values inside arrays**.
+  /** -------------------------------------------------
+   * * ***Whether to sort **primitive values inside arrays**.***
+   * -------------------------------------------------
    *
    * - `true`: primitive values in arrays are sorted to ensure stable output.
    * - `false` (default): arrays retain their original order; objects and nested arrays are not reordered.
@@ -42,7 +46,9 @@ type SafeStableStringifyOptions = {
    * @default false
    */
   sortArray?: boolean;
-  /** Whether to pretty-print JSON output with 2-space indentation.
+  /** -------------------------------------------------
+   * * ***Whether to pretty-print JSON output with 2-space indentation.***
+   * -------------------------------------------------
    *
    * - `true`: output is formatted with indentation and newlines.
    * - `false` (default): produces compact single-line JSON.
@@ -50,6 +56,37 @@ type SafeStableStringifyOptions = {
    * @default false
    */
   pretty?: boolean;
+  /** -------------------------------------------------
+   * * ***Preserve `undefined` values instead of converting them to `null`.***
+   * -------------------------------------------------
+   * **Controls how the internal `deepProcess` step rewrites values
+   * **before** the final `JSON.stringify` call.**
+   * - **Default (`false`)** – Every `undefined` value
+   *   (object properties **and** array elements)
+   *   is replaced with `null` **before** serialization.
+   *   Because this happens first, the key is **not removed** by
+   *   `JSON.stringify`.
+   * - **`true`** – Leaves `undefined` untouched so the final
+   *   `JSON.stringify` call behaves natively:
+   *     * Object properties with `undefined` are **removed**.
+   *     * Array elements that are `undefined` become `null`.
+   * @default false
+   * @example
+   * // ✅ keepUndefined = true: behaves like native JSON.stringify
+   * safeStableStringify({ a: undefined }, { keepUndefined: true });
+   * // → '{}' // key removed
+   *
+   * // ✅ Default (false): convert undefined to null, key kept
+   * safeStableStringify({ a: undefined });
+   * // → '{"a":null}' // key present, value null
+   *
+   * // Arrays
+   * safeStableStringify([undefined]);
+   * // → '[null]' // same, but via pre-replacement
+   * safeStableStringify([undefined], { keepUndefined: true });
+   * // → '[null]' // element becomes null
+   */
+  keepUndefined?: boolean;
 };
 
 /** --------------------------------------------
@@ -81,6 +118,15 @@ type SafeStableStringifyOptions = {
  *        - Compared to `JSON.stringify`, this ensures **stable output**:
  *            - Same object structure always produces the same string.
  *            - Useful for deep equality checks, hashing, caching keys, or snapshot tests.
+ *        - Controls how `undefined` is handled **before** the final `JSON.stringify` call, by `keepUndefined`
+ *          options, default: `false`.
+ *            - **false**: All `undefined` values (object properties and array elements) are replaced
+ *            with `null`, so object keys remain.
+ *            - **true**: Leaves `undefined` values as-is, and handling by native `JSON.stringify` then:
+ *               1. Removes object properties that are `undefined`
+ *               2. Converts `undefined` array elements to `null`
+ *            - Use `true` when you need native removal of keys or to preserve sparse arrays
+ *              exactly as `JSON.stringify` would.
  * @param {*} value
  * -  Any JavaScript value to serialize, can be:
  *    - Primitives (`number`, `string`, `boolean`, `bigint`, `null`, `undefined`)
@@ -90,6 +136,8 @@ type SafeStableStringifyOptions = {
  *    - Circular structures
  * @param {SafeStableStringifyOptions} [options]
  * - Configuration options for `safeStableStringify`:
+ *    - `keepUndefined` (boolean) – Control how `undefined` is handled **before** the final `JSON.stringify`
+ *       call, default: `false`.
  *    - `sortKeys` (boolean) – Whether to sort object keys alphabetically (recursively), default: `true`.
  *    - `sortArray` (boolean) – Whether to sort primitive values inside arrays, default: `false`.
  *    - `pretty` (boolean) – Whether to pretty-print JSON output with 2-space indentation, default: `false`.
@@ -114,6 +162,14 @@ type SafeStableStringifyOptions = {
  *    sortArray:true
  * });
  * // ➔ '[1,2,3]'
+ *
+ * // keepUndefined = true (native removal of keys)
+ * safeStableStringify({ a: undefined }, { keepUndefined: true });
+ * // ➔ '{}'   // key `a` is removed, like native JSON.stringify
+ *
+ * // Default keepUndefined = false (convert to null, keep key)
+ * safeStableStringify({ a: undefined });
+ * // ➔ '{"a":null}'
  *
  * // Nested object + sortArray=true
  * safeStableStringify({ z: [3, 1, 2], x: { d: 4, c: 3 } }, {
@@ -156,7 +212,7 @@ type SafeStableStringifyOptions = {
  * safeStableStringify({ f: () => {}, s: Symbol("wow") });
  * // ➔ '{}'
  *
- * // undefined, NaN, Infinity convert to null
+ * // undefined, NaN, Infinity convert to null (keepUndefined = false or keepUndefined = true)
  * safeStableStringify([undefined, NaN, Infinity, -Infinity]);
  * // ➔ '[null,null,null,null]'
  *
@@ -184,15 +240,29 @@ export const safeStableStringify = (
   const pretty = hasOwnProp(options, "pretty") ? options.pretty : false;
   const sortKeys = hasOwnProp(options, "sortKeys") ? options.sortKeys : true;
   const sortArray = hasOwnProp(options, "sortArray") ? options.sortArray : false;
+  const keepUndefined = hasOwnProp(options, "keepUndefined")
+    ? options.keepUndefined
+    : false;
 
-  if (!isBoolean(sortKeys) || !isBoolean(sortArray) || !isBoolean(pretty)) {
+  if (
+    !isBoolean(sortKeys) ||
+    !isBoolean(sortArray) ||
+    !isBoolean(pretty) ||
+    !isBoolean(keepUndefined)
+  ) {
     throw new TypeError(
-      `Parameters \`sortKeys\`, \`sortArray\` and \`pretty\` property of the \`options\` (second parameter) must be of type \`boolean\`, but received: "['sortKeys': \`${getPreciseType(
+      `Parameters \`sortKeys\`, \`sortArray\`, \`keepUndefined\` and \`pretty\` property of the \`options\` (second parameter) must be of type \`boolean\`, but received: "['sortKeys': \`${getPreciseType(
         sortKeys
-      )}\`, 'sortArray': \`${getPreciseType(sortArray)}\`, 'pretty': \`${getPreciseType(
-        pretty
-      )}\`]".`
+      )}\`, 'sortArray': \`${getPreciseType(
+        sortArray
+      )}\`, 'keepUndefined': \`${getPreciseType(
+        keepUndefined
+      )}\`, 'pretty': \`${getPreciseType(pretty)}\`]".`
     );
+  }
+
+  if (isUndefined(value)) {
+    return keepUndefined ? "undefined" : "null";
   }
 
   const seen = new WeakSet();
@@ -203,15 +273,15 @@ export const safeStableStringify = (
   const deepProcess = (val: unknown): unknown => {
     if (isNumberObject(val)) {
       const valOf = val.valueOf();
-      if (isNaN(valOf) || isInfinityNumber(valOf)) return null;
-      return valOf;
+      return isNaN(valOf) || isInfinityNumber(valOf) ? null : valOf;
     }
     if (isStringObject(val)) return val.valueOf();
     if (isBooleanObject(val)) return val.valueOf();
     if (isFunction(val) || isSymbol(val)) return undefined;
     if (isBigInt(val)) return val.toString();
-    if (isUndefined(val) || isNaN(val) || val === Infinity || val === -Infinity) {
-      return null;
+    if (isNaN(val) || isInfinityNumber(val)) return null;
+    if (isUndefined(val)) {
+      return keepUndefined ? undefined : null;
     }
 
     if (isObjectOrArray(val)) {
