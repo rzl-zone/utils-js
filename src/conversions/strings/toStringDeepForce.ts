@@ -13,6 +13,9 @@ import { isNumber } from "@/predicates/is/isNumber";
 import { isSymbol } from "@/predicates/is/isSymbol";
 import { isBoolean } from "@/predicates/is/isBoolean";
 import { isFunction } from "@/predicates/is/isFunction";
+import { isNumberObject } from "@/predicates/is/isNumberObject";
+import { isStringObject } from "@/predicates/is/isStringObject";
+import { isBooleanObject } from "@/predicates/is/isBooleanObject";
 import { isObjectOrArray } from "@/predicates/is/isObjectOrArray";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { safeStableStringify } from "../stringify/safeStableStringify";
@@ -25,11 +28,27 @@ import { safeStableStringify } from "../stringify/safeStableStringify";
  *    - `"stringOrNumber"`: Converts strings and numbers to strings.
  *    - `"primitives"`: Converts all primitives (number, string, boolean, bigint, undefined, null, NaN) to strings.
  *    - `"all"`: Converts everything, including symbols, functions, Dates, RegExp, Maps, Sets, Errors, Promises,
- *   and deeply all object properties, to strings.
+ *       boxed primitives box (new Number, new String, new Boolean), and deeply all object properties, to strings.
  *    - `false`: Leaves everything unchanged.
  * - **Special behaviors:**
  *    - `NaN` ➔ `"NaN"` only in `"primitives"` or `"all"` mode.
  *    - `Date` ➔ ISO string only in `"all"` mode.
+ *    -  ***Primitives Boxed*** (`new Number`, `new String`, `new Boolean`):
+ *       - For `new String` we convert everything to string (behavior JS of new String):
+ *         - `new String("hi")` ➔ `.valueOf()` ➔ `"hi"`.
+ *         - `new String(true)` ➔ `.valueOf()` ➔ `"true"`.
+ *       - For `new Boolean` we convert to boolean (behavior JS of new Boolean) then convert to string:
+ *         - `new Boolean(true)` ➔ `.valueOf()` ➔ `true` ➔ `true.toString()` ➔ `"true"`.
+ *         - Special behavior JS of new Boolean, return `false` **(convert to string: `"false"`)**
+ *           for `false`, (`0` / `-0`), `""` (empty-string), `null`, `undefined`, `NaN`, otherwise
+ *           `true` **(convert to string: `"true"`)**.
+ *       - For `new Number`:
+ *         - `new Number(42)` ➔ `.valueOf()` ➔ `42` ➔ `42.toString()` ➔ `"42"`.
+ *         - `new Number(NaN)` ➔ `.valueOf()` ➔ `NaN` ➔ `NaN.toString()` ➔ `"NaN"`.
+ *         - `new Number(null)` ➔ `.valueOf()` ➔ `0` (`null` is `0` behavior JS of new Number) ➔ `0.toString()` ➔ `"0"`.
+ *         - `new Number(undefined)` ➔ `.valueOf()` ➔ `NaN` ➔ `NaN.toString()` ➔ `"NaN"`.
+ *         - `new Number(Infinity)` ➔ `Infinity` ➔ `Infinity` ➔ `Infinity.toString()` ➔ `"Infinity"`.
+ *         - `new Number(-Infinity)` ➔ `-Infinity` ➔ `-Infinity` ➔ `-Infinity.toString()` ➔ `"-Infinity"`.
  *    - `RegExp` ➔ Source string (e.g. `/abc/i`) only in `"all"` mode.
  *    - `Symbol` ➔ `Symbol(description)` string only in `"all"` mode.
  *    - `Map` ➔ Array of [key, value] pairs with keys/values stringified deeply (only in `"all"` mode).
@@ -48,6 +67,12 @@ import { safeStableStringify } from "../stringify/safeStableStringify";
  * // ➔ "null"
  * toStringDeepForce(Symbol("x"), "all");
  * // ➔ "Symbol(x)"
+ * toStringDeepForce(new String("hi"), "all");
+ * // ➔ "hi"
+ * toStringDeepForce(new Number(42), "all");
+ * // ➔ "42"
+ * toStringDeepForce(new Boolean(true), "all");
+ * // ➔ "true"
  * toStringDeepForce({ a: 1, b: [2, NaN] }, "primitives");
  * // ➔ { a: "1", b: ["2", "NaN"] }
  * toStringDeepForce(new Date("2025-01-01"), "all");
@@ -69,10 +94,14 @@ import { safeStableStringify } from "../stringify/safeStableStringify";
  * toStringDeepForce([1, "a", { b: 2 }], false);
  * // ➔ [1, "a", { b: 2 }]
  */
+export function toStringDeepForce<T>(
+  value: unknown,
+  forceToString: false | "stringOrNumber" | "primitives" | "all"
+): T;
 export function toStringDeepForce(
   value: unknown,
   forceToString: false | "stringOrNumber" | "primitives" | "all"
-): unknown {
+) {
   if (
     !(
       forceToString === false ||
@@ -107,6 +136,11 @@ export function toStringDeepForce(
     return forceToString === "primitives" || forceToString === "all"
       ? String(value)
       : value;
+  }
+
+  // boxed primitives box (new Number, new String, new Boolean)
+  if (isNumberObject(value) || isBooleanObject(value) || isStringObject(value)) {
+    return forceToString === "all" ? value.valueOf().toString() : value;
   }
 
   // symbol
