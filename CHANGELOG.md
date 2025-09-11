@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.1.1](https://github.com/rzl-zone/utils-js/compare/v3.1.0...v3.1.1) (2025-09-11)
+
+
+### Bug Fixes
+
+* add extra options ***keepUndefined*** to handling undefined value at `safeStableStringify`. ([e848bef](https://github.com/rzl-zone/utils-js/commit/e848befa3c39d9d70a0edbdf363342e58bfeb009))
+* fixing `toStringDeepForce` making support handling like ***Primitives Boxed*** (`new Number`, `new String`, `new Boolean`). ([93f16f8](https://github.com/rzl-zone/utils-js/commit/93f16f86add826c83879cb7ba04ff5e0ebd50e10))
+* fixing tsDoc `toStringDeep` and `toNumberDeep`. ([340e9cc](https://github.com/rzl-zone/utils-js/commit/340e9cc52d65b56f3dcc7aa93e7d72f4670b81c3))
+
 ## [3.1.0](https://github.com/rzl-zone/utils-js/compare/v3.0.0...v3.1.0) (2025-09-11)
 
 
