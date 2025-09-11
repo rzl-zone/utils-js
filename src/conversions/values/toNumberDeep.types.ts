@@ -1,13 +1,19 @@
+/* eslint-disable @typescript-eslint/no-wrapper-object-types */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { IntlObjects, TypedArray, WebApiObjects } from "@/types";
+import type { AndArr, Extends, OrArr, Prettify, TypedArray } from "@/types";
 
 /** ----------------------------------------------------------
  * * Normalize leaked `never[]` into literal empty array `[]`.
  * ----------------------------------------------------------
  */
-type FixNeverArray<T> = [T] extends [never[]] ? [] : T;
+type FixNeverArray<T, RemoveEmptyArrays extends boolean> = [T] extends [never[]]
+  ? RemoveEmptyArrays extends true
+    ? OrArr<[Extends<T, undefined>, Extends<undefined, T>]> extends true
+      ? undefined
+      : never
+    : []
+  : T;
 
 /** ----------------------------------------------------------
  * * Simplify object type to remove unnecessary TypeScript wrappers.
@@ -31,76 +37,110 @@ type ConvertedDeepNumberInternal<
   RemoveEmptyObjects extends boolean,
   RemoveEmptyArrays extends boolean,
   IsRoot extends boolean
-> =
-  // Handle null or undefined
-  [T] extends [null | undefined]
-    ? IsRoot extends true
-      ? undefined
-      : never
-    : // string, number or numeric string
-    T extends number | `${number}` | string
-    ? number | undefined
-    : // Handle arrays and tuples
-    T extends readonly (infer E)[]
-    ? FixNeverArray<
-        T extends readonly [any, ...any[]]
-          ? _MapTuple<T, RemoveEmptyObjects, RemoveEmptyArrays>
-          : ConvertedDeepNumberInternal<E, RemoveEmptyObjects, RemoveEmptyArrays, false>[]
+> = [T] extends [null | undefined]
+  ? IsRoot extends true
+    ? undefined
+    : never
+  : T extends Date | boolean | Boolean
+  ? number
+  : T extends string | String | Number | number | `${number}`
+  ? number | undefined
+  : // : AndArr<[Extends<RemoveEmptyObjects, true>, Extends<{}, T>]> extends true
+  // ? never
+  AndArr<[Extends<RemoveEmptyArrays, true>, Extends<T, undefined[]>]> extends true
+  ? never
+  : T extends readonly (infer E)[]
+  ? OrArr<
+      [
+        Extends<RemoveEmptyArrays, true>,
+        AndArr<[Extends<RemoveEmptyArrays, true>, Extends<IsRoot, true>]>
+      ]
+    > extends true
+    ?
+        | FixNeverArray<
+            Exclude<
+              ConvertedDeepNumberInternal<
+                E,
+                RemoveEmptyObjects,
+                RemoveEmptyArrays,
+                IsRoot
+              >,
+              undefined
+            >,
+            RemoveEmptyArrays
+          >[]
+        | undefined
+    : FixNeverArray<
+        Exclude<
+          ConvertedDeepNumberInternal<E, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>,
+          undefined
+        >[],
+        RemoveEmptyArrays
       >
-    : // Handle Set
-    T extends Set<infer V>
+  : T extends Set<infer V>
+  ? AndArr<[Extends<RemoveEmptyArrays, true>]> extends true
     ? FixNeverArray<
-        ConvertedDeepNumberInternal<V, RemoveEmptyObjects, RemoveEmptyArrays, false>[]
+        Exclude<
+          ConvertedDeepNumberInternal<V, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>,
+          undefined
+        >[],
+        RemoveEmptyArrays
       >
-    : // Handle Map
-    T extends Map<infer K, infer V>
-    ? FixNeverArray<
-        [
-          ConvertedDeepNumberInternal<K, RemoveEmptyObjects, RemoveEmptyArrays, false>,
-          ConvertedDeepNumberInternal<V, RemoveEmptyObjects, RemoveEmptyArrays, false>
-        ][]
+    : FixNeverArray<
+        Exclude<
+          ConvertedDeepNumberInternal<V, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>,
+          undefined
+        >[],
+        RemoveEmptyArrays
       >
-    : // Buffer
-    T extends Buffer
-    ? RemoveEmptyArrays extends true
-      ? IsRoot extends true
-        ? (number | undefined)[]
-        : never
-      : (number | undefined)[]
-    : // Handle TypedArray
-    T extends TypedArray
-    ? FixNeverArray<
+  : T extends Map<infer K, infer V>
+  ? FixNeverArray<
+      [
+        Exclude<
+          ConvertedDeepNumberInternal<K, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>,
+          undefined
+        >,
+        Exclude<
+          ConvertedDeepNumberInternal<V, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>,
+          undefined
+        >
+      ][],
+      RemoveEmptyArrays
+    >
+  : T extends Buffer
+  ? FixNeverArray<
+      Exclude<
         ConvertedDeepNumberInternal<
-          number,
+          string,
           RemoveEmptyObjects,
           RemoveEmptyArrays,
-          false
-        >[]
-      >
-    : // Handle Date
-    T extends Date
-    ? _ConvertedObjectInternal<number, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
-    : // Handle built-in objects, Web/Intl/Node APIs
-    T extends
-        | RegExp
-        | WebApiObjects
-        | IntlObjects
-        | { [Symbol.toStringTag]: "Proxy" }
-        | typeof Reflect
-    ? RemoveEmptyObjects extends true
-      ? IsRoot extends true
-        ? {} // root, keep as empty object
-        : never // non-root, remove
-      : {} // RemoveEmptyObjects = false, keep as empty object
-    : // Handle plain objects
-    T extends Record<string | number | symbol, unknown>
-    ? _ConvertedObjectInternal<T, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
-    : never;
-
+          IsRoot
+        >,
+        undefined
+      >[],
+      RemoveEmptyArrays
+    >
+  : T extends TypedArray
+  ? FixNeverArray<
+      Exclude<
+        ConvertedDeepNumberInternal<
+          string,
+          RemoveEmptyObjects,
+          RemoveEmptyArrays,
+          IsRoot
+        >,
+        undefined
+      >[],
+      RemoveEmptyArrays
+    >
+  : T extends Record<PropertyKey, unknown>
+  ? _ConvertedObjectInternal<T, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
+  : never;
 /** ----------------------------------------------------------
  * * Recursively map tuples while preserving `never` removals.
  * ----------------------------------------------------------
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type _MapTuple<
   Arr extends readonly unknown[],
   RemoveEmptyObjects extends boolean,
@@ -122,7 +162,7 @@ type _MapTuple<
  * ----------------------------------------------------------
  */
 type _ConvertedObjectInternal<
-  O extends Record<string | number | symbol, unknown> | number,
+  O extends Record<PropertyKey, unknown> | string | number,
   RemoveEmptyObjects extends boolean,
   RemoveEmptyArrays extends boolean,
   IsRoot extends boolean
@@ -137,15 +177,13 @@ type _ConvertedObjectInternal<
           O[K],
           RemoveEmptyObjects,
           RemoveEmptyArrays,
-          false
+          IsRoot
         >
       ? never
       : RemoveEmptyArrays extends true
       ? Convert extends readonly unknown[]
         ? [Convert] extends [[]]
-          ? O[K] extends TypedArray | Set<any> | Map<any, any>
-            ? K
-            : never
+          ? never
           : K
         : K
       : K
@@ -164,14 +202,12 @@ type _ConvertedObjectInternal<
           O[K],
           RemoveEmptyObjects,
           RemoveEmptyArrays,
-          false
+          IsRoot
         >
       ? RemoveEmptyArrays extends true
         ? Convert extends readonly unknown[]
           ? [Convert] extends [[]]
-            ? O[K] extends TypedArray | Set<any> | Map<any, any>
-              ? K
-              : never
+            ? never
             : K
           : K
         : K
@@ -186,9 +222,84 @@ type _ConvertedObjectInternal<
       ? IsRoot extends true
         ? {}
         : never
-      : Simplify<M>
+      : _ProcessedObject<M, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
     : Simplify<M>
   : never;
+
+type AllPropsAreNumber<O> = {
+  [K in keyof O]: O[K] extends number | Number
+    ? true
+    : O[K] extends Record<string, unknown>
+    ? AllPropsAreNumber<O[K]>
+    : false;
+}[keyof O] extends false
+  ? false
+  : true;
+type _ProcessedObject<
+  M,
+  RemoveEmptyObjects extends boolean,
+  RemoveEmptyArrays extends boolean,
+  IsRoot extends boolean
+> = M extends unknown[]
+  ? ConvertedDeepNumberInternal<M, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
+  : Prettify<
+      Simplify<{
+        [K in keyof M]: M[K] extends Record<string, unknown>
+          ? AllPropsAreNumber<M[K]> extends true
+            ?
+                | {
+                    [ChildKey in keyof M[K]]: M[K][ChildKey] extends number | Number
+                      ? M[K][ChildKey] | undefined
+                      : _ProcessedObject<
+                          M[K][ChildKey],
+                          RemoveEmptyObjects,
+                          RemoveEmptyArrays,
+                          IsRoot
+                        >;
+                  }
+                | undefined
+            : AndArr<
+                [Extends<RemoveEmptyArrays, true>, Extends<RemoveEmptyObjects, true>]
+              > extends true
+            ?
+                | {
+                    [ChildKey in keyof M[K]]: _ProcessChild<
+                      M[K][ChildKey],
+                      RemoveEmptyObjects,
+                      RemoveEmptyArrays,
+                      IsRoot
+                    >;
+                  }
+                | undefined
+            : {
+                [ChildKey in keyof M[K]]: _ProcessChild<
+                  M[K][ChildKey],
+                  RemoveEmptyObjects,
+                  RemoveEmptyArrays,
+                  IsRoot
+                >;
+              }
+          : M[K] extends unknown[]
+          ? ConvertedDeepNumberInternal<
+              M[K],
+              RemoveEmptyObjects,
+              RemoveEmptyArrays,
+              false
+            >
+          : _ProcessedObject<M[K], RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>;
+      }>,
+      { recursive: true }
+    >;
+type _ProcessChild<
+  T,
+  RemoveEmptyObjects extends boolean,
+  RemoveEmptyArrays extends boolean,
+  IsRoot extends boolean
+> = T extends number | number[]
+  ? ConvertedDeepNumberInternal<T, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
+  : T extends Record<string, unknown>
+  ? _ProcessedObject<T, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>
+  : _ProcessedObject<T, RemoveEmptyObjects, RemoveEmptyArrays, IsRoot>;
 
 /** ----------------------------------------------------------
  * * Public type: Deeply converts numbers/strings to `number | undefined`,
@@ -202,5 +313,6 @@ export type ConvertedDeepNumber<
 > = [unknown] extends [T]
   ? unknown
   : FixNeverArray<
-      ConvertedDeepNumberInternal<T, RemoveEmptyObjects, RemoveEmptyArrays, true>
+      ConvertedDeepNumberInternal<T, RemoveEmptyObjects, RemoveEmptyArrays, true>,
+      RemoveEmptyArrays
     >;

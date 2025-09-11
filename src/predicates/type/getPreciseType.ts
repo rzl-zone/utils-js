@@ -19,6 +19,10 @@ import { isFunction } from "../is/isFunction";
 import { isPlainObject } from "../is/isPlainObject";
 import { isObjectOrArray } from "../is/isObjectOrArray";
 import { __internalAcronyms__, FIXES_RAW } from "./private.getPreciseType";
+import { isNumberObject } from "../is/isNumberObject";
+import { isStringObject } from "../is/isStringObject";
+import { isBooleanObject } from "../is/isBooleanObject";
+import { isInfinityNumber } from "../is/isInfinityNumber";
 
 /** Normalize a string key for consistent lookup.
  *
@@ -216,12 +220,11 @@ export const getPreciseType = (
   }
 
   if (isNaN(value)) return "NaN";
-  if (value === Infinity) return "Infinity";
-  if (value === -Infinity) return "-Infinity";
+  if (isInfinityNumber(value)) return String(value);
 
-  if (value instanceof Number) return converterHelper("Number Constructor", formatCase);
-  if (value instanceof String) return converterHelper("String Constructor", formatCase);
-  if (value instanceof Boolean) return converterHelper("Boolean Constructor", formatCase);
+  if (isNumberObject(value)) return converterHelper("Number Constructor", formatCase);
+  if (isStringObject(value)) return converterHelper("String Constructor", formatCase);
+  if (isBooleanObject(value)) return converterHelper("Boolean Constructor", formatCase);
 
   // Get the primitive typeof string
   const prim = typeof value;

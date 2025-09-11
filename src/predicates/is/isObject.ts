@@ -5,6 +5,8 @@ import { isArray } from "./isArray";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { isPlainObject } from "./isPlainObject";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { isObjectOrArray } from "./isObjectOrArray";
 
 type HasKeys<T> = keyof T extends never ? false : true;
 
@@ -40,7 +42,8 @@ type IsObject<T> = unknown extends T
  *    - Boxed primitives: `new String()`, `new Number()`, `new Boolean()`
  *    - `undefined` (including `NaN`, which is a primitive number)
  * - **ℹ️ Note:**
- *    - If you specifically need to check for ***plain-objects***, use **{@link isPlainObject}** instead.
+ *    - If you specifically need to check for ***plain-objects*** only, use **{@link isPlainObject}** instead.
+ *    - If you specifically need to check for ***object***, ***plain-objects***, and include ***array***, use **{@link isObjectOrArray}** instead.
  * @template T - The type of the value being checked.
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the value is a ***plain-objects***, otherwise `false`.

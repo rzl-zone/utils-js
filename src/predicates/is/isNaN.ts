@@ -1,3 +1,5 @@
+import { isNumberObject } from "./isNumberObject";
+
 /** ----------------------------------------------------
  * * ***Type guard: `isNaN`.***
  * ----------------------------------------------------
@@ -11,7 +13,7 @@
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
  * @example
- * import * as RzlUtilsJs from "@rzl-zone/utils-js";
+ * import * as RzlUtilsJs from "@rzl-zone/utils-js/predicates";
  *
  * RzlUtilsJs.isNaN(NaN);
  * // ➔ true
@@ -27,6 +29,5 @@
 export function isNaN(value: unknown): boolean {
   return typeof value === "number"
     ? Number.isNaN(value)
-    : Object.prototype.toString.call(value) === "[object Number]" &&
-        Number.isNaN(Number(value).valueOf());
+    : isNumberObject(value) && Number.isNaN(value.valueOf());
 }

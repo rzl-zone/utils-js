@@ -5,7 +5,7 @@ import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
 type IsEmptyObjectOptions = {
-  /** Whether to check for symbol properties in addition to string keys, defaultValue: `true`.
+  /** Whether to check for symbol properties in addition to string keys, defaultValue: `false`.
    *
    * @default false
    */

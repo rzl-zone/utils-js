@@ -1,5 +1,6 @@
 import type { ConvertedDeepString } from "./toStringDeep.types";
 
+import { isNaN } from "@/predicates/is/isNaN";
 import { isNil } from "@/predicates/is/isNil";
 import { isSet } from "@/predicates/is/isSet";
 import { isMap } from "@/predicates/is/isMap";
@@ -15,7 +16,11 @@ import { hasOwnProp } from "@/predicates/has/hasOwnProp";
 import { isUndefined } from "@/predicates/is/isUndefined";
 import { isEmptyArray } from "@/predicates/is/isEmptyArray";
 import { isTypedArray } from "@/predicates/is/isTypedArray";
+import { isNumberObject } from "@/predicates/is/isNumberObject";
+import { isStringObject } from "@/predicates/is/isStringObject";
+import { isBooleanObject } from "@/predicates/is/isBooleanObject";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
+import { isInfinityNumber } from "@/predicates/is/isInfinityNumber";
 
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
@@ -46,14 +51,34 @@ type ToStringDeepOptions<
  * ---------------------------------------------------
  * **Converts all values in an array, object, Set, Map, or deeply nested structure to string.**
  * - **Features:**
- *    - Converts numbers and strings to string (e.g., `123` ➔ `"123"`).
- *    - Converts boolean to string (e.g., `true` ➔ `"true"`).
+ *    - Converts numbers and strings to string:
+ *      - `3.5` ➔ `"3.5"`.
+ *      - `"3.5"` ➔ `"3.5"`.
+ *    - Converts boolean to string:
+ *      - `true` ➔ `"true"`.
+ *      - `false` ➔ `"false"`.
  *    - Converts Date to ISO string (`Date ➔ string`).
  *    - Converts RegExp to string (e.g., `/abc/ ➔ "/abc/"`).
  *    - Converts `Buffer`, `TypedArray`, `Set`, `Map`, and `arrays` recursively to `arrays of strings`.
+ *    - Converts boxed primitives box into their primitive equivalents then convert to string:
+ *      - For `new String` we convert everything to string (behavior JS of new String):
+ *        - `new String("hi")` ➔ `"hi".valueOf().toString()` ➔ `"hi"`.
+ *      - For `new Boolean` we convert to boolean (behavior JS of new Boolean) then convert to string:
+ *        - `new Boolean(true)` ➔ `true.valueOf().toString()` ➔ `"true"`.
+ *        - Special behavior JS of new Boolean, return `false` **(convert to string: `"false"`)**
+ *          for `false`, (`0` / `-0`), `""` (empty-string),
+ *          `null`, `undefined`, `NaN`, otherwise `true` **(convert to string: `"true"`)**.
+ *      - For `new Number`:
+ *        - `new Number(42)` ➔ `42.valueOf().toString()` ➔ `"42"`.
+ *        - `new Number(null)` ➔ `null.valueOf().toString()` ➔ `"0"` (`null` is `0` behavior JS of new Number).
+ *        - `new Number(undefined)` ➔ `undefined.valueOf().toString()` ➔ `undefined` ***(remove)***.
+ *           - If result from `valueOf()` is `NaN` or `Infinity` return `undefined` ***(will removing)***:
+ *             - `new Number(NaN)` ➔ `NaN` ➔ `undefined` ***(remove)***.
+ *             - `new Number(Infinity)` ➔ `Infinity` ➔ `undefined` ***(remove)***.
+ *             - `new Number(-Infinity)` ➔ `-Infinity` ➔ `undefined` ***(remove)***.
+ *    - Recursively processes `nested objects`, `arrays`, `buffers`, `sets`, `maps`, and `typed arrays`.
  *    - Removes `null`, `undefined`, `NaN`, `Infinity`, `-Infinity`.
  *    - Removes `unsupported` types like `functions`, `symbols`, and `BigInt`.
- *    - Recursively processes nested `objects`, `arrays`, `Sets`, and `Maps`.
  *    - Can optionally remove empty arrays (`[]`) and/or empty objects (`{}`) **recursively**.
  * @template T - The input data type (`primitive`, `object`, `array`, `Set`, `Map`, or `any nested combination`).
  * @template RemoveEmptyObjects - If `true`, empty objects `{}` will be removed recursively.
@@ -147,8 +172,8 @@ export function toStringDeep<
     options: Required<ToStringDeepOptions<RemoveEmptyObjects, RemoveEmptyArrays>> & {
       isRoot: boolean;
     }
-  ): ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays> | undefined {
-    if (isNil(input) || input === Infinity || input === -Infinity) return undefined;
+  ): unknown {
+    if (isNil(input) || isInfinityNumber(input)) return undefined;
 
     const { removeEmptyArrays, removeEmptyObjects, isRoot } = options;
 
@@ -160,38 +185,29 @@ export function toStringDeep<
       );
     }
 
-    if (isNumber(input) || isString(input) || isBoolean(input)) {
-      return String(input) as ConvertedDeepString<
-        T,
-        RemoveEmptyObjects,
-        RemoveEmptyArrays
-      >;
+    if (isNumber(input) || isString(input) || isBoolean(input)) return String(input);
+
+    if (isNumberObject(input)) {
+      const valOf = input.valueOf();
+      return isInfinityNumber(valOf) || isNaN(valOf) ? undefined : valOf.toString();
+    }
+    if (isStringObject(input)) return input.valueOf();
+    if (isBooleanObject(input)) return input.valueOf().toString();
+
+    if (isDate(input, { skipInvalidDate: true })) {
+      try {
+        return input.toISOString();
+      } catch {
+        return input.toString();
+      }
     }
 
-    if (isDate(input)) {
-      return input.toISOString() as ConvertedDeepString<
-        T,
-        RemoveEmptyObjects,
-        RemoveEmptyArrays
-      >;
-    }
-
-    if (isRegExp(input)) {
-      return input.toString() as ConvertedDeepString<
-        T,
-        RemoveEmptyObjects,
-        RemoveEmptyArrays
-      >;
-    }
+    if (isRegExp(input)) return input.toString();
 
     if (isBuffer(input)) {
       return Array.from(input)
         .map((v) => String(v))
-        .filter((v) => !isUndefined(v)) as ConvertedDeepString<
-        T,
-        RemoveEmptyObjects,
-        RemoveEmptyArrays
-      >;
+        .filter((v) => !isUndefined(v));
     }
 
     if (isTypedArray(input)) {
@@ -209,7 +225,7 @@ export function toStringDeep<
           .filter((item) => !isUndefined(item));
 
         if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-        return newArray as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+        return newArray;
       } else {
         // All TypedArray based of number
         const newArray = Array.from(input)
@@ -224,7 +240,7 @@ export function toStringDeep<
           .filter((item) => !isUndefined(item));
 
         if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-        return newArray as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+        return newArray;
       }
     }
 
@@ -235,7 +251,7 @@ export function toStringDeep<
         )
         .filter((v) => !isUndefined(v));
       if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
-      return arr as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return arr;
     }
 
     // Map ➔ array of [key, value]
@@ -247,7 +263,7 @@ export function toStringDeep<
         ])
         .filter(([k, v]) => !isUndefined(k) && !isUndefined(v));
       if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
-      return arr as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return arr;
     }
 
     if (isArray(input)) {
@@ -267,7 +283,7 @@ export function toStringDeep<
       }
 
       if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-      return newArray as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return newArray;
     }
 
     if (isObject(input)) {
@@ -289,12 +305,10 @@ export function toStringDeep<
       }
 
       if (removeEmptyObjects && Object.keys(newObject).length === 0) {
-        return isRoot
-          ? ({} as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>)
-          : undefined;
+        return isRoot ? {} : undefined;
       }
 
-      return newObject as ConvertedDeepString<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return newObject;
     }
 
     return undefined;

@@ -11,6 +11,10 @@ describe("isDate", () => {
     expect(isDate(new Date("invalid-date"))).toBe(false);
   });
 
+  it("should return true for invalid Date instances with skipInvalidDate is true", () => {
+    expect(isDate(new Date("invalid-date"), { skipInvalidDate: true })).toBe(true);
+  });
+
   it("should return false for string representations of dates", () => {
     expect(isDate("2025-01-01")).toBe(false);
     expect(isDate("invalid-date")).toBe(false);

@@ -2,71 +2,71 @@ import { assertIsString } from "@/assertions/strings/assertIsString";
 import { describe, it, expect } from "vitest";
 import { performance } from "perf_hooks";
 
-describe("assertIsString vs typeof === 'string' - benchmark", () => {
-  it("compares performance", { timeout: 30000 }, () => {
-    const loop = 1000;
-    const validInput = "hello world";
-    const invalidInput = "12345";
+// describe("assertIsString vs typeof === 'string' - benchmark", () => {
+//   it("compares performance", { timeout: 30000 }, () => {
+//     const loop = 1000;
+//     const validInput = "hello world";
+//     const invalidInput = "12345";
 
-    console.log(`\n🚀 Running with ${loop.toLocaleString()} iterations...\n`);
+//     console.log(`\n🚀 Running with ${loop.toLocaleString()} iterations...\n`);
 
-    // typeof === "string"
-    let t1 = performance.now();
-    for (let i = 0; i < loop; i++) {
-      if (typeof validInput !== "string") throw new Error("Expected string");
-    }
-    let t2 = performance.now();
+//     // typeof === "string"
+//     let t1 = performance.now();
+//     for (let i = 0; i < loop; i++) {
+//       if (typeof validInput !== "string") throw new Error("Expected string");
+//     }
+//     let t2 = performance.now();
 
-    console.log(
-      `🧪 typeof valid took ${(t2 - t1).toFixed(2)} ms ` +
-        `(~${(((t2 - t1) * 1_000) / loop).toFixed(3)} μs/op)`
-    );
+//     console.log(
+//       `🧪 typeof valid took ${(t2 - t1).toFixed(2)} ms ` +
+//         `(~${(((t2 - t1) * 1_000) / loop).toFixed(3)} μs/op)`
+//     );
 
-    // assertIsString
-    let t3 = performance.now();
-    for (let i = 0; i < loop; i++) {
-      assertIsString(validInput);
-    }
-    let t4 = performance.now();
+//     // assertIsString
+//     let t3 = performance.now();
+//     for (let i = 0; i < loop; i++) {
+//       assertIsString(validInput);
+//     }
+//     let t4 = performance.now();
 
-    console.log(
-      `✅ assertIsString valid took ${(t4 - t3).toFixed(2)} ms ` +
-        `(~${(((t4 - t3) * 1_000) / loop).toFixed(3)} μs/op)`
-    );
+//     console.log(
+//       `✅ assertIsString valid took ${(t4 - t3).toFixed(2)} ms ` +
+//         `(~${(((t4 - t3) * 1_000) / loop).toFixed(3)} μs/op)`
+//     );
 
-    // typeof fail
-    let caughtTypeof = 0;
-    let t5 = performance.now();
-    for (let i = 0; i < loop; i++) {
-      if (typeof invalidInput !== "string") caughtTypeof++;
-    }
-    let t6 = performance.now();
+//     // typeof fail
+//     let caughtTypeof = 0;
+//     let t5 = performance.now();
+//     for (let i = 0; i < loop; i++) {
+//       if (typeof invalidInput !== "string") caughtTypeof++;
+//     }
+//     let t6 = performance.now();
 
-    console.log(
-      `🛑 typeof invalid took ${(t6 - t5).toFixed(2)} ms ` +
-        `(~${(((t6 - t5) * 1_000) / loop).toFixed(3)} μs/op)`
-    );
+//     console.log(
+//       `🛑 typeof invalid took ${(t6 - t5).toFixed(2)} ms ` +
+//         `(~${(((t6 - t5) * 1_000) / loop).toFixed(3)} μs/op)`
+//     );
 
-    // assertIsString fail
-    let caughtAssert = 0;
-    let t7 = performance.now();
-    for (let i = 0; i < loop; i++) {
-      try {
-        assertIsString(invalidInput, { formatCase: "toKebabCase" });
-      } catch {
-        caughtAssert++;
-      }
-    }
-    let t8 = performance.now();
+//     // assertIsString fail
+//     let caughtAssert = 0;
+//     let t7 = performance.now();
+//     for (let i = 0; i < loop; i++) {
+//       try {
+//         assertIsString(invalidInput, { formatCase: "toKebabCase" });
+//       } catch {
+//         caughtAssert++;
+//       }
+//     }
+//     let t8 = performance.now();
 
-    console.log(
-      `❌ assertIsString invalid took ${(t8 - t7).toFixed(2)} ms ` +
-        `(~${(((t8 - t7) * 1_000) / loop).toFixed(3)} μs/op)`
-    );
+//     console.log(
+//       `❌ assertIsString invalid took ${(t8 - t7).toFixed(2)} ms ` +
+//         `(~${(((t8 - t7) * 1_000) / loop).toFixed(3)} μs/op)`
+//     );
 
-    console.log(`⚠️  caught typeof: ${caughtTypeof}, caught assert: ${caughtAssert}\n`);
-  });
-});
+//     console.log(`⚠️  caught typeof: ${caughtTypeof}, caught assert: ${caughtAssert}\n`);
+//   });
+// });
 
 describe("assertIsString", () => {
   it("should not throw for valid string", () => {

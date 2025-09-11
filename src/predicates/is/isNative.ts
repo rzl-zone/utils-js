@@ -21,7 +21,7 @@ const reIsNative = /\{\s*\[native code\]\s*\}/;
  * isNative(Array.prototype.push);
  * // ➔ true
  *
- * import * as RzlUtilsJs from "@rzl-zone/utils-js";
+ * import * as RzlUtilsJs from "@rzl-zone/utils-js/predicates";
  * isNative(RzlUtilsJs);
  * // ➔ false
  */

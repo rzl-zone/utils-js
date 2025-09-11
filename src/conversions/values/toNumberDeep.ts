@@ -6,9 +6,9 @@ import { isMap } from "@/predicates/is/isMap";
 import { isNil } from "@/predicates/is/isNil";
 import { isDate } from "@/predicates/is/isDate";
 import { isArray } from "@/predicates/is/isArray";
-import { isFinite } from "@/predicates/is/isFinite";
 import { isBuffer } from "@/predicates/is/isBuffer";
 import { isNumber } from "@/predicates/is/isNumber";
+import { isRegExp } from "@/predicates/is/isRegExp";
 import { isObject } from "@/predicates/is/isObject";
 import { isBoolean } from "@/predicates/is/isBoolean";
 import { hasOwnProp } from "@/predicates/has/hasOwnProp";
@@ -16,7 +16,11 @@ import { isUndefined } from "@/predicates/is/isUndefined";
 import { isEmptyArray } from "@/predicates/is/isEmptyArray";
 import { isTypedArray } from "@/predicates/is/isTypedArray";
 import { isEmptyObject } from "@/predicates/is/isEmptyObject";
+import { isNumberObject } from "@/predicates/is/isNumberObject";
+import { isStringObject } from "@/predicates/is/isStringObject";
+import { isBooleanObject } from "@/predicates/is/isBooleanObject";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
+import { isInfinityNumber } from "@/predicates/is/isInfinityNumber";
 import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
@@ -47,13 +51,41 @@ type ToNumberDeepOptions<
  * ---------------------------------------------------
  * **Converts deeply nested arrays, objects, buffers, sets, maps, or typed arrays into numbers while preserving structure.**
  * - **Features:**
- *    - Removes `null`, `undefined`, `NaN`, `Infinity`, `-Infinity`, empty-string, non-numeric strings, and functions.
+ *    - Converts numeric strings, number to numbers:
+ *      - `3.5` ➔ `3.5`.
+ *      - `"3.5"` ➔ `3.5`.
+ *    - Converts boolean to number:
+ *      - `true` ➔ `1`.
+ *      - `false` ➔ `0`.
+ *    - Converts Date to getTime (timestamp) `Date ➔ number`, if invalid Date value will return `0`:
+ *      - `new Date("invalid")` ➔ `0`.
+ *      - `new Date("11-09-2025 22:04:11")` ➔ `1762700651000`.
+ *    - Converts `Buffer`, `TypedArray`, `Set`, `Map`, and `arrays` recursively to `arrays of numbers`.
+ *    - Converts boxed primitives box into their primitive equivalents then convert to number:
+ *      - For `new String` we convert everything to number (behavior JS of new String):
+ *        - `new String(123)` ➔ `Number("123".valueOf())` ➔ `123`.
+ *        - `new String("123")` ➔ `Number("123".valueOf())` ➔ `123`.
+ *        - If result from `valueOf()` is `NaN` or `Infinity` return `undefined` ***(will removing)***:
+ *          - `new String("hi")` ➔ `Number("hi".valueOf())` ➔ `NaN` ***(remove)***.
+ *      - For `new Boolean` we convert to boolean (behavior JS of new Boolean) then convert to number:
+ *        - `new Boolean(true)` ➔ `Number(true.valueOf())` ➔ `1`.
+ *        - `new Boolean(false)` ➔ `Number(false.valueOf())` ➔ `0`.
+ *        - Special behavior JS of new Boolean, return `false` **(convert to number: `0`)**
+ *          for `false`, (`0` / `-0`), `""` (empty-string),
+ *          `null`, `undefined`, `NaN`, otherwise `true` **(convert to number: `1`)**.
+ *      - For `new Number`:
+ *        - `new Number(42)` ➔ `42.valueOf()` ➔ `42`.
+ *        - `new Number(null)` ➔ `null.valueOf()` ➔ `0` (`null` is `0` behavior JS of new Number).
+ *        - `new Number(undefined)` ➔ `undefined.valueOf()` ➔ `undefined` ***(remove)***.
+ *           - If result from `valueOf()` is `NaN` or `Infinity` return `undefined` ***(will removing)***:
+ *             - `new Number(NaN)` ➔ `NaN` ➔ `undefined` ***(remove)***.
+ *             - `new Number(Infinity)` ➔ `Infinity` ➔ `undefined` ***(remove)***.
+ *             - `new Number(-Infinity)` ➔ `-Infinity` ➔ `undefined` ***(remove)***.
  *    - Recursively processes `nested objects`, `arrays`, `buffers`, `sets`, `maps`, and `typed arrays`.
- *    - Converts numeric strings to numbers (e.g., `"3.5"` ➔ `3.5`).
- *    - Keeps empty objects `{}` unless `removeEmptyObjects: true`.
- *    - Keeps empty arrays `[]` unless `removeEmptyArrays: true`.
- *    - `Buffers` and `TypedArrays` are converted into `arrays of numbers`.
- *    - `Date objects` are converted into their timestamp (`number`).
+ *    - Removes `empty-string`, `non-numeric strings`.
+ *    - Removes `null`, `undefined`, `NaN`, `Infinity`, `-Infinity`.
+ *    - Removes `unsupported` types like `functions` , `RegExp`, `symbols`, and `BigInt`.
+ *    - Can optionally remove empty arrays (`[]`) and/or empty objects (`{}`) **recursively**.
  * @template T - The input type.
  * @template RemoveEmptyObjects - Whether to remove empty objects.
  * @template RemoveEmptyArrays - Whether to remove empty arrays.
@@ -128,8 +160,8 @@ export function toNumberDeep<
     options: Required<ToNumberDeepOptions<RemoveEmptyObjects, RemoveEmptyArrays>> & {
       isRoot: boolean;
     }
-  ): ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays> | undefined {
-    if (isNil(input)) return undefined;
+  ): unknown {
+    if (isNil(input) || isRegExp(input)) return undefined;
 
     const { removeEmptyArrays, removeEmptyObjects, isRoot } = options;
 
@@ -141,29 +173,69 @@ export function toNumberDeep<
       );
     }
 
-    // primitive numbers or numeric strings
-    if (isNumber(input) || (isNonEmptyString(input) && !isNaN(Number(input)))) {
+    // primitive boolean, numbers, or numeric strings
+    if (isNumber(input) || isBoolean(input) || isNonEmptyString(input)) {
       const num = Number(input);
-      return (isFinite(num) ? num : undefined) as ConvertedDeepNumber<
-        T,
-        RemoveEmptyObjects,
-        RemoveEmptyArrays
-      >;
+      return isInfinityNumber(num) || isNaN(num) ? undefined : num;
     }
 
-    if (isArray(input)) {
-      const newArray = input
-        .map((item) =>
-          _internal(item, {
+    if (isNumberObject(input) || isStringObject(input) || isBooleanObject(input)) {
+      const valOf = Number(input.valueOf());
+      return isInfinityNumber(valOf) || isNaN(valOf) ? undefined : valOf;
+    }
+
+    if (isDate(input, { skipInvalidDate: true })) {
+      try {
+        return !isNaN(input.getTime()) ? input.getTime() : 0;
+      } catch {
+        return 0;
+      }
+    }
+
+    if (isBuffer(input)) {
+      const arr = Array.from(input)
+        .map((n) =>
+          _internal(n, {
             removeEmptyObjects,
             removeEmptyArrays,
             isRoot: false
           })
         )
         .filter((item) => !isUndefined(item));
+      if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
+      return arr;
+    }
 
-      if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-      return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+    if (isTypedArray(input)) {
+      // If BigInt TypedArray
+      if (input instanceof BigInt64Array || input instanceof BigUint64Array) {
+        const newArray = Array.from(input)
+          .map((item) =>
+            _internal(item, {
+              removeEmptyObjects,
+              removeEmptyArrays,
+              isRoot: false
+            })
+          )
+          .filter((item) => !isUndefined(item));
+
+        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
+        return newArray;
+      } else {
+        // All TypedArray based of number
+        const newArray = Array.from(input)
+          .map((item) =>
+            _internal(item, {
+              removeEmptyObjects,
+              removeEmptyArrays,
+              isRoot: false
+            })
+          )
+          .filter((item) => !isUndefined(item));
+
+        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
+        return newArray;
+      }
     }
 
     if (isSet(input)) {
@@ -178,7 +250,7 @@ export function toNumberDeep<
         .filter((item) => !isUndefined(item));
 
       if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-      return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return newArray;
     }
 
     if (isMap(input)) {
@@ -200,65 +272,26 @@ export function toNumberDeep<
 
       // remove empty arrays recursively
       if (removeEmptyArrays) {
-        newArray = newArray.filter((v) => !(isArray(v) && v.length === 0));
+        newArray = newArray.filter((v) => !isEmptyArray(v));
       }
 
       if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-      return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return newArray;
     }
 
-    if (isBuffer(input)) {
-      const arr = Array.from(input)
-        .map((n) =>
-          _internal(n, {
+    if (isArray(input)) {
+      const newArray = input
+        .map((item) =>
+          _internal(item, {
             removeEmptyObjects,
             removeEmptyArrays,
             isRoot: false
           })
         )
         .filter((item) => !isUndefined(item));
-      if (removeEmptyArrays && isEmptyArray(arr)) return undefined;
-      return arr as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
-    }
 
-    if (isTypedArray(input)) {
-      // If BigInt TypedArray
-      if (input instanceof BigInt64Array || input instanceof BigUint64Array) {
-        const newArray = Array.from(input)
-          .map((item) =>
-            _internal(item, {
-              removeEmptyObjects,
-              removeEmptyArrays,
-              isRoot: false
-            })
-          )
-          .filter((item) => !isUndefined(item));
-
-        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-        return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
-      } else {
-        // All TypedArray based of number
-        const newArray = Array.from(input)
-          .map((item) =>
-            _internal(item, {
-              removeEmptyObjects,
-              removeEmptyArrays,
-              isRoot: false
-            })
-          )
-          .filter((item) => !isUndefined(item));
-
-        if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
-        return newArray as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
-      }
-    }
-
-    if (isDate(input)) {
-      return (!isNaN(input.getTime()) ? input.getTime() : 0) as ConvertedDeepNumber<
-        T,
-        RemoveEmptyObjects,
-        RemoveEmptyArrays
-      >;
+      if (removeEmptyArrays && isEmptyArray(newArray)) return undefined;
+      return newArray;
     }
 
     if (isObject(input)) {
@@ -276,12 +309,10 @@ export function toNumberDeep<
       }
 
       if (removeEmptyObjects && isEmptyObject(newObject)) {
-        return isRoot
-          ? ({} as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>)
-          : undefined;
+        return isRoot ? {} : undefined;
       }
 
-      return newObject as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+      return newObject;
     }
 
     return undefined;
@@ -291,5 +322,5 @@ export function toNumberDeep<
     removeEmptyObjects,
     removeEmptyArrays,
     isRoot: true
-  }) as ConvertedDeepNumber<T, RemoveEmptyObjects, RemoveEmptyArrays>;
+  });
 }

@@ -1,59 +1,59 @@
 import { describe, it, expect } from "vitest";
 import { isEmptyDeep } from "@/predicates/is/isEmptyDeep";
 
-describe("isEmptyDeep - benchmark", () => {
-  it("benchmarks isEmptyDeep", { timeout: 30000 }, () => {
-    const loop = 1_000_000;
+// describe("isEmptyDeep - benchmark", () => {
+//   it("benchmarks isEmptyDeep", { timeout: 30000 }, () => {
+//     const loop = 1_000_000;
 
-    console.log(
-      `🚀 Running isEmptyDeep benchmark with ${loop.toLocaleString()} iterations...`
-    );
+//     console.log(
+//       `🚀 Running isEmptyDeep benchmark with ${loop.toLocaleString()} iterations...`
+//     );
 
-    let t1 = performance.now();
-    let emptyCount = 0;
-    for (let i = 0; i < loop; i++) {
-      if (
-        isEmptyDeep({
-          a: [],
-          b: {},
-          c: "",
-          d: null,
-          e: undefined,
-          f: { g: [], h: {} },
-        })
-      ) {
-        emptyCount++;
-      }
-    }
-    let t2 = performance.now();
-    console.log(
-      `✅ isEmptyDeep on deeply empty took ${(t2 - t1).toFixed(2)} ms (~${(
-        ((t2 - t1) * 1000) /
-        loop
-      ).toFixed(3)} μs/op) | emptyCount: ${emptyCount}`
-    );
+//     let t1 = performance.now();
+//     let emptyCount = 0;
+//     for (let i = 0; i < loop; i++) {
+//       if (
+//         isEmptyDeep({
+//           a: [],
+//           b: {},
+//           c: "",
+//           d: null,
+//           e: undefined,
+//           f: { g: [], h: {} },
+//         })
+//       ) {
+//         emptyCount++;
+//       }
+//     }
+//     let t2 = performance.now();
+//     console.log(
+//       `✅ isEmptyDeep on deeply empty took ${(t2 - t1).toFixed(2)} ms (~${(
+//         ((t2 - t1) * 1000) /
+//         loop
+//       ).toFixed(3)} μs/op) | emptyCount: ${emptyCount}`
+//     );
 
-    let t3 = performance.now();
-    let nonEmptyCount = 0;
-    for (let i = 0; i < loop; i++) {
-      if (
-        !isEmptyDeep({
-          a: [1],
-          b: { c: "hello" },
-        })
-      ) {
-        nonEmptyCount++;
-      }
-    }
-    let t4 = performance.now();
-    console.log(
-      `❌ isEmptyDeep on non-empty took ${(t4 - t3).toFixed(2)} ms (~${(
-        ((t4 - t3) * 1000) /
-        loop
-      ).toFixed(3)} μs/op) | nonEmptyCount: ${nonEmptyCount}`
-    );
-  });
-});
+//     let t3 = performance.now();
+//     let nonEmptyCount = 0;
+//     for (let i = 0; i < loop; i++) {
+//       if (
+//         !isEmptyDeep({
+//           a: [1],
+//           b: { c: "hello" },
+//         })
+//       ) {
+//         nonEmptyCount++;
+//       }
+//     }
+//     let t4 = performance.now();
+//     console.log(
+//       `❌ isEmptyDeep on non-empty took ${(t4 - t3).toFixed(2)} ms (~${(
+//         ((t4 - t3) * 1000) /
+//         loop
+//       ).toFixed(3)} μs/op) | nonEmptyCount: ${nonEmptyCount}`
+//     );
+//   });
+// });
 
 describe("isEmptyDeep", () => {
   it("should return true for null, undefined, false, empty string, NaN", () => {

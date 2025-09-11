@@ -14,7 +14,7 @@ import { isNumber } from "./isNumber";
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if `value` is a finite primitive number, else `false`.
  * @example
- * import * as RzlUtilsJs from "@rzl-zone/utils-js";
+ * import * as RzlUtilsJs from "@rzl-zone/utils-js/predicates";
  *
  * // Strict finite number check (only primitive numbers)
  * RzlUtilsJs.isFinite(3);

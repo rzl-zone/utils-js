@@ -5,7 +5,7 @@ import { isArray } from "@/predicates/is/isArray";
  * ----------------------------------------------------------
  * **Checks whether a given value is an empty array.**
  * - **Behavior:**
- *    - Non-array inputs are considered `"empty"` ***(defensive strategy)***.
+ *    - Non-array inputs are considered ***`empty`*** ***(defensive strategy)***.
  * @param {*} [value] - The value to check.
  * @returns {boolean} Returns `true` if it's ***not an array*** or ***an empty-array***.
  * @example

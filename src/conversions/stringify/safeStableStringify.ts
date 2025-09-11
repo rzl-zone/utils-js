@@ -14,8 +14,12 @@ import { isBoolean } from "@/predicates/is/isBoolean";
 import { isFunction } from "@/predicates/is/isFunction";
 import { hasOwnProp } from "@/predicates/has/hasOwnProp";
 import { isUndefined } from "@/predicates/is/isUndefined";
+import { isNumberObject } from "@/predicates/is/isNumberObject";
+import { isStringObject } from "@/predicates/is/isStringObject";
+import { isBooleanObject } from "@/predicates/is/isBooleanObject";
 import { isObjectOrArray } from "@/predicates/is/isObjectOrArray";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
+import { isInfinityNumber } from "@/predicates/is/isInfinityNumber";
 
 /** -------------------------------------------------
  * * ***Options for **{@link safeStableStringify | `safeStableStringify`}**.***
@@ -197,13 +201,13 @@ export const safeStableStringify = (
     isNull(val) || (!isObjectOrArray(val) && !isFunction(val));
 
   const deepProcess = (val: unknown): unknown => {
-    if (val instanceof Number) {
+    if (isNumberObject(val)) {
       const valOf = val.valueOf();
-      if (isNaN(valOf) || valOf === Infinity || valOf === -Infinity) return null;
+      if (isNaN(valOf) || isInfinityNumber(valOf)) return null;
       return valOf;
     }
-    if (val instanceof String) return String(val);
-    if (val instanceof Boolean) return Boolean(val);
+    if (isStringObject(val)) return val.valueOf();
+    if (isBooleanObject(val)) return val.valueOf();
     if (isFunction(val) || isSymbol(val)) return undefined;
     if (isBigInt(val)) return val.toString();
     if (isUndefined(val) || isNaN(val) || val === Infinity || val === -Infinity) {
