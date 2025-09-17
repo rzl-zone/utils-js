@@ -1,9 +1,9 @@
-import type { OptionsMergeTwClsV4, TwMergeDefaultFnV4 } from "./private/types";
+import type { OptionsMergeTwClsV4, TwMergeDefaultFnV4 } from "./_private/types";
 
 import { extendTailwindMerge, getDefaultConfig } from "tailwind-merge-v4";
 
 import { isPlainObject } from "@/predicates/is/isPlainObject";
-import { validatorPropsTwMerge } from "../private/validate-props";
+import { validatorPropsTwMerge } from "../_private/validate-props";
 
 // Get default Tailwind merge configuration
 const defaultConfig = getDefaultConfig();
@@ -20,7 +20,7 @@ const defaultConfig = getDefaultConfig();
  *    - Override or fine-tune **merge behavior**.
  *    - Create a **project-wide `cn` helper** that replaces raw `twMerge`.
  * @param {OptionsMergeTwClsV4} [options={}]
- *  Merge options:
+ *  ***Merge options:***
  *    - `config` – Your Tailwind config (from `tailwind.config.ts`).
  *    - `prefix` - Utility prefix (e.g. `tw-` or `tw`).
  *    - `extend` – Extra merge rules (classGroups, theme, etc).

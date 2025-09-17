@@ -37,16 +37,13 @@ type _Sort<T extends readonly number[], CurrentIndex extends number> = IsLowerOr
   : T;
 
 /** -------------------------------------------------------
- * * ***Sort.***
+ * * ***Utility Type: `Sort`.***
  * -------------------------------------------------------
- * Type-level function that sorts a **tuple of numbers** in **ascending order**.
- *
- * Behavior:
- * - Tuples with length `< 2` are returned as-is.
- * - Works only on **tuple literal types**, not on general arrays (`number[]`).
- *
+ * **Type-level function that sorts a **tuple of numbers** in **ascending order**.**
+ * - **Behavior:**
+ *    - Tuples with length `< 2` are returned as-is.
+ *    - Works only on **tuple literal types**, not on general arrays (`number[]`).
  * @template T - Tuple of numbers to sort.
- *
  * @example
  * ```ts
  * // Sort positive numbers

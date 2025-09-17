@@ -1,16 +1,13 @@
 /** -------------------------------------------------------
- * * ***StartsWith.***
+ * * ***Utility Type: `StartsWith`.***
  * -------------------------------------------------------
- * Type-level utility that determines whether a string `Str`
- * starts with the substring `Pivot`.
- *
- * Behavior:
- * - Supports `Pivot` as either `string` or `number`.
- * - Returns `true` if `Str` starts with `Pivot`, otherwise `false`.
- *
+ * **Type-level utility that determines whether a string `Str`
+ * starts with the substring `Pivot`.**
+ * - **Behavior:**
+ *    - Supports `Pivot` as either `string` or `number`.
+ *    - Returns `true` if `Str` starts with `Pivot`, otherwise `false`.
  * @template Str - The string to check.
  * @template Pivot - The substring or number to check as the prefix.
- *
  * @example
  * ```ts
  * // Check string prefix

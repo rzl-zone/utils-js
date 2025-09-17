@@ -1,4 +1,7 @@
-import type { ConvertedDeepString } from "./toStringDeep.types";
+import type {
+  ConvertedDeepString,
+  ToStringDeepOptions
+} from "./_private/toStringDeep.types";
 
 import { isNaN } from "@/predicates/is/isNaN";
 import { isNil } from "@/predicates/is/isNil";
@@ -23,28 +26,6 @@ import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { isInfinityNumber } from "@/predicates/is/isInfinityNumber";
 
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
-
-type ToStringDeepOptions<
-  RemoveEmptyObjects extends boolean = false,
-  RemoveEmptyArrays extends boolean = false
-> = {
-  /** Whether to remove empty objects (`{}`) from the result.
-   *
-   * - `true` ➔ remove empty objects recursively.
-   * - `false` **(default)** ➔ keep empty objects as-is.
-   *
-   * @default false
-   */
-  removeEmptyObjects?: RemoveEmptyObjects;
-  /** Whether to remove empty arrays (`[]`) from the result.
-   *
-   * - `true` ➔ remove empty arrays recursively.
-   * - `false` **(default)** ➔ keep empty arrays as-is.
-   *
-   * @default false
-   */
-  removeEmptyArrays?: RemoveEmptyArrays;
-};
 
 /** --------------------------------------------------
  * * ***Utility: `toStringDeep`.***

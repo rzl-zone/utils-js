@@ -5,17 +5,13 @@ import type { Not } from "./not";
 import type { IsInteger, ParseNumber } from "./number";
 
 /** -------------------------------------------------------
- * * ***IsArrayIndex.***
+ * * ***Utility Type: `IsArrayIndex`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is a valid array index.
- *
+ * **Returns a boolean whether the passed argument is a valid array index.**
  * @example
  * ```ts
- * // truthy
  * type Case1 = IsArrayIndex<1>;   // ➔ true
  * type Case2 = IsArrayIndex<'1'>; // ➔ true
- *
- * // falsy
  * type Case3 = IsArrayIndex<-1>;  // ➔ false
  * type Case4 = IsArrayIndex<"a">; // ➔ false
  * ```

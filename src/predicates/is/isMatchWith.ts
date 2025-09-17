@@ -1,5 +1,5 @@
-import type { CustomizerIsMatchWith } from "@/types/private";
-import { baseIsMatch } from "@/predicates/is/private/baseIsMatch";
+import type { CustomizerIsMatchWith } from "./_private/types.isMatchWith";
+import { baseIsMatch } from "@/predicates/is/_private/baseIsMatch";
 
 /** ----------------------------------------------------
  * * ***Predicate: `isMatchWith`.***

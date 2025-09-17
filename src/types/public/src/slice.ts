@@ -23,22 +23,20 @@ type FilterRemoved<
   : Result;
 
 /** -------------------------------------------------------
- * * ***Slice.***
+ * * ***Utility Type: `Slice`.***
  * -------------------------------------------------------
- * Type-level version of `Array.prototype.slice()`.
+ * **Type-level version of `Array.prototype.slice()`.**
+ * @description
  * Returns a shallow copy of a portion of an array, selected from `Start` to `End` (not including `End`).
- *
- * Behavior:
- * - `Start` defaults to `0`.
- * - `End` defaults to `T["length"]`.
- * - Negative indices are interpreted as `T["length"] + index`.
- * - If `Start >= T["length"]` or `End <= Start`, returns an empty array `[]`.
- * - If the full range is selected, returns `T` as-is.
- *
+ * - **Behavior:**
+ *    - `Start` defaults to `0`.
+ *    - `End` defaults to `T["length"]`.
+ *    - Negative indices are interpreted as `T["length"] + index`.
+ *    - If `Start >= T["length"]` or `End <= Start`, returns an empty array `[]`.
+ *    - If the full range is selected, returns `T` as-is.
  * @template T - The array type to slice.
  * @template Start - The start index (inclusive). Defaults to `0`.
  * @template End - The end index (exclusive). Defaults to `T["length"]`.
- *
  * @example
  * ```ts
  * // Slice from index 1 to end

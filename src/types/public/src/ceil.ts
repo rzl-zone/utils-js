@@ -3,14 +3,14 @@ import type { IsFloat, IsNegative, Negate } from "./number";
 import type { GetFloatNumberParts } from "./get-float-number-parts";
 
 /** -------------------------------------------------------
- * * ***Ceil.***
+ * * ***Utility Type: `Ceil`.***
  * -------------------------------------------------------
- * A type-level utility that computes the **mathematical ceiling**
- * of a numeric literal type `T`, type version of `Math.ceil()`.
- * - If `T` is an integer, it returns `T` unchanged.
- * - If `T` is a positive float, it rounds up to the nearest integer.
- * - If `T` is a negative float, it rounds up toward zero.
- *
+ * **A type-level utility that computes the **mathematical ceiling**
+ * of a numeric literal type `T`, type version of `Math.ceil()`.**
+ * - **Behavior:**
+ *    - If `T` is an integer, it returns `T` unchanged.
+ *    - If `T` is a positive float, it rounds up to the nearest integer.
+ *    - If `T` is a negative float, it rounds up toward zero.
  * @template T - A number literal type.
  * @example
  * ```ts

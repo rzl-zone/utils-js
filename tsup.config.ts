@@ -13,7 +13,6 @@ const entries = await fg(
   {
     ignore: [
       "src/browser.ts",
-      "src/_types-entry.{ts,tsx}",
       "src/types/private",
       "src/**/*.types.*",
       "src/types",
@@ -40,13 +39,13 @@ export default defineConfig([
       "next/server",
       "date-fns",
       "server-only",
+      "libphonenumber-js",
       "tailwindcss",
       "tailwind-merge-v3",
       "tailwind-merge-v4"
     ],
     dts: true,
     clean: false,
-    target: "node16",
     terserOptions: {
       format: {
         comments: false

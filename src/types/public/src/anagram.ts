@@ -2,6 +2,7 @@ import type { And } from "./and";
 import type { IsStringLiteral } from "./is-string-literal";
 import type { IsEmptyString } from "./string";
 
+/** @private ***types for {@link AreAnagrams}.*** */
 type _AreAnagrams<
   Str1 extends string,
   Str2 extends string
@@ -16,12 +17,13 @@ type _AreAnagrams<
   : never;
 
 /** -------------------------------------------------------
- * * ***AreAnagrams.***
+ * * ***Utility Type: `AreAnagrams`.***
  * -------------------------------------------------------
- * Determines whether two string literal types are ***anagrams*** of each other.
- * - Returns `true` if both strings contain exactly the same characters in any order.
- * - Returns `false` otherwise.
- *
+ * **Determines whether two string literal types are ***anagrams*** of each other.**
+ * - **Behavior:**
+ *    - Returns `true` if both strings contain exactly the same characters in
+ *      any order.
+ *    - Returns `false` otherwise.
  * @template Str1 - The first string literal.
  * @template Str2 - The second string literal.
  * @example

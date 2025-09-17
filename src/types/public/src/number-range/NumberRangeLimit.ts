@@ -1,35 +1,17 @@
 import type { Sum } from "../sum";
 import type { IsGreaterThan } from "../greater-than";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { NumberRangeUnion } from "./NumberRangeUnion";
+
 /** --------------------------------------------------
- * * ***Generate a union type of numbers within a specified range (optimized recursive batching).***
+ * * ***Internal Utility Type for: {@link NumberRangeLimit | `NumberRangeLimit`}.***
  * --------------------------------------------------
- *
  * @template From - Starting number of the range (inclusive).
  * @template To - Ending number of the range (inclusive).
  * @template Result - Internal accumulator for recursion (do not set manually).
- *
- * @description
- * Produces a **numeric union type** from `From` to `To` (inclusive),
- * using *batched recursive expansion* (adds up to 7 numbers at a time).
- *
- * This batching allows generating larger ranges efficiently without
- * hitting TypeScript’s recursion limits too quickly.
- *
- * - ✅ Optimized for **performance** (fewer recursive steps).
- * - ⚠️ Supports up to `To = 999` safely.
- * - ⚙️ Best used when you need **arbitrary ranges** within `0–999`.
- *
- * @example
- * ```ts
- * type RangeA = NumberRangeLimit<5, 8>;
- * //    ^? 5 | 6 | 7 | 8
- *
- * type RangeB = NumberRangeLimit<10, 15>;
- * //    ^? 10 | 11 | 12 | 13 | 14 | 15
- * ```
  */
-export type NumberRangeLimit<
+type _NumberRangeLimit<
   From extends number,
   To extends number,
   Result extends number[] = [From]
@@ -41,7 +23,7 @@ export type NumberRangeLimit<
         : R
       : never
     : never
-  : NumberRangeLimit<
+  : _NumberRangeLimit<
       Sum<From, 7>,
       To,
       [
@@ -55,3 +37,36 @@ export type NumberRangeLimit<
         Sum<From, 6>
       ]
     >;
+
+/** --------------------------------------------------
+ * * ***Utility Type: `NumberRangeLimit`.***
+ * --------------------------------------------------
+ * **Generate a union type of numbers within a specified range (optimized recursive batching).**
+ * @description
+ * Produces a **numeric union type** from `From` to `To` (inclusive),
+ * using ***batched recursive expansion*** (**adds up to `7` numbers at a time**).
+ *
+ * This batching allows generating **larger ranges** (`≥ 101`) efficiently without
+ * hitting TypeScript’s recursion limits too quickly.
+ * - ✅ Optimized for **performance** (fewer recursive steps).
+ * - ⚠️ Supports up to `To = 999` safely.
+ * - ⚙️ Best used for **larger ranges** (`≥ 101`) or when you need **arbitrary ranges** within `0–999`.
+ * - ℹ️ For **smaller ranges** (`≤ 100`) or when readability matters use {@link NumberRangeUnion | **`NumberRangeUnion`**} instead.
+ * @template From - Starting number of the range (inclusive).
+ * @template To - Ending number of the range (inclusive).
+ * @example
+ * ```ts
+ * type RangeA = NumberRangeLimit<5, 8>;
+ * // ➔ 5 | 6 | 7 | 8
+ * type RangeB = NumberRangeLimit<10, 15>;
+ * // ➔ 10 | 11 | 12 | 13 | 14 | 15
+ * type RangeC = NumberRangeLimit<8, 8>;
+ * // ➔ 8
+ * type RangeD = NumberRangeLimit<20, 10>;
+ * // ➔ 10
+ * ```
+ */
+export type NumberRangeLimit<From extends number, To extends number> = _NumberRangeLimit<
+  From,
+  To
+>;

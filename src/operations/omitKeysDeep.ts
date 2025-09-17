@@ -5,12 +5,14 @@ import { findDuplicates } from "./findDuplicates";
 import { isNaN } from "@/predicates/is/isNaN";
 import { isArray } from "@/predicates/is/isArray";
 import { isUndefined } from "@/predicates/is/isUndefined";
-import { safeJsonParse } from "@/conversions/json/parsing";
 import { isEmptyArray } from "@/predicates/is/isEmptyArray";
 import { isPlainObject } from "@/predicates/is/isPlainObject";
 import { isNonEmptyArray } from "@/predicates/is/isNonEmptyArray";
 import { isObjectOrArray } from "@/predicates/is/isObjectOrArray";
+
 import { assertIsArray } from "@/assertions/objects/assertIsArray";
+
+import { safeJsonParse } from "@/conversions/json/safeJsonParse";
 import { safeStableStringify } from "@/conversions/stringify/safeStableStringify";
 
 type IndexArray = NumberRangeUnion<0, 30>;
@@ -29,8 +31,8 @@ type DotPath<T, Prev extends string = ""> = T extends Array<infer U>
  * ------------------------------------------------------
  * **Recursively omits properties from an object using dot notation paths.**
  * - **Behavior:**
- *    - Also removes resulting empty objects (`{}`) and arrays (`[]`),
- *    - cascading upwards to remove empty parents until root if needed.
+ *    - Removes resulting empty objects (`{}`) and arrays (`[]`), cascading upwards
+ *      to remove empty parents until root if needed.
  * - **⚠️ Be careful:**
  *    - If after omission an object or array becomes empty, it will be removed entirely
  *      including all the way up to the root if necessary, resulting in `{}`.
@@ -41,7 +43,7 @@ type DotPath<T, Prev extends string = ""> = T extends Array<infer U>
  *      manually type `"arr.99.key"` and it will work the same.
  * @template I - Type of the input object
  * @param {I} object
- *  The object to process. Should be a plain nested object or array structure.
+ *  The object to process, should be a plain nested object or array structure.
  * @param {DotPath<I>[]} keysToOmit
  *  An array of string paths in dot notation indicating the properties to remove, paths
  *  can include numeric indices to target array elements, e.g. `"arr.0.x"` to

@@ -27,15 +27,12 @@ type RequiredKeysOf<U> = Exclude<keyof U, OptionalKeys<U>>;
 /** Force re-evaluation / cleaner display */
 
 /** -------------------------------------------------------
- * * ***PartialOnly.***
+ * * ***Utility Type: `PartialOnly`.***
  * -------------------------------------------------------
- *
- * Make only the specified properties in `T` **optional**,
- * while keeping all other properties required.
- *
+ * **Make only the specified properties in `T` **optional**, while keeping all
+ * other properties required.**
  * @template T - The object type to transform.
  * @template K - Keys of `T` that should become optional.
- *
  * @example
  * ```ts
  * // Only "a" is optional, "b" and "c" remain required
@@ -67,32 +64,29 @@ export type PartialOnly<
   ? T
   : PrettifyUnionIntersection<
       {
-        // required keys & not in K → remain required
+        // required keys & not in K ➔ remain required
         [P in Exclude<RequiredKeys<T>, Extract<keyof T, K>>]-?: T[P];
       } & {
-        // optional keys & not in K → remain optional (clean duplicate undefined)
+        // optional keys & not in K ➔ remain optional (clean duplicate undefined)
         [P in Exclude<OptionalKeys<T>, Extract<keyof T, K>>]+?: CleanOptional<T[P]>;
       } & {
-        // keys in K → forced to optional (also clean duplicate undefined)
+        // keys in K ➔ forced to optional (also clean duplicate undefined)
         [P in Extract<keyof T, K>]+?: CleanOptional<T[P]>;
       }
     >;
 
 /** -------------------------------------------------------
- * * ***PartialExcept.***
+ * * ***Utility Type: `PartialExcept`.***
  * -------------------------------------------------------
- *
- * Make all properties in `T` **optional**,
- * except for the ones specified in `K`, which remain as-is.
- *
- * - If a property in `K` is originally required → it stays required.
- * - If a property in `K` is originally optional → it stays optional.
- * - All other properties become optional.
- * - Duplicate `undefined` types are cleaned up automatically.
- *
+ * **Make all properties in `T` **optional**, except for the ones specified
+ * in `K`, which remain as-is.**
+ * - **Behavior:**
+ *    - If a property in `K` is originally required ➔ it stays required.
+ *    - If a property in `K` is originally optional ➔ it stays optional.
+ *    - All other properties become optional.
+ *    - Duplicate `undefined` types are cleaned up automatically.
  * @template T - The object type to transform.
  * @template K - Keys of `T` that should remain as-is (not forced optional).
- *
  * @example
  * ```ts
  * // "a" remains required, "b" and "c" become optional
@@ -108,7 +102,7 @@ export type PartialOnly<
  * type T2 = PartialExcept<{ a: string; b?: number; c: boolean }, "a" | "b">;
  * // ➔ { a: string; b?: number; c?: boolean }
  *
- * // none of the keys match → everything optional
+ * // none of the keys match ➔ everything optional
  * type T3 = PartialExcept<{ a: string; b: number; c: boolean }, "x">;
  * // ➔ { a?: string; b?: number; c?: boolean }
  * ```

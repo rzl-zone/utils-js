@@ -9,14 +9,13 @@ import type { AnyFunction } from "./functions";
 import type { TypedArray } from "./type-data";
 
 /** -------------------------------------------------------
- * * ***IsGeneralArray.***
+ * * ***Utility Type: `IsGeneralArray`.***
  * -------------------------------------------------------
- * Checks if `T` is a **general array type** (`X[]` or `ReadonlyArray<X>`)
- * instead of a tuple literal.
- *
- * - Returns `true` for `string[]`, `(number | boolean)[]`, `any[]`, etc.
- * - Returns `false` for tuples like `[]`, `[1, 2, 3]`, or `[string, number]`.
- *
+ * **Checks if `T` is a **general array type** (`X[]` or `ReadonlyArray<X>`)
+ * instead of a tuple literal.**
+ * - **Behavior:**
+ *    - Returns `true` for `string[]`, `(number | boolean)[]`, `any[]`, etc.
+ *    - Returns `false` for tuples like `[]`, `[1, 2, 3]`, or `[string, number]`.
  * @template T - The type to check.
  * @example
  * ```ts
@@ -27,34 +26,32 @@ import type { TypedArray } from "./type-data";
  * ```
  */
 type IsGeneralArray<T> = T extends readonly unknown[]
-  ? number extends T["length"] // length = number → general array
+  ? number extends T["length"] // length = number ➔ general array
     ? true
     : false
   : false;
 
 /** -------------------------------------------------------
- * * ***IsBaseType.***
+ * * ***Utility Type: `IsBaseType`.***
  * -------------------------------------------------------
- * Determines whether a type `T` is considered a **base / keyword / built-in type**
- * rather than a literal, tuple, or specific instance.
- *
- * ✅ Considered base types:
- * - Special keywords: `any`, `unknown`, `never`, `null`, `undefined`, `void`
- * - Primitive keywords: `string`, `number`, `boolean`, `bigint`, `symbol`
- * - Function keyword `Function` and alias `AnyFunction`
- * - General arrays (`X[]`, `ReadonlyArray<X>`) and `TypedArray`
- * - Common built-ins: `Date`, `RegExp`, `Error`
- * - Generic containers: `Promise<any>`, `Map<any,any>`, `WeakMap<object,any>`, `Set<any>`, `WeakSet<object>`
- * - Buffers & views: `ArrayBuffer`, `SharedArrayBuffer`, `DataView`
- * - `object` keyword and `{}` (empty object type)
- *
- * ❌ Not considered base types:
- * - Literal values (`"foo"`, `123`, `true`)
- * - Union literals (`"a" | "b"`)
- * - Tuples (`[1, 2, 3]`, `[]`)
- * - Specific object shapes (`{ a: 1 }`, `{ x: string }`)
- * - Functions with explicit structure (`() => {}`, `(x: number) => string`)
- *
+ * **Determines whether a type `T` is considered a **base / keyword / built-in type**
+ * rather than a literal, tuple, or specific instance.**
+ * - **Behavior:**
+ *    - ***✅ Considered base types:***
+ *        - Special keywords: `any`, `unknown`, `never`, `null`, `undefined`, `void`
+ *        - Primitive keywords: `string`, `number`, `boolean`, `bigint`, `symbol`
+ *        - Function keyword `Function` and alias `AnyFunction`
+ *        - General arrays (`X[]`, `ReadonlyArray<X>`) and `TypedArray`
+ *        - Common built-ins: `Date`, `RegExp`, `Error`
+ *        - Generic containers: `Promise<any>`, `Map<any,any>`, `WeakMap<object,any>`, `Set<any>`, `WeakSet<object>`
+ *        - Buffers & views: `ArrayBuffer`, `SharedArrayBuffer`, `DataView`
+ *        - `object` keyword and `{}` (empty object type)
+ *    - ***❌ Not considered base types:***
+ *        - Literal values (`"foo"`, `123`, `true`)
+ *        - Union literals (`"a" | "b"`)
+ *        - Tuples (`[1, 2, 3]`, `[]`)
+ *        - Specific object shapes (`{ a: 1 }`, `{ x: string }`)
+ *        - Functions with explicit structure (`() => {}`, `(x: number) => string`)
  * @template T - The type to evaluate.
  * @example
  * ```ts

@@ -1,7 +1,7 @@
-import { cleanParsedData } from "@/conversions/json/parsing";
+import { describe, it, expect } from "vitest";
 import { isNull } from "@/predicates/is/isNull";
 import { isUndefined } from "@/predicates/is/isUndefined";
-import { describe, it, expect } from "vitest";
+import { cleanParsedData } from "@/conversions/json/cleanParsedData";
 
 describe("cleanParsedData", () => {
   it("should remove null values if removeNulls is true", () => {

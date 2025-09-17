@@ -13,9 +13,9 @@ import { getPreciseType } from "../type/getPreciseType";
  *      key exists at each level, even if its value is `null` or `undefined`.
  *    - Optimized to return `true` immediately when the key is found (short-circuits).
  *    - Handles edge cases gracefully:
- *          - Returns `false` for `null`, `undefined`, or non-object inputs.
- *          - Returns `false` if key is not found anywhere, even in deeply nested
- *            structures.**
+ *      - Returns `false` for `null`, `undefined`, or non-object inputs.
+ *      - Returns `false` if key is not found anywhere, even in deeply nested
+ *        structures.
  * - **ℹ️ Note:**
  *    - This function only checks for **the existence of the key itself**,
  *      not whether its value is non-null or non-undefined.

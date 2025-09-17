@@ -9,19 +9,31 @@ import { isURL } from "../is/isURL";
  * @returns {boolean} Returns `true` if both URLs are identical, otherwise `false`.
  * @example
  * // Identical URLs -> true
- * areURLsIdentical(new URL("https://example.com/page?a=1"), new URL("https://example.com/page?a=1"));
+ * areURLsIdentical(
+ *   new URL("https://example.com/page?a=1"),
+ *   new URL("https://example.com/page?a=1")
+ * );
  * // ➔ true
  *
  * // Same path, different query parameter -> false
- * areURLsIdentical(new URL("https://example.com/page?a=1"), new URL("https://example.com/page?b=2"));
+ * areURLsIdentical(
+ *   new URL("https://example.com/page?a=1"),
+ *   new URL("https://example.com/page?b=2")
+ * );
  * // ➔ false
  *
  * // Same host & query, but different protocol -> false
- * areURLsIdentical(new URL("http://example.com/page?a=1"), new URL("https://example.com/page?a=1"));
+ * areURLsIdentical(
+ *   new URL("http://example.com/page?a=1"),
+ *   new URL("https://example.com/page?a=1")
+ * );
  * // ➔ false
  *
  * // Same everything except trailing slash -> false
- * areURLsIdentical(new URL("https://example.com/page"), new URL("https://example.com/page/"));
+ * areURLsIdentical(
+ *   new URL("https://example.com/page"),
+ *   new URL("https://example.com/page/")
+ * );
  * // ➔ false
  */
 export const areURLsIdentical = (urlA: URL, urlB: URL): boolean => {

@@ -5,10 +5,9 @@ import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
 type IsNonEmptyStringOptions = {
-  /**
-   * Whether to trim the string before checking.
+  /** Whether to trim the string before checking, defaultValue: `true`.
    *
-   * @default `true` */
+   * @default true */
   trim?: boolean;
 };
 

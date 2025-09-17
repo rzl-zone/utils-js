@@ -3,11 +3,12 @@ import type { If } from "./if";
 import type { IfLowerThan, IsLowerThan } from "./lower-than";
 
 /** -------------------------------------------------------
- * * ***IsGreaterThan.***
+ * * ***Utility Type: `IsGreaterThan`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether the first integer is ***greater than*** the second integer.
- * Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * **Returns a boolean indicating whether the first integer
+ * is ***greater than*** the second integer.**
+ * - **Behavior:**
+ *    - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Num1 - The first integer.
  * @template Num2 - The second integer.
  * @example
@@ -22,12 +23,14 @@ export type IsGreaterThan<Num1 extends number, Num2 extends number> = IsLowerTha
 >;
 
 /** -------------------------------------------------------
- * * ***IfGreaterThan.***
+ * * ***Utility Type: `IfGreaterThan`.***
  * -------------------------------------------------------
- * Conditional: returns the third argument if the first integer is ***greater than*** the second integer, otherwise returns the fourth argument.
- * - Defaults: `IfTrue = true`, `IfFalse = false`.
- * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * - **Conditional:**
+ *    - Returns the third argument if the first integer is ***greater than*** the
+ *      second integer, otherwise returns the fourth argument.
+ * - **Behavior:**
+ *    - Defaults: `IfTrue = true`, `IfFalse = false`.
+ *    - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Num1 - The first integer.
  * @template Num2 - The second integer.
  * @template IfTrue - The branch type if condition is met. (default: `true`)
@@ -48,12 +51,12 @@ export type IfGreaterThan<
 > = IfLowerThan<Num2, Num1, IfTrue, IfFalse>;
 
 /** -------------------------------------------------------
- * * ***IsGreaterOrEqual.***
+ * * ***Utility Type: `IsGreaterOrEqual`.***
  * -------------------------------------------------------
- *
- * Returns a boolean indicating whether the first integer is ***greater than or equal*** to the second integer.
- * Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * **Returns a boolean indicating whether the first integer
+ * is ***greater than or equal*** to the second integer.**
+ * - **Behavior:**
+ *    - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Num1 - The first integer.
  * @template Num2 - The second integer.
  * @example
@@ -71,13 +74,14 @@ export type IsGreaterOrEqual<Num1 extends number, Num2 extends number> = IsEqual
   : IsGreaterThan<Num1, Num2>;
 
 /** -------------------------------------------------------
- * * ***IfGreaterOrEqual.***
+ * * ***Utility Type: `IfGreaterOrEqual`.***
  * -------------------------------------------------------
- *
- * Conditional: returns the third argument if the first integer is ***greater than or equal*** to the second integer, otherwise returns the fourth argument.
- * - Defaults: `IfTrue = true`, `IfFalse = false`.
- * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * - **Conditional:**
+ *    - Returns the third argument if the first integer is ***greater than or
+ *      equal*** to the second integer, otherwise returns the fourth argument.
+ * - **Behavior:**
+ *    - Defaults: `IfTrue = true`, `IfFalse = false`.
+ *    - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Num1 - The first integer.
  * @template Num2 - The second integer.
  * @template IfTrue - The branch type if condition is met. (default: `true`)

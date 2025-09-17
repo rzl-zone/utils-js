@@ -1,5 +1,5 @@
-import { toDotCase } from "@/strings/case";
 import { describe, it, expect } from "vitest";
+import { toDotCase } from "@/strings/cases/toDotCase";
 
 describe("toDotCase", () => {
   // --- Basic behavior ---

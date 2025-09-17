@@ -12,12 +12,12 @@ type _Factorial<
   : _Factorial<T, Increment<CurrentNum>, Multi<CurrentProduct, CurrentNum>>;
 
 /** -------------------------------------------------------
- * * ***Factorial.***
+ * * ***Utility Type: `Factorial`.***
  * -------------------------------------------------------
- * Accepts an integer argument and returns its ***mathematical factorial***.
- * - Valid range: `[0, 21]`
- * - Negative numbers or `number` type result in `never`.
- *
+ * **Accepts an integer argument and returns its ***mathematical factorial***.**
+ * - **Behavior:**
+ *    - Valid range: `[0, 21]`.
+ *    - Negative numbers or `number` type result in `never`.
  * @template T - The integer to compute factorial for.
  * @example
  * ```ts

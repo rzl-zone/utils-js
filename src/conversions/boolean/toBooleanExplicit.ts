@@ -43,7 +43,7 @@ type ToBooleanExplicitOptions = {
  * @param {ToBooleanExplicitOptions["caseInsensitive"]} [options.caseInsensitive=false] - Whether string comparison ignores case, default: `false`.
  * @param {ToBooleanExplicitOptions["trimString"]} [options.trimString=true] - Whether to trim whitespace before comparison, default: `true`.
  * @param {ToBooleanExplicitOptions["includeIndeterminate"]} [options.includeIndeterminate=false] - If `true`, the string `"indeterminate"` is considered a truthy value, defaults to `false`.
- * @returns {boolean} `true` if the value matches a truthy representation, otherwise `false`.
+ * @returns {boolean} Return `true` if the value matches a truthy representation, otherwise `false`.
  * @throws {TypeError} Throws if any option provided is not a boolean.
  * @example
  * toBooleanExplicit(1);

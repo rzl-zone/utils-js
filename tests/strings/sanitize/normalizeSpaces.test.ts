@@ -1,5 +1,5 @@
-import { normalizeSpaces } from "@/strings/sanitize";
 import { describe, expect, it } from "vitest";
+import { normalizeSpaces } from "@/strings/sanitizations/normalizeSpaces";
 
 describe("normalizeSpaces", () => {
   it("returns empty string if input is null", () => {
@@ -31,9 +31,7 @@ describe("normalizeSpaces", () => {
   it("ignores withTrim if trimOnly = true (still trims)", () => {
     const input = "   Hello  World   ";
     const expected = "Hello  World";
-    expect(normalizeSpaces(input, { trimOnly: true, withTrim: false })).toBe(
-      expected
-    );
+    expect(normalizeSpaces(input, { trimOnly: true, withTrim: false })).toBe(expected);
   });
 
   it("collapses whitespaces and trims by default (withTrim = true)", () => {

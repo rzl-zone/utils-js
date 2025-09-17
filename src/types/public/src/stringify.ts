@@ -1,19 +1,16 @@
 /** -------------------------------------------------------
- * * ***Stringify.***
+ * * ***Utility Type: `Stringify`.***
  * -------------------------------------------------------
- * Converts a value of type `number`, `boolean`, `string`, `bigint`, `undefined`, or `null` into a string literal type.
- *
- * Behavior:
- * - `number` → string representation (e.g., `123` → `"123"`)
- * - `boolean` → `"true"` or `"false"`
- * - `string` → itself
- * - `bigint` → string representation with `"n"` suffix (e.g., `123n` → `"123n"`)
- * - `undefined` → `"undefined"`
- * - `null` → `"null"`
- * - Other types → `never`
- *
+ * **Converts a value of type `number`, `boolean`, `string`, `bigint`, `undefined`, or `null` into a string literal type.**
+ * - **Behavior:**
+ *    - `number` ➔ string representation (e.g., `123` ➔ `"123"`)
+ *    - `boolean` ➔ `"true"` or `"false"`
+ *    - `string` ➔ itself
+ *    - `bigint` ➔ string representation with `"n"` suffix (e.g., `123n` ➔ `"123n"`)
+ *    - `undefined` ➔ `"undefined"`
+ *    - `null` ➔ `"null"`
+ *    - Other types ➔ `never`
  * @template T - The value type to stringify.
- *
  * @example
  * ```ts
  * // Boolean

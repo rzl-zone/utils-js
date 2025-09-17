@@ -2,6 +2,10 @@ import type { If } from "./if";
 import type { IfExtends } from "./extends";
 import type { IsEmptyString } from "./string";
 
+/** ---------------------------------------------------------------------------
+ * * ***Type Options for {@link LastCharacter | `LastCharacter`}.***
+ * ---------------------------------------------------------------------------
+ */
 export type LastCharacterOptions = {
   includeRest: boolean;
 };
@@ -21,13 +25,12 @@ type _LastCharacter<
   : T;
 
 /** -------------------------------------------------------
- * * ***LastCharacter.***
+ * * ***Utility Type: `LastCharacter`.***
  * -------------------------------------------------------
- * Accepts a string argument and returns its last character.
+ * **Accepts a string argument and returns its last character.**
  * - If the `includeRest` option is `true`, returns the last character and the rest of the string in the format: `[last, rest]`.
- *
- * @template T - The string to get the last character from
- * @template Options - Options to include the rest of the string
+ * @template T - The string to get the last character from.
+ * @template Options - Options to include the rest of the string.
  * @example
  * type Case1 = LastCharacter<'abc'>;
  * // ➔ 'c'

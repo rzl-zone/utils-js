@@ -1,5 +1,5 @@
 import { getBeApiUrl } from "@/next";
-import { normalizePathname } from "@/urls/pathname";
+import { normalizePathname } from "@/urls/pathname/normalizePathname";
 
 import { isNil } from "@/predicates/is/isNil";
 import { isError } from "@/predicates/is/isError";
@@ -22,9 +22,11 @@ type OptionsCreateBeApiUrl = {
 };
 
 /** ---------------------------------
- * * ***Constructs a backend API URL by appending a given pathname to the base API URL.***
+ * * ***Utility for NextJS: `createBeApiUrl`.***
  * ---------------------------------
- * This function builds on top of `getBeApiUrl()`.
+ * **Constructs a backend API URL by appending a given pathname to the base API URL.**
+ * - **ℹ️ Note:**
+ *    - This function builds on top of `getBeApiUrl()`.
  * - **Determines the base API URL from:**
  *    - `NEXT_PUBLIC_BACKEND_API_URL` environment variable (or defaults to `"http://localhost:8000"`).
  *    - Automatically appends `NEXT_PUBLIC_PORT_BE` if the base URL does not already include a port.

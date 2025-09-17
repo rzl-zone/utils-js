@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isMatchWith } from "@/predicates/is/isMatchWith";
-import type { CustomizerIsMatchWith } from "@/types/private";
+import type { CustomizerIsMatchWith } from "@/predicates/is/_private/types.isMatchWith";
 
 function isGreeting(value: unknown): boolean {
   return typeof value === "string" && /^h(?:i|ello)$/.test(value);

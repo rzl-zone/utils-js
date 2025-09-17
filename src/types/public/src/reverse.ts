@@ -30,24 +30,21 @@ type MaybeReadonly<
 > = IsTuple<T> extends true ? (IsReadonlyArray<T> extends true ? Readonly<R> : R) : R; // non-tuple tetap mutable
 
 /** -------------------------------------------------------
- * * ***Reverse.***
+ * * ***Utility Type: `Reverse`.***
  * -------------------------------------------------------
- * Returns a new tuple or readonly array type with the elements in reverse order.
- *
- * Behavior:
- * 1. **Tuple**: The reversed result preserves tuple properties,
- *    including `readonly` if applicable.
- *      - Elements are **grouped in this order before reversing**:
- *    `number`, `string`, `boolean`, then any other types.
- * 2. **Normal array (non-tuple)**: The type is returned as-is (no reversal).
- *
- * Notes:
- * - Supports arbitrary types in the tuple, including objects, Date, symbol, etc.
- * - Grouping ensures that numbers, strings, and booleans are reversed in logical groups,
- *   while other types remain at the end in their original order before reverse.
- *
+ * **Returns a new tuple or readonly array type with the elements in reverse order.**
+ * - **Behavior:**
+ *    1. **Tuple**: The reversed result preserves tuple properties,
+ *       including `readonly` if applicable.
+ *         - Elements are **grouped in this order before reversing**:
+ *       `number`, `string`, `boolean`, then any other types.
+ *    2. **Normal array (non-tuple)**: The type is returned as-is (no reversal).
+ * - ℹ️ **Notes:**
+ *    - Supports arbitrary types in the tuple, including objects, Date, symbol, etc.
+ *    - Grouping ensures that numbers, strings, and booleans are reversed in logical
+ *      groups, while other types remain at the end in their original order before
+ *      reverse.
  * @template T - The array or tuple type to reverse.
- *
  * @example
  * ```ts
  * // Mutable tuple of numbers

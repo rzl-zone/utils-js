@@ -9,7 +9,7 @@
  *    - It can be exactly represented without rounding errors.
  *    - It lies within the range **-(2^53 - 1) to 2^53 - 1**.
  * - **Note:**
- *    - This method is based on **{@link Number.isSafeInteger}**.
+ *    - This method is based on **{@link Number.isSafeInteger | `Number.isSafeInteger`}**.
  * @param {*} value - The value to check.
  * @returns {boolean} Return `true` if `value` is a safe integer, otherwise `false`.
  * @example

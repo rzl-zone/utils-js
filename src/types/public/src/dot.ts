@@ -2,14 +2,15 @@ import type { Extends } from "./extends";
 import type { Trim } from "./trim";
 
 /** -------------------------------------------------------
- * * ***Dot.***
+ * * ***Utility Type: `Dot`.***
  * -------------------------------------------------------
- * A type-level utility that concatenates two string literals with a `.`.
- * - If the `Trims` flag is `true` (default), leading and trailing spaces in both strings are trimmed before concatenation.
- * - If the second string literal is empty, it returns the first string literal.
- * - If the first string literal is empty, it returns the second string literal.
- * - Otherwise, it returns `${T}.${U}` (trimmed if `Trims` is `true`).
- *
+ * **A type-level utility that concatenates two string literals with a `.`.**
+ * - **Behavior:**
+ *    - If the `Trims` flag is `true` (default), leading and trailing spaces in
+ *      both strings are trimmed before concatenation.
+ *    - If the second string literal is empty, it returns the first string literal.
+ *    - If the first string literal is empty, it returns the second string literal.
+ *    - Otherwise, it returns `${T}.${U}` (trimmed if `Trims` is `true`).
  * @template T - The first string literal.
  * @template U - The second string literal.
  * @template Trims - Whether to trim whitespace from the inputs before concatenation (default: `true`).
@@ -42,13 +43,13 @@ export type Dot<
   : `${T}.${U}`;
 
 /** -------------------------------------------------------
- * * ***DotArray.***
+ * * ***Utility Type: `DotArray`.***
  * -------------------------------------------------------
- * A type-level utility that concatenates an array of string literals with a `.`.
- * - Skips empty strings in the array.
- * - If `Trims` is `true` (default), trims whitespace from each element.
- * - Returns a single string literal.
- *
+ * **A type-level utility that concatenates an array of string literals with a `.`.**
+ * - **Behavior:**
+ *    - Skips empty strings in the array.
+ *    - If `Trims` is `true` (default), trims whitespace from each element.
+ *    - Returns a single string literal.
  * @template Arr - An array of string literals.
  * @template Trims - Whether to trim whitespace from each element (default: `true`).
  * @example

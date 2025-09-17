@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /** -------------------------------------------------------
- * * ***DeepMergeArrayUnion.***
+ * * ***Utility Type: `DeepMergeArrayUnion`.***
  * -------------------------------------------------------
- * Recursively merges element types of nested arrays inside an array type,
- * **preserving the nested array structure**.
- *
+ * **Recursively merges element types of nested arrays inside an array type,
+ * **preserving the nested array structure**.**
  * - Converts an array of nested arrays into a union of its element types,
  *   while keeping the nested arrays intact.
- *
  * @template T - The outer array type.
  * @returns The nested array type with merged element types.
  * @example

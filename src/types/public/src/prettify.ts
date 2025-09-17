@@ -5,9 +5,7 @@ import type { IsFunction } from "./is-function";
 import type { IsPrimitive } from "./primitive";
 import type { NonPlainObject } from "./type-data";
 
-/**
- * Applies readonly behavior according to mode.
- */
+/** * Applies readonly behavior according to mode. */
 type ApplyReadonlyMode<
   T,
   Mode extends PrettifyOptions["readonlyMode"]
@@ -17,41 +15,35 @@ type ApplyReadonlyMode<
   ? { readonly [K in keyof T]: T[K] }
   : { [K in keyof T]: T[K] }; // auto ➔  keep original modifiers
 
-/** -------------------------------------------------------
- * * ***PrettifyOptions***
- * -------------------------------------------------------
- *
- * Options for customizing the behavior of the {@link Prettify} type.
+/** ---------------------------------------------------------------------------
+ * * ***Options for {@link Prettify|`Prettify`}.***
+ * ---------------------------------------------------------------------------
+ * **Options for customizing the behavior of the {@link Prettify | **`Prettify`**} type utility.**
  */
 export type PrettifyOptions = {
   /** -------------------------------------------------------
    * * ***recursive***
    * -------------------------------------------------------
-   *
-   * Enables **deep prettification** of types when set to `true`.
-   *
-   * By default (`false`), {@link Prettify} only flattens the **top-level shape**
+   * **Enables **deep prettification** of types when set to `true`.**
+   * @description
+   * By default (`false`), {@link Prettify | **`Prettify`**} only flattens the **top-level shape**
    * of objects and intersections. Nested objects, arrays, and tuples remain as-is
    * unless this option is enabled.
-   *
-   * ⚡ Behavior when `true`:
-   * - **Plain objects**: Nested intersections are expanded recursively.
-   * - **Arrays & tuples**: Each element type is recursively prettified.
-   * - **Readonly handling**: Nested properties respect the `readonlyMode` option.
-   * - **Functions, constructors, and built-in objects** (Set, Map, Date, Promise, etc.)
-   *   are **not** affected or expanded.
-   * - **Nested intersections**: Combined properties are flattened recursively.
-   *
-   * ⚠️ Notes:
-   * - Recursive mode only applies to **plain objects**, **arrays**, and **tuples**.
-   * - Readonly modifiers on nested properties follow the `readonlyMode` rules:
-   *   - `"auto"` → keep as-is
-   *   - `"remove"` → strip readonly
-   *   - `"preserve"` → make readonly
-   * - Arrays and tuples maintain `readonly` if the original type is `readonly` and `readonlyMode` is `"auto"` or `"preserve"`.
-   *
+   * - ***Behavior when `true`:***
+   *    - **Plain objects**: Nested intersections are expanded recursively.
+   *    - **Arrays & tuples**: Each element type is recursively prettified.
+   *    - **Readonly handling**: Nested properties respect the `readonlyMode` option.
+   *    - **Functions, constructors, and built-in objects** (Set, Map, Date, Promise, etc.)
+   *      are **not** affected or expanded.
+   *    - **Nested intersections**: Combined properties are flattened recursively.
+   * - ⚠️ ***Notes:***
+   *    - Recursive mode only applies to **plain objects**, **arrays**, and **tuples**.
+   *    - Readonly modifiers on nested properties follow the `readonlyMode` rules:
+   *      - `"auto"` ➔ keep as-is
+   *      - `"remove"` ➔ strip readonly
+   *      - `"preserve"` ➔ make readonly
+   *    - Arrays and tuples maintain `readonly` if the original type is `readonly` and `readonlyMode` is `"auto"` or `"preserve"`.
    * @default false
-   *
    * @example
    * ```ts
    * type Nested = {
@@ -84,30 +76,24 @@ export type PrettifyOptions = {
   /** -------------------------------------------------------
    * * ***readonlyMode***
    * -------------------------------------------------------
-   *
-   * Determines how `readonly` modifiers are applied to properties
-   * when using {@link Prettify}.
-   *
-   * Modes:
-   * - `"auto"` → Keep `readonly` exactly as in the original type (default).
-   * - `"remove"` → Remove all `readonly` modifiers.
-   * - `"preserve"` → Make all properties `readonly`.
-   *
-   * ⚡ Behavior:
-   * - Applies to both **top-level** and **nested properties** (if `recursive` is `true`).
-   * - Arrays and tuples preserve or adjust `readonly` according to the selected mode:
-   *   - `"auto"` → preserve array/tuple readonly as-is.
-   *   - `"remove"` → array/tuple becomes mutable.
-   *   - `"preserve"` → array/tuple becomes readonly.
-   * - Functions, constructors, and built-in objects (Set, Map, Date, Promise, etc.) are **not affected**.
-   * - Nested intersections respect `readonlyMode` recursively if `recursive` is enabled.
-   *
-   * ⚠️ Notes:
-   * - For nested objects, `readonly` behavior only changes if `recursive: true`.
-   * - `readonlyMode` does **not** override `readonly` on function parameters, methods, or constructors.
-   *
+   * **Determines how `readonly` modifiers are applied to properties
+   * when using {@link Prettify}.**
+   * - **Modes:**
+   *    - `"auto"` ➔ Keep `readonly` exactly as in the original type (default).
+   *    - `"remove"` ➔ Remove all `readonly` modifiers.
+   *    - `"preserve"` ➔ Make all properties `readonly`.
+   * - **Behavior:**
+   *    - Applies to both **top-level** and **nested properties** (if `recursive` is `true`).
+   *    - Arrays and tuples preserve or adjust `readonly` according to the selected mode:
+   *      - `"auto"` ➔ preserve array/tuple readonly as-is.
+   *      - `"remove"` ➔ array/tuple becomes mutable.
+   *      - `"preserve"` ➔ array/tuple becomes readonly.
+   *    - Functions, constructors, and built-in objects (Set, Map, Date, Promise, etc.) are **not affected**.
+   *    - Nested intersections respect `readonlyMode` recursively if `recursive` is enabled.
+   * - ⚠️ ***Notes:***
+   *    - For nested objects, `readonly` behavior only changes if `recursive: true`.
+   *    - `readonlyMode` does **not** override `readonly` on function parameters, methods, or constructors.
    * @default "auto"
-   *
    * @example
    * ```ts
    * type T = { readonly a: number; b: string };
@@ -138,8 +124,7 @@ export type PrettifyOptions = {
 /** -------------------------------------------------------
  * * ***DefaultPrettifyOptions***
  * -------------------------------------------------------
- *
- * Default options {@link Prettify} used when no custom options are provided.
+ * **Default options {@link Prettify | **`Prettify`**} used when no custom options are provided.**
  */
 export type DefaultPrettifyOptions = {
   recursive: false;
@@ -156,31 +141,28 @@ type MergeReadonlyIntersection<T> = T extends readonly any[]
   : T;
 
 /** -------------------------------------------------------
- * * ***Prettify.***
+ * * ***Utility Type: `Prettify`.***
  * -------------------------------------------------------
- * Flattens and simplifies complex TypeScript types into a more
- * human-readable form, by forcing the compiler to expand intersections.
- *
+ * **Flattens and simplifies complex TypeScript types into a more
+ * human-readable form, by forcing the compiler to expand intersections.**
+ * @description
  * By default, only the **top-level shape** of an object is flattened.
  * To also prettify **nested objects**, set the `recursive` option.
- *
- * ⚠️ Note:
- * - `recursive: true` only affects **plain objects** and **arrays/tuples**.
- * - Built-in objects like `Set`, `Map`, `Date`, `Promise`, etc.
- *   will **not** be recursively prettified.
- * - `readonly` handling is controlled via the `readonlyMode` option.
- *
- * ℹ️ Options:
- *  - `recursive?: boolean` (default: `false`)
- *     - Whether to recursively expand nested objects and intersections.
- *  - `readonlyMode?: "auto" | "remove" | "preserve"` (default: `"auto"`)
- *     - How `readonly` modifiers are treated:
- *         - `"auto"`     → preserve `readonly` as-is (default).
- *         - `"remove"`   → strip all `readonly`.
- *         - `"preserve"` → enforce `readonly` everywhere.
+ * - ⚠️ ***Note:***
+ *    - `recursive: true` only affects **plain objects** and **arrays/tuples**.
+ *    - Built-in objects like `Set`, `Map`, `Date`, `Promise`, etc.
+ *      will **not** be recursively prettified.
+ *    - `readonly` handling is controlled via the `readonlyMode` option.
+ * - **ℹ️ Options:**
+ *    - `recursive?: boolean` (default: `false`):
+ *      - Whether to recursively expand nested objects and intersections.
+ *    - `readonlyMode?: "auto" | "remove" | "preserve"` (default: `"auto"`):
+ *      - How `readonly` modifiers are treated:
+ *        - `"auto"`     ➔ preserve `readonly` as-is (**default**).
+ *        - `"remove"`   ➔ strip all `readonly`.
+ *        - `"preserve"` ➔ enforce `readonly` everywhere.
  * @template T - The type to prettify.
  * @template Options - Configuration options.
- *
  * @example
  * ```ts
  * // --- Top-level only (default) ---
@@ -272,17 +254,17 @@ export type Prettify<T, Options extends PrettifyOptions = DefaultPrettifyOptions
       >
     : T;
 
-/**
- * Accepts a type and returns its simplified version for better readability. Transforms interface to type, simplifies intersections. If `recursive` option is `true` transforms the children object properties as well
+/** * ***Accepts a type and returns its simplified version for better readability. Transforms interface to type, simplifies intersections. If `recursive` option is `true` transforms the children object properties as well.***
  * @example
  * ```ts
  * // { a: string; b: string }
  * type Case1 = Prettify<{ a: string } & { b: string }
  * ```
  *
- * @deprecated use `Prettify` instead.
+ * @deprecated use {@link Prettify | **`Prettify`**} instead.
  */
-export type PrettifyDeprecated<
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type PrettifyDeprecated<
   T,
   Options extends PrettifyOptions = { recursive: false }
 > = T extends infer R
@@ -323,13 +305,10 @@ type PrettifyDeprecatedNew<T, Options extends PrettifyOptions = DefaultPrettifyO
 /** --------------------------------------------------
  * * ***PrettifyOld.***
  * --------------------------------------------------
- * Helper type that recursively resolves and flattens the structure of a given type,
- * making it easier to read in IDE tooltips or inline inspections.
- *
- * @deprecated  ⚠️ Deprecated — use `Prettify` instead.
- *
+ * **Helper type that recursively resolves and flattens the structure of a given type,
+ * making it easier to read in IDE tooltips or inline inspections.**
+ * @deprecated  ⚠️ Deprecated — use {@link Prettify | **`Prettify`**} instead.
  * @template T - The type or interface to prettify.
- *
  * @example
  * ```ts
  * // Without Prettify:

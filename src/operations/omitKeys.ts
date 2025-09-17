@@ -3,7 +3,7 @@ import { isPlainObject } from "@/predicates/is/isPlainObject";
 import { assertIsArray } from "@/assertions/objects/assertIsArray";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isEqual } from "../predicates/is/isEqual";
+import type { isEqual } from "../predicates/is/isEqual";
 
 /** --------------------------------
  * * ***Utility: `omitKeys`.***

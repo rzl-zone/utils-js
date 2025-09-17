@@ -4,18 +4,16 @@ import type { NodeBuiltins } from "@/types/node";
 import type { AnyFunction } from "./functions";
 
 /** --------------------------------------------------
- * * ***DataTypes.***
+ * * ***Utility Type: `DataTypes`.***
  * --------------------------------------------------
- * Represents a broad union of commonly used JavaScript data types.
- *
- * ✅ Includes:
- * - Primitive types
- * - `object`
- * - `null`
- * - `undefined`
- * - `symbol`
- * - Any function signature
- *
+ * **Represents a broad union of commonly used JavaScript data types.**
+ * - ✅ ***Includes:***
+ *    - `Primitive-Types`.
+ *    - `object`.
+ *    - `null`.
+ *    - `undefined`.
+ *    - `symbol`.
+ *    - `Any-Function` signature.
  * @example
  * ```ts
  * function isValidType(value: DataTypes): boolean {
@@ -35,17 +33,14 @@ export type DataTypes =
   | undefined;
 
 /** --------------------------------------------------
- * * ***DeepReplaceType.***
+ * * ***Utility Type: `DeepReplaceType`.***
  * --------------------------------------------------
- * Recursively traverses an array, tuple, or object (including nested structures)
- * and replaces all values of type `Target` with `NewType`.
- *
- * ✅ Useful for remapping deeply nested arrays, tuples, or records.
- *
+ * **Recursively traverses an array, tuple, or object (including nested structures)
+ * and replaces all values of type `Target` with `NewType`.**
+ * - ✅ Useful for remapping deeply nested arrays, tuples, or records.
  * @template Arr - The input array, tuple, or object.
  * @template Target - The type to match and replace.
  * @template NewType - The new type to assign to matched values.
- *
  * @example
  * ```ts
  * // Simple tuple
@@ -71,22 +66,21 @@ export type DeepReplaceType<Arr, Target, NewType> = Arr extends Target
   : Arr;
 
 /** --------------------------------------------------
- * * ***TypedArray.***
+ * * ***Utility Type: `TypedArray`.***
  * --------------------------------------------------
- * Represents all JavaScript **TypedArray** types used for binary data manipulation.
- *
- * Includes:
- * - `Int8Array`
- * - `Uint8Array`
- * - `Uint8ClampedArray`
- * - `Int16Array`
- * - `Uint16Array`
- * - `Int32Array`
- * - `Uint32Array`
- * - `Float32Array`
- * - `Float64Array`
- * - `BigInt64Array`
- * - `BigUint64Array`
+ * **Represents all JavaScript **TypedArray** types used for binary data manipulation.**
+ * - ✅ ***Includes:***
+ *    - `Int8Array`.
+ *    - `Uint8Array`.
+ *    - `Uint8ClampedArray`.
+ *    - `Int16Array`.
+ *    - `Uint16Array`.
+ *    - `Int32Array`.
+ *    - `Uint32Array`.
+ *    - `Float32Array`.
+ *    - `Float64Array`.
+ *    - `BigInt64Array`.
+ *    - `BigUint64Array`.
  */
 export type TypedArray =
   | Int8Array
@@ -102,20 +96,19 @@ export type TypedArray =
   | BigUint64Array;
 
 /** --------------------------------------------------
- * * ***WebApiObjects.***
+ * * ***Utility Type: `WebApiObjects`.***
  * --------------------------------------------------
- * Represents common **Web API objects** available in the browser.
- *
- * Includes:
- * - URL: `URL`, `URLSearchParams`
- * - Networking: `Request`, `Response`, `Headers`, `WebSocket`
- * - Streams: `ReadableStream`, `WritableStream`, `TransformStream`
- * - Events: `Event`, `CustomEvent`, `MessageChannel`, `MessagePort`, `MessageEvent`
- * - DOM: `HTMLElement`, `Node`, `Document`, `Window`, `CanvasRenderingContext2D`
- * - Encoding: `TextEncoder`, `TextDecoder`
- * - File: `File`, `FileList`, `ImageBitmap`, `FormData`
- * - Abort: `AbortController`, `AbortSignal`
- * - Crypto: `CryptoKey`
+ * **Represents common **Web API objects** available in the browser.**
+ * - ✅ ***Includes:***
+ *    - URL: `URL`, `URLSearchParams`.
+ *    - Networking: `Request`, `Response`, `Headers`, `WebSocket`.
+ *    - Streams: `ReadableStream`, `WritableStream`, `TransformStream`.
+ *    - Events: `Event`, `CustomEvent`, `MessageChannel`, `MessagePort`, `MessageEvent`.
+ *    - DOM: `HTMLElement`, `Node`, `Document`, `Window`, `CanvasRenderingContext2D`.
+ *    - Encoding: `TextEncoder`, `TextDecoder`.
+ *    - File: `File`, `FileList`, `ImageBitmap`, `FormData`.
+ *    - Abort: `AbortController`, `AbortSignal`.
+ *    - Crypto: `CryptoKey`.
  */
 export type WebApiObjects =
   | URL
@@ -148,18 +141,17 @@ export type WebApiObjects =
   | WebSocket;
 
 /** --------------------------------------------------
- * * ***IntlObjects.***
+ * * ***Utility Type: `IntlObjects`.***
  * --------------------------------------------------
- * Represents all **ECMAScript Internationalization API** objects from `Intl`.
- *
- * Includes:
- * - `Intl.Collator`
- * - `Intl.DateTimeFormat`
- * - `Intl.NumberFormat`
- * - `Intl.RelativeTimeFormat`
- * - `Intl.PluralRules`
- * - `Intl.ListFormat`
- * - `Intl.Locale`
+ * **Represents all **ECMAScript Internationalization API** objects from `Intl`.**
+ * - ✅ ***Includes:***
+ *    - `Intl.Collator`.
+ *    - `Intl.DateTimeFormat`.
+ *    - `Intl.NumberFormat`.
+ *    - `Intl.RelativeTimeFormat`.
+ *    - `Intl.PluralRules`.
+ *    - `Intl.ListFormat`.
+ *    - `Intl.Locale`.
  */
 export type IntlObjects =
   | Intl.Collator
@@ -171,74 +163,70 @@ export type IntlObjects =
   | Intl.Locale;
 
 /** --------------------------------------------------
- * * ***BoxedPrimitivesTypes.***
+ * * ***Utility Type: `BoxedPrimitivesTypes`.***
  * --------------------------------------------------
- * Represents JavaScript **boxed primitive objects** (object wrappers for primitive values).
- *
+ * **Represents JavaScript **boxed primitive objects** (object wrappers for primitive values).**
+ * @description
  * Boxed primitives are created using the `new` keyword on primitive wrapper constructors.
- *
- * ✅ **Includes (object wrappers):**
- * - `new Number(123)` → `Number`
- * - `new String("hello")` → `String`
- * - `new Boolean(true)` → `Boolean`
- *
- * ❌ **Excludes (primitive values):**
- * - `123` → `number`
- * - `"hello"` → `string`
- * - `true` → `boolean`
- *
- * ℹ️ **Note:**
- * - These are **rarely used directly** in modern JavaScript/TypeScript.
- * - However, they exist for completeness and are sometimes relevant
- *   when distinguishing between **primitive values** and **object wrappers**.
- *
+ * - ✅ ***Includes (object wrappers):***
+ *    - `new Number(123)` ➔ `Number`.
+ *    - `new String("hello")` ➔ `String`.
+ *    - `new Boolean(true)` ➔ `Boolean`.
+ * - ❌ ***Excludes (primitive values):***
+ *    - `123` ➔ `number`.
+ *    - `"hello"` ➔ `string`.
+ *    - `true` ➔ `boolean`.
+ * - ℹ️ ***Note:***
+ *    - These are **rarely used directly** in modern **JavaScript/TypeScript**.
+ *    - However, they exist for completeness and are sometimes relevant
+ *      when distinguishing between **primitive values** and **object wrappers**.
  * @example
  * ```ts
- * const a: BoxedPrimitivesTypes = new Number(123);  // ✅ valid
- * const b: BoxedPrimitivesTypes = new String("abc"); // ✅ valid
- * const c: BoxedPrimitivesTypes = new Boolean(false); // ✅ valid
+ * const a: BoxedPrimitivesTypes = new Number(123);
+ * // ➔ ✅ valid
+ * const b: BoxedPrimitivesTypes = new String("abc");
+ * // ➔ ✅ valid
+ * const c: BoxedPrimitivesTypes = new Boolean(false);
+ * // ➔ ✅ valid
  *
  * // ❌ Not allowed (primitive values):
- * // const x: BoxedPrimitivesTypes = 123;
- * // const y: BoxedPrimitivesTypes = "abc";
- * // const z: BoxedPrimitivesTypes = true;
+ * const x: BoxedPrimitivesTypes = 123;
+ * const y: BoxedPrimitivesTypes = "abc";
+ * const z: BoxedPrimitivesTypes = true;
  * ```
  */
 // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
 export type BoxedPrimitivesTypes = Number | String | Boolean;
 
 /** --------------------------------------------------
- * * ***NonPlainObject.***
+ * * ***Utility Type: `NonPlainObject`.***
  * --------------------------------------------------
- * Represents all known **non-plain object types**,
- * i.e., values that are **not** considered a "plain object" (`{ [key: string]: any }`).
- *
- * ✅ **Includes:**
- * - **Functions**
- * - **Arrays**
- * - **Native objects:** `Date`, `RegExp`, `Map`, `Set`, `WeakMap`, `WeakSet`
- * - **Built-in classes & APIs:** `Promise`, `Error`, `ArrayBuffer`, `DataView`
- * - **Typed arrays:** `TypedArray`
- * - **Browser & Node APIs:** `WebApiObjects`, `IntlObjects`, `NodeBuiltins`
- * - **Symbols**
- * - **Proxies** (wrapping any object)
- * - The global **`Reflect`** object
- *
- * ❌ **Excludes:**
- * - Plain objects (`{ foo: string }`, `Record<string, any>`)
- * - `null` and `undefined`
- *
- * ℹ️ **Note:**
- * Use this type when you need to differentiate **plain objects**
- * from **all other object-like values**.
- *
+ * **Represents all known **non-plain object types**,
+ * i.e., values that are **not** considered a `"plain object"` (`{ [key: string]: any }`).**
+ * - ✅ ***Includes:***
+ *    - **Functions**.
+ *    - **Arrays**.
+ *    - **Native objects:** `Date`, `RegExp`, `Map`, `Set`, `WeakMap`, `WeakSet`.
+ *    - **Built-in classes & APIs:** `Promise`, `Error`, `ArrayBuffer`, `DataView`.
+ *    - **Typed arrays:** `TypedArray`.
+ *    - **Browser & Node APIs:** `WebApiObjects`, `IntlObjects`, `NodeBuiltins`.
+ *    - **Symbols**.
+ *    - **Proxies** (wrapping any object).
+ *    - The global **`Reflect`** object.
+ * - ❌ ***Excludes:***
+ *    - Plain objects (`{ foo: string }`, `Record<string, any>`), `null` and `undefined`.
+ * - ℹ️ ***Note:***
+ *    - Use this type when you need to differentiate **plain objects** from **all other object-like values**.
  * @example
  * ```ts
  * type A = NonPlainObject;
  *
- * const x: A = new Date();     // ✅ Allowed
- * const y: A = [1, 2, 3];      // ✅ Allowed
- * const z: A = Promise.resolve(123); // ✅ Allowed
+ * const x: A = new Date();
+ * // ➔ ✅ Allowed
+ * const y: A = [1, 2, 3];
+ * // ➔ ✅ Allowed
+ * const z: A = Promise.resolve(123);
+ * // ➔ ✅ Allowed
  *
  * // ❌ Not allowed (plain object):
  * // const bad: A = { foo: "bar" };
@@ -252,44 +240,40 @@ export type NonPlainObject =
   | AnObjectNonArray;
 
 /** --------------------------------------------------
- * * ***AnObjectNonArray.***
+ * * ***Utility Type: `AnObjectNonArray`.***
  * --------------------------------------------------
- * Represents all **non-null, non-array, object-like values** in JavaScript/Node.js.
- *
- * ✅ **Includes:**
- * - **Built-in objects:** `Date`, `RegExp`, `Error`, `ArrayBuffer`, `DataView`
- * - **Collections:** `Map`, `Set`, `WeakMap`, `WeakSet`
- * - **Typed arrays:**
- *   `Int8Array`, `Uint8Array`, `Uint8ClampedArray`,
- *   `Int16Array`, `Uint16Array`,
- *   `Int32Array`, `Uint32Array`,
- *   `Float32Array`, `Float64Array`,
- *   `BigInt64Array`, `BigUint64Array`
- * - **Browser Web APIs:**
- *   `URL`, `URLSearchParams`, `FormData`, `Headers`, `Response`, `Request`,
- *   `ReadableStream`, `WritableStream`, `TransformStream`,
- *   `MessageChannel`, `MessagePort`, `MessageEvent`,
- *   `Event`, `CustomEvent`, `HTMLElement`, `Node`, `Document`, `Window`,
- *   `CanvasRenderingContext2D`,
- *   `AbortController`, `AbortSignal`,
- *   `TextEncoder`, `TextDecoder`,
- *   `CryptoKey`, `File`, `FileList`, `ImageBitmap`, `WebSocket`
- * - **ECMAScript Internationalization API objects:**
- *   `Intl.Collator`, `Intl.DateTimeFormat`, `Intl.NumberFormat`,
- *   `Intl.RelativeTimeFormat`, `Intl.PluralRules`,
- *   `Intl.ListFormat`, `Intl.Locale`
- * - **Node.js built-ins:** `Buffer`
- * - **Symbols**
- * - **Proxies** (wrapping any object)
- * - The global **`Reflect`** object
- *
- * ❌ **Excludes:**
- * - `null`
- * - Arrays (`[]`, `new Array()`)
- *
- * ℹ️ **Note:**
- * Use this type when you need to represent **any object-like value except arrays and `null`**.
- *
+ * **Represents all **non-null, non-array, object-like values** in JavaScript/Node.js.**
+ * - ✅ ***Includes:***
+ *    - **Built-in objects:** `Date`, `RegExp`, `Error`, `ArrayBuffer`, `DataView`.
+ *    - **Collections:** `Map`, `Set`, `WeakMap`, `WeakSet`.
+ *    - **Typed arrays:**
+ *      `Int8Array`, `Uint8Array`, `Uint8ClampedArray`,
+ *      `Int16Array`, `Uint16Array`,
+ *      `Int32Array`, `Uint32Array`,
+ *      `Float32Array`, `Float64Array`,
+ *      `BigInt64Array`, `BigUint64Array`.
+ *    - **Browser Web APIs:**
+ *      `URL`, `URLSearchParams`, `FormData`, `Headers`, `Response`, `Request`,
+ *      `ReadableStream`, `WritableStream`, `TransformStream`,
+ *      `MessageChannel`, `MessagePort`, `MessageEvent`,
+ *      `Event`, `CustomEvent`, `HTMLElement`, `Node`, `Document`, `Window`,
+ *      `CanvasRenderingContext2D`,
+ *      `AbortController`, `AbortSignal`,
+ *      `TextEncoder`, `TextDecoder`,
+ *      `CryptoKey`, `File`, `FileList`, `ImageBitmap`, `WebSocket`.
+ *    - **ECMAScript Internationalization API objects:**
+ *      `Intl.Collator`, `Intl.DateTimeFormat`, `Intl.NumberFormat`,
+ *      `Intl.RelativeTimeFormat`, `Intl.PluralRules`,
+ *      `Intl.ListFormat`, `Intl.Locale`.
+ *    - **Node.js built-ins:** `Buffer`.
+ *    - **Symbols**.
+ *    - **Proxies** (wrapping any object).
+ *    - The global **`Reflect`** object.
+ * - ❌ ***Excludes:***
+ *    - `null`.
+ *    - Arrays (`[]`, `new Array()`).
+ * - ℹ️ ***Note:***
+ *    - Use this type when you need to represent **any object-like value except arrays and `null`**.
  * @example
  * ```ts
  * const a: AnObjectNonArray = new Date();

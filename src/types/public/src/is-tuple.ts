@@ -2,10 +2,9 @@ import type { NotExtends } from "./extends";
 import type { If } from "./if";
 
 /** -------------------------------------------------------
- * * ***IsTuple.***
+ * * ***Utility Type: `IsTuple`.***
  * -------------------------------------------------------
- * Returns a boolean whether the first array argument is fixed length tuple.
- *
+ * **Returns a boolean whether the first array argument is fixed length tuple.**
  * @template T - The array to check.
  * @example
  * type Case1 = IsTuple<[1, 2, 3]>; // ➔ true
@@ -14,13 +13,14 @@ import type { If } from "./if";
 export type IsTuple<T extends readonly unknown[]> = NotExtends<number, T["length"]>;
 
 /** -------------------------------------------------------
- * * ***IfTuple.***
+ * * ***Utility Type: `IfTuple`.***
  * -------------------------------------------------------
- * Returns the second argument if the first array argument is fixed length tuple (defaults to `true`), otherwise returns the third argument (defaults to `false`).
- *
+ * **Returns the second argument if the first array argument is fixed length
+ * tuple (defaults to `true`), otherwise returns the third argument (defaults
+ * to `false`).**
  * @template T - The array to check.
- * @template IfTrue - The branch type if condition is met. (default: `true`)
- * @template IfFalse - The branch type if condition is not met. (default: `false`)
+ * @template IfTrue - The branch type if condition is met. (default: `true`).
+ * @template IfFalse - The branch type if condition is not met. (default: `false`).
  * @example
  * type Case1 = IfTuple<[1, 2, 3], 'valid'>;
  * // ➔ 'valid'

@@ -1,11 +1,11 @@
 /** -------------------------------------------------------
- * * ***FixNeverArrayRecursive.***
+ * * ***Utility Type: `FixNeverArrayRecursive`.***
  * -------------------------------------------------------
- * A type-level utility that **recursively transforms arrays of type `never[]` into empty arrays**.
- * - Preserves `readonly` modifiers.
- * - Applies recursively for nested arrays.
- * - Leaves other types unchanged.
- *
+ * **A type-level utility that **recursively transforms arrays of type `never[]` into empty arrays**.**
+ * - **Behavior:**
+ *    - Preserves `readonly` modifiers.
+ *    - Applies recursively for nested arrays.
+ *    - Leaves other types unchanged.
  * @template T - The input type to recursively fix.
  * @example
  * ```ts
@@ -32,13 +32,13 @@ export type FixNeverArrayRecursive<T> = T extends readonly never[]
   : T;
 
 /** -------------------------------------------------------
- * * ***NormalizeEmptyArraysRecursive.***
+ * * ***Utility Type: `NormalizeEmptyArraysRecursive`.***
  * -------------------------------------------------------
- * A type-level utility that **recursively normalizes empty array types** by converting arrays whose element type is `never`, `null`, or `undefined` into empty tuple types (`[]`).
- * - Preserves `readonly` modifiers.
- * - Recurses into nested arrays.
- * - Leaves other array types unchanged.
- *
+ * **A type-level utility that **recursively normalizes empty array types** by converting arrays whose element type is `never`, `null`, or `undefined` into empty tuple types (`[]`).**
+ * - **Behavior:**
+ *    - Preserves `readonly` modifiers.
+ *    - Recurses into nested arrays.
+ *    - Leaves other array types unchanged.
  * @template T - The input type to normalize.
  * @example
  * ```ts
@@ -69,15 +69,15 @@ export type NormalizeEmptyArraysRecursive<T> = T extends readonly (infer U)[]
   : T;
 
 /** -------------------------------------------------------
- * * ***RemoveEmptyArrayElements.***
+ * * ***Utility Type: `RemoveEmptyArrayElements`.***
  * -------------------------------------------------------
- * A type-level utility that **recursively removes empty array elements (`[]`) from a tuple type**.
- * - If `T` is a tuple, checks the first element:
- *    - If `Head` is an empty array type (`[]`), it is removed.
- *    - Otherwise, `Head` is preserved.
- * - Repeats recursively on the rest of the tuple.
- * - Leaves non-tuple types unchanged.
- *
+ * **A type-level utility that **recursively removes empty array elements (`[]`) from a tuple type**.**
+ * - **Behavior:**
+ *    - If `T` is a tuple, checks the first element:
+ *        - If `Head` is an empty array type (`[]`), it is removed.
+ *        - Otherwise, `Head` is preserved.
+ *    - Repeats recursively on the rest of the tuple.
+ *    - Leaves non-tuple types unchanged.
  * @template T - The tuple type to process.
  * @example
  * ```ts

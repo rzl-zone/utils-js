@@ -66,8 +66,9 @@ type GenerateRouteResult<T> = true extends IsAny<T>
   : unknown;
 
 /** ---------------------------------
- * * ***Generates a URL by replacing dynamic route parameters with provided values.***
+ * * ***Utility for NextJS: `generateRoute`.***
  * ---------------------------------
+ * **Generates a URL by replacing dynamic route parameters with provided values.**
  * - ***⚠️ Warning:***
  *    - ***This function only support when using ***[`NextJS`](https://nextjs.org/)***.***
  * @template T - The route string containing dynamic segments in the format `[param]`.
@@ -103,7 +104,6 @@ type GenerateRouteResult<T> = true extends IsAny<T>
  * generateRoute("/blog/[category]/[slug]", { category: "/news/", slug: "/latest-update/" });
  * // ➔ ❌ Error: ❌ Parameter "category" and "slug" contains slashes "/" which is not allowed.
  */
-
 export function generateRoute<T extends string>(
   route: T extends string ? (HasDynamicSegments<T> extends true ? T : never) : never,
   params: T extends string ? ExtractRouteParams<T> : undefined

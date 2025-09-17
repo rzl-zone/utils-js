@@ -1,7 +1,7 @@
 import { isArray } from "@/predicates/is/isArray";
 
 /** ----------------------------------------------------------
- * * ***Type guard: `isEmptyArray`.***
+ * * ***Predicate: `isEmptyArray`.***
  * ----------------------------------------------------------
  * **Checks whether a given value is an empty array.**
  * - **Behavior:**

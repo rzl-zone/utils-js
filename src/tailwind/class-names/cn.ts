@@ -1,4 +1,4 @@
-import type { ClassesValue } from "./private/types";
+import type { ClassesValue } from "./_private/types";
 
 import clsx from "clsx";
 
@@ -23,7 +23,7 @@ const defaultTwMergeV4 = twMergeDefaultV4();
  *    - Create a project-wide helper using
  *      {@link twMergeDefaultV3 | `twMergeDefaultV3`} +
  *      {@link customCnV3 | `customCnV3`} (see Example 2).
- * @param {ClassesValue} classes - Class values (string, array, object, etc).
+ * @param {ClassesValue} classes - Class values (`string`, `array`, `object`, `etc`).
  * @returns {string} Merged Tailwind class string.
  * @example
  * #### Example 1: ✅ Default usage (Tailwind v3).
@@ -82,7 +82,7 @@ export const cnV3 = (...classes: ClassesValue): string => {
  *    - Create a project-wide helper using
  *      {@link twMergeDefaultV4 | `twMergeDefaultV4`} +
  *      {@link customCnV4 | `customCnV4`} (see Example 2).
- * @param {ClassesValue} classes - Class values (string, array, object, etc).
+ * @param {ClassesValue} classes - Class values (`string`, `array`, `object`, `etc`).
  * @returns {string} Merged Tailwind class string.
  * @example
  * #### Example 1: ✅ Default usage (Tailwind v4).

@@ -18,11 +18,11 @@ const typedArrayTags = new Set([
  * * ***Type guard: `isTypedArray`.***
  * ----------------------------------------------------------
  * **Checks if `value` is classified as a
- * **[TypedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)**.**
+ * **[`TypedArray`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)**.**
  * - **Behavior:**
  *    - Validates that `value` is a non-null object.
  *    - Uses `Object.prototype.toString` tag matching against known typed array tags.
- *    - Narrows type to **{@link TypedArray}** when true.
+ *    - Narrows type to **{@link TypedArray | `TypedArray`}** when true.
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the value is a typed array, otherwise `false`.
  * @example

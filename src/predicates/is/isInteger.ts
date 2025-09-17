@@ -1,7 +1,7 @@
 /** ---------------------------------------------------------
  * * ***Type guard: `isInteger`.***
  * ----------------------------------------------------------
- * **Checks if a value is an integer.**
+ * **Checks if a value is an integer number.**
  * - **ℹ️ Note:**
  *    - This method is based on
  *      [`Number.isInteger`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger).

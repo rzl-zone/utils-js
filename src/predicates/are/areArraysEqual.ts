@@ -12,11 +12,11 @@ import { safeStableStringify } from "@/conversions/stringify/safeStableStringify
  * @description Supports deep comparison of arrays containing nested arrays or objects,
  *  can also ignore the order of elements at all levels by recursively sorting.
  * @param {unknown[]} array1
- *   The first array to compare. Can contain nested arrays or objects.
+ *   ***The first array to compare, can contain nested arrays or objects.***
  * @param {unknown[]} array2
- *   The second array to compare against. Should match structure of `array1`.
+ *   ***The second array to compare against, should match structure of `array1`.***
  * @param {boolean|undefined} [ignoreOrder=false]
- *   Whether to ignore the order of elements when comparing.
+ *   ***Whether to ignore the order of elements when comparing.***
  *    - If `true`, will sort both arrays recursively before comparing, default is `false`.
  * @returns {boolean}
  *    Returns `true` if both arrays are deeply equal, otherwise `false`.

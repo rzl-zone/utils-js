@@ -1,5 +1,5 @@
-import { toSnakeCase } from "@/strings/case";
 import { describe, it, expect } from "vitest";
+import { toSnakeCase } from "@/strings/cases/toSnakeCase";
 
 describe("toSnakeCase - comprehensive", () => {
   it("should return empty string for nullish/empty input", () => {

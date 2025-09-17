@@ -5,19 +5,16 @@ import type { And } from "./and";
 import type { IsTuple } from "./is-tuple";
 
 /** -------------------------------------------------------
- * * ***Swap.***
+ * * ***Utility Type: `Swap`.***
  * -------------------------------------------------------
- * Swaps the positions of two elements in a tuple at the type level.
- *
- * Behavior:
- * - Only works on tuple types. Non-tuple arrays are returned as-is.
- * - Validates that `FromIndex` and `ToIndex` are within bounds of the tuple.
- * - If `FromIndex` and `ToIndex` are equal, the tuple remains unchanged.
- *
+ * **Swaps the positions of two elements in a tuple at the type level.**
+ * - **Behavior:**
+ *    - Only works on tuple types. Non-tuple arrays are returned as-is.
+ *    - Validates that `FromIndex` and `ToIndex` are within bounds of the tuple.
+ *    - If `FromIndex` and `ToIndex` are equal, the tuple remains unchanged.
  * @template T - The tuple type.
  * @template FromIndex - The index of the first element to swap.
  * @template ToIndex - The index of the second element to swap.
- *
  * @example
  * ```ts
  * // Swap first and last element

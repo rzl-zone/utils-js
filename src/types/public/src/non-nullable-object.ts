@@ -1,12 +1,10 @@
 import type { Prettify } from "./prettify";
 
 /** -------------------------------------------------------
- * * ***NonNullableObject.***
+ * * ***Utility Type: `NonNullableObject`.***
  * -------------------------------------------------------
- * Makes all properties of the object type `T` non-nullable.
- *
+ * **Makes all properties of the object type `T` non-nullable.**
  * @template T - Object type to transform.
- *
  * @example
  * ```ts
  * type A = NonNullableObject<{ a: string | null; b: number | undefined }>;
@@ -18,13 +16,11 @@ export type NonNullableObject<T> = {
 };
 
 /** -------------------------------------------------------
- * * ***NonNullableObjectOnly.***
+ * * ***Utility Type: `NonNullableObjectOnly`.***
  * -------------------------------------------------------
- * Makes only the specified properties `K` of the object type `T` non-nullable.
- *
+ * **Makes only the specified properties `K` of the object type `T` non-nullable.**
  * @template T - Object type to transform.
  * @template K - Keys of `T` to make non-nullable.
- *
  * @example
  * ```ts
  * type A = NonNullableObjectOnly<
@@ -41,13 +37,11 @@ export type NonNullableObjectOnly<T, K extends keyof T> = Prettify<
 >;
 
 /** -------------------------------------------------------
- * * ***NonNullableObjectExcept.***
+ * * ***Utility Type: `NonNullableObjectExcept`.***
  * -------------------------------------------------------
- * Makes all properties of the object type `T` non-nullable except for the specified properties `K`.
- *
+ * **Makes all properties of the object type `T` non-nullable except for the specified properties `K`.**
  * @template T - Object type to transform.
  * @template K - Keys of `T` to leave unchanged.
- *
  * @example
  * ```ts
  * type A = NonNullableObjectExcept<

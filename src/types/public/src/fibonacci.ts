@@ -5,12 +5,13 @@ import type { Sub } from "./sub";
 import type { Sum } from "./sum";
 
 /** -------------------------------------------------------
- * * ***Fibonacci.***
+ * * ***Utility Type: `Fibonacci`.***
  * -------------------------------------------------------
- * A type-level utility that computes the ***Fibonacci number*** at a given index `T`.
- * - Returns `never` for negative numbers.
- * - Supports indices in the range `[0, 78]` due to TypeScript recursion limits.
- *
+ * **A type-level utility that computes the ***Fibonacci number*** at a given
+ * index `T`.**
+ * - **Behavior:**
+ *    - Returns `never` for negative numbers.
+ *    - Supports indices in the range `[0, 78]` due to TypeScript recursion limits.
  * @template T - The index of the Fibonacci sequence.
  * @example
  * ```ts

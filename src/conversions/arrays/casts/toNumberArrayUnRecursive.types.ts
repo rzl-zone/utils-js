@@ -1,5 +1,8 @@
 import type { KeepNull, KeepUndef, Nullish } from "@/types";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { toNumberArrayUnRecursive } from "./toNumberArrayUnRecursive";
+
 // ============================================================
 // Helper types for inferring the return type of toNumberArrayUnRecursive
 // ============================================================
@@ -46,13 +49,16 @@ type HasNonNumberLikeNonNullish<T> = [
 // Return type calculator
 // ============================================================
 
-/** Computes the return type of `toNumberArrayUnRecursive` based on input type `T` and option `R`.
+/** -------------------------------------------------------
+ * * ***Computes the return type of {@link toNumberArrayUnRecursive|`toNumberArrayUnRecursive`}
+ *   based on input type `T` and option `R`.***
+ * -------------------------------------------------------
  *
  * **Behavior:**
  * - If `R = true` (`removeInvalidValueNumber: true`):
- *    - If `T` is only `null | undefined` → returns `[]`.
- *    - If `T` contains number-like (`string | number | bigint`) → returns `number[]`.
- *    - Otherwise → returns `[]`.
+ *    - If `T` is only `null | undefined` ➔ returns `[]`.
+ *    - If `T` contains number-like (`string | number | bigint`) ➔ returns `number[]`.
+ *    - Otherwise ➔ returns `[]`.
  * - If `R = false` (`removeInvalidValueNumber: false`):
  *    - Preserves `null[]` or `undefined[]` if input is purely nullish.
  *    - Otherwise returns an array of:
@@ -64,13 +70,13 @@ type HasNonNumberLikeNonNullish<T> = [
  *
  */
 export type ToNumberArrayUnRecursiveReturn<T, R extends boolean> = R extends true
-  ? // ✅ Special case: when R=true and T is only nullish → empty []
+  ? // ✅ Special case: when R=true and T is only nullish ➔ empty []
     [Exclude<T, null | undefined>] extends [never]
     ? []
     : HasNumberLike<T> extends true
     ? number[]
     : []
-  : // ✅ R=false → preserve null[] / undefined[]
+  : // ✅ R=false ➔ preserve null[] / undefined[]
   [Exclude<T, null>] extends [never]
   ? null[]
   : [Exclude<T, undefined>] extends [never]
@@ -86,7 +92,9 @@ export type ToNumberArrayUnRecursiveReturn<T, R extends boolean> = R extends tru
       | KeepUndef<T>
     >;
 
-/** Options object for `toNumberArrayUnRecursive`.
+/** -------------------------------------------------------
+ * * ***Options for {@link toNumberArrayUnRecursive|`toNumberArrayUnRecursive`}.***
+ * -------------------------------------------------------
  *
  * @template T Flag indicating whether invalid values should be removed.
  */

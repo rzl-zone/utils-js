@@ -1,4 +1,4 @@
-import { baseDeepEqual } from "@/predicates/is/private/baseDeepEqual";
+import { baseDeepEqual } from "@/predicates/is/_private/baseDeepEqual";
 
 /** ----------------------------------------------------
  * * ***Predicate: `isEqual`.***

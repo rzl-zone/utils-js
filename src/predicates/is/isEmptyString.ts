@@ -3,14 +3,14 @@ import { isNonEmptyString } from "./isNonEmptyString";
 type IsEmptyStringOptions = {
   /** Whether to trim the string before checking, defaultValue: `true`.
    *
-   * @default `true` */
+   * @default true */
   trim?: boolean;
 };
 
 /** ----------------------------------------------------------
  * * ***Predicate: `isEmptyString`.***
  * ----------------------------------------------------------
- * **Checks whether a given value is an **empty string**.**
+ * **Checks whether a given value is an **empty-string**.**
  * - **Behavior:**
  *    - Considers `""` and whitespace-only strings as
  *      empty (if `trim` is enabled, which is the default).

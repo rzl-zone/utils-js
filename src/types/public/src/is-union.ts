@@ -8,10 +8,9 @@ type _IsUnion<T, U = T> = IsNever<T> extends true
   : false;
 
 /** -------------------------------------------------------
- * * ***IsUnion.***
+ * * ***Utility Type: `IsUnion`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is a union.
- *
+ * **Returns a boolean whether the passed argument is a union.**
  * @template T - The type to check.
  * @example
  * type Case1 = IsUnion<'a' | 'b'>;

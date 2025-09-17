@@ -58,6 +58,7 @@ export type {
   IfNotExtends,
   NotExtends
 } from "./src/extends";
+export type { ExtractStrict } from "./src/extract";
 export type { Factorial } from "./src/factorial";
 export type { Fibonacci } from "./src/fibonacci";
 export type { FirstCharacter, FirstCharacterOptions } from "./src/first-character";
@@ -202,7 +203,7 @@ export type { Pop, PopOptions } from "./src/pop";
 export type { Pow } from "./src/pow";
 export type { DefaultPrettifyOptions, Prettify, PrettifyOptions } from "./src/prettify";
 export type { IsPrimitive, IsRealPrimitive, Primitive } from "./src/primitive";
-export type { Awaitable, CustomPromise } from "./src/promises";
+export type { Awaitable, CustomPromiseType } from "./src/promises";
 export type { Push } from "./src/push";
 export type { ReadonlyExcept, ReadonlyOnly } from "./src/readonly";
 export type { AnyRecord, AnyStringRecord, UnknownRecord } from "./src/record";
@@ -215,7 +216,7 @@ export type { RequiredExcept, RequiredOnly } from "./src/required";
 export type {
   ReturnItselfIfExtends,
   ReturnItselfIfNotExtends
-} from "./src/return-itself-if-extends";
+} from "./src/return-itself-extends";
 export type { Reverse } from "./src/reverse";
 export type { Round } from "./src/round";
 export type { Shift, ShiftOptions } from "./src/shift";

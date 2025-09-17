@@ -1,8 +1,7 @@
 /** -------------------------------------------------------
- * * ***IsLetter.***
+ * * ***Utility Type: `IsLetter`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is a letter (Only for letters that have both upper and lower case)
- *
+ * **Returns a boolean whether the passed argument is a letter (Only for letters that have both upper and lower case).**
  * @template T - The string to check.
  * @example
  * type Case1 = IsLetter<'a'>; // ➔ true

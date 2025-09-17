@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseCustomDate } from "@/conversions/json/parsing";
+import { parseCustomDate } from "@/conversions/json/parseCustomDate";
 
 describe("parseCustomDate", () => {
   it("should parse 'DD/MM/YYYY' format correctly", () => {

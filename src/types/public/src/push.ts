@@ -1,12 +1,9 @@
 /** -------------------------------------------------------
- * * ***Push.***
+ * * ***Utility Type: `Push`.***
  * -------------------------------------------------------
- *
- * Appends a type `U` to the end of a tuple or readonly array type `T`.
- *
- * @template T - The tuple or readonly array type to append to.
+ * **Appends a type `U` to the end of a tuple or readonly array type `T`.**
+ * @template T - The tuple or readonly array type to append U.
  * @template U - The type of the element to push.
- *
  * @example
  * ```ts
  * type Case1 = Push<[1, 2, 3, 4], 5>;

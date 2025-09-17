@@ -1,5 +1,5 @@
-import { toPascalCase } from "@/strings/case";
 import { describe, it, expect } from "vitest";
+import { toPascalCase } from "@/strings/cases/toPascalCase";
 
 describe("toPascalCase", () => {
   it("should convert simple strings with spaces to PascalCase", () => {

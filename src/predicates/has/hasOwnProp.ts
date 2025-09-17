@@ -9,7 +9,7 @@ import type {
   NumericKeyHasOwnPropMapped,
   NumericKeyOfHasOwnProp,
   SmartDetectStringHasOwnProp
-} from "./private.hasOwnProp.types";
+} from "./hasOwnProp.types";
 
 import { isNaN } from "../is/isNaN";
 import { isNull } from "../is/isNull";
@@ -27,31 +27,30 @@ import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 // ------------------- HAS OWN PROP OVERLOADS -------------------
 
 /** -------------------------------------------------------
- * * ***Utility: `hasOwnProp`.***
+ * * ***Predicate: `hasOwnProp`.***
  * -------------------------------------------------------
  * **A **type-safe** replacement for `Object.prototype.hasOwnProperty` with runtime validation and **TypeScript-aware type narrowing**.**
  * - #### Supported Targets:
- *    - **Plain objects** ➔ `{ foo: "bar" }`
- *    - **Arrays** ➔ `[ { id: 1 }, { id: 2 } ]`
- *    - **Strings** ➔ `"hello"` (as array-like objects with `.length`, index, etc.)
- *    - **Functions** ➔ callable objects with extra props
- *    - **Symbols** ➔ own property symbols
+ *    - **Plain objects** ➔ `{ foo: "bar" }`.
+ *    - **Arrays** ➔ `[ { id: 1 }, { id: 2 } ]`.
+ *    - **Strings** ➔ `"hello"` (as array-like objects with `.length`, index, etc.).
+ *    - **Functions** ➔ callable objects with extra props.
+ *    - **Symbols** ➔ own property symbols.
  * - #### Key Advantages over `in` or `obj.hasOwnProperty(key)`:
- *    - Supports **dot/bracket path notation** (e.g. `"user.address.city"`, `"addresses[0].zip"`)
- *    - Handles **symbol** keys safely
- *    - **Narrows** the type of `obj` in TypeScript (stronger type safety)
- *    - Configurable handling of **`undefined`** and **`null`**
+ *    - Supports **dot/bracket path notation** (e.g. `"user.address.city"`, `"addresses[0].zip"`).
+ *    - Handles **symbol** keys safely.
+ *    - **Narrows** the type of `obj` in TypeScript (stronger type safety).
+ *    - Configurable handling of **`undefined`** and **`null`**.
  * - #### Runtime Behavior:
  *    - ***✅ Returns `true` if:***
- *        - `obj` is an object/array/string/function **and**
- *        - the property exists **and**
- *        - it passes the `options` checks
+ *        - Value `obj` is an object/array/string/function **and** the property
+ *          exists **and**, it passes the `options` checks.
  *    - ***❌ Returns `false` if:***
- *        - `obj` is not a valid type
- *        - the property does not exist
- *        - the value is `undefined` and `discardUndefined: true` (default)
- *        - the value is `null` and `discardNull: true`
- *        - the `key` (after trimming) is an **empty string** ➔ treated as **invalid**
+ *        - Value `obj` is not a valid type.
+ *        - The property does not exist.
+ *        - The value is `undefined` and `discardUndefined: true` (**default**).
+ *        - The value is `null` and `discardNull: true`.
+ *        - The `key` (after trimming) is an **empty string** ➔ treated as **invalid**.
  * - #### TypeScript Behavior:
  *    - ***Inside an `if (hasOwnProp(...)) {}` block:***
  *      - The property is **guaranteed to exist**.
@@ -72,18 +71,17 @@ import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
  *            **TypeScript IntelliSense to hang or crash**.
  *              - ℹ️ You can still check higher indices manually (e.g. `"[999].id"`),
  *                but they will not show up in IntelliSense suggestions.
- * - #### Options
- * @param {HasOwnPropOptions} [options] - Optional configuration object.
+ * @param {HasOwnPropOptions} [options] - ***Optional configuration object.***
  * @param {HasOwnPropOptions["discardUndefined"]} [options.discardUndefined=true]
- *  If `true`, properties with `undefined` values are treated as **missing**, default: `true`.
+ *  ***If `true`, properties with `undefined` values are treated as **missing**, default: `true`.***
  * @param {HasOwnPropOptions["discardNull"]} [options.discardNull=false]
- *  If `true`, properties with `null` values are treated as **missing**, default: `false`.
- * @param {*} obj - The `object`, `array`, `string`, `function`, or `other value` to check against.
+ *  ***If `true`, properties with `null` values are treated as **missing**, default: `false`.***
+ * @param {*} obj ***The `object`, `array`, `string`, `function`, or `other value` to check against.***
  * @param {PropertyKey} key
- *  The property key to check, can be:
- *    - `string` (supports dot/bracket paths, e.g. `"user.address.city"`, `"[0].id"`)
- *    - `number` (array-like index)
- *    - `symbol` (own property symbols)
+ *  ***The property key to check, can be:***
+ *    - `string` (supports dot/bracket paths, e.g. `"user.address.city"`, `"[0].id"`).
+ *    - `number` (array-like index).
+ *    - `symbol` (own property symbols).
  * @returns {boolean} Return `true` if the property exists (and passes `options`), otherwise `false`.
  * @example
  *

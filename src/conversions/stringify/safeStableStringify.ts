@@ -22,7 +22,7 @@ import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { isInfinityNumber } from "@/predicates/is/isInfinityNumber";
 
 /** -------------------------------------------------
- * * ***Options for **{@link safeStableStringify | `safeStableStringify`}**.***
+ * * ***Type Options for **{@link safeStableStringify | `safeStableStringify`}**.***
  * -------------------------------------------------
  */
 type SafeStableStringifyOptions = {
@@ -61,11 +61,10 @@ type SafeStableStringifyOptions = {
    * -------------------------------------------------
    * **Controls how the internal `deepProcess` step rewrites values
    * **before** the final `JSON.stringify` call.**
-   * - **Default (`false`)** – Every `undefined` value
-   *   (object properties **and** array elements)
-   *   is replaced with `null` **before** serialization.
-   *   Because this happens first, the key is **not removed** by
-   *   `JSON.stringify`.
+   * - **Default (`false`):**
+   *     * Every `undefined` value (object properties **and** array elements)
+   *       is replaced with `null` **before** serialization, because this happens
+   *       first, the key is **not removed** by `JSON.stringify`.
    * - **`true`** – Leaves `undefined` untouched so the final
    *   `JSON.stringify` call behaves natively:
    *     * Object properties with `undefined` are **removed**.
@@ -74,17 +73,17 @@ type SafeStableStringifyOptions = {
    * @example
    * // ✅ keepUndefined = true: behaves like native JSON.stringify
    * safeStableStringify({ a: undefined }, { keepUndefined: true });
-   * // → '{}' // key removed
+   * // ➔ '{}' // key removed
    *
    * // ✅ Default (false): convert undefined to null, key kept
    * safeStableStringify({ a: undefined });
-   * // → '{"a":null}' // key present, value null
+   * // ➔ '{"a":null}' // key present, value null
    *
    * // Arrays
    * safeStableStringify([undefined]);
-   * // → '[null]' // same, but via pre-replacement
+   * // ➔ '[null]' // same, but via pre-replacement
    * safeStableStringify([undefined], { keepUndefined: true });
-   * // → '[null]' // element becomes null
+   * // ➔ '[null]' // element becomes null
    */
   keepUndefined?: boolean;
 };
@@ -103,8 +102,8 @@ type SafeStableStringifyOptions = {
  *        - Objects and nested arrays keep their original position and are appended after sorted primitives.
  *        - If `sortArray` is `false`, arrays retain their original order.
  *        - Converts JavaScript special values for JSON safety:
- *            - `undefined`, `NaN`, `Infinity`, `-Infinity` ➔ `null`
- *            - `BigInt` ➔ string (JSON does not support BigInt)
+ *            - `undefined`, `NaN`, `Infinity`, `-Infinity` ➔ `null`.
+ *            - `BigInt` ➔ string (JSON does not support BigInt).
  *        - Converts boxed primitives box into their primitive equivalents:
  *            - `new Number(42)` ➔ `Number(42)` ➔ `42`.
  *            - `new String("hi")` ➔ `String("hi")` ➔ `"hi"`.
@@ -112,9 +111,9 @@ type SafeStableStringifyOptions = {
  *        - Functions and Symbols are removed.
  *        - Circular references are replaced with the string `"[Circular]"`.
  *        - Serializes:
- *            - `Date` ➔ ISO string (`date.toISOString()`)
- *            - `Set` ➔ `{ set: [values...] }` (values are recursively processed)
- *            - `Map` ➔ `{ map: [ [key, value], ... ] }` (values are recursively processed)
+ *            - `Date` ➔ ISO string (`date.toISOString()`).
+ *            - `Set` ➔ `{ set: [values...] }` (values are recursively processed).
+ *            - `Map` ➔ `{ map: [ [key, value], ... ] }` (values are recursively processed).
  *        - Compared to `JSON.stringify`, this ensures **stable output**:
  *            - Same object structure always produces the same string.
  *            - Useful for deep equality checks, hashing, caching keys, or snapshot tests.
@@ -123,19 +122,19 @@ type SafeStableStringifyOptions = {
  *            - **false**: All `undefined` values (object properties and array elements) are replaced
  *            with `null`, so object keys remain.
  *            - **true**: Leaves `undefined` values as-is, and handling by native `JSON.stringify` then:
- *               1. Removes object properties that are `undefined`
- *               2. Converts `undefined` array elements to `null`
+ *               1. Removes object properties that are `undefined`.
+ *               2. Converts `undefined` array elements to `null`.
  *            - Use `true` when you need native removal of keys or to preserve sparse arrays
  *              exactly as `JSON.stringify` would.
  * @param {*} value
- * -  Any JavaScript value to serialize, can be:
- *    - Primitives (`number`, `string`, `boolean`, `bigint`, `null`, `undefined`)
- *    - Boxed primitives (`new Number()`, `new String()`, `new Boolean()`)
- *    - Arrays, plain objects, nested structures
- *    - Date, Map, Set
- *    - Circular structures
+ *  ***Any JavaScript value to serialize, can be:***
+ *    - Primitives (`number`, `string`, `boolean`, `bigint`, `null`, `undefined`).
+ *    - Boxed primitives (`new Number()`, `new String()`, `new Boolean()`).
+ *    - Arrays, plain objects, nested structures.
+ *    - Date, Map, Set.
+ *    - Circular structures.
  * @param {SafeStableStringifyOptions} [options]
- * - Configuration options for `safeStableStringify`:
+ *   ***Configuration options for `safeStableStringify`:***
  *    - `keepUndefined` (boolean) – Control how `undefined` is handled **before** the final `JSON.stringify`
  *       call, default: `false`.
  *    - `sortKeys` (boolean) – Whether to sort object keys alphabetically (recursively), default: `true`.

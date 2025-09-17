@@ -1,4 +1,4 @@
-import type { UnionToTupleStrict } from "./private/shouldForwardProp.types";
+import type { UnionToTupleStrict } from "./_private/shouldForwardProp.types";
 import { assertIsArray } from "@/assertions/objects/assertIsArray";
 
 /** ----------------------------------------------------------

@@ -1,5 +1,5 @@
-import { getInitialsName } from "@/strings/utils";
 import { describe, expect, it } from "vitest";
+import { getInitialsName } from "@/strings/utils/getInitialsName";
 
 describe("getInitialsName", () => {
   it("should return initials for two-word names", () => {

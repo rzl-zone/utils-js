@@ -95,18 +95,15 @@ type _Sub<
   : never;
 
 /** -------------------------------------------------------
- * * ***Sub.***
+ * * ***Utility Type: `Sub`.***
  * -------------------------------------------------------
- * Computes the subtraction of two integers at the **type level**.
- *
- * Behavior:
- * - Handles positive and negative numbers.
- * - Supports numbers in the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- * - Internally performs string-based arithmetic to handle carries/borrows.
- *
+ * **Computes the subtraction of two integers at the **type level**.**
+ * - **Behavior:**
+ *    - Handles positive and negative numbers.
+ *    - Supports numbers in the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
+ *    - Internally performs string-based arithmetic to handle carries/borrows.
  * @template Num1 - First number (minuend).
  * @template Num2 - Second number (subtrahend).
- *
  * @example
  * ```ts
  * // Positive numbers

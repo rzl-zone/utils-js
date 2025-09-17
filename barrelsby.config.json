@@ -19,7 +19,6 @@
     "browser\\.ts$",
     "browser",
     "/next",
-    "/_types-entry\\.ts$",
     "/types/index\\.ts$",
     "types$",
     "types/",

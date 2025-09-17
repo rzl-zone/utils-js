@@ -12,20 +12,21 @@ type _IsValidRGBParameter<T extends number> = IsInteger<T> extends true
   ? IsBetween<T, 0, 255>
   : false;
 
-/** Configuration options for a type-level utility `RGB` | `IsRGB` | `IfRGB`. */
+/** * ***Configuration options for a type-level utility
+ * {@link RGB | `RGB`} | {@link IsRGB | `IsRGB` } | {@link IfRGB | `IfRGB` }.*** */
 export type RGBOptions = {
-  /** Separator character(s) used between the RGB components (`r`, `g`, `b`).
+  /** * ***Separator character(s) used between the RGB components (`r`, `g`, `b`).***
    *
-   * For example:
-   * - `", "` → `"rgb(23, 242, 0)"`
-   * - `","` → `"rgb(23,242,0)"`
+   * - **For example:**
+   *    - `","` ➔ `"rgb(23,242,0)"`.
+   *    - `", "` ➔ `"rgb(23, 242, 0)"`.
    *
    * @default ", "
    */
   separator: string;
 };
 
-/** Default configuration for the `RGBOptions`.
+/** * ***Default configuration for the {@link RGBOptions | `RGBOptions`}.***
  *
  * @example
  * ```ts
@@ -34,22 +35,21 @@ export type RGBOptions = {
  * ```
  */
 export type DefaultRGBOptions = {
-  /**
-   * Default separator for RGB components.
+  /** * ***Default separator for RGB components.***
    *
-   * Produces strings like `"rgb(23, 242, 0)"`.
+   * **Produces strings like `"rgb(23, 242, 0)"`.**
    */
   separator: ", ";
 };
 
 /** -------------------------------------------------------
- * * ***RGB.***
+ * * ***Utility Type: `RGB`.***
  * -------------------------------------------------------
- * A type-level utility that validates an **RGB color string**.
- * - Accepts `rgb(r, g, b)` format with customizable separators.
- * - Each parameter `r`, `g`, `b` must be an integer between `0` and `255`.
- * - Returns `T` if valid, otherwise `never`.
- *
+ * **A type-level utility that validates an **RGB color string**.**
+ * - **Behavior:**
+ *    - Accepts `rgb(r, g, b)` format with customizable separators.
+ *    - Each parameter `r`, `g`, `b` must be an integer between `0` and `255`.
+ *    - Returns `T` if valid, otherwise `never`.
  * @template T - A string to check.
  * @template Options - Options with `separator` (defaults to `", "`).
  * @example
@@ -74,11 +74,10 @@ export type RGB<
   : never;
 
 /** -------------------------------------------------------
- * * ***IsRGB.***
+ * * ***Utility Type: `IsRGB`.***
  * -------------------------------------------------------
- * A type-level utility that checks if a string is a valid **RGB color**.
+ * **A type-level utility that checks if a string is a valid **RGB color**.**
  * - Returns `true` if valid, otherwise `false`.
- *
  * @template T - A string to check.
  * @template Options - Options with `separator` (defaults to `", "`).
  * @example
@@ -96,11 +95,10 @@ export type IsRGB<T extends string, Options extends RGBOptions = DefaultRGBOptio
 >;
 
 /** -------------------------------------------------------
- * * ***IfRGB.***
+ * * ***Utility Type: `IfRGB`.***
  * -------------------------------------------------------
- * A conditional type that returns `IfTrue` if `T` is a valid **RGB color**,
- * otherwise returns `IfFalse`.
- *
+ * **A conditional type that returns `IfTrue` if `T` is a valid **RGB color**,
+ * otherwise returns `IfFalse`.**
  * @template T - A string to check.
  * @template IfTrue - Return type if valid (defaults to `true`).
  * @template IfFalse - Return type if invalid (defaults to `false`).
@@ -146,13 +144,13 @@ type _ValidHEXCharacters = [
 type _AllowedHEXLength = 3 | 4 | 6 | 8;
 
 /** -------------------------------------------------------
- * * ***HEX.***
+ * * ***Utility Type: `HEX`.***
  * -------------------------------------------------------
- * A type-level utility that validates a **HEX color string**.
- * - Accepts `#RGB`, `#RGBA`, `#RRGGBB`, or `#RRGGBBAA` formats.
- * - Characters must be `[0-9A-F]` (case-insensitive).
- * - Returns `T` if valid, otherwise `never`.
- *
+ * **A type-level utility that validates a **HEX color string**.**
+ * - **Behavior:**
+ *    - Accepts `#RGB`, `#RGBA`, `#RRGGBB`, or `#RRGGBBAA` formats.
+ *    - Characters must be `[0-9A-F]` (**case-insensitive**).
+ *    - Returns `T` if valid, otherwise `never`.
  * @template T - A string to check.
  * @example
  * ```ts
@@ -175,11 +173,10 @@ export type HEX<T extends string> = (
   : never;
 
 /** -------------------------------------------------------
- * * ***IsHEX.***
+ * * ***Utility Type: `IsHEX`.***
  * -------------------------------------------------------
- * A type-level utility that checks if a string is a valid **HEX color**.
+ * **A type-level utility that checks if a string is a valid **HEX color**.**
  * - Returns `true` if valid, otherwise `false`.
- *
  * @template T - A string to check.
  * @example
  * ```ts
@@ -190,11 +187,10 @@ export type HEX<T extends string> = (
 export type IsHEX<T extends string> = Not<IsNever<HEX<T>>>;
 
 /** -------------------------------------------------------
- * * ***IfHEX.***
+ * * ***Utility Type: `IfHEX`.***
  * -------------------------------------------------------
- * A conditional type that returns `IfTrue` if `T` is a valid **HEX color**,
- * otherwise returns `IfFalse`.
- *
+ * **A conditional type that returns `IfTrue` if `T` is a valid **HEX color**,
+ * otherwise returns `IfFalse`.**
  * @template T - A string to check.
  * @template IfTrue - Return type if valid (defaults to `true`).
  * @template IfFalse - Return type if invalid (defaults to `false`).
@@ -216,20 +212,21 @@ export type IfHEX<T extends string, IfTrue = true, IfFalse = false> = If<
   IfFalse
 >;
 
-/** Configuration options for a type-level utility `HSL` | `IsHSL` | `IfHSL`. */
+/** * ***Configuration options for a type-level utility
+ * {@link HSL | `HSL` } | {@link IsHSL | `IsHSL` } | {@link IfHSL | `IfHSL` }.*** */
 export type HSLOptions = {
-  /** Separator character(s) used between the HSL components (`h`, `s`, `l`).
+  /** * ***Separator character(s) used between the HSL components (`h`, `s`, `l`).***
    *
-   * For example:
-   * - `", "` → `"hsl(180, 100%, 50%)"`
-   * - `","` → `"hsl(180,100%,50%)"`
+   * - **For example:**
+   *    - `","` ➔ `"hsl(180,100%,50%)"`.
+   *    - `", "` ➔ `"hsl(180, 100%, 50%)"`.
    *
    * @default ", "
    */
   separator: string;
 };
 
-/** Default configuration for the `HSLOptions`.
+/** * ***Default configuration for the {@link HSLOptions | `HSLOptions`}.***
  *
  * @example
  * ```ts
@@ -238,21 +235,21 @@ export type HSLOptions = {
  * ```
  */
 export type DefaultHSLOptions = {
-  /** Default separator for HSL components.
+  /** * ***Default separator for HSL components.***
    *
-   * Produces strings like `"hsl(180, 100%, 50%)"`.
+   * **Produces strings like `"hsl(180, 100%, 50%)"`.**
    */
   separator: ", ";
 };
 
 /** -------------------------------------------------------
- * * ***HSL.***
+ * * ***Utility Type: `HSL`.***
  * -------------------------------------------------------
- * A type-level utility that validates an **HSL color string**.
- * - Accepts `hsl(h, s%, l%)` format with customizable separators.
- * - `h` must be an integer, `s` and `l` must be integers between `0` and `100`.
- * - Returns `T` if valid, otherwise `never`.
- *
+ * **A type-level utility that validates an **HSL color string**.**
+ * - **Behavior:**
+ *    - Accepts `hsl(h, s%, l%)` format with customizable separators.
+ *    - `h` must be an integer, `s` and `l` must be integers between `0` and `100`.
+ *    - Returns `T` if valid, otherwise `never`.
  * @template T - A string to check.
  * @template Options - Options with `separator` (defaults to `", "`).
  * @example
@@ -276,11 +273,10 @@ export type HSL<T extends string, Options extends HSLOptions = DefaultHSLOptions
   : never;
 
 /** -------------------------------------------------------
- * * ***IsHSL.***
+ * * ***Utility Type: `IsHSL`.***
  * -------------------------------------------------------
- * A type-level utility that checks if a string is a valid **HSL color**.
+ * **A type-level utility that checks if a string is a valid **HSL color**.**
  * - Returns `true` if valid, otherwise `false`.
- *
  * @template T - A string to check.
  * @template Options - Options with `separator` (defaults to `", "`).
  * @example
@@ -298,11 +294,10 @@ export type IsHSL<T extends string, Options extends HSLOptions = DefaultHSLOptio
 >;
 
 /** -------------------------------------------------------
- * * ***IfHSL.***
+ * * ***Utility Type: `IfHSL`.***
  * -------------------------------------------------------
- * A conditional type that returns `IfTrue` if `T` is a valid **HSL color**,
- * otherwise returns `IfFalse`.
- *
+ * **A conditional type that returns `IfTrue` if `T` is a valid **HSL color**,
+ * otherwise returns `IfFalse`.**
  * @template T - A string to check.
  * @template IfTrue - Return type if valid (defaults to `true`).
  * @template IfFalse - Return type if invalid (defaults to `false`).
@@ -324,18 +319,17 @@ export type IfHSL<
   Options extends HSLOptions = DefaultHSLOptions
 > = If<IsHSL<T, Options>, IfTrue, IfFalse>;
 
-/** High-level configuration for color parsing utilities.
+/** * ***High-level configuration for {@link Color | `Color`} parsing utilities.***
  *
- * Allows customizing **RGB** and **HSL** parsing behavior independently.
+ * **Allows customizing **RGB** and **HSL** parsing behavior independently.**
  */
 export type ColorOptions = {
-  /** Options for handling RGB color strings.
+  /** * ***Options for handling RGB color strings.***
    *
-   * - Controls parsing and formatting behavior of RGB values.
-   * - By default uses {@link DefaultRGBOptions}.
-   *
+   * - **Behavior:**
+   *    - Controls parsing and formatting behavior of RGB values.
+   *    - By default uses {@link DefaultRGBOptions | **`DefaultRGBOptions`**}.
    * @default DefaultRGBOptions
-   *
    * @example
    * ```ts
    * type Opt = ColorOptions["rgbOptions"];
@@ -348,13 +342,12 @@ export type ColorOptions = {
    */
   rgbOptions?: RGBOptions;
 
-  /** Options for handling HSL color strings.
+  /** * ***Options for handling HSL color strings.***
    *
-   * - Controls parsing and formatting behavior of HSL values.
-   * - By default uses {@link DefaultHSLOptions}.
-   *
+   * - **Behavior:**
+   *    - Controls parsing and formatting behavior of HSL values.
+   *    - By default uses {@link DefaultHSLOptions | **`DefaultHSLOptions`**}.
    * @default DefaultHSLOptions
-   *
    * @example
    * ```ts
    * type Opt = ColorOptions["hslOptions"];
@@ -368,7 +361,7 @@ export type ColorOptions = {
   hslOptions?: HSLOptions;
 };
 
-/** Default configuration for the `ColorOptions`.
+/** * ***Default configuration for the {@link ColorOptions |`ColorOptions`}.***
  *
  * @example
  * ```ts
@@ -377,11 +370,11 @@ export type ColorOptions = {
  * ```
  */
 export type DefaultColorOptions = {
-  /** Default configuration for `RGBOptions`.
+  /** * ***Default configuration for `RGBOptions`.***
    *
-   * - Provides the default separator for RGB strings.
-   * - By default: `", "`
-   *
+   * - **Behavior:**
+   *    - Provides the default separator for RGB strings.
+   *    - By default: `", "`
    * @example
    * ```ts
    * type RGBOpt = DefaultColorOptions["rgbOptions"];
@@ -389,11 +382,11 @@ export type DefaultColorOptions = {
    * ```
    */
   rgbOptions: DefaultRGBOptions;
-  /** Default configuration for `HSLOptions`.
+  /** * ***Default configuration for `HSLOptions`.***
    *
-   * - Provides the default separator for HSL strings.
-   * - By default: `", "`
-   *
+   * - **Behavior:**
+   *    - Provides the default separator for HSL strings.
+   *    - By default: `", "`
    * @example
    * ```ts
    * type HSLOpt = DefaultColorOptions["hslOptions"];
@@ -412,16 +405,15 @@ type ResolveHSLOptions<O extends ColorOptions> = O["hslOptions"] extends HSLOpti
   : DefaultHSLOptions;
 
 /** -------------------------------------------------------
- * * ***Color.***
+ * * ***Utility Type: `Color`.***
  * -------------------------------------------------------
- * A type-level utility that validates a string as a **Color** in:
- * - RGB
- * - HEX
- * - HSL
- *
+ * - **A type-level utility that validates a string as a **Color** in:**
+ *    - **`RGB`**.
+ *    - **`HEX`**.
+ *    - **`HSL`**.
  * @returns {T} Returns `T` if valid, otherwise `never`.
  * @template T - A string to check.
- * @template Options - Options to pass down to RGB/HSL validation.
+ * @template Options - Options to pass down to `RGB`/`HSL` validation.
  * @example
  * ```ts
  * type A = Color<"rgb(23, 242, 0)">;
@@ -430,7 +422,7 @@ type ResolveHSLOptions<O extends ColorOptions> = O["hslOptions"] extends HSLOpti
  * // ➔ never
  * type C = Color<"#000000">;
  * // ➔ "#000000"
- * type D = Color<"hsl(100,34%,56%)", { hslOptions: { separator: "," } }>;
+ * type D = Color<"hsl(100,34%,56%)", { hslOptions: { separator: "," }}>;
  * // ➔ "hsl(100,34%,56%)"
  * ```
  */
@@ -440,11 +432,10 @@ export type Color<T extends string, Options extends ColorOptions = DefaultColorO
   | RGB<T, ResolveRGBOptions<Options>>;
 
 /** -------------------------------------------------------
- * * ***IsColor.***
+ * * ***Utility Type: `IsColor`.***
  * -------------------------------------------------------
- * A type-level utility that checks if a string is a valid **Color**
- * (RGB | HEX | HSL).
- *
+ * **A type-level utility that checks if a string is a valid **Color**
+ * (`RGB` | `HEX` | `HSL`).**
  * @returns {T} - Returns `true` if valid, otherwise `false`.
  * @template T - A string to check.
  * @template Options - Options to pass down to RGB/HSL validation.
@@ -466,18 +457,17 @@ export type IsColor<
 > = Not<IsNever<Color<T, Options>>>;
 
 /** -------------------------------------------------------
- * * ***IfColor.***
+ * * ***Utility Type: `IfColor`.***
  * -------------------------------------------------------
- * A conditional type that returns `IfTrue` if `T` is a valid **Color**
- * (RGB | HEX | HSL), otherwise returns `IfFalse`.
- *
+ * **A conditional type that returns `IfTrue` if `T` is a valid **Color**
+ * (`RGB` | `HEX` | `HSL`), otherwise returns `IfFalse`.**
  * @template T - A string to check.
  * @template IfTrue - Return type if valid (defaults to `true`).
  * @template IfFalse - Return type if invalid (defaults to `false`).
  * @template Options - Options to pass down to RGB/HSL validation.
  * @example
  * ```ts
- * type A = IfColor<"rgb(23, 242, 0)", { rgbOptions: { separator: ", " } }, "valid">;
+ * type A = IfColor<"rgb(23, 242, 0)", { rgbOptions: { separator: ", " }}, "valid">;
  * // ➔ "valid"
  * type B = IfColor<"rgb(324, 123, 3)", DefaultColorOptions, "valid","invalid">;
  * // ➔ "invalid"

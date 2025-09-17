@@ -21,7 +21,7 @@ import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
  *    - Empty arrays `[]` or empty objects `{}` return `false`
  *    - Checks deeply nested arrays/objects — if any value inside is "non-empty", returns `true`
  * @param {*} value - The value to check.
- * @returns {boolean} `true` if the value or anything nested inside is non-empty, otherwise `false`.
+ * @returns {boolean} Return `true` if the value or anything nested inside is non-empty, otherwise `false`.
  * @example
  * toBooleanContentDeep(null);          // ➔ false
  * toBooleanContentDeep("");            // ➔ false

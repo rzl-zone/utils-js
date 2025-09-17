@@ -2,21 +2,18 @@ import type { DigitsTuple } from "./digits-tuple";
 import type { Negate } from "./number";
 
 /** -------------------------------------------------------
- * * ***FirstDigit.***
+ * * ***Utility Type: `FirstDigit`.***
  * -------------------------------------------------------
- * Extracts the **first digit** of a given number `T`.
- *
+ * **Extracts the **first digit** of a given number `T`.**
+ * - **Behavior:**
+ *    - Works with integers and decimals.
+ *    - Handles negative numbers (`-123` ➔ `-1`).
+ *    - Handles `0` and `-0` correctly (always returns `0`).
+ *    - Works with bigint literals too.
  * @template T - A number or bigint to extract the first digit from.
  * @template Options - Optional settings.
  * - `alwaysPositive?: boolean` (default: `false`)
  *   If `true`, the result is always positive regardless of the sign.
- *
- * ### Behavior
- * - Works with integers and decimals.
- * - Handles negative numbers (`-123` → `-1`).
- * - Handles `0` and `-0` correctly (always returns `0`).
- * - Works with bigint literals too.
- *
  * @example
  * ```ts
  * type A = FirstDigit<0>;      // ➔ 0

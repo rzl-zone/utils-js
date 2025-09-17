@@ -32,14 +32,12 @@ type _IsLowerThan<
   : false;
 
 /** -------------------------------------------------------
- * * ***IsLowerThan.***
+ * * ***Utility Type: `IsLowerThan`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether `Num1` is strictly lower than `Num2`.
+ * **Returns a boolean indicating whether `Num1` is strictly lower than `Num2`.**
  * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template Num1 - The first integer to compare.
  * @template Num2 - The second integer to compare.
- *
  * @example
  * type Case1 = IsLowerThan<1, 10>;  // ➔ true
  * type Case2 = IsLowerThan<1, -10>; // ➔ false
@@ -70,16 +68,14 @@ export type IsLowerThan<Num1 extends number, Num2 extends number> = IsEqual<
     >;
 
 /** -------------------------------------------------------
- * * ***IfLowerThan.***
+ * * ***Utility Type: `IfLowerThan`.***
  * -------------------------------------------------------
- * Returns `IfTrue` if `Num1` is lower than `Num2`, otherwise returns `IfFalse`.
+ * **Returns `IfTrue` if `Num1` is lower than `Num2`, otherwise returns `IfFalse`.**
  * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template Num1 - The first integer to compare.
  * @template Num2 - The second integer to compare.
  * @template IfTrue - Value to return if `Num1 < Num2`.
  * @template IfFalse - Value to return if `Num1 >= Num2`.
- *
  * @example
  * type Case1 = IfLowerThan<1, 10, 'valid'>;
  * // ➔ 'valid'
@@ -94,11 +90,10 @@ export type IfLowerThan<
 > = If<IsLowerThan<Num1, Num2>, IfTrue, IfFalse>;
 
 /** -------------------------------------------------------
- * * ***IsLowerOrEqual.***
+ * * ***Utility Type: `IsLowerOrEqual`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether `Num1` is lower than or equal to `Num2`.
+ * **Returns a boolean indicating whether `Num1` is lower than or equal to `Num2`.**
  * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template Num1 - The first integer to compare.
  * @template Num2 - The second integer to compare.
  * @example
@@ -115,11 +110,12 @@ export type IsLowerOrEqual<Num1 extends number, Num2 extends number> = IsEqual<
   : IsLowerThan<Num1, Num2>;
 
 /** -------------------------------------------------------
- * * ***IfLowerOrEqual.***
+ * * ***Utility Type: `IfLowerOrEqual`.***
  * -------------------------------------------------------
- * Returns the third argument if the first argument (integer) is lower than the second argument (integer) or equal (defaults to `true`), otherwise returns the fourth argument (defaults to `false`).
+ * **Returns the third argument if the first argument (integer) is lower than
+ * the second argument (integer) or equal (defaults to `true`), otherwise returns
+ * the fourth argument (defaults to `false`).**
  * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template Num1 - The first integer to compare.
  * @template Num2 - The second integer to compare.
  * @template IfTrue - Value to return if `Num1 <= Num2`.

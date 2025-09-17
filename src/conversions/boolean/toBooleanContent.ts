@@ -19,7 +19,7 @@ import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
  *    - Arrays: `[]` is `false`, non-empty is `true`.
  *    - Objects: `{}` is `false`, object with keys is `true`.
  * @param {*} value - The value to be converted.
- * @returns {boolean} `true` if the value is considered non-empty, otherwise `false`.
+ * @returns {boolean} Return `true` if the value is considered non-empty, otherwise `false`.
  * @example
  * toBooleanContent(null);      // ➔ false
  * toBooleanContent(undefined); // ➔ false

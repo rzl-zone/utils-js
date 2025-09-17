@@ -1,15 +1,12 @@
 import type { Prettify } from "./prettify";
 
 /** -------------------------------------------------------
- * * ***ReadonlyOnly.***
+ * * ***Utility Type: `ReadonlyOnly`.***
  * -------------------------------------------------------
- *
- * Makes the specified keys `K` of an object type `T` readonly,
- * while leaving the other properties mutable.
- *
+ * **Makes the specified keys `K` of an object type `T` readonly,
+ * while leaving the other properties mutable.**
  * @template T - The object type.
  * @template K - Keys of `T` to make readonly.
- *
  * @example
  * ```ts
  * type T0 = ReadonlyOnly<{ a: string; b: number }, 'a'>;
@@ -26,15 +23,12 @@ export type ReadonlyOnly<T extends object, K extends keyof T> = Prettify<
 >;
 
 /** -------------------------------------------------------
- * * ***ReadonlyExcept.***
+ * * ***Utility Type: `ReadonlyExcept`.***
  * -------------------------------------------------------
- *
- * Makes all properties of an object type `T` readonly,
- * except for the specified keys `K` which remain mutable.
- *
+ * **Makes all properties of an object type `T` readonly,
+ * except for the specified keys `K` which remain mutable.**
  * @template T - The object type.
  * @template K - Keys of `T` to remain mutable.
- *
  * @example
  * ```ts
  * type T0 = ReadonlyExcept<{ a: string; b: number }, 'a'>;

@@ -2,12 +2,10 @@ import type { IsAny } from "./any";
 import type { If } from "./if";
 
 /** -------------------------------------------------------
- * * ***IsUnknown.***
+ * * ***Utility Type: `IsUnknown`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether the given type `T` is `unknown`.
- *
+ * **Returns a boolean indicating whether the given type `T` is `unknown`.**
  * @template T - The type to check.
- *
  * @example
  * ```ts
  * type TrueResult = IsUnknown<unknown>;  // ➔ true
@@ -22,14 +20,13 @@ export type IsUnknown<T> = IsAny<T> extends true
   : false;
 
 /** -------------------------------------------------------
- * * ***IfUnknown.***
+ * * ***Utility Type: `IfUnknown`.***
  * -------------------------------------------------------
- * Conditional type: returns `IfTrue` if `T` is `unknown`, otherwise returns `IfFalse`.
- *
+ * - **Conditional type:**
+ *    - Returns `IfTrue` if `T` is `unknown`, otherwise returns `IfFalse`.
  * @template T - The type to check.
  * @template IfTrue - The type returned if `T` is `unknown` (default: `true`).
  * @template IfFalse - The type returned if `T` is not `unknown` (default: `false`).
- *
  * @example
  * ```ts
  * type Result1 = IfUnknown<unknown, "foo", "bar">; // ➔ "foo"
@@ -42,11 +39,9 @@ export type IfUnknown<T, IfTrue = true, IfFalse = false> = If<
   IfFalse
 >;
 
-/** -------------------------------------------------------
- * * ***UnknownifyPropertiesOptions.***
- * -------------------------------------------------------
- * Options for `UnknownifyProperties`.
- *
+/** ---------------------------------------------------------------------------
+ * * ***Type Options for {@link UnknownifyProperties | `UnknownifyProperties`}.***
+ * ---------------------------------------------------------------------------
  * @property makeOptional - If `true`, all properties become optional.
  */
 export type UnknownifyPropertiesOptions = {
@@ -59,7 +54,6 @@ export type UnknownifyPropertiesOptions = {
    * @example
    * ```ts
    * type A = { a: string; b: number };
-   *
    * type B = UnknownifyProperties<A, { makeOptional: true }>;
    * // ➔ { a?: unknown; b?: unknown }
    * ```
@@ -68,21 +62,18 @@ export type UnknownifyPropertiesOptions = {
 };
 
 /** -------------------------------------------------------
- * * ***UnknownifyProperties.***
+ * * ***Utility Type: `UnknownifyProperties`.***
  * -------------------------------------------------------
- * Transforms all properties of an object type `T` to `unknown`.
- * Optionally, makes all properties optional based on `Options`.
- *
+ * **Transforms all properties of an object type `T` to `unknown`.**
+ * @description Optionally, makes all properties optional based on `Options`.
  * @template T - The object type to transform.
  * @template Options - Configuration options (default: `{ makeOptional: false }`).
  *
  * @example
  * ```ts
  * type A = { a: string; b: number };
- *
  * type Result1 = UnknownifyProperties<A>;
  * // ➔ { a: unknown; b: unknown }
- *
  * type Result2 = UnknownifyProperties<A, { makeOptional: true }>;
  * // ➔ { a?: unknown; b?: unknown }
  * ```

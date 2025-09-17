@@ -1,14 +1,11 @@
 /** --------------------------------------------------
- * * ***ExcludeStrict.***
+ * * ***Utility Type: `ExcludeStrict`.***
  * --------------------------------------------------
- * Performs a stricter version of `Exclude<T, U>` with improved type narrowing.
- *
- * ✅ Especially useful in generic libraries or utility types
+ * **Performs a stricter version of `Exclude<T, U>` with improved type narrowing.**
+ * - ✅ Especially useful in generic libraries or utility types
  *    where standard `Exclude` may collapse or widen types unintentionally.
- *
  * @template T - The full union or set of types.
  * @template U - The type(s) to be excluded from `T`.
- *
  * @example
  * ```ts
  * type A = 'a' | 'b' | 'c';

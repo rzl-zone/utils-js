@@ -1,20 +1,17 @@
 /** -------------------------------------------------------
- * * ***ToPrimitive.***
+ * * ***Utility Type: `ToPrimitive`.***
  * -------------------------------------------------------
- * Converts a literal type to its corresponding primitive type.
- *
- * Behavior:
- * - `string literal` → `string`
- * - `number literal` → `number`
- * - `boolean literal` → `boolean`
- * - `bigint literal` → `bigint`
- * - `symbol literal` → `symbol`
- * - `null` → `null`
- * - `undefined` → `undefined`
- * - Objects → recursively converts all properties to their primitive types
- *
+ * **Converts a literal type to its corresponding primitive type.**
+ * - **Behavior:**
+ *    - `string literal` ➔ `string`.
+ *    - `number literal` ➔ `number`.
+ *    - `boolean literal` ➔ `boolean`.
+ *    - `bigint literal` ➔ `bigint`.
+ *    - `symbol literal` ➔ `symbol`.
+ *    - `null` ➔ `null`.
+ *    - `undefined` ➔ `undefined`.
+ *    - Objects ➔ recursively converts all properties to their primitive types.
  * @template T - The literal type to convert to a primitive type.
- *
  * @example
  * ```ts
  * // Number literal

@@ -1,12 +1,12 @@
 import type { Extends, IfExtends } from "./extends";
 
 /** -------------------------------------------------------
- * * ***And.***
+ * * ***Utility Type: `And`.***
  * -------------------------------------------------------
- * Performs a **logical AND** operation between two boolean types.
- * - Returns `true` if **both** conditions extend `true`.
- * - Returns `false` otherwise.
- *
+ * **Performs a **logical AND** operation between two boolean types.**
+ * - **Behavior:**
+ *    - Returns `true` if **both** conditions extend `true`.
+ *    - Returns `false` for otherwise.
  * @template Condition1 - The first condition.
  * @template Condition2 - The second condition.
  * @example
@@ -28,12 +28,13 @@ export type And<Condition1, Condition2> = IfExtends<
 >;
 
 /** -------------------------------------------------------
- * * ***AndArr.***
+ * * ***Utility Type: `AndArr`.***
  * -------------------------------------------------------
- * Performs a **logical AND** operation across all elements in an array of boolean types.
- * - Returns `true` if **all elements** extend `true`.
- * - Returns `false` if **any element** is not `true`.
- *
+ * **Performs a **logical AND** operation across all elements in an array of
+ * boolean types.**
+ * - **Behavior:**
+ *    - Returns `true` if **all elements** extend `true`.
+ *    - Returns `false` if **any element** is not `true`.
  * @template Conditions - A readonly array of boolean conditions.
  * @example
  * ```ts
@@ -44,10 +45,12 @@ export type And<Condition1, Condition2> = IfExtends<
  * type Case3 = AndArr<[false, false, false]>;
  * // ➔ false
  * type Case4 = AndArr<[]>;
- * // ➔ true (vacuous truth)
+ * // ➔ false
  * ```
  */
 export type AndArr<Conditions extends readonly unknown[]> = Extends<
-  Conditions[number],
-  true
->;
+  [],
+  Conditions
+> extends true
+  ? false
+  : Extends<Conditions[number], true>;

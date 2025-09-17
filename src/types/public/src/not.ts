@@ -1,10 +1,8 @@
 /** -------------------------------------------------------
- * * ***Not.***
+ * * ***Utility Type: `Not`.***
  * -------------------------------------------------------
- * Accepts a boolean type `T` and returns its negation.
- *
+ * **Accepts a boolean type `T` and returns its negation.**
  * @template T - Boolean type to negate.
- *
  * @example
  * ```ts
  * type A = Not<true>;  // ➔ false

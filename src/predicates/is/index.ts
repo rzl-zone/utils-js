@@ -44,6 +44,7 @@ export * from "./isPlainObject";
 export * from "./isPropertyKey";
 export * from "./isRegExp";
 export * from "./isSafeInteger";
+export * from "./isServer";
 export * from "./isSet";
 export * from "./isString";
 export * from "./isStringObject";

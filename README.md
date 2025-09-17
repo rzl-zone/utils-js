@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-🚀 <strong>Rzl Utility JavaScript</strong> 🚀<br/>
+🚀 <strong>Rzl Utility JS</strong> 🚀<br/>
 A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).<br/>
-Provides reusable helpers to simplify your JavaScript / TypeScript projects.<br/>
+Provides reusable helpers to simplify your JavaScript or TypeScript projects.<br/>
 <strong>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</strong>
 </p>
 
@@ -19,7 +19,7 @@ Provides reusable helpers to simplify your JavaScript / TypeScript projects.<br/
   <img src="https://img.shields.io/npm/dt/@rzl-zone/utils-js?style=flat-rounded" alt="Downloads">
 </a>
 <a href="https://nodejs.org/en/" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/badge/node-≥16.0.0%20%7C%20≥18.17.0-blue.svg?logo=node.js&style=flat-rounded" alt="Node.js">
+  <img src="https://img.shields.io/badge/node-≥16.0.0-blue.svg?logo=node.js&style=flat-rounded" alt="Node.js">
 </a>
 <a href="https://github.com/rzl-zone/utils-js/blob/main/CONTRIBUTING.md" target="_blank" rel="nofollow noreferrer noopener">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome">
@@ -58,7 +58,7 @@ Provides reusable helpers to simplify your JavaScript / TypeScript projects.<br/
 
 <h2 id="requirements">💻 Requirements</h2>
 
-- **Node.js `≥16.0.0` or `≥18.17.0`**  
+- **Node.js `≥16.0.0`**  
   This package leverages modern JavaScript & TypeScript features that require Node.js version 16.0.0 if not using Next.js, and for Next.js it must follow the official minimum Node.js version requirement depending on the version you use.  
   - 🔗 See official Next.js documentation: 
       <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener">NextJS Installation Requirements</a>
@@ -99,7 +99,7 @@ Provides reusable helpers to simplify your JavaScript / TypeScript projects.<br/
 - 📦 Works in **Node.js** & modern browsers
 - ❤️ Simple API, easy to extend
 - 🧬 **Next.js support**: helpers for dynamic routes, building URLs, reading env, extracting client IP
-- 🛠 Additional TypeScript types: `OmitStrict`, `PartialByKeys`, etc.
+- 🛠 Additional TypeScript types: `OmitStrict`, `PartialOnly`, etc.
 
 ---
 
@@ -132,25 +132,23 @@ This package also provides utilities specially built for Next.js environments, n
   
   ```ts
   import { | } from "@rzl-zone/utils-js/assertions";
-  import { | } from "@rzl-zone/utils-js/conversions";
-  import { | } from "@rzl-zone/utils-js/env";
+  import { | } from "@rzl-zone/utils-js/conversions"; 
   import { | } from "@rzl-zone/utils-js/events";
-  import { | } from "@rzl-zone/utils-js/formatting";
-  import { | } from "@rzl-zone/utils-js/generator";
-  import { | } from "@rzl-zone/utils-js/generator";
+  import { | } from "@rzl-zone/utils-js/formatters";
+  import { | } from "@rzl-zone/utils-js/generators";
   import { | } from "@rzl-zone/utils-js/next";
   import { | } from "@rzl-zone/utils-js/next/server";
   import { | } from "@rzl-zone/utils-js/operations";
   import { | } from "@rzl-zone/utils-js/parsers";
   import { | } from "@rzl-zone/utils-js/predicates";
-  import { | } from "@rzl-zone/utils-js/promise";
+  import { | } from "@rzl-zone/utils-js/promises";
   import { | } from "@rzl-zone/utils-js/strings";
-  import { | } from "@rzl-zone/utils-js/stylings";
+  import { | } from "@rzl-zone/utils-js/tailwind";
   import { | } from "@rzl-zone/utils-js/urls";
 
   import type { | } from "@rzl-zone/utils-js/types";
   ```
-  #### Just place your cursor right inside `{ }` or from after import from `"@rzl-zone/utils-js/"` like the pipe ("|") above then ctrl + space, there are many functions or types and then hover to each function is complete with how to use it because I have added tsDoc.
+  #### Just place your cursor right inside `{ }` or after import from `"@rzl-zone/utils-js/{{ | }}"` like the pipe ("|") above then ctrl + space, there are many functions or types and then hover to each function is complete with how to use it because I have added tsDoc.
 
   <!-- - <h4 id="detailed-features--assertions">
       Assertions - 
@@ -182,10 +180,10 @@ This package also provides utilities specially built for Next.js environments, n
 #### Example Function Import:
 
 ```ts
-import { isServer } from "@rzl-zone/utils-js/env";
+import { isServer } from "@rzl-zone/utils-js/predicates";
 
 console.log(isServer());
-// true if running on Node.js, false if browser
+// ➔ `true` if running on server-side, `false` if in browser.
 ```
 
 #### Example Types Helper Import:
@@ -193,7 +191,7 @@ console.log(isServer());
 ```ts
 import type { OmitStrict } from "@rzl-zone/utils-js/types";
 
-type MyType = OmitStrict<OtherType, "omitedProps">;
+type MyType = OmitStrict<OtherType, "omittingProps">;
 // Fully strict TS omit that requires all keys to exist in target
 ```
 

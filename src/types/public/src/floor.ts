@@ -3,10 +3,10 @@ import type { Increment } from "./increment";
 import type { IsFloat, IsNegative, Negate } from "./number";
 
 /** -------------------------------------------------------
- * * ***Floor.***
+ * * ***Utility Type: `Floor`.***
  * -------------------------------------------------------
- * Type-level equivalent of `Math.floor()`. Returns the ***floored value*** of the passed number.
- *
+ * **Type-level equivalent of `Math.floor()`.**
+ * - Returns the ***floored value*** of the passed number.
  * @template T - A number type.
  * @example
  * ```ts

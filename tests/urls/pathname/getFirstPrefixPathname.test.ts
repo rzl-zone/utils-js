@@ -1,4 +1,4 @@
-import { getFirstPrefixPathname } from "@/urls/pathname";
+import { getFirstPrefixPathname } from "@/urls/pathname/getFirstPrefixPathname";
 import { describe, it, expect } from "vitest";
 
 describe("getFirstPrefixPathname", () => {

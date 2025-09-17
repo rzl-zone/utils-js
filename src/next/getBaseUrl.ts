@@ -1,10 +1,10 @@
-import { formatEnvPort } from "@/urls/utils";
-import { removeSpaces } from "@/strings/sanitize";
+import { formatEnvPort } from "@/urls/utils/formatEnvPort";
+import { removeSpaces } from "@/strings/sanitizations/removeSpaces";
 
 /** ---------------------------------------------------
- * * ***Retrieves the base URL of the application.***
+ * * ***Utility for NextJS: `getBaseUrl`.***
  * ---------------------------------------------------
- * **This function is designed to be used within `Next.js` applications.**
+ * **Retrieves the base URL of the application.**
  * - **Behavior:**
  *    - It determines the base URL from the `NEXT_PUBLIC_BASE_URL` environment variable.
  *    - If `NEXT_PUBLIC_BASE_URL` is not set, it defaults to `"http://localhost:3000"`.
@@ -20,7 +20,7 @@ import { removeSpaces } from "@/strings/sanitize";
  * getBaseUrl();
  * // ➔ "https://example.com"
  *
- * // With custom port via NEXT_PUBLIC_PORT_FE  at `*.env` file
+ * // With custom port via NEXT_PUBLIC_PORT_FE at `*.env` file
  * NEXT_PUBLIC_BASE_URL = "http://localhost";
  * NEXT_PUBLIC_PORT_FE = "4000";
  * getBaseUrl();

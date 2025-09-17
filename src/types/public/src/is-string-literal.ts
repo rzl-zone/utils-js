@@ -2,10 +2,9 @@ import type { Extends } from "./extends";
 import type { If } from "./if";
 
 /** -------------------------------------------------------
- * * ***IsStringLiteral.***
+ * * ***Utility Type: `IsStringLiteral`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is literal string
- *
+ * **Returns a boolean whether the passed argument is literal string.**
  * @template T - The type value to check.
  * @example
  * type Case1 = IsStringLiteral<'a'>;    // ➔ true
@@ -14,6 +13,5 @@ import type { If } from "./if";
  */
 export type IsStringLiteral<T> = If<
   Extends<T, string>,
-  Extends<string, T> extends true ? false : true,
-  false
+  Extends<string, T> extends true ? false : true
 >;

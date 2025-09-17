@@ -6,7 +6,7 @@ import { isNonEmptyString } from "./isNonEmptyString";
  * **Validates whether a given string is a properly formatted URL.**
  * - **Ensures that the input is:**
  *    - A non-empty string.
- *    - A valid **[URL](https://developer.mozilla.org/docs/Web/API/URL)** with `http://` or `https://` scheme.
+ *    - A valid **[`URL`](https://developer.mozilla.org/docs/Web/API/URL)** with `http://` or `https://` scheme.
  * - **Behavior:**
  *    - ✅ Includes decoding for percent-encoded URLs (e.g., `https%3A%2F%2F...`).
  *    - ❌ Rejects invalid strings, unsupported schemes, and malformed domains.

@@ -1,4 +1,4 @@
-import { formatEnvPort } from "@/urls/utils";
+import { formatEnvPort } from "@/urls/utils/formatEnvPort";
 import { describe, it, expect } from "vitest";
 
 describe("formatEnvPort", () => {

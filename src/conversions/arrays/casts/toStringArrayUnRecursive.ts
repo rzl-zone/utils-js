@@ -13,9 +13,10 @@ import { hasOwnProp } from "@/predicates/has/hasOwnProp";
 import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
-import { filterNilArray } from "../transforms";
+import { filterNilArray } from "../transforms/filterNilArray";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { toStringDeep } from "@/conversions/values/toStringDeep";
+import type { toStringDeep } from "@/conversions/values/toStringDeep";
 
 /** ---------------------------------------------
  * * ***Utility: `toStringArrayUnRecursive`.***
@@ -31,11 +32,11 @@ import { toStringDeep } from "@/conversions/values/toStringDeep";
  *      if `removeInvalidValue=true`).
  * - **ℹ️ Note:**
  *    - _For recursive / nested arrays, use **{@link toStringDeep | `toStringDeep`}** instead._
- * @template T Element type of the input array.
- * @template R Whether invalid values should be removed (`true`) or kept (`false`).
- * @param {Array<string | number | bigint | boolean | null | undefined> | null | undefined} [array] The flat array to transform. Returns `undefined` if not an array.
- * @param {ToStringArrayUnRecursiveOptions<RemoveInvalidValue>} [options] Options object to control transformation behavior.
- * @param {RemoveInvalidValue extends true ? boolean : boolean} [options.removeInvalidValue=true] Whether to remove invalid values (`null`, `undefined`, or unsupported types). Default: `true`.
+ * @template T - Element type of the input array.
+ * @template R - Whether invalid values should be removed (`true`) or kept (`false`).
+ * @param {Array<string | number | bigint | boolean | null | undefined> | null | undefined} [array] - The array to convert, returns `undefined` if not an array.
+ * @param {ToStringArrayUnRecursiveOptions<RemoveInvalidValue>} [options] - Options to control transformation behavior, defaults to `{ removeInvalidValue: true }`.
+ * @param {RemoveInvalidValue extends true ? boolean : boolean} [options.removeInvalidValue=true] Whether to remove invalid values (`null`, `undefined`, or unsupported types), default: `true`.
  * @returns {RemoveInvalidValue extends true ? string[] : (string | null | undefined)[]} A new array of string representations, with invalid values optionally removed.
  * @example
  * ```ts
@@ -55,7 +56,7 @@ import { toStringDeep } from "@/conversions/values/toStringDeep";
  * // Convert boolean and bigint
  * toStringArrayUnRecursive([true, false, 10n]);
  * // ➔ ['true', 'false', '10']
- * // Not an array → returns undefined
+ * // Not an array ➔ returns undefined
  * toStringArrayUnRecursive(null);
  * // ➔ undefined
  * toStringArrayUnRecursive(undefined);

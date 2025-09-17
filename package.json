@@ -5,14 +5,11 @@
   "sideEffects": false,
   "engineStrict": true,
   "license": "MIT",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
   "unpkg": "./dist/rzl-utils.global.js",
   "jsdelivr": "./dist/rzl-utils.global.js",
   "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
   "homepage": "https://github.com/rzl-zone/utils-js#readme",
-  "description": "A modern, lightweight set of JavaScript utility functions for everyday development, crafted to enhance code readability and maintainability.",
+  "description": "A modern, lightweight set of JavaScript utility functions with TypeScript support for everyday development, crafted to enhance code readability and maintainability.",
   "contributors": [
     "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>"
   ],
@@ -21,6 +18,7 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
+    "libphonenumber-js": "^1.12.17",
     "server-only": "^0.0.1",
     "tailwind-merge-v3": "npm:tailwind-merge@2.6.0",
     "tailwind-merge-v4": "npm:tailwind-merge@3.3.1"
@@ -80,16 +78,6 @@
         "default": "./dist/conversions/index.cjs"
       }
     },
-    "./env": {
-      "import": {
-        "types": "./dist/env/index.d.ts",
-        "default": "./dist/env/index.js"
-      },
-      "require": {
-        "types": "./dist/env/index.d.ts",
-        "default": "./dist/env/index.cjs"
-      }
-    },
     "./events": {
       "import": {
         "types": "./dist/events/index.d.ts",
@@ -100,24 +88,24 @@
         "default": "./dist/events/index.cjs"
       }
     },
-    "./formatting": {
+    "./formatters": {
       "import": {
-        "types": "./dist/formatting/index.d.ts",
-        "default": "./dist/formatting/index.js"
+        "types": "./dist/formatters/index.d.ts",
+        "default": "./dist/formatters/index.js"
       },
       "require": {
-        "types": "./dist/formatting/index.d.ts",
-        "default": "./dist/formatting/index.cjs"
+        "types": "./dist/formatters/index.d.ts",
+        "default": "./dist/formatters/index.cjs"
       }
     },
-    "./generator": {
+    "./generators": {
       "import": {
-        "types": "./dist/generator/index.d.ts",
-        "default": "./dist/generator/index.js"
+        "types": "./dist/generators/index.d.ts",
+        "default": "./dist/generators/index.js"
       },
       "require": {
-        "types": "./dist/generator/index.d.ts",
-        "default": "./dist/generator/index.cjs"
+        "types": "./dist/generators/index.d.ts",
+        "default": "./dist/generators/index.cjs"
       }
     },
     "./next": {
@@ -170,14 +158,14 @@
         "default": "./dist/predicates/index.cjs"
       }
     },
-    "./promise": {
+    "./promises": {
       "import": {
-        "types": "./dist/promise/index.d.ts",
-        "default": "./dist/promise/index.js"
+        "types": "./dist/promises/index.d.ts",
+        "default": "./dist/promises/index.js"
       },
       "require": {
-        "types": "./dist/promise/index.d.ts",
-        "default": "./dist/promise/index.cjs"
+        "types": "./dist/promises/index.d.ts",
+        "default": "./dist/promises/index.cjs"
       }
     },
     "./strings": {
@@ -222,17 +210,14 @@
       "conversions": [
         "dist/conversions/index.d.ts"
       ],
-      "env": [
-        "dist/env/index.d.ts"
-      ],
       "events": [
         "dist/events/index.d.ts"
       ],
-      "formatting": [
-        "dist/formatting/index.d.ts"
+      "formatters": [
+        "dist/formatters/index.d.ts"
       ],
-      "generator": [
-        "dist/generator/index.d.ts"
+      "generators": [
+        "dist/generators/index.d.ts"
       ],
       "next": [
         "dist/next/index.d.ts"
@@ -249,8 +234,8 @@
       "predicates": [
         "dist/predicates/index.d.ts"
       ],
-      "promise": [
-        "dist/promise/index.d.ts"
+      "promises": [
+        "dist/promises/index.d.ts"
       ],
       "strings": [
         "dist/strings/index.d.ts"

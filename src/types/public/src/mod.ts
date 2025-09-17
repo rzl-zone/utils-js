@@ -3,13 +3,14 @@ import type { Multi } from "./multi";
 import type { Sub } from "./sub";
 
 /** -------------------------------------------------------
- * * ***Mod.***
+ * * ***Utility Type: `Mod`.***
  * -------------------------------------------------------
- * Returns the **remainder** of the division of two numbers (`Dividend % Divisor`).
- *
- * - Computes the remainder using type-level arithmetic: `Dividend - (Divisor * (Dividend / Divisor))`.
- * - Works with integers within the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * **Returns the **remainder** of the division of two numbers (`Dividend % Divisor`).**
+ * - **Behavior:**
+ *    - Computes the remainder using type-level arithmetic:
+ *      - `Dividend - (Divisor * (Dividend / Divisor))`.
+ *    - Works with integers within the range:
+ *      - `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Dividend - The dividend (numerator).
  * @template Divisor - The divisor (denominator).
  * @example

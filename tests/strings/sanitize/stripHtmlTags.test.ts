@@ -1,5 +1,5 @@
-import { stripHtmlTags } from "@/strings/sanitize";
 import { describe, expect, it } from "vitest";
+import { stripHtmlTags } from "@/strings/sanitizations/stripHtmlTags";
 
 describe("stripHtmlTags", () => {
   it("removes simple HTML tags", () => {

@@ -1,5 +1,8 @@
 import type { KeepNull, KeepUndef, Nullish } from "@/types";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { toStringArrayUnRecursive } from "./toStringArrayUnRecursive";
+
 // ============================================================
 // Helper types for inferring the return type of toNumberArrayUnRecursive
 // ============================================================
@@ -30,12 +33,15 @@ type HasDisallowedNonNullish<T> = [Exclude<T, AllowedToString | Nullish>] extend
 // Return type calculator
 // ============================================================
 
-/** Computes the resulting type of `toStringArrayUnRecursive` based on input type `T` and option `R`.
+/** -------------------------------------------------------
+ * * ***Computes the return type of {@link toStringArrayUnRecursive|`toStringArrayUnRecursive`}
+ *   based on input type `T` and option `R`.***
+ * -------------------------------------------------------
  *
  * **Behavior:**
  *   - If `R = true` (`removeInvalidValue = true`):
- *     - If `T` contains any allowed values → `string[]`.
- *     - If `T` contains only nullish or disallowed types → `[]`.
+ *     - If `T` contains any allowed values ➔ `string[]`.
+ *     - If `T` contains only nullish or disallowed types ➔ `[]`.
  *
  *   - If `R = false` (`removeInvalidValue = false`):
  *     - Include `string` if `T` has allowed values.
@@ -46,8 +52,8 @@ type HasDisallowedNonNullish<T> = [Exclude<T, AllowedToString | Nullish>] extend
  */
 export type ToStringArrayUnRecursiveReturn<T, R extends boolean> = R extends true
   ? // removeInvalidValue = true:
-    // - If T has any allowed values → string[]
-    // - If T is only null/undefined or only disallowed types → []
+    // - If T has any allowed values ➔ string[]
+    // - If T is only null/undefined or only disallowed types ➔ []
     HasAllowed<T> extends true
     ? string[]
     : []
@@ -62,7 +68,9 @@ export type ToStringArrayUnRecursiveReturn<T, R extends boolean> = R extends tru
       | KeepUndef<T>
     >;
 
-/** Options object for `toStringArrayUnRecursive`.
+/** -------------------------------------------------------
+ * * ***Options for {@link toStringArrayUnRecursive|`toStringArrayUnRecursive`}.***
+ * -------------------------------------------------------
  *
  * @template T Flag indicating whether invalid values should be removed.
  */

@@ -1,10 +1,10 @@
 /** -------------------------------------------------------
- * * ***ArrayElementType.***
+ * * ***Utility Type: `ArrayElementType`.***
  * -------------------------------------------------------
- * A type-level utility that extracts the element type of an array.
- * - Works with both mutable and readonly arrays.
- * - If `T` is not an array, resolves to `never`.
- *
+ * **A type-level utility that extracts the element type of an array.**
+ * - **Behavior:**
+ *    - Works with both mutable and readonly arrays.
+ *    - If `T` is not an array, resolves to `never`.
  * @template T - The array type to extract the element type from.
  * @example
  * ```ts

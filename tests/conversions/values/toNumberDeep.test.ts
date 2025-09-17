@@ -1,5 +1,5 @@
-import { toNumberDeep } from "@/conversions/values/toNumberDeep";
 import { describe, it, expect } from "vitest";
+import { toNumberDeep } from "@/conversions/values/toNumberDeep";
 
 describe("toNumberDeep - additional tests", () => {
   it("should handle top-level empty-string, null or undefined", () => {

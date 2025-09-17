@@ -1,5 +1,5 @@
 /** ----------------------------------------
- * * ***Type guard: `isLength`.***
+ * * ***Predicate: `isLength`.***
  * ----------------------------------------------------------
  * **Checks whether the given value is a **valid array-like length**.**
  * - **Behavior:**
@@ -7,10 +7,10 @@
  *    - ✅ Ensures the value is **not greater than `Number.MAX_SAFE_INTEGER`**.
  *    - ❌ Excludes non-numeric values, `Infinity`, and fractional numbers.
  * - **ℹ️ Note:**
- *    - This method is loosely based on
+ *    - This method is loosely based-on
+ *      [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
  *    - A valid length must be a non-negative integer and **not greater
  *      than `Number.MAX_SAFE_INTEGER`**.
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
  * @example

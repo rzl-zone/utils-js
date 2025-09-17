@@ -1,15 +1,12 @@
 import type { AnyFunction } from "./functions";
 
 /** --------------------------------------------------
- * * ***ArgumentTypes.***
+ * * ***Utility Type: `ArgumentTypes`.***
  * --------------------------------------------------
- * Extracts the **argument types** of a given function type `F`.
- *
- * ✅ Useful when you need to infer or reuse the parameter types
+ * **Extracts the **argument types** of a given function type `F`.**
+ * - ✅ Useful when you need to infer or reuse the parameter types
  *    from an existing function signature.
- *
  * @template F - A function type from which to extract argument types.
- *
  * @example
  * ```ts
  * type Args = ArgumentTypes<(a: number, b: string) => void>;

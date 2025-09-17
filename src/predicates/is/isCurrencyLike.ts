@@ -3,12 +3,12 @@ import { isString } from "./isString";
 import { parseCurrencyString } from "@/conversions/currency/parsing";
 
 /** -----------------------------------------------------------
- * * ***Checks whether a value looks like a currency or number string.***
+ * * ***Predicate: `isCurrencyLike`.***
  * -----------------------------------------------------------
  * **Determines if the given `input` can be interpreted as a currency-like number,
  * using the same **multi-locale parsing logic** as ***{@link parseCurrencyString | `parseCurrencyString`}***.**
  * - **Highlights:**
- *    - Supports strings or numbers like:
+ *    - *Supports strings or numbers like:*
  *      - `"15.000,10"` ***(European)***.
  *      - `"15,000.10"` ***(US)***.
  *      - `"15'000.10"` ***(Swiss)***.

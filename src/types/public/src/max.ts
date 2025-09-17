@@ -1,15 +1,14 @@
 import type { IsEmptyArray } from "./array";
 import type { IsTuple } from "./is-tuple";
 import type { IfLowerThan } from "./lower-than";
-import type { ReturnItselfIfNotExtends } from "./return-itself-if-extends";
+import type { ReturnItselfIfNotExtends } from "./return-itself-extends";
 import type { Shift } from "./shift";
 
 /** -------------------------------------------------------
- * * ***Max.***
+ * * ***Utility Type: `Max`.***
  * -------------------------------------------------------
- * Accepts two integers and returns the **maximum** among them.
+ * **Accepts two integers and returns the **maximum** among them.**
  *  - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template Num1 - First integer to compare.
  * @template Num2 - Second integer to compare.
  * @example
@@ -25,9 +24,9 @@ export type Max<Num1 extends number, Num2 extends number> = IfLowerThan<
   Num1
 >;
 
-/**
- * Recursively computes the maximum number in a tuple of integers.
+/** * ***Recursively computes the maximum number in a tuple of integers.***
  *
+ * @private ***Private internal type for {@link MaxArr | **`MaxArr`**}.***
  * @template T - Tuple of numbers to process.
  * @template CurrentMax - Current maximum value, defaults to the first element of T.
  */
@@ -44,12 +43,12 @@ type _MaxArr<
   : never;
 
 /** -------------------------------------------------------
- * * ***MaxArr.***
+ * * ***Utility Type: `MaxArr`.***
  * -------------------------------------------------------
- * Accepts a tuple of integers and returns the **maximum** among its elements.
- * Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
- * @template T - Tuple of numbers to evaluate. Only tuples are supported; arrays of unknown length will return `never`.
+ * **Accepts a tuple of integers and returns the **maximum** among its elements.**
+ * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
+ * @template T - Tuple of numbers to evaluate.
+ * - Only tuples are supported; arrays of unknown length will return `never`.
  * @example
  * ```ts
  * type Case1 = MaxArr<[1, 2, 4, 10]>; // ➔ 10

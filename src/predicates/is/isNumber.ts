@@ -1,8 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { isFinite } from "./isFinite";
+
 import { isBoolean } from "./isBoolean";
 import { isPlainObject } from "./isPlainObject";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isFinite } from "./isFinite";
 
 import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";

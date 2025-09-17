@@ -1,5 +1,5 @@
-import { toCamelCase } from "@/strings/case";
 import { describe, it, expect } from "vitest";
+import { toCamelCase } from "@/strings/cases/toCamelCase";
 
 describe("toCamelCase", () => {
   describe("basic behavior", () => {

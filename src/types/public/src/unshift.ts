@@ -1,11 +1,9 @@
 /** -------------------------------------------------------
- * * ***Unshift.***
+ * * ***Utility Type: `Unshift`.***
  * -------------------------------------------------------
- * Adds the specified element `U` to the **beginning** of the tuple/array `T`.
- *
+ * **Adds the specified element `U` to the **beginning** of the tuple/array `T`.**
  * @template T - The original tuple or array.
  * @template U - The element to add at the start.
- *
  * @example
  * ```ts
  * // Adding string to a tuple

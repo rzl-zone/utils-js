@@ -1,15 +1,5 @@
 /* eslint-disable no-useless-escape */
 
-import {
-  toPascalCaseSpace,
-  slugify,
-  toCamelCase,
-  toDotCase,
-  toKebabCase,
-  toPascalCase,
-  toSnakeCase,
-  toLowerCase
-} from "@/strings/case";
 import { isNaN } from "../is/isNaN";
 import { isNull } from "../is/isNull";
 import { isError } from "../is/isError";
@@ -18,11 +8,20 @@ import { isBuffer } from "../is/isBuffer";
 import { isFunction } from "../is/isFunction";
 import { isPlainObject } from "../is/isPlainObject";
 import { isObjectOrArray } from "../is/isObjectOrArray";
-import { __internalAcronyms__, FIXES_RAW } from "./private.getPreciseType";
 import { isNumberObject } from "../is/isNumberObject";
 import { isStringObject } from "../is/isStringObject";
 import { isBooleanObject } from "../is/isBooleanObject";
 import { isInfinityNumber } from "../is/isInfinityNumber";
+import { __internalAcronyms__, FIXES_RAW } from "./getPreciseType.utils";
+
+import { slugify } from "@/strings/cases/slugify";
+import { toDotCase } from "@/strings/cases/toDotCase";
+import { toCamelCase } from "@/strings/cases/toCamelCase";
+import { toKebabCase } from "@/strings/cases/toKebabCase";
+import { toSnakeCase } from "@/strings/cases/toSnakeCase";
+import { toLowerCase } from "@/strings/cases/toLowerCase";
+import { toPascalCase } from "@/strings/cases/toPascalCase";
+import { toPascalCaseSpace } from "@/strings/cases/toPascalCaseSpace";
 
 /** Normalize a string key for consistent lookup.
  *
@@ -91,13 +90,13 @@ function isProxy(value: unknown): boolean {
  * @description
  * - Chooses the conversion function based on the `formatCase` option.
  * - Supports multiple casing/formatting functions:
- *   - `toPascalCaseSpace`
- *   - `toPascalCase`
- *   - `toCamelCase`
- *   - `toKebabCase`
- *   - `toSnakeCase`
- *   - `toDotCase`
- *   - `slugify`
+ *   - `toPascalCaseSpace`.
+ *   - `toPascalCase`.
+ *   - `toCamelCase`.
+ *   - `toKebabCase`.
+ *   - `toSnakeCase`.
+ *   - `toDotCase`.
+ *   - `slugify`.
  * - Uses `__internalAcronyms__` as ignored words for certain conversion functions.
  *
  * @param {string} input - The string to convert.
@@ -128,15 +127,16 @@ const converterHelper = (
   return toLowerCase(input, __internalAcronyms__);
 };
 
-/** Types for **{@link getPreciseType}**. */
+/** ---------------------------------------------------------------------------
+ * * ***Type Options for {@link getPreciseType | `getPreciseType`}.***
+ * ---------------------------------------------------------------------------
+ */
 export type GetPreciseTypeOptions = {
   /** -------------------------------------------------------
    * * ***Specifies the format in which the returned string type should be transformed.***
    * -------------------------------------------------------
-   *
-   * ℹ️ For special string literals in `SPECIAL_CASES` (`"-Infinity" | "Infinity" | "NaN"`), which will remain unchanged.
+   * **ℹ️ For special string literals in `SPECIAL_CASES` (`"-Infinity" | "Infinity" | "NaN"`), which will remain unchanged.**
    * @default "toLowerCase"
-   *
    * @description
    * Supported formats:
    * - `"toLowerCase"` (default) — converts all letters to lowercase.
@@ -155,7 +155,6 @@ export type GetPreciseTypeOptions = {
    *   - ➔ `"Result Example Type"`
    * - `"slugify"` — URL-friendly slug (lowercase with hyphens).
    *   - ➔ `"result-example-type"`
-   *
    * @note
    * ⚠️ If an invalid value is provided, the function will automatically fallback to the default `"toLowerCase"`.
    */

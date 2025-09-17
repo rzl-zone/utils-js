@@ -16,14 +16,11 @@ type _IsPalindrome<T extends string> = IsEmptyString<T> extends true
   : false;
 
 /** -------------------------------------------------------
- * * ***IsPalindrome.***
+ * * ***Utility Type: `IsPalindrome`.***
  * -------------------------------------------------------
- *
- * Determines if a string or number is a **palindrome** at type-level.
- * A palindrome reads the same forwards and backwards (e.g., `"racecar"`).
- *
+ * **Determines if a string or number is a **palindrome** at type-level.
+ * A palindrome reads the same forwards and backwards (e.g., `"racecar"`).**
  * @template T - A string or number to check.
- *
  * @example
  * ```ts
  * type T0 = IsPalindrome<"racecar">; // true
@@ -31,10 +28,11 @@ type _IsPalindrome<T extends string> = IsEmptyString<T> extends true
  * type T2 = IsPalindrome<12321>;     // true
  * type T3 = IsPalindrome<12345>;     // false
  * ```
- *
  * @remarks
- * - Converts numbers to strings using {@link Stringify}.
- * - Uses {@link IsEmptyString}, {@link IsStringLiteral}, and {@link Not} for type-level logic.
+ * - Converts numbers to strings using {@link Stringify | **`Stringify`**}.
+ * - Uses {@link IsEmptyString | **`IsEmptyString`**},
+ *   {@link IsStringLiteral | **`IsStringLiteral`**},
+ *   and {@link Not | **`Not`**} for type-level logic.
  * - Returns `true` if the input is a palindrome, otherwise `false`.
  */
 export type IsPalindrome<T extends string | number> = _IsPalindrome<Stringify<T>>;

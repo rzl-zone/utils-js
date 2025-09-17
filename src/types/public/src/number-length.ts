@@ -8,26 +8,20 @@ import type { CompareStringLength, StringLength } from "./string-length";
 import type { Stringify } from "./stringify";
 
 /** -------------------------------------------------------
- * Options for {@link NumberLength}.
+ * * ***Type Options for {@link NumberLength | **`NumberLength`**}.***
  */
 export type TypeNumberLengthOptions = {
-  /** Removes the leading minus `-` from negative numbers.
-   *
-   * Default: `true`.
+  /** * ***Removes the leading minus `-` from negative numbers, default: `true`.***
    *
    * @default true
    */
   stripSign?: boolean;
-  /** Removes the decimal point `.` from floats.
-   *
-   * Default: `true`.
+  /** * ***Removes the decimal point `.` from floats, default: `true`.***
    *
    * @default true
    */
   stripDot?: boolean;
-  /** Removes the trailing `n` from BigInt literals.
-   *
-   * Default: `true`.
+  /** * ***Removes the trailing `n` from BigInt literals, default: `true`.***
    *
    * @default true
    */
@@ -35,7 +29,7 @@ export type TypeNumberLengthOptions = {
 };
 
 /** -------------------------------------------------------
- * Default options for {@link NumberLength} (all true).
+ * * ***Default options for {@link NumberLength | **`NumberLength`**} (all `true`).***
  */
 export type DefaultNumberLengthOptions = {
   stripSign: true;
@@ -44,7 +38,7 @@ export type DefaultNumberLengthOptions = {
 };
 
 /** -------------------------------------------------------
- * Merge provided options with defaults for {@link NumberLength}.
+ * * ***Merge provided options with defaults for {@link NumberLength | **`NumberLength`**}.***
  */
 type MergeOptions<Opts extends TypeNumberLengthOptions> = {
   [K in keyof DefaultNumberLengthOptions]: K extends keyof Opts
@@ -53,24 +47,21 @@ type MergeOptions<Opts extends TypeNumberLengthOptions> = {
 };
 
 /** -------------------------------------------------------
- * * ***NumberLength.***
+ * * ***Utility Type: `NumberLength`.***
  * -------------------------------------------------------
- * A type-level utility that returns the **number of digits/characters**
- * of a numeric literal type, with optional cleaning.
- *
- * Supports:
- * - Integers (positive & negative)
- * - Floats (`.` optionally removed)
- * - Scientific notation (`e`/`E`, TypeScript normalizes to number)
- * - BigInts (`n` suffix optionally removed)
- *
+ * **A type-level utility that returns the **number of digits/characters**
+ * of a numeric literal type, with optional cleaning.**
+ * - **Supports:**
+ *    - Integers (positive & negative).
+ *    - Floats (`.` optionally removed).
+ *    - Scientific notation (`e`/`E`, TypeScript normalizes to number).
+ *    - BigInts (`n` suffix optionally removed).
  * @template T - A numeric literal (`number` or `bigint`).
  * @template Options - Optional configuration (default: all `true`):
- * - `stripSign` → Removes the leading `-` (default `true`)
- * - `stripDot` → Removes the decimal point `.` (default `true`)
- * - `stripBigInt` → Removes trailing `n` (default `true`)
- *
- * ---
+ * - `stripSign` ➔ Removes the leading `-` (default `true`).
+ * - `stripDot` ➔ Removes the decimal point `.` (default `true`).
+ * - `stripBigInt` ➔ Removes trailing `n` (default `true`).
+ * @example
  * #### ✅ _Valid Examples:_
  * ```ts
  * // Integers
@@ -98,7 +89,6 @@ type MergeOptions<Opts extends TypeNumberLengthOptions> = {
  * type N = NumberLength<-123n, { stripBigInt: false, stripSign: false }>;
  * // ➔ 5 (minus & n kept ➔ -123n)
  * ```
- *
  * ---
  * #### ❌ _Invalid Examples:_
  * ```ts
@@ -111,7 +101,6 @@ type MergeOptions<Opts extends TypeNumberLengthOptions> = {
  * type Invalid7 = NumberLength<unknown>;  // ➔ never
  * type Invalid8 = NumberLength<never>;    // ➔ never
  * ```
- *
  * ---
  * @remarks
  * - Uses type-level string manipulation to "clean" numeric literal according to options.
@@ -139,26 +128,21 @@ export type NumberLength<
     >;
 
 /** -------------------------------------------------------
- * * ***CompareNumberLength.***
+ * * ***Utility Type: `CompareNumberLength`.***
  * -------------------------------------------------------
- *
- * Compares the **number of digits** of two numeric literal types.
- *
- * Returns:
- * - `IfNum1Shorter` if the first number has fewer digits than the second (default: `never`).
- * - `IfNum2Shorter` if the second number has fewer digits than the first (default: `never`).
- * - `IfEqual` if both numbers have the same number of digits (default: `never`).
- *
- * **Important:** This utility only works with **literal numbers**.
- * Using non-literal numbers (`number`) will return `never`.
- *
+ * **Compares the **number of digits** of two numeric literal types.**
+ * - **Returns:**
+ *    - `IfNum1Shorter` if the first number has fewer digits than the second (default: `never`).
+ *    - `IfNum2Shorter` if the second number has fewer digits than the first (default: `never`).
+ *    - `IfEqual` if both numbers have the same number of digits (default: `never`).
+ * - **Important:**
+ *    - This utility only works with **literal numbers**.
+ *    - Using non-literal numbers (`number`) will return `never`.
  * @template Num1 - The first number literal to compare.
  * @template Num2 - The second number literal to compare.
  * @template IfNum1Shorter - Return type if the first number is shorter (default: `never`).
  * @template IfNum2Shorter - Return type if the second number is shorter (default: `never`).
  * @template IfEqual - Return type if both numbers have the same length (default: `never`).
- *
- * ---
  * @example
  * ```ts
  * // First number shorter than second
@@ -183,11 +167,10 @@ export type NumberLength<
  * type Case4 = CompareNumberLength<NumA, NumB, 'first shorter', 'first longer', 'equal'>;
  * // ➔ never
  * ```
- *
  * ---
  * @remarks
- * - Internally uses {@link Stringify} and {@link CompareStringLength}.
- * - Works for positive, negative, and floating-point literal numbers.
+ * - Internally uses {@link Stringify | **`Stringify`**} and {@link CompareStringLength | **`CompareStringLength`**}.
+ * - Works for `positive`, `negative`, and `floating-point literal numbers`.
  */
 export type CompareNumberLength<
   Num1 extends number,
@@ -206,22 +189,17 @@ export type CompareNumberLength<
     >;
 
 /** -------------------------------------------------------
- * * ***IsShorterNumber.***
+ * * ***Utility Type: `IsShorterNumber`.***
  * -------------------------------------------------------
- *
- * Compares the number of digits of two numeric literal types and returns a **boolean**.
- *
- * Returns:
- * - `true` if the first number has fewer digits than the second.
- * - `false` otherwise (including when numbers have equal length).
- *
- * **Important:** This utility only works with **literal numbers**.
- * Using non-literal numbers (`number`) will return `never`.
- *
+ * **Compares the number of digits of two numeric literal types and returns a **boolean**.**
+ * - **Returns:**
+ *    - `true` if the first number has fewer digits than the second.
+ *    - `false` otherwise (including when numbers have equal length).
+ * - **Important:**
+ *    - This utility only works with **literal numbers**.
+ *    - Using non-literal numbers (`number`) will return `never`.
  * @template Num1 - The first number literal to compare.
  * @template Num2 - The second number literal to compare.
- *
- * ---
  * @example
  * ```ts
  * // Literal numbers
@@ -240,10 +218,10 @@ export type CompareNumberLength<
  * type Case4 = IsShorterNumber<NumA, NumB>;
  * // ➔ never
  * ```
- *
+ * ---
  * @remarks
- * - Internally uses {@link CompareNumberLength}.
- * - Works for positive, negative, and floating-point literal numbers.
+ * - Internally uses {@link CompareNumberLength | **`CompareNumberLength`**}.
+ * - Works for `positive`, `negative`, and `floating-point literal numbers`.
  */
 export type IsShorterNumber<
   Num1 extends number,
@@ -251,21 +229,17 @@ export type IsShorterNumber<
 > = CompareNumberLength<Num1, Num2, true, false, false>;
 
 /** -------------------------------------------------------
- * * ***IsLongerNumber.***
+ * * ***Utility Type: `IsLongerNumber`.***
  * -------------------------------------------------------
- *
- * Compares the number of digits of two numeric literal types and returns a **boolean**.
- *
- * Returns:
- * - `true` if the first number has more digits than the second.
- * - `false` otherwise (including when numbers have equal length).
- *
- * **Important:** Only works with **literal numbers**. Non-literal numbers (`number`) return `never`.
- *
+ * **Compares the number of digits of two numeric literal types and returns a **boolean**.**
+ * - **Returns:**
+ *    - `true` if the first number has more digits than the second.
+ *    - `false` otherwise (including when numbers have equal length).
+ * - **Important:**
+ *    - Only works with **literal numbers**.
+ *    - Non-literal numbers (`number`) return `never`.
  * @template Num1 - The first number literal to compare.
  * @template Num2 - The second number literal to compare.
- *
- * ---
  * @example
  * ```ts
  * type Case1 = IsLongerNumber<10, 1>;
@@ -283,10 +257,10 @@ export type IsShorterNumber<
  * type Case4 = IsLongerNumber<NumA, NumB>;
  * // ➔ never
  * ```
- *
+ * ---
  * @remarks
- * - Internally uses {@link CompareNumberLength}.
- * - Works for positive, negative, and floating-point literal numbers.
+ * - Internally uses {@link CompareNumberLength | **`CompareNumberLength`**}.
+ * - Works for `positive`, `negative`, and `floating-point literal numbers`.
  */
 export type IsLongerNumber<
   Num1 extends number,
@@ -294,21 +268,17 @@ export type IsLongerNumber<
 > = CompareNumberLength<Num1, Num2, false, true, false>;
 
 /** -------------------------------------------------------
- * * ***IsSameLengthNumber.***
+ * * ***Utility Type: `IsSameLengthNumber`.***
  * -------------------------------------------------------
- *
- * Compares the number of digits of two numeric literal types and returns a **boolean**.
- *
- * Returns:
- * - `true` if the numbers have the same number of digits.
- * - `false` otherwise.
- *
- * **Important:** Only works with **literal numbers**. Non-literal numbers (`number`) return `never`.
- *
+ * **Compares the number of digits of two numeric literal types and returns a **boolean**.**
+ * - **Returns:**
+ *    - `true` if the numbers have the same number of digits.
+ *    - `false` otherwise.
+ * - **Important:**
+ *    - Only works with **literal numbers**.
+ *    - Non-literal numbers (`number`) return `never`.
  * @template Num1 - The first number literal to compare.
  * @template Num2 - The second number literal to compare.
- *
- * ---
  * @example
  * ```ts
  * type Case1 = IsSameLengthNumber<10, 10>;
@@ -323,10 +293,10 @@ export type IsLongerNumber<
  * type Case3 = IsSameLengthNumber<NumA, NumB>;
  * // ➔ never
  * ```
- *
+ * ---
  * @remarks
- * - Internally uses {@link CompareNumberLength}.
- * - Works for positive, negative, and floating-point literal numbers.
+ * - Internally uses {@link CompareNumberLength | **`CompareNumberLength`**}.
+ * - Works for `positive`, `negative`, and `floating-point literal numbers`.
  */
 export type IsSameLengthNumber<
   Num1 extends number,

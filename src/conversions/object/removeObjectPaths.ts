@@ -1,72 +1,21 @@
 import type {
   ConfigRemoveObjectPaths,
   ResultRemoveObjectPaths
-} from "./removeObjectPaths.types";
+} from "./_private/removeObjectPaths.types";
 
-import { isArray } from "@/predicates/is/isArray";
 import { isBoolean } from "@/predicates/is/isBoolean";
-import { isFunction } from "@/predicates/is/isFunction";
 import { isUndefined } from "@/predicates/is/isUndefined";
-import { isEmptyArray } from "@/predicates/is/isEmptyArray";
 import { isEmptyObject } from "@/predicates/is/isEmptyObject";
 import { isPlainObject } from "@/predicates/is/isPlainObject";
-import { isObjectOrArray } from "@/predicates/is/isObjectOrArray";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
 
 import { assertIsArray } from "@/assertions/objects/assertIsArray";
 import { assertIsString } from "@/assertions/strings/assertIsString";
 
+import { deepCloneSafe } from "./_private/utils/deepCloneSafe";
+import { deleteNestedKey } from "./_private/utils/deleteNestedKey";
 import { safeStableStringify } from "../stringify/safeStableStringify";
-
-/** @private */
-const deepCloneSafe = <U>(obj: U): U => {
-  try {
-    if (isFunction(structuredClone)) {
-      return structuredClone(obj);
-    }
-    // eslint-disable-next-line no-empty
-  } catch {}
-  return JSON.parse(JSON.stringify(obj));
-};
-
-/** @private */
-const deleteNestedKey = <T extends Record<string, unknown> | unknown[]>(
-  obj: T,
-  path: string[]
-): T => {
-  if (!isObjectOrArray(obj)) return obj;
-
-  const [currentKey, ...rest] = path;
-
-  if (isArray(obj)) {
-    for (const item of obj) {
-      // recursive pass same path
-      if (isObjectOrArray(item)) deleteNestedKey(item, path);
-    }
-  } else if (isEmptyArray(rest)) {
-    if (isPlainObject(obj)) delete obj[currentKey];
-  } else if (isPlainObject(obj) && isObjectOrArray(obj[currentKey])) {
-    deleteNestedKey(obj[currentKey], rest);
-  }
-
-  return obj;
-};
-
-/** @private */
-const deleteExactPathOnce = <T extends Record<string, unknown>>(
-  obj: T,
-  path: string[]
-): T => {
-  if (!isPlainObject(obj)) return obj;
-
-  const [currentKey, ...rest] = path;
-
-  if (rest.length === 0) {
-    if (isPlainObject(obj)) delete obj[currentKey];
-  } else if (isPlainObject(obj[currentKey])) deleteExactPathOnce(obj[currentKey], rest);
-
-  return obj;
-};
+import { deleteExactPathOnce } from "./_private/utils/deleteExactPathOnce";
 
 /** ------------------------------------------------------------------------
  * * ***Utility: `removeObjectPaths`.***
@@ -88,13 +37,13 @@ const deleteExactPathOnce = <T extends Record<string, unknown>>(
  *    - If `keysToDelete` is not an array of `{ key, deep? }` objects, throws a `TypeError`.
  *    - Ignores invalid intermediate paths (will skip those branches without throwing).
  * @template T - The shape of the input object, used for type-safe dot paths.
- * @param {Record<string, unknown>} object - The object to remove keys from. Must be an object or will return `{}`.
+ * @param {Record<string, unknown>} object - ***The object to remove keys from, must be an object or will return `{}`.***
  * @param {ConfigRemoveObjectPaths<T>[]} keysToDelete
- *   An array of instructions:
+ *  ***An array of instructions:***
  *   - `key`: A string path using dot notation (e.g. `"user.profile.name"`).
  *   - `deep`: If `true`, will recursively remove all instances of the key path at any depth, defaultValue: `false`.
  * @param {boolean|undefined} [deepClone=true]
- *   Whether to deep clone the original object before modifying.
+ *  ***Whether to deep clone the original object before modifying.***
  *   - `true` (default): returns a *new object* with the specified keys removed.
  *   - `false`: modifies the original object in place and returns it.
  * @returns {Partial<T>}

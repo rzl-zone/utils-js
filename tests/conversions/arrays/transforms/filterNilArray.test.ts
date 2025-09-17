@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { filterNilArray } from "@/conversions/arrays/transforms";
+import { filterNilArray } from "@/conversions/arrays/transforms/filterNilArray";
 
 describe("filterNilArray", () => {
   it("should remove null and undefined in flat array", () => {

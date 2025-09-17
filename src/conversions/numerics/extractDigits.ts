@@ -10,11 +10,9 @@ import { isString } from "@/predicates/is/isString";
  *    - Returns the cleaned numeric value as a `number`.
  *    - If the input is a `null`, `undefined`, results in no digits, or not a `string` (or empty-string) or `number`, it safely return `0`.
  * @param {*} [value]
- *    The value to process.
+ *    **The value to process.**
  *    - Accepts a string, number, `null`, or `undefined`.
- * @returns {number}
- *    - The numeric value after extracting digits.
- *    - Returns `0` if input is invalid or contains no digits.
+ * @returns {number} The numeric value after extracting digits (returns `0` if input is invalid or contains no digits).
  * @example
  * extractDigits(12345);       // ➔ 12345
  * extractDigits("9A8B7C6X1"); // ➔ 98761

@@ -2,11 +2,10 @@ import type { If } from "./if";
 import type { Not } from "./not";
 
 /** -------------------------------------------------------
- * * ***IsEqual.***
+ * * ***Utility Type: `IsEqual`.***
  * -------------------------------------------------------
- * A type-level utility that returns a boolean indicating
- * whether the two types are ***equal***.
- *
+ * **A type-level utility that returns a boolean indicating
+ * whether the two types are ***equal***.**
  * @template T - The first type to compare.
  * @template U - The second type to compare.
  * @example
@@ -28,11 +27,10 @@ export type IsEqual<T, U> = (<F>() => F extends T ? 1 : 2) extends <F>() => F ex
   : false;
 
 /** -------------------------------------------------------
- * * ***IsNotEqual.***
+ * * ***Utility Type: `IsNotEqual`.***
  * -------------------------------------------------------
- * A type-level utility that returns a boolean indicating
- * whether the two types are ***not equal***.
- *
+ * **A type-level utility that returns a boolean indicating
+ * whether the two types are ***not equal***.**
  * @template T - The first type to compare.
  * @template U - The second type to compare.
  * @example
@@ -46,11 +44,11 @@ export type IsEqual<T, U> = (<F>() => F extends T ? 1 : 2) extends <F>() => F ex
 export type IsNotEqual<T, U> = Not<IsEqual<T, U>>;
 
 /** -------------------------------------------------------
- * * ***IfEqual.***
+ * * ***Utility Type: `IfEqual`.***
  * -------------------------------------------------------
- * Conditional: selects one of two branches depending on whether `T` and `U` are ***equal***.
+ * - **Conditional:**
+ *    - Selects one of two branches depending on whether `T` and `U` are ***equal***.
  * - Defaults: `IfTrue = true`, `IfFalse = false`.
- *
  * @template T - The first type to compare.
  * @template U - The second type to compare.
  * @template IfTrue - The branch type if condition is met. (default: `true`)
@@ -68,11 +66,11 @@ export type IfEqual<T, U, IfTrue = true, IfFalse = false> = If<
 >;
 
 /** -------------------------------------------------------
- * * ***IfNotEqual.***
+ * * ***Utility Type: `IfNotEqual`.***
  * -------------------------------------------------------
- * Conditional: selects one of two branches depending on whether `T` and `U` are ***not equal***.
+ * - **Conditional:**
+ *    - Selects one of two branches depending on whether `T` and `U` are ***not equal***.
  * - Defaults: `IfTrue = true`, `IfFalse = false`.
- *
  * @template T - The first type to compare.
  * @template U - The second type to compare.
  * @template IfTrue - The branch type if condition is met. (default: `true`)

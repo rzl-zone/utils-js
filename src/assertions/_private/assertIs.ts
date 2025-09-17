@@ -1,4 +1,4 @@
-import type { AnyString } from "@/types";
+import type { AnyString, PickStrict, Prettify } from "@/types";
 
 import { isFunction } from "@/predicates/is/isFunction";
 import { isPlainObject } from "@/predicates/is/isPlainObject";
@@ -8,8 +8,8 @@ import {
   type GetPreciseTypeOptions,
   getPreciseType
 } from "@/predicates/type/getPreciseType";
-import { FIXES_RAW } from "@/predicates/type/private.getPreciseType";
-import { toKebabCase } from "@/strings/case";
+import { FIXES_RAW } from "@/predicates/type/getPreciseType.utils";
+import { toKebabCase } from "@/strings/cases/toKebabCase";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const validType = Object.values({
@@ -25,70 +25,87 @@ type RequiredValidType =
 /** -------------------------------------------------------
  * * ***Shape of the object passed to custom error message functions.***
  * -------------------------------------------------------
- * This type describes the parameters received when `options.message`
- * is defined as a function in `OptionsAssertIs`.
- *
- * - `currentType` ➔ the actual detected runtime type of the value.
- * - `validType`   ➔ the required/expected type name that the value must match.
- *
+ * **This type describes the parameters received when `options.message`
+ * is defined as a function in {@link OptionsAssertIs | `OptionsAssertIs`}.**
+ * - **Parameter:**
+ *    - `currentType` ➔ the actual detected runtime type of the value.
+ *    - `validType`   ➔ the required/expected type name that the value must match.
  * @example
  * ```ts
  * const options: OptionsAssertIs = {
- *   message: ({ currentType, validType }) =>
- *     `Expected ${validType} but got ${currentType}`
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got ${currentType}`;
+ *   };
  * };
  * ```
  */
 export type OptionsMessageFunctionAssertIs = {
-  /** The actual runtime type of the value being checked.
-   *
-   * - Example: `"number"`, `"big-int"`, `"plain-object"`, (depends `formatCase` options).
+  /** ---------------------------------------------------------------------------
+   * * ***The actual runtime type of the value being checked.***
+   * ---------------------------------------------------------------------------
+   * - ***Example:***
+   *    - `"number"`, `"big-int"`, `"plain-object"`, (depends `formatCase` options).
    */
   currentType: string;
 
-  /** The required/expected type that the value must conform to.
-   *
-   * - Example: `"boolean"`, `"string"`, `"big-int"`, `"plain-object"`, (will force format to `kebab-case`).
+  /** ---------------------------------------------------------------------------
+   * * ***The required/expected type that the value must conform to.***
+   * ---------------------------------------------------------------------------
+   * - ***Example:***
+   *    - `"boolean"`, `"string"`, `"big-int"`, `"plain-object"`, (will force format to `kebab-case`).
    */
   validType: string;
 };
 
-export type OptionsAssertIs = {
-  /** -------------------------------------------------------
-   * * ***Custom error message for assertion failures.***
-   * -------------------------------------------------------
-   *
-   * @description
-   * This option allows overriding the **default error message** when a value
-   * does not match the required type.
-   *
-   * - If a **string** is provided:
-   *   - Must be non-empty after trimming.
-   *   - Will be used directly as the error message.
-   *
-   * - If a **function** is provided:
-   *    - Receives an object containing:
-   *      - `currentType` ➔ the detected runtime type of the value (depends `formatCase` options, e.g., `"number"`).
-   *      - `validType`  ➔ the expected type name (with format `kebab-case`, e.g., `"boolean"`, `"big-int"`, `"plain-object"`).
-   *    - Must return a string. If the returned string is empty or whitespace,
-   *     the default message will be used instead.
-   *
-   * @example
-   * ```ts
-   * // Static message
-   * { message: "Must be a boolean!" }
-   *
-   * // Dynamic message
-   * {
-   *   message: ({ currentType, validType }) =>
-   *     `Expected ${validType} but got ${currentType}`
-   * }
-   * ```
-   */
-  message?:
-    | string
-    | (({ currentType, validType }: OptionsMessageFunctionAssertIs) => string);
-} & GetPreciseTypeOptions;
+/** -------------------------------------------------------
+ * * ***Custom error-message type for assertions option {@link OptionsAssertIs | `OptionsAssertIs`}.***
+ * -------------------------------------------------------
+ * - ***Accepts:***
+ *    - A static string message.
+ *    - A function receiving `{ currentType, validType }` and returning a string.
+ */
+type OptionsMessageAssertIs =
+  | string
+  | (({ currentType, validType }: OptionsMessageFunctionAssertIs) => string);
+
+/** ---------------------------------------------------------------------------
+ * * ***Base options for `assertIs*` functions.***
+ * ---------------------------------------------------------------------------
+ */
+export type OptionsAssertIs = Prettify<
+  {
+    /** -------------------------------------------------------
+     * * ***Custom error message for assertion failures.***
+     * -------------------------------------------------------
+     * **This option allows overriding the **default error message** when a value
+     * does not match the required type.**
+     * - If a **string** is provided:
+     *    - Must be non-empty after trimming.
+     *    - Will be used directly as the error message.
+     * - If a **function** is provided:
+     *    - Receives an object containing:
+     *      - `currentType` ➔ the detected runtime type of the value (depends `formatCase` options, e.g., `"number"`).
+     *      - `validType`  ➔ the expected type name (with format `kebab-case`, e.g., `"boolean"`, `"big-int"`, `"plain-object"`).
+     *    - **Must** return a **string**:
+     *      - **If** the **returned string is** `empty` or `whitespace`,
+     *        the **default message** will be used instead.
+     * @example
+     * ```ts
+     * // Static message
+     * { message: "Must be a boolean!" }
+     *
+     * // Dynamic message
+     * {
+     *   message: ({ currentType, validType }) => {
+     *     return `Expected ${validType} but got ${currentType}`;
+     *   };
+     * }
+     * ```
+     */
+    message?: OptionsMessageAssertIs;
+  } & PickStrict<GetPreciseTypeOptions, "formatCase">,
+  { recursive: true }
+>;
 
 type ParamsResolveErrorMessageAssertions<T> = {
   value: T;
@@ -99,10 +116,8 @@ type ParamsResolveErrorMessageAssertions<T> = {
 /** -------------------------------------------------------
  * * ***Resolve a custom error message for type assertions.***
  * -------------------------------------------------------
- * @description
- * Produces the **final error message** used by assertion functions (`assertIs*`).
- *
- * **Message resolution follows this order:**
+ * **Produces the **final error message** used by assertion functions (`assertIs*`).**
+ * - **Message resolution follows this order:**
  *    1. **Function message** ➔ If `options.message` is a function, it is invoked with:
  *        - `currentType`: the detected runtime type of `value`.
  *        - `validType`: the required/expected type name.

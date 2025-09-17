@@ -4,7 +4,7 @@ import { createBeApiUrl } from "@/next/createBeApiUrl";
 
 // Mock dependencies
 import * as getBeApiUrlModule from "@/next/getBeApiUrl";
-import * as urlModule from "@/urls/pathname";
+import * as urlModule from "@/urls/pathname/normalizePathname";
 
 describe("createBeApiUrl", () => {
   beforeEach(() => {

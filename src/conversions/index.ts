@@ -6,5 +6,4 @@ export * from "./json/index";
 export * from "./numerics/index";
 export * from "./object/index";
 export * from "./stringify/index";
-export * from "./strings/index";
 export * from "./values/index";

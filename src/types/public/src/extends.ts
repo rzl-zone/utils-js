@@ -4,10 +4,9 @@ import type { Not } from "./not";
 import type { Pop } from "./pop";
 
 /** -------------------------------------------------------
- * * ***Extends.***
+ * * ***Utility Type: `Extends`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether the first argument ***extends*** the second argument.
- *
+ * **Returns a boolean indicating whether the first argument ***extends*** the second argument.**
  * @template T - The type to check.
  * @template Base - The type to compare against.
  * @example
@@ -19,10 +18,9 @@ import type { Pop } from "./pop";
 export type Extends<T, Base> = [T] extends [Base] ? true : false;
 
 /** -------------------------------------------------------
- * * ***NotExtends.***
+ * * ***Utility Type: `NotExtends`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether the first argument does ***not extend*** the second argument.
- *
+ * **Returns a boolean indicating whether the first argument does ***not extend*** the second argument.**
  * @template T - The type to check.
  * @template Base - The type to compare against.
  * @example
@@ -34,15 +32,16 @@ export type Extends<T, Base> = [T] extends [Base] ? true : false;
 export type NotExtends<T, Base> = Not<Extends<T, Base>>;
 
 /** -------------------------------------------------------
- * * ***IfExtends.***
+ * * ***Utility Type: `IfExtends`.***
  * -------------------------------------------------------
- * Conditional: returns the third argument if the first argument ***extends*** the second argument, otherwise returns the fourth argument.
+ * - **Conditional:**
+ *    - Returns the third argument if the first argument ***extends*** the secon
+ *      argument, otherwise returns the fourth argument.
  * - Defaults: `IfTrue = true`, `IfFalse = false`.
- *
  * @template T - The type to check.
  * @template Base - The type to compare against.
- * @template IfTrue - The branch type if condition is met. (default: `true`)
- * @template IfFalse - The branch type if condition is not met. (default: `false`)
+ * @template IfTrue - The branch type if condition is met, (default: `true`).
+ * @template IfFalse - The branch type if condition is not met, (default: `false`).
  * @example
  * ```ts
  * type A = IfExtends<1, number, "valid">;
@@ -58,15 +57,16 @@ export type IfExtends<T, Base, IfTrue = true, IfFalse = false> = If<
 >;
 
 /** -------------------------------------------------------
- * * ***IfNotExtends.***
+ * * ***Utility Type: `IfNotExtends`.***
  * -------------------------------------------------------
- * Conditional: returns the third argument if the first argument does ***not extend*** the second argument, otherwise returns the fourth argument.
+ * - **Conditional:**
+ *    - Returns the third argument if the first argument does ***not extend*** the
+ *      second argument, otherwise returns the fourth argument.
  * - Defaults: `IfTrue = true`, `IfFalse = false`.
- *
  * @template T - The type to check.
  * @template Base - The type to compare against.
- * @template IfTrue - The branch type if condition is met. (default: `true`)
- * @template IfFalse - The branch type if condition is not met. (default: `false`)
+ * @template IfTrue - The branch type if condition is met, (default: `true`).
+ * @template IfFalse - The branch type if condition is not met, (default: `false`).
  * @example
  * ```ts
  * type A = IfNotExtends<1, string, "valid">;
@@ -82,10 +82,9 @@ export type IfNotExtends<T, Base, IfTrue = true, IfFalse = false> = If<
 >;
 
 /** -------------------------------------------------------
- * * ***ExtendsArr.***
+ * * ***Utility Type: `ExtendsArr`.***
  * -------------------------------------------------------
- * Returns a boolean indicating whether every element of the first array argument ***extends*** the second argument.
- *
+ * **Returns a boolean indicating whether every element of the first array argument ***extends*** the second argument.**
  * @template T - The array to check.
  * @template Base - The type to compare each element against.
  * @example

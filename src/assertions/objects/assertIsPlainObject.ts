@@ -8,16 +8,17 @@ import {
  * * ***Type guard assertion: `assertIsPlainObject`.***
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
- * - Validates that the given `value` is a **plain-object**.
- * - After it returns successfully, TypeScript narrows the type of `value` to `plain-object` **(generic support)**.
  * - **Behavior:**
+ *    - Validates that the given `value` is a **plain-object**.
+ *    - After it returns successfully, TypeScript narrows the type of `value` to `plain-object` **(generic support)**.
  *    - ✅ If `value` is a `plain-object` ➔ execution continues normally.
  *    - ❌ If `value` is not a `plain-object` ➔ throws a `TypeError` with either:
  *      - A custom error message (`options.message`), or
  *      - A default message including the actual type.
  * @template T - The input type being asserted.
- * @param {*} value - The value to validate.
- * @param {OptionsAssertIs} [options] - Optional configuration:
+ * @param {*} value - ***The value to validate.***
+ * @param {OptionsAssertIs} [options]
+ *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to a `plain-object` **(generic support)** if no error is thrown.
@@ -38,8 +39,9 @@ import {
  *
  * // ❌ Throws with custom message function and formatCase
  * assertIsPlainObject(42n, {
- *   message: ({ currentType, validType }) =>
- *     `Expected ${validType} but got (${currentType}).`,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`;
+ *   },
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected plain-object but got (big-int)."

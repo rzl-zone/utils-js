@@ -1,15 +1,14 @@
 import type { IsEmptyArray } from "./array";
 import type { IsTuple } from "./is-tuple";
 import type { IfLowerThan } from "./lower-than";
-import type { ReturnItselfIfNotExtends } from "./return-itself-if-extends";
+import type { ReturnItselfIfNotExtends } from "./return-itself-extends";
 import type { Shift } from "./shift";
 
 /** -------------------------------------------------------
- * * ***Min.***
+ * * ***Utility Type: `Min`.***
  * -------------------------------------------------------
- * Accepts two integers and returns the **minimum** among them.
+ * **Accepts two integers and returns the **minimum** among them.**
  * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template Num1 - First integer.
  * @template Num2 - Second integer.
  * @example
@@ -25,9 +24,9 @@ export type Min<Num1 extends number, Num2 extends number> = IfLowerThan<
   Num2
 >;
 
-/**
- * Helper type for computing the minimum of a tuple of numbers recursively.
+/** * ***Helper type for computing the minimum of a tuple of numbers recursively.***
  *
+ * @private ***Private internal type for {@link MinArr | **`MinArr`**}.***
  * @template T - Array of numbers
  * @template CurrentMin - Current minimum in recursion
  */
@@ -44,11 +43,10 @@ type _MinArr<
   : never;
 
 /** -------------------------------------------------------
- * * ***MinArr.***
+ * * ***Utility Type: `MinArr`.***
  * -------------------------------------------------------
- * Accepts an array of integers and returns the **minimum** among its elements.
+ * **Accepts an array of integers and returns the **minimum** among its elements.**
  * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
  * @template T - Tuple of numbers.
  * @example
  * ```ts

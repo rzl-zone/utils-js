@@ -6,7 +6,7 @@ import type { Abs, IfNegative, Negate, ParseNumber } from "./number";
 import type { Push } from "./push";
 import type { RemoveLeading } from "./remove-leading";
 import type { Repeat } from "./repeat";
-import type { ReturnItselfIfNotExtends } from "./return-itself-if-extends";
+import type { ReturnItselfIfNotExtends } from "./return-itself-extends";
 import type { IsEmptyString } from "./string";
 import type { Stringify } from "./stringify";
 import type { Sum, _Sum } from "./sum";
@@ -94,14 +94,15 @@ type _Multi<
   : Result;
 
 /** -------------------------------------------------------
- * * ***Multi.***
+ * * ***Utility Type: `Multi`.***
  * -------------------------------------------------------
- * Accepts two integers and returns their **multiplication**.
- *
- * - Works with integers within the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- * - Handles negative numbers automatically.
- * - Uses internal type-level recursion to simulate multiplication of digit strings.
- *
+ * **Accepts two integers and returns their **multiplication**.**
+ * - **Behavior:**
+ *    - Handles negative numbers automatically.
+ *    - Uses internal type-level recursion to simulate multiplication of
+ *      digit strings.
+ *    - Works with integers within the range:
+ *      - `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Num1 - The first integer (can be negative).
  * @template Num2 - The second integer (can be negative).
  * @example
@@ -113,9 +114,9 @@ type _Multi<
  * type Case5 = Multi<123, 45>; // ➔ 5535
  * ```
  * @note
- * Internal helpers:
- * - `_Multi` ➔ Recursively multiplies digit strings and accumulates the result.
- * - `_MultiSingle` ➔ Multiplies a string-number with a single digit, handling carry.
+ * - ***Internal helpers:***
+ *     - `_Multi` ➔ Recursively multiplies digit strings and accumulates the result.
+ *     - `_MultiSingle` ➔ Multiplies a string-number with a single digit, handling carry.
  */
 export type Multi<Num1 extends number, Num2 extends number> = IsEqual<
   Num1,

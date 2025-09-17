@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { constructURL, QueryParamPairs } from "@/urls/constructURL";
+import { constructURL, QueryParamPairs } from "@/urls/builders/constructURL";
 
 describe("constructURL", () => {
   it("should construct a URL with just the base string", () => {

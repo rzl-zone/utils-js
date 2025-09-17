@@ -1,18 +1,15 @@
 import type { IsEmptyArray } from "./array";
 import type { If } from "./if";
 
-/** -------------------------------------------------------
- * * ***PopOptions.***
- * -------------------------------------------------------
- *
- * Configuration options for the {@link Pop} type utility.
+/** ---------------------------------------------------------------------------
+ * * ***Options for {@link Pop|`Pop`}.***
+ * ---------------------------------------------------------------------------
+ * **Configuration options for the {@link Pop | **`Pop`**} type utility.**
  */
 export type PopOptions = {
   /**
-   * If `true`, {@link Pop} will return a tuple `[Rest, Removed]`
-   * instead of just the remaining array.
-   *
-   * Default: `false`.
+   * If `true`, {@link Pop | **`Pop`**} will return a tuple `[Rest, Removed]`
+   * instead of just the remaining array, default: `false`.
    *
    * @example
    * ```ts
@@ -24,17 +21,14 @@ export type PopOptions = {
 };
 
 /** -------------------------------------------------------
- * * ***Pop.***
+ * * ***Utility Type: `Pop`.***
  * -------------------------------------------------------
- *
- * Removes the last element from a tuple/array type.
- *
- * If the `includeRemoved` option is `true`, it returns a tuple `[Rest, Removed]`
- * where `Rest` is the array without the last element, and `Removed` is the last element.
- *
+ * **Removes the last element from a tuple/array type.**
+ * - If the `includeRemoved` option is `true`, it returns a tuple `[Rest, Removed]`
+ *   where `Rest` is the array without the last element, and `Removed` is the last
+ *   element.
  * @template T - The tuple or array to pop from.
  * @template Options - Configuration object. Default `{ includeRemoved: false }`.
- *
  * @example
  * ```ts
  * // Removes last element

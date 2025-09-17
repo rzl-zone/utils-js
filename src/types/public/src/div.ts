@@ -81,14 +81,13 @@ type _Div<
   : never;
 
 /** -------------------------------------------------------
- * * ***Div.***
+ * * ***Utility Type: `Div`.***
  * -------------------------------------------------------
- * A type-level utility that returns the integer division of two numbers.
- * Handles negative numbers correctly and returns `never` if dividing by zero.
- *
- * - Returns `0` if the absolute value of dividend is smaller than divisor.
- * - Preserves the sign according to standard integer division rules.
- *
+ * **A type-level utility that returns the integer division of two numbers.
+ * Handles negative numbers correctly and returns `never` if dividing by zero.**
+ * - **Behavior:**
+ *    - Returns `0` if the absolute value of dividend is smaller than divisor.
+ *    - Preserves the sign according to standard integer division rules.
  * @template Dividend - The dividend number.
  * @template Divisor - The divisor number.
  * @example

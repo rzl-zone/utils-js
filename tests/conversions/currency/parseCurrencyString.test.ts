@@ -1,6 +1,6 @@
-import { parseCurrencyString } from "@/conversions/currency/parsing";
-import { formatNumber } from "@/formatting/number";
 import { describe, it, expect } from "vitest";
+import { formatNumber } from "@/formatters/numbers/formatNumber";
+import { parseCurrencyString } from "@/conversions/currency/parsing";
 
 describe("parseCurrencyString - quirky realistic edge cases ++", () => {
   it("handles emoji money and text noise", () => {

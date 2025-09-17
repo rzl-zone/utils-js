@@ -1,4 +1,4 @@
-import { baseIsMatch } from "@/predicates/is/private/baseIsMatch";
+import { baseIsMatch } from "@/predicates/is/_private/baseIsMatch";
 
 /** ----------------------------------------------------
  * * ***Predicate: `isMatch`.***

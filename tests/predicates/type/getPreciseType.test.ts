@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
+import { toLowerCase } from "@/strings/cases/toLowerCase";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
-import { __internalAcronyms__ } from "@/predicates/type/private.getPreciseType";
-import { toLowerCase } from "@/strings/case";
+import { __internalAcronyms__ } from "@/predicates/type/getPreciseType.utils";
 
 describe("getPreciseType — ultra comprehensive", () => {
   /**

@@ -1,15 +1,12 @@
 import type { OmitStrict } from "./omit";
 
 /** --------------------------------------------------
- * * ***OverrideTypes.***
+ * * ***Utility Type: `OverrideTypes`.***
  * --------------------------------------------------
- * Overrides properties in type `T` with properties from type `U`, based on matching keys.
- *
- * ✅ Ensures the result retains all properties from `T`, but values from `U` override corresponding keys.
- *
+ * **Overrides properties in type `T` with properties from type `U`, based on matching keys.**
+ * - ✅ Ensures the result retains all properties from `T`, but values from `U` override corresponding keys.
  * @template T - The base object type to override.
  * @template U - The object type containing overriding properties.
- *
  * @example
  * ```ts
  * type A = { a: number; b: string };

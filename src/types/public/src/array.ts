@@ -3,16 +3,12 @@ import type { If } from "./if";
 import type { IsNever } from "./never";
 
 /** -------------------------------------------------------
- * * ***Arrayable.***
+ * * ***Utility Type: `Arrayable`.***
  * -------------------------------------------------------
- * Represents a type that can be either:
- * - a single value of type `T`, or
- * - an array of values of type `T`.
- *
- * Useful when a function or API accepts **either one item or multiple items**.
- *
+ * **Useful when a function or API accepts **either one item or multiple items**.**
+ * - **Represents a type that can be either:**
+ *    - a single value of type `T`, or an array of values of type `T`.
  * @template T - The element type.
- *
  * @example
  * ```ts
  * function toArray<T>(input: Arrayable<T>): T[] {
@@ -29,20 +25,18 @@ import type { IsNever } from "./never";
 export type Arrayable<T> = T | Array<T>;
 
 /** -------------------------------------------------------
- * * ***MutableArray.***
+ * * ***Utility Type: `MutableArray`.***
  * -------------------------------------------------------
- * Recursively creates a **mutable version** of a readonly array, tuple, or object type.
- *
+ * **Recursively creates a **mutable version** of a readonly array, tuple, or object type.**
+ * @description
  * By default, TypeScript infers tuple/array literals as `readonly` (especially with `as const`).
  * This utility removes the `readonly` modifier from all elements recursively,
  * turning a readonly tuple, array, or object into a mutable one.
- *
- * Optionally, if `Widen` is `true`, literal types (`1`, `'foo'`, `true`) are widened to
- * their primitive equivalents (`number`, `string`, `boolean`) for easier assignment.
- *
+ * - **Behavior:**
+ *    - Optionally, if `Widen` is `true`, literal types (`1`, `'foo'`, `true`) are widened to
+ *      their primitive equivalents (`number`, `string`, `boolean`) for easier assignment.
  * @template T - The readonly array, tuple, or object type to make mutable.
  * @template Widen - Whether to widen literal primitive types to their base types (default: `false`).
- *
  * @example
  * ```ts
  * type A = readonly [1, 2, 3];
@@ -84,14 +78,11 @@ export type MutableArray<T, Widen extends boolean = false> = T extends (
   : T;
 
 /** --------------------------------------------------
- * * ***GetArrayElementType.***
+ * * ***Utility Type: `GetArrayElementType`.***
  * --------------------------------------------------
- * Gets the element type from a readonly array or tuple.
- *
- * ✅ Useful when working with `as const` arrays to extract the union of literal types.
- *
+ * **Gets the element type from a readonly array or tuple.**
+ * - ✅ Useful when working with `as const` arrays to extract the union of literal types.
  * @template T - A readonly array or tuple type.
- *
  * @example
  * ```ts
  * const roles = ['admin', 'user'] as const;
@@ -99,17 +90,15 @@ export type MutableArray<T, Widen extends boolean = false> = T extends (
  * // ➔ "admin" | "user"
  * ```
  */
-
 export type GetArrayElementType<T extends readonly any[]> = T extends readonly (infer U)[]
   ? U
   : never;
 
 /** -------------------------------------------------------
- * * ***EmptyArray.***
+ * * ***Utility Type: `EmptyArray`.***
  * -------------------------------------------------------
- * A type-level utility that returns `T` if it is an ***empty array***,
- * otherwise returns `never`.
- *
+ * **A type-level utility that returns `T` if it is an ***empty array***,
+ * otherwise returns `never`.**
  * @template T - The array type to check.
  * @example
  * ```ts
@@ -133,11 +122,10 @@ export type EmptyArray<T extends readonly unknown[]> = T extends readonly [
   : T;
 
 /** -------------------------------------------------------
- * * ***NonEmptyArray.***
+ * * ***Utility Type: `NonEmptyArray`.***
  * -------------------------------------------------------
- * A type-level utility that returns `T` if it is a ***non-empty array***,
- * otherwise returns `never`.
- *
+ * **A type-level utility that returns `T` if it is a ***non-empty array***,
+ * otherwise returns `never`.**
  * @template T - The array type to check.
  * @example
  * ```ts
@@ -160,11 +148,10 @@ export type NonEmptyArray<T extends readonly unknown[]> = If<
 >;
 
 /** -------------------------------------------------------
- * * ***IsEmptyArray.***
+ * * ***Utility Type: `IsEmptyArray`.***
  * -------------------------------------------------------
- * A type-level utility that evaluates to `true` if `T` is an ***empty array.***
- * (or can be empty per this definition), otherwise `false`.
- *
+ * **A type-level utility that evaluates to `true` if `T` is an ***empty array.***
+ * (or can be empty per this definition), otherwise `false`.**
  * @template T - The array type to check.
  * @example
  * ```ts
@@ -187,11 +174,10 @@ export type IsEmptyArray<T extends readonly unknown[]> = If<
 >;
 
 /** -------------------------------------------------------
- * * ***IsNonEmptyArray.***
+ * * ***Utility Type: `IsNonEmptyArray`.***
  * -------------------------------------------------------
- * A type-level utility that evaluates to `true` if `T` is a ***non-empty array.***
- * (strictly a non-empty tuple), otherwise `false`.
- *
+ * **A type-level utility that evaluates to `true` if `T` is a ***non-empty array.***
+ * (strictly a non-empty tuple), otherwise `false`.**
  * @template T - The array type to check.
  * @example
  * ```ts
@@ -214,12 +200,11 @@ export type IsNonEmptyArray<T extends readonly unknown[]> = If<
 >;
 
 /** -------------------------------------------------------
- * * ***IfEmptyArray.***
+ * * ***Utility Type: `IfEmptyArray`.***
  * -------------------------------------------------------
- * Returns the second argument if `T` is an ***empty array*** (per this utility),
- * otherwise returns the third argument.
+ * **Returns the second argument if `T` is an ***empty array*** (per this utility),
+ * otherwise returns the third argument.**
  * - Defaults: `IfTrue = true`, `IfFalse = false`.
- *
  * @template T - The array type to check.
  * @template IfTrue - Returned type if `T` is empty by this definition.
  * @template IfFalse - Returned type if `T` is not empty by this definition.
@@ -248,12 +233,11 @@ export type IfEmptyArray<
 > = If<IsEmptyArray<T>, IfTrue, IfFalse>;
 
 /** -------------------------------------------------------
- * * ***IfNonEmptyArray.***
+ * * ***Utility Type: `IfNonEmptyArray`.***
  * -------------------------------------------------------
- * Returns the second argument if `T` is a ***non-empty array*** (strict tuple),
- * otherwise returns the third argument.
+ * **Returns the second argument if `T` is a ***non-empty array*** (strict tuple),
+ * otherwise returns the third argument.**
  * - Defaults: `IfTrue = true`, `IfFalse = false`.
- *
  * @template T - The array type to check.
  * @template IfTrue - Returned type if `T` is non-empty by this definition.
  * @template IfFalse - Returned type if `T` is not non-empty by this definition.

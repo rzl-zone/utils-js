@@ -5,19 +5,16 @@ import type { IsGreaterThan } from "./greater-than";
 import type { Increment } from "./increment";
 
 /** -------------------------------------------------------
- * * ***Round.***
+ * * ***Utility Type: `Round`.***
  * -------------------------------------------------------
- * Type-level version of `Math.round()`.
- * Returns the value of a number rounded to the **nearest integer**.
- *
- * Behavior:
- * - If `T` is a float, it rounds to the nearest whole number:
- *   - Fraction ≥ 0.5 → rounds up
- *   - Fraction < 0.5 → rounds down
- * - If `T` is already an integer, it returns `T` as-is.
- *
+ * **Type-level version of `Math.round()`.
+ * Returns the value of a number rounded to the **nearest integer**.**
+ * - **Behavior:**
+ *    - If `T` is a float, it rounds to the nearest whole number:
+ *      - Fraction `≥ 0.5` ➔ rounds up.
+ *      - Fraction `< 0.5` ➔ rounds down.
+ *    - If `T` is already an integer, it returns `T` as-is.
  * @template T - The number type to round.
- *
  * @example
  * ```ts
  * // Positive float

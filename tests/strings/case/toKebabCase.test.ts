@@ -1,5 +1,5 @@
-import { toKebabCase } from "@/strings/case";
 import { describe, it, expect } from "vitest";
+import { toKebabCase } from "@/strings/cases/toKebabCase";
 
 describe("toKebabCase", () => {
   it("should convert simple strings with spaces to kebab-case", () => {

@@ -1,6 +1,6 @@
-import type { ClassesValue } from "./private/types";
-import type { TwMergeDefaultFnV3 } from "../tw-merge/v3/private/types";
-import type { TwMergeDefaultFnV4 } from "../tw-merge/v4/private/types";
+import type { ClassesValue } from "./_private/types";
+import type { TwMergeDefaultFnV3 } from "../tw-merge/v3/_private/types";
+import type { TwMergeDefaultFnV4 } from "../tw-merge/v4/_private/types";
 
 import clsx from "clsx";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

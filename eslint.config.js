@@ -6,9 +6,7 @@ export default defineConfig([
   {
     files: ["src/**/*.{ts,tsx}", "*.js", "internal-global.d.ts"],
     extends: [eslintJs.configs.recommended, tseslint.configs.recommended],
-    plugins: {
-      // "@typescript-eslint": tseslint.plugin
-    },
+    plugins: {},
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -18,7 +16,6 @@ export default defineConfig([
     rules: {
       semi: "error",
       "prefer-const": "warn",
-      // "@typescript-eslint/no-deprecated": "error",
       "@typescript-eslint/array-type": "off",
       "@typescript-eslint/no-empty-interface": "off",
       "@typescript-eslint/no-explicit-any": "warn",

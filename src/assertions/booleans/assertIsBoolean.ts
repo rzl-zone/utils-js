@@ -8,15 +8,16 @@ import {
  * * ***Type guard assertion: `assertIsBoolean`.***
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
- *  - Validates that the given `value` is a **boolean**.
- *  - After it returns successfully, TypeScript narrows the type of `value` to `boolean`.
  * - **Behavior:**
- *   - ✅ If `value` is a `boolean` ➔ execution continues normally.
- *   - ❌ If `value` is not a `boolean` ➔ throws a `TypeError` with either:
- *     - A custom error message (`options.message`), or
- *     - A default message including the actual type.
- * @param {*} value - The value to validate.
- * @param {OptionsAssertIs} [options] - Optional configuration:
+ *    - Validates that the given `value` is a **boolean**.
+ *    - After it returns successfully, TypeScript narrows the type of `value` to `boolean`.
+ *    - ✅ If `value` is a `boolean` ➔ execution continues normally.
+ *    - ❌ If `value` is not a `boolean` ➔ throws a `TypeError` with either:
+ *      - A custom error message (`options.message`), or
+ *      - A default message including the actual type.
+ * @param {*} value - ***The value to validate.***
+ * @param {OptionsAssertIs} [options]
+ *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to `boolean` if no error is thrown.
@@ -37,8 +38,9 @@ import {
  *
  * // ❌ Throws with custom function message + case formatting
  * assertIsBoolean(123n, {
- *   message: ({ currentType, validType }) =>
- *     `Expected ${validType} but got (${currentType}).`,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`;
+ *   },
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected boolean but got (big-int)."

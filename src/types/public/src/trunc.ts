@@ -2,19 +2,17 @@ import type { GetFloatNumberParts } from "./get-float-number-parts";
 import type { IsFloat, IsNegative, Negate } from "./number";
 
 /** -------------------------------------------------------
- * * ***Trunc.***
+ * * ***Utility Type: `Trunc`.***
  * -------------------------------------------------------
- * Type version of `Math.trunc()`. Returns the **integer part** of a number
- * by removing any fractional digits.
- *
- * Behavior:
- * - If `T` is a floating-point number, returns the integer part.
- * - Preserves the sign for negative numbers.
- * - If `T` is already an integer, returns `T`.
- * - If `T` is `number` (general type), returns `T`.
- *
+ * **Type version of `Math.trunc()`.**
+ * @description
+ * Returns the **integer part** of a number by removing any fractional digits.
+ * - **Behavior:**
+ *     - If `T` is a floating-point number, returns the integer part.
+ *     - Preserves the sign for negative numbers.
+ *     - If `T` is already an integer, returns `T`.
+ *     - If `T` is `number` (general type), returns `T`.
  * @template T - The number type to truncate.
- *
  * @example
  * ```ts
  * // Positive float

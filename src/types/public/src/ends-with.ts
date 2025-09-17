@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /** -------------------------------------------------------
- * * ***EndsWith.***
+ * * ***Utility Type: `EndsWith`.***
  * -------------------------------------------------------
- * A type-level utility that returns a boolean indicating
- * whether the first string literal ends with the ***second one***.
- *
+ * **A type-level utility that returns a boolean indicating
+ * whether the first string literal ends with the ***second one***.**
  * @template T - The string to check.
  * @template C - The ***ending string*** to match.
  * @example
@@ -15,6 +13,7 @@
  * type D = EndsWith<"Hello", "world">; // ➔ false
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type EndsWith<T extends string, C extends string> = T extends `${infer _}${C}`
   ? true
   : false;

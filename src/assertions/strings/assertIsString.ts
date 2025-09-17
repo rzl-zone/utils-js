@@ -8,9 +8,9 @@ import {
  * * ***Type guard assertion: `assertIsString`.***
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
- * - Validates that the given `value` is a **primitive-string**.
- * - After it returns successfully, TypeScript narrows the type of `value` to `primitive-string`.
  * - **Behavior:**
+ *    - Validates that the given `value` is a **primitive-string**.
+ *    - After it returns successfully, TypeScript narrows the type of `value` to `primitive-string`.
  *    - ✅ If `value` is a `primitive-string` ➔ execution continues normally.
  *    - ❌ If `value` is not a `primitive-string` ➔ throws a `TypeError` with either:
  *      - A custom error message (`options.message`), or
@@ -18,8 +18,9 @@ import {
  * - **ℹ️ Note:**
  *    - A "string" refers strictly to a JavaScript `primitive-string` type (e.g., `"hello"`, `""`, `"123"`).
  *    - This function excludes `String` objects created with `new String()`.
- * @param {*} value - The value to validate.
- * @param {OptionsAssertIs} [options] - Optional configuration:
+ * @param {*} value - ***The value to validate.***
+ * @param {OptionsAssertIs} [options]
+ *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to `string` if no error is thrown.
@@ -40,7 +41,9 @@ import {
  *
  * // ❌ Throws with custom message function and formatCase
  * assertIsString(42n, {
- *   message: ({ currentType, validType }) => `Expected ${currentType} but got (${currentType}).`,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`;
+ *   },
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected string but got (big-int)."

@@ -58,12 +58,11 @@ type SumMap = {
 };
 
 /** -------------------------------------------------------
- * * ***_Sum.***
+ * * ***Private Utility Type: `_Sum`.***
  * -------------------------------------------------------
- * Internal helper type for summing two integer numbers represented as strings.
- * Performs digit-by-digit addition with carry handling.
- *
- * @deprecated This is internal helper, use `Sum` instead.
+ * **Internal helper type for summing two integer numbers represented as strings.**
+ * - Performs digit-by-digit addition with carry handling.
+ * @deprecated This is internal helper, use {@link Sum | **`Sum`**} instead.
  * @template Num1 - First number as string.
  * @template Num2 - Second number as string.
  * @template Carry - Carry flag (0 or 1), defaults to 0.
@@ -107,14 +106,13 @@ export type _Sum<
   : never;
 
 /** -------------------------------------------------------
- * * ***Sum.***
+ * * ***Utility Type: `Sum`.***
  * -------------------------------------------------------
- * Adds two integers at the type level. Handles positive and negative numbers.
- * Supports numbers in the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * **Adds two integers at the type level. Handles positive and negative numbers.**
+ * - Supports numbers in the range:
+ *   - `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template Num1 - First number.
  * @template Num2 - Second number.
- *
  * @example
  * ```ts
  * // Positive + positive
@@ -160,16 +158,14 @@ type _SumArr<
   : CurrentSum;
 
 /** -------------------------------------------------------
- * * ***SumArr.***
+ * * ***Utility Type: `SumArr`.***
  * -------------------------------------------------------
- * Accepts a tuple of numbers and returns their sum.
- *
- * Behavior:
- * - Only works on tuple types (not general arrays).
- * - Supports numbers in the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * **Accepts a tuple of numbers and returns their sum.**
+ * - **Behavior:**
+ *    - Only works on tuple types (not general arrays).
+ *    - Supports numbers in the range:
+ *      -`[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template T - Tuple of numbers to sum.
- *
  * @example
  * ```ts
  * // Sum all elements in a tuple

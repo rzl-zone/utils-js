@@ -10,22 +10,17 @@ type LastDigitMap = {
 };
 
 /** -------------------------------------------------------
- * * ***_Increment (Internal / Deprecated)***
+ * * ***Internal Utility Type: `_Increment (Internal / Deprecated)`***
  * -------------------------------------------------------
- *
- * Internal type-level utility to increment a numeric string by 1.
- *
- * **⚠️ Deprecated:** Do **not** use this directly.
- * Use the public {@link Increment} type instead.
- *
+ * **Internal type-level utility to increment a numeric string by 1.**
+ * - **⚠️ Deprecated:**
+ *    - Do **not** use this directly.
+ *    - Use the public {@link Increment | **`Increment`**} type instead.
  * - Processes the string recursively digit by digit.
  * - Handles carry-over using internal `IncrementMap` and `LastDigitMap`.
- *
  * @template Number - The numeric string to increment.
  * @template Result - (Internal) Accumulator used during recursion.
- *
- * @deprecated Use {@link Increment} instead.
- *
+ * @deprecated Use {@link Increment | **`Increment`**} instead.
  * @example
  * ```ts
  * // ❌ Avoid using _Increment directly
@@ -51,14 +46,14 @@ export type _Increment<
   : never;
 
 /** -------------------------------------------------------
- * * ***Increment.***
+ * * ***Utility Type: `Increment`.***
  * -------------------------------------------------------
- * Accepts an integer and returns the incremented value of it. Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`
- *
+ * **Accepts an integer and returns the incremented value of it.**
+ * - Range: `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`
  * @template T - The input number to increment.
  * @example
  * ```ts
- * type Case1 = Increment<1>;  // ➔ 2
+ * type Case1 = Increment<1>; // ➔ 2
  * type Case2 = Increment<-10>; // ➔ -9
  * ```
  */

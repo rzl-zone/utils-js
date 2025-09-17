@@ -1,8 +1,7 @@
 /** -------------------------------------------------------
- * * ***Concat.***
+ * * ***Utility Type: `Concat`.***
  * -------------------------------------------------------
- * A type-level utility that concatenates `two arrays` into `one`.
- *
+ * **A type-level utility that concatenates `two arrays` into `one`.**
  * @template T - The first array type.
  * @template U - The second array type, or a single element.
  * @example

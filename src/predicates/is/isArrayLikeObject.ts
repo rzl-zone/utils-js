@@ -3,7 +3,7 @@ import { isLength } from "./isLength";
 import { isObjectOrArray } from "./isObjectOrArray";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isArrayLike } from "./isArrayLike";
+import type { isArrayLike } from "./isArrayLike";
 
 /** ----------------------------------------------------
  * * ***Type guard: `isArrayLikeObject`.***

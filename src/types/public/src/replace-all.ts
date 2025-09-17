@@ -8,20 +8,16 @@ type Includes<
 > = S extends `${infer _}${Sub}${infer _}` ? true : false;
 
 /** -------------------------------------------------------
- * * ***ReplaceAll.***
+ * * ***Utility Type: `ReplaceAll`.***
  * -------------------------------------------------------
- * A **type-level utility** that replaces all occurrences of a given string (or array of strings)
- * `Pivot` in a string `T` with `ReplaceBy`.
- *
- * - Supports:
- *   - Replacing a single substring
- *   - Replacing multiple substrings (Pivot as array)
- *   - Guards against infinite recursion if `ReplaceBy` contains any value in Pivot
- *
+ * **A **type-level utility** that replaces all occurrences of a given string (or array of strings) `Pivot` in a string `T` with `ReplaceBy`.**
+ * - **Supports:**
+ *    - Replacing a single substring.
+ *    - Replacing multiple substrings (Pivot as array).
+ *    - Guards against infinite recursion if `ReplaceBy` contains any value in Pivot.
  * @template T - The string to process.
  * @template Pivot - A string or readonly array of strings to replace.
  * @template ReplaceBy - The string to replace Pivot with.
- *
  * @example
  * ```ts
  * // Single pivot string
@@ -40,7 +36,6 @@ type Includes<
  * type Case4 = ReplaceAll<'abc', 'a', 'a'>;
  * // ➔ string
  * ```
- *
  * @remarks
  * - Works recursively to replace all instances.
  * - If Pivot is empty (`""`) or empty array (`[]`), returns `T` unchanged.

@@ -9,19 +9,31 @@ import { isURL } from "../is/isURL";
  * @returns {boolean} Returns `true` if both URLs are the same (ignoring search parameters), otherwise `false`.
  * @example
  * // Same domain, same path, different query -> true
- * areURLsEqualPath(new URL("https://example.com/page?a=1"), new URL("https://example.com/page?b=2"));
+ * areURLsEqualPath(
+ *   new URL("https://example.com/page?a=1"),
+ *   new URL("https://example.com/page?b=2")
+ * );
  * // ➔ true
  *
  * // Same domain, different path -> false
- * areURLsEqualPath(new URL("https://example.com/page1"), new URL("https://example.com/page2"));
+ * areURLsEqualPath(
+ *   new URL("https://example.com/page1"),
+ *   new URL("https://example.com/page2")
+ * );
  * // ➔ false
  *
  * // Different protocol -> false
- * areURLsEqualPath(new URL("http://example.com/page"), new URL("https://example.com/page"));
+ * areURLsEqualPath(
+ *   new URL("http://example.com/page"),
+ *   new URL("https://example.com/page")
+ * );
  * // ➔ false
  *
  * // Same protocol, same host, same path (ignores query & hash) -> true
- * areURLsEqualPath(new URL("https://example.com/page#section"), new URL("https://example.com/page"));
+ * areURLsEqualPath(
+ *   new URL("https://example.com/page#section"),
+ *   new URL("https://example.com/page")
+ * );
  * // ➔ true
  */
 export const areURLsEqualPath = (urlA: URL, urlB: URL): boolean => {

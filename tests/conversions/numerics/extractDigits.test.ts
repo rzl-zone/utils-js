@@ -1,5 +1,5 @@
-import { extractDigits } from "@/conversions/numerics/extractDigits";
 import { describe, it, expect } from "vitest";
+import { extractDigits } from "@/conversions/numerics/extractDigits";
 
 describe("extractDigits", () => {
   it("should remove all non-numeric characters from string input", () => {

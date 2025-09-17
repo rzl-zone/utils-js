@@ -36,14 +36,13 @@ import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
  *      - You can use this function as a first step to **sanitize currency inputs**
  *        before storing into database or doing math.
  *      - Always pair this with your formatter for consistent output display.
- * @param {string|null|undefined} input Any messy currency string, may contain:
- *   - Currency symbols (`Rp`,`$`, `CHF`, `EUR`).
- *   - Thousands separators (`.`, `,`, `'`,  `space`, `\u00A0`, `\u202F`).
- *   - Various decimal formats (`,` or `.`).
- *   - Bracket negative: `"(15.000,10)"`.
- * @returns {number}
- *   JavaScript float representation.
- *   Will return `0` for invalid, empty, or non-string input.
+ * @param {string|null|undefined} input
+ *   ***Any messy currency string, may contain:***
+ *    * Currency symbols (`Rp`,`$`, `CHF`, `EUR`).
+ *    * Thousands separators (`.`, `,`, `'`,  `space`, `\u00A0`, `\u202F`).
+ *    * Various decimal formats (`,` or `.`).
+ *    * Bracket negative: `"(15.000,10)"`.
+ * @returns {number} JavaScript float representation, will return `0` for invalid, empty, or non-string input.
  * @example
  * ```ts
  * parseCurrencyString("Rp 15.300.000,21");

@@ -1,6 +1,6 @@
-import { type AssertIsOptionsMessageFunction } from "@/assertions/_private/assertIs";
-import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 import { describe, it, expect } from "vitest";
+import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
+import { type OptionsMessageFunctionAssertIs } from "@/assertions/_private/assertIs";
 
 describe("assertIsPlainObject", () => {
   it("does not throw for plain objects", () => {
@@ -40,7 +40,7 @@ describe("assertIsPlainObject", () => {
   });
 
   it("throws with custom function message", () => {
-    const fnMsg = (type: AssertIsOptionsMessageFunction) =>
+    const fnMsg = (type: OptionsMessageFunctionAssertIs) =>
       `Expected ${type.validType}, got ${type.currentType}`;
     expect(() => assertIsPlainObject(123, { message: fnMsg })).toThrow(
       "Expected plain-object, got number"

@@ -1,5 +1,5 @@
-import { replaceAt } from "@/strings/utils";
 import { describe, it, expect } from "vitest";
+import { replaceAt } from "@/strings/utils/replaceAt";
 
 describe("replaceAt", () => {
   it("should replace a single character at index 0", () => {

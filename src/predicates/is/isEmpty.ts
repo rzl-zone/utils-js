@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import type { List, EmptyObjectOf } from "@/types/private";
+import type { List, EmptyObjectOf } from "./_private/types.isEmpty";
 
 import { isNil } from "./isNil";
 import { isMap } from "./isMap";
@@ -17,10 +16,10 @@ import { isTypedArray } from "./isTypedArray";
 import { isPlainObject } from "./isPlainObject";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isEmptyValue } from "./isEmptyValue";
+import type { isEmptyValue } from "./isEmptyValue";
 
 /** ----------------------------------------------------
- * * ***Utility: `isEmpty`.***
+ * * ***Predicate: `isEmpty`.***
  * ----------------------------------------------------------
  * **Checks if `value` is an empty object, collection, map, or set.**
  * - **Behavior:**
@@ -79,7 +78,7 @@ export function isEmpty(value: unknown) {
   if (isBoolean(value) || isNumber(value, { includeNaN: true }) || isSymbol(value))
     return true;
 
-  // Function → treat like object: check own enumerable keys
+  // Function ➔ treat like object: check own enumerable keys
   if (isFunction(value)) {
     return Object.keys(value).length === 0;
   }

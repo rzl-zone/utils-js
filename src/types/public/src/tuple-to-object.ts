@@ -14,17 +14,14 @@ type GroupedKeys<T extends readonly PropertyKey[]> = [
 ];
 
 /** -------------------------------------------------------
- * * ***TupleToObject.***
+ * * ***Utility Type: `TupleToObject`.***
  * -------------------------------------------------------
- * Accepts a tuple of `string`, `number`, or `symbol` and returns an object type
- * where each key **and its value** are the elements of the tuple.
- *
- * Behavior:
- * - Tuple elements must extend `PropertyKey` (`string | number | symbol`).
- * - The resulting object has keys and values identical to the tuple elements.
- *
+ * **Accepts a tuple of `string`, `number`, or `symbol` and returns an object type
+ * where each key **and its value** are the elements of the tuple.**
+ * - **Behavior:**
+ *    - Tuple elements must extend `PropertyKey` (`string | number | symbol`).
+ *    - The resulting object has keys and values identical to the tuple elements.
  * @template T - The tuple of property keys.
- *
  * @example
  * ```ts
  * // Tuple of strings

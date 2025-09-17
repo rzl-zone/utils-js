@@ -9,22 +9,17 @@ type NegativeCarryMap = {
 };
 
 /** -------------------------------------------------------
- * * ***_Decrement (Internal / Deprecated)***
+ * * ***Internal Utility Type: `_Decrement (Internal / Deprecated)`***
  * -------------------------------------------------------
- *
- * Internal type-level utility to decrement a numeric string by 1.
- *
- * **⚠️ Deprecated:** Do **not** use this directly.
- * Use the public {@link Decrement} type instead.
- *
+ * **Internal type-level utility to decrement a numeric string by 1.**
+ * - **⚠️ Deprecated:**
+ *    - Do **not** use this directly.
+ *    - Use the public {@link Decrement | **`Decrement`**} type instead.
  * - Processes the string recursively digit by digit.
  * - Handles borrow/carry using internal `DecrementMap` and `NegativeCarryMap`.
- *
  * @template Number - The numeric string to decrement.
  * @template Result - (Internal) Accumulator used during recursion.
- *
- * @deprecated Use {@link Decrement} instead.
- *
+ * @deprecated Use {@link Decrement | **`Decrement`**} instead.
  * @example
  * ```ts
  * // ❌ Avoid using _Decrement directly
@@ -66,11 +61,10 @@ type _DecrementNegativeOrZero<T extends number> = _Increment<
   : never;
 
 /** -------------------------------------------------------
- * * ***Decrement.***
+ * * ***Utility Type: `Decrement`.***
  * --------------------------------------------------------
- * A type-level utility that returns the decremented value of an integer.
- * Works for numbers in the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
- *
+ * **A type-level utility that returns the decremented value of an integer.**
+ * - Works for numbers in the range `[Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]`.
  * @template T - The number type to decrement.
  * @example
  * ```ts

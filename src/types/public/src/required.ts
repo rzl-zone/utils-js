@@ -9,13 +9,11 @@ import type { PrettifyUnionIntersection } from "./union-to-intersection";
 type CleanOptional<T> = [T] extends [undefined] ? undefined : T;
 
 /** -------------------------------------------------------
- * * ***RequiredOnly.***
+ * * ***Utility Type: `RequiredOnly`.***
  * -------------------------------------------------------
- * Make only the specified properties in `T` **required**, while keeping the rest unchanged (remain optional if optional).
- *
+ * **Make only the specified properties in `T` **required**, while keeping the rest unchanged (remain optional if optional).**
  * @template T - The object type to transform.
  * @template K - Keys of `T` that should become required.
- *
  * @example
  * ```ts
  * // Only "a" is required, "b" and "c" remain optional
@@ -53,13 +51,11 @@ export type RequiredOnly<
     >;
 
 /** -------------------------------------------------------
- * * ***RequiredExcept.***
+ * * ***Utility Type: `RequiredExcept`.***
  * -------------------------------------------------------
- * Make **all properties** in `T` required, except the specified keys which remain optional.
- *
+ * **Make **all properties** in `T` required, except the specified keys which remain optional.**
  * @template T - The object type to transform.
  * @template K - Keys of `T` that should remain optional.
- *
  * @example
  * ```ts
  * // All required except "a"

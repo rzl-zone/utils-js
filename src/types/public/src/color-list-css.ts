@@ -1,29 +1,26 @@
 /** -------------------------------------------------------
- * * ***ColorCssNamed.***
+ * * ***Utility Type: `ColorCssNamed`.***
  * -------------------------------------------------------
- *
- * Represents a **named CSS color keyword**, including `transparent`.
- *
+ * **Represents a **named CSS color keyword**, including `transparent`.**
+ * @description
  * This type includes all standard color names defined in the CSS Color Module Level 4
  * specification, and ensures type safety for string values in strongly typed UI libraries,
  * themes, or design systems.
- *
- * Only recognized, browser-supported named colors are allowed.
- *
+ * - **Behavior:**
+ *    - Only recognized, browser-supported named colors are allowed.
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/named-color
  * @see https://drafts.csswg.org/css-color-4/#named-colors
- *
  * @example
  * ```ts
- * const textColor1: ColorCssNamed = "rebeccapurple"; // ✅ valid
- * const textColor2: ColorCssNamed = "navy";          // ✅ valid
- * const textColor3: ColorCssNamed = "superblue";     // ❌ Type error
+ * const textColor1: ColorCssNamed = "rebeccapurple"; // ➔ ✅ valid
+ * const textColor2: ColorCssNamed = "navy";          // ➔ ✅ valid
+ * const textColor3: ColorCssNamed = "superblue";     // ➔ ❌ Type error
  *
  * // Usage in a theme object
- * const theme = {
- *   primary: "blue" as ColorCssNamed,
- *   secondary: "goldenrod" as ColorCssNamed,
- *   highlight: "transparent" as ColorCssNamed,
+ * const theme: Record<string, ColorCssNamed> = {
+ *   primary: "blue",
+ *   secondary: "goldenrod",
+ *   highlight: "transparent",
  * };
  * ```
  */

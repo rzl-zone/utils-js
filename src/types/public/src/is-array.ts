@@ -6,10 +6,9 @@ import type { IsNever } from "./never";
 import type { Not } from "./not";
 
 /** -------------------------------------------------------
- * * ***IsArray.***
+ * * ***Utility Type: `IsArray`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is an array.
- *
+ * **Returns a boolean whether the passed argument is an array.**
  * @example
  * type Case1 = IsArray<[]>;
  * // ➔ true
@@ -21,10 +20,9 @@ export type IsArray<T> = AndArr<
 >;
 
 /** -------------------------------------------------------
- * * ***IsMutableArray.***
+ * * ***Utility Type: `IsMutableArray`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is a mutable array.
- *
+ * **Returns a boolean whether the passed argument is a mutable array.**
  * @example
  * type Case1 = IsMutableArray<[]>;
  * // ➔ true
@@ -34,10 +32,9 @@ export type IsArray<T> = AndArr<
 export type IsMutableArray<T> = And<IsArray<T>, NotExtends<Readonly<T>, T>>;
 
 /** -------------------------------------------------------
- * * ***IsReadonlyArray.***
+ * * ***Utility Type: `IsReadonlyArray`.***
  * -------------------------------------------------------
- * Returns a boolean whether the passed argument is a read-only array.
- *
+ * **Returns a boolean whether the passed argument is a read-only array.**
  * @example
  * type Case1 = IsReadonlyArray<readonly []>;
  * // ➔ true

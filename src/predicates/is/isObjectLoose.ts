@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import type { isObject } from "./isObject";
+import type { isPlainObject } from "./isPlainObject";
+
 import { isNil } from "./isNil";
-import { isObject } from "./isObject";
 import { isFunction } from "./isFunction";
-import { isPlainObject } from "./isPlainObject";
 import { isObjectOrArray } from "./isObjectOrArray";
 
 /** ----------------------------------------------------------

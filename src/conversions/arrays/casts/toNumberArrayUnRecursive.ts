@@ -11,9 +11,10 @@ import { hasOwnProp } from "@/predicates/has/hasOwnProp";
 import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
-import { filterNilArray } from "../transforms";
+import { filterNilArray } from "../transforms/filterNilArray";
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { toNumberDeep } from "@/conversions/values/toNumberDeep";
+import type { toNumberDeep } from "@/conversions/values/toNumberDeep";
 
 /** -------------------------------------------------------
  * * ***Utility: `toNumberArrayUnRecursive`.***
@@ -23,14 +24,14 @@ import { toNumberDeep } from "@/conversions/values/toNumberDeep";
  *    - Only supports **flat arrays** (non-recursive).
  *    - Valid inputs: `string`, `number`, `null`, `undefined`.
  *    - `BigInt` will be converted to `number`.
- *    - Other values → coerced into `undefined`.
+ *    - Other values ➔ coerced into `undefined`.
  *    - Invalid values can be **removed** (`removeInvalidValueNumber: true`) or **kept** (`false`).
  * - **ℹ️ Note:**
  *    - _For recursive / nested arrays, use **{@link toNumberDeep | `toNumberDeep`}** instead._
- * @template T Element type of the input array.
- * @template R Whether invalid values should be removed (`true`) or kept (`false`).
- * @param {Array<T> | readonly T[] | null | undefined} [array] The array to convert. Returns `undefined` if not an array.
- * @param {ToNumberArrayUnRecursiveOptions<RemoveInvalidValue>} [options] Options controlling conversion behavior. Defaults to `{ removeInvalidValueNumber: true }`.
+ * @template T - Element type of the input array.
+ * @template R - Whether invalid values should be removed (`true`) or kept (`false`).
+ * @param {Array<T> | readonly T[] | null | undefined} [array] - The array to convert, returns `undefined` if not an array.
+ * @param {ToNumberArrayUnRecursiveOptions<RemoveInvalidValue>} [options] - Options to control transformation behavior, defaults to `{ removeInvalidValueNumber: true }`.
  * @returns {ToNumberArrayUnRecursiveReturn<NormalizeInput<T>, RemoveInvalidValue>} A new array of string representations, with invalid values optionally removed.
  * @example
  * ```ts

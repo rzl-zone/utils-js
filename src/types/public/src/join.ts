@@ -2,12 +2,11 @@ import type { IfEmptyArray } from "./array";
 import type { IsTuple } from "./is-tuple";
 
 /** -------------------------------------------------------
- * * ***Join.***
+ * * ***Utility Type: `Join`.***
  * -------------------------------------------------------
- * Type version of `Array.prototype.join()`.
+ * **Type version of `Array.prototype.join()`.**
  * - Joins the first array argument by the second argument.
- *
- * @template T - The array to join
+ * @template T - The array to join.
  * @template Glue - The string or number to join with, defaultValue: `""`.
  * @example
  * type Case0 = Join<["p", "e", "a", "r"]>;

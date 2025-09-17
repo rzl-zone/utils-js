@@ -12,9 +12,8 @@ import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
 type IsEmptyValueOptions = {
-  /** Whether to check symbol properties when checking empty objects.
-   *
-   * DefaultValue: `false`.
+  /** **Whether to check symbol properties when checking empty objects.**
+   * - **DefaultValue:** `false`.
    *
    * @default false
    */

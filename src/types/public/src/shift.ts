@@ -1,5 +1,9 @@
 import type { If } from "./if";
 
+/** ---------------------------------------------------------------------------
+ * * ***Type Options for {@link Shift | `Shift`}.***
+ * ---------------------------------------------------------------------------
+ */
 export type ShiftOptions = {
   /**
    * If `true`, return both the rest of the array and the removed element
@@ -13,19 +17,16 @@ export type ShiftOptions = {
 };
 
 /** -------------------------------------------------------
- * * ***Shift.***
+ * * ***Utility Type: `Shift`.***
  * -------------------------------------------------------
- * Removes the first element from the array type `T`.
- *
- * Behavior:
- * - By default (`includeRemoved: false`), returns the array without the first element.
- * - If `includeRemoved: true`, returns a tuple `[Rest, Removed]`:
- *   - `Rest`: the remaining array
- *   - `Removed`: the removed first element
- *
+ * **Removes the first element from the array type `T`.**
+ * - **Behavior:**
+ *    - By default (`includeRemoved: false`), returns the array without the first element.
+ *    - If `includeRemoved: true`, returns a tuple `[Rest, Removed]`:
+ *      - `Rest`: the remaining array.
+ *      - `Removed`: the removed first element.
  * @template T - The array type to operate on.
  * @template Options - Optional flags. Default `{ includeRemoved: false }`.
- *
  * @example
  * ```ts
  * // Default: just remove first element

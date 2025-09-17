@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getPrefixPathname } from "@/urls/pathname";
+import { getPrefixPathname } from "@/urls/pathname/getPrefixPathname";
 
 describe("getPrefixPathname", () => {
   it("should extract prefix with single URL and single base", () => {

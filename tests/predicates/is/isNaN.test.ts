@@ -26,6 +26,6 @@ describe("isNaN", () => {
 
   it("matches lodash behavior", () => {
     expect(isNaN(new Number(NaN))).toBe(true);
-    expect(isNaN(new Number("foo"))).toBe(true); // new Number("foo") → NaN
+    expect(isNaN(new Number("foo"))).toBe(true); // new Number("foo") ➔ NaN
   });
 });

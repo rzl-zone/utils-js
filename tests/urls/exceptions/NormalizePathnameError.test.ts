@@ -1,4 +1,4 @@
-import { NormalizePathnameError } from "@/urls/private-exceptions/NormalizePathnameError";
+import { NormalizePathnameError } from "@/urls/_private/NormalizePathnameError";
 import { describe, it, expect } from "vitest";
 
 describe("NormalizePathnameError", () => {

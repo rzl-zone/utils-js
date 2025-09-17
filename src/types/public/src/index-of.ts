@@ -24,10 +24,10 @@ type _IndexOfString<
   : -1;
 
 /** -------------------------------------------------------
- * * ***IndexOf.***
+ * * ***Utility Type: `IndexOf`.***
  * --------------------------------------------------------
- * Type version of `Array.prototype.indexOf()` and `String.prototype.indexOf()`. Returns the index of the second argument in the first argument.
- *
+ * **Type version of `Array.prototype.indexOf()` and `String.prototype.indexOf()`.**
+ * - Returns the index of the second argument in the first argument.
  * @example
  * ```ts
  * type Case1 = IndexOf<[1, 2, 3], 2>; // ➔ 1

@@ -12,9 +12,9 @@ type OptionsAssertIsNumber = OptionsAssertIs & IsNumberOptions;
  * * ***Type guard assertion: `assertIsNumber`.***
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
- * - Validates that the given `value` is a **number**.
- * - After it returns successfully, TypeScript narrows the type of `value` to `number`.
  * - **Behavior:**
+ *    - Validates that the given `value` is a **number**.
+ *    - After it returns successfully, TypeScript narrows the type of `value` to `number`.
  *    - ✅ If `value` is a `number` ➔ execution continues normally.
  *    - ❌ If `value` is not a `number` ➔ throws a `TypeError` with either:
  *      - A custom error message (`options.message`), or
@@ -23,8 +23,9 @@ type OptionsAssertIsNumber = OptionsAssertIs & IsNumberOptions;
  *    - A `number` refers strictly to the JavaScript `number` primitive type (e.g., `42`, `3.14`, `-1`, `0`).
  *    - This excludes `Number` objects created with `new Number(123)`.
  *    - By default, `NaN` is **not considered** valid, you can allow it with `{ includeNaN: true }`.
- * @param {*} value - The value to validate.
- * @param {OptionsAssertIsNumber} [options] - Optional configuration:
+ * @param {*} value - ***The value to validate.***
+ * @param {OptionsAssertIsNumber} [options]
+ *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  *   - `includeNaN`: Whether to treat `NaN` as valid.
@@ -46,8 +47,9 @@ type OptionsAssertIsNumber = OptionsAssertIs & IsNumberOptions;
  *
  * // ❌ Throws with custom function message + case formatting
  * assertIsNumber("hello", {
- *   message: ({ currentType, validType }) =>
- *     `Expected ${validType} but got (${currentType}).`,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`;
+ *   },
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected number but got (string)."

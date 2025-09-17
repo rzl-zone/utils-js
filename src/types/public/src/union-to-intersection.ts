@@ -3,20 +3,16 @@
 import type { DefaultPrettifyOptions, Prettify, PrettifyOptions } from "./prettify";
 
 /** -------------------------------------------------------
- * * ***UnionToIntersection.***
+ * * ***Utility Type: `UnionToIntersection`.***
  * -------------------------------------------------------
- *
- * Converts a union type into an **intersection**.
- *
- * 📖 Reference: ***[StackOverflow](https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type/50375286#50375286).***
- *
+ * **Converts a union type into an **intersection**.**
+ * @description
+ * 📖 Reference: ***[`StackOverflow`](https://stackoverflow.com/questions/50374908/transform-union-type-to-intersection-type/50375286#50375286).***
  * @template U - The union type to be converted.
- *
  * @example
  * ```ts
  * type A = UnionToIntersection<{ a: string } | { b: number }>;
  * // ➔ { a: string } & { b: number }
- *
  * type B = UnionToIntersection<
  *   { a: string } | { b: number } | { c: boolean }
  * >;
@@ -30,31 +26,28 @@ export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) ex
   : never;
 
 /** -------------------------------------------------------
- * * ***PrettifyUnionIntersection.***
+ * * ***Utility Type: `PrettifyUnionIntersection`.***
  * -------------------------------------------------------
- *
- * Converts a union type into an **intersection** using ***{@link UnionToIntersection}***, and then
- * applies ***{@link Prettify}*** to simplify the resulting intersection
- * for better readability in IntelliSense and tooltips.
- *
+ * **Converts a union type into an **intersection** using ***{@link UnionToIntersection | `UnionToIntersection`}***, and then
+ * applies ***{@link Prettify | `Prettify`}*** to simplify the resulting intersection
+ * for better readability in IntelliSense and tooltips.**
+ * @description
  * Useful when the raw intersection of union types produces
  * deeply nested or hard-to-read structures.
- *
  * @template T - The union type to be converted.
  * @template Options - Optional formatting options for `Prettify`.
- *
  * @example
  * ```ts
- * // Basic union → intersection
+ * // Basic union ➔ intersection
  * type A = { a: string } | { b: number };
  * type B = PrettifyUnionIntersection<A>;
- * // ➔ ^? { a: string } & { b: number }
+ * // ➔ { a: string } & { b: number }
  * // final result become ➔ { a: string b: number }
  *
  * // Larger union
  * type C = { a: string } | { b: number } | { c: boolean };
  * type D = PrettifyUnionIntersection<C>;
- * // ➔ ^? { a: string } & { b: number } & { c: boolean }
+ * // ➔ { a: string } & { b: number } & { c: boolean }
  * // final result become ➔ { a: string b: number c: boolean }
  *
  * // With PrettifyOptions (custom formatting)

@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 /** -------------------------------------------------------
- * * ***RemoveIndexSignature.***
+ * * ***Utility Type: `RemoveIndexSignature`.***
  * -------------------------------------------------------
- *
- * Removes **index signatures** (e.g., `[key: string]: any`) from an object type `T`,
- * leaving only explicitly declared properties.
- *
+ * **Removes **index signatures** (e.g., `[key: string]: any`) from an object
+ * type `T`, leaving only explicitly declared properties.**
  * @template T - The object type to process.
- *
  * @example
  * ```ts
  * type Case1 = RemoveIndexSignature<{ [key: string]: number | string; a: string }>;
@@ -22,5 +17,6 @@
  * ```
  */
 export type RemoveIndexSignature<T> = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [Key in keyof T as Key extends `${infer _}` ? Key : never]: T[Key];
 };

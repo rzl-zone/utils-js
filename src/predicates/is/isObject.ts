@@ -1,12 +1,11 @@
 import type { AnObjectNonArray, IsArray } from "@/types";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { isPlainObject } from "./isPlainObject";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { isObjectOrArray } from "./isObjectOrArray";
 
 import { isNil } from "./isNil";
 import { isArray } from "./isArray";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isPlainObject } from "./isPlainObject";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isObjectOrArray } from "./isObjectOrArray";
 
 type HasKeys<T> = keyof T extends never ? false : true;
 

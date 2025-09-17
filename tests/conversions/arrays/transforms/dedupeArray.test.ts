@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { dedupeArray } from "@/conversions/arrays/transforms";
+import { dedupeArray } from "@/conversions/arrays/transforms/dedupeArray";
 
 describe("dedupeArray with options object", () => {
   it("should dedupe globally without forceToString", () => {

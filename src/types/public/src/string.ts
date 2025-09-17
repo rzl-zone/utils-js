@@ -4,21 +4,18 @@ import type { IsNever } from "./never";
 import type { Trim } from "./trim";
 
 /** -------------------------------------------------------
- * * ***AnyString.***
+ * * ***Utility Type: `AnyString`.***
  * -------------------------------------------------------
- *
- * A utility type that represents **any string value** while
- * preventing unwanted widening of string literals to `string`.
- *
- * 🔹 This is achieved by intersecting `string` with `{}`,
+ * **A utility type that represents **any string value** while
+ * preventing unwanted widening of string literals to `string`.**
+ * @description
+ * This is achieved by intersecting `string` with `{}`,
  * ensuring that the type remains assignable to `string`
  * but is treated as a unique type in generic constraints.
- *
- * 📌 Useful in scenarios where:
- * - You want to accept **any string**, but still preserve
- *   literal types in inference.
- * - You need stricter typing than just `string`.
- *
+ * - **Useful in scenarios where:**
+ *    - You want to accept **any string**, but still preserve
+ *      literal types in inference.
+ *    - You need stricter typing than just `string`.
  * @example
  * ```ts
  * declare function acceptsAnyString<T extends AnyString>(value: T): T;
@@ -35,19 +32,17 @@ import type { Trim } from "./trim";
 export type AnyString = {} & string;
 
 /** -------------------------------------------------------
- * * ***EmptyString.***
+ * * ***Utility Type: `EmptyString`.***
  * -------------------------------------------------------
- * Returns the type `T` only if it is the empty string `""`.
- * Optionally trims whitespace before checking.
- *
- * Behavior:
- * - If `WithTrim` is `true` (default), trims `T` before checking.
- * - If `T` is the general `string` type, returns `never`.
- * - If `T` is empty (after optional trimming), returns `T` or `Trim<T>`.
- *
+ * - **Conditional type:**
+ *    - Returns the type `T` only if it is the empty string `""`.
+ *    - Optionally trims whitespace before checking.
+ * - **Behavior:**
+ *    - If `WithTrim` is `true` (default), trims `T` before checking.
+ *    - If `T` is the general `string` type, returns `never`.
+ *    - If `T` is empty (after optional trimming), returns `T` or `Trim<T>`.
  * @template T - The string type to check.
  * @template WithTrim - Whether to trim whitespace before checking (default `true`).
- *
  * @example
  * ```ts
  * // Basic empty string
@@ -80,19 +75,17 @@ export type EmptyString<T extends string, WithTrim extends boolean = true> = "" 
   : never;
 
 /** -------------------------------------------------------
- * * ***NonEmptyString.***
+ * * ***Utility Type: `NonEmptyString`.***
  * -------------------------------------------------------
- * Returns the type `T` only if it is a non-empty string.
- * Optionally trims whitespace before checking.
- *
- * Behavior:
- * - If `WithTrim` is `true` (default), trims `T` before checking.
- * - If `T` is the general `string` type, returns `string`.
- * - If `T` is empty (after optional trimming), returns `never`.
- *
+ * - **Conditional type:**
+ *    - Returns the type `T` only if it is a non-empty string.
+ *    - Optionally trims whitespace before checking.
+ * - **Behavior:**
+ *    - If `WithTrim` is `true` (default), trims `T` before checking.
+ *    - If `T` is the general `string` type, returns `string`.
+ *    - If `T` is empty (after optional trimming), returns `never`.
  * @template T - The string type to check.
  * @template WithTrim - Whether to trim whitespace before checking (default `true`).
- *
  * @example
  * ```ts
  * // Non-empty string
@@ -117,19 +110,17 @@ export type NonEmptyString<
   : If<IsNever<EmptyString<T, WithTrim>>, WithTrim extends true ? Trim<T> : T, never>;
 
 /** -------------------------------------------------------
- * * ***IsEmptyString.***
+ * * ***Utility Type: `IsEmptyString`.***
  * -------------------------------------------------------
- * Returns `true` if `T` is exactly the empty string `""`.
- * Optionally trims whitespace before checking.
- *
- * Behavior:
- * - If `WithTrim` is `true` (default), trims `T` before checking.
- * - If `T` is empty after optional trimming, returns `true`.
- * - Otherwise, returns `false`.
- *
+ * - **Conditional type:**
+ *    - Returns `true` if `T` is exactly the empty string `""`.
+ *    - Optionally trims whitespace before checking.
+ * - **Behavior:**
+ *    - If `WithTrim` is `true` (default), trims `T` before checking.
+ *    - If `T` is empty after optional trimming, returns `true`.
+ *    - Otherwise, returns `false`.
  * @template T - The string type to check.
  * @template WithTrim - Whether to trim whitespace before checking (default `true`).
- *
  * @example
  * ```ts
  * type Case1 = IsEmptyString<"">;
@@ -147,19 +138,17 @@ export type IsEmptyString<T extends string, WithTrim extends boolean = true> = I
 >;
 
 /** -------------------------------------------------------
- * * ***IsNonEmptyString.***
+ * * ***Utility Type: `IsNonEmptyString`.***
  * -------------------------------------------------------
- * Returns `true` if `T` is a non-empty string.
- * Optionally trims whitespace before checking.
- *
- * Behavior:
- * - If `WithTrim` is `true` (default), trims `T` before checking.
- * - Returns `true` if `T` is non-empty after optional trimming.
- * - Returns `false` if `T` is empty (after trimming if `WithTrim=true`).
- *
+ * - **Conditional type:**
+ *    - Returns `true` if `T` is a non-empty string.
+ *    - Optionally trims whitespace before checking.
+ * - **Behavior:**
+ *    - If `WithTrim` is `true` (default), trims `T` before checking.
+ *    - Returns `true` if `T` is non-empty after optional trimming.
+ *    - Returns `false` if `T` is empty (after trimming if `WithTrim=true`).
  * @template T - The string type to check.
  * @template WithTrim - Whether to trim whitespace before checking (default `true`).
- *
  * @example
  * ```ts
  * type Case1 = IsNonEmptyString<"abc">;
@@ -177,16 +166,15 @@ export type IsNonEmptyString<T extends string, WithTrim extends boolean = true> 
 >;
 
 /** -------------------------------------------------------
- * * ***IfEmptyString.***
+ * * ***Utility Type: `IfEmptyString`.***
  * -------------------------------------------------------
- * Conditional type: returns `IfTrue` if `T` is an empty string `""`,
- * otherwise returns `IfFalse`. Optionally trims whitespace before checking.
- *
+ * - **Conditional type:**
+ *    - Returns `IfTrue` if `T` is an empty string `""`, otherwise returns `IfFalse`.
+ *    - Optionally trims whitespace before checking.
  * @template T - The string type to check.
  * @template IfTrue - Type returned if `T` is empty (default `true`).
  * @template IfFalse - Type returned if `T` is not empty (default `false`).
  * @template WithTrim - Whether to trim whitespace before checking (default `true`).
- *
  * @example
  * ```ts
  * type Case1 = IfEmptyString<"">;
@@ -211,16 +199,15 @@ export type IfEmptyString<
 > = IfNot<IsNever<EmptyString<T, WithTrim>>, IfTrue, IfFalse>;
 
 /** -------------------------------------------------------
- * * ***IfNonEmptyString.***
+ * * ***Utility Type: `IfNonEmptyString`.***
  * -------------------------------------------------------
- * Conditional type: returns `IfTrue` if `T` is a non-empty string,
- * otherwise returns `IfFalse`. Optionally trims whitespace before checking.
- *
+ * - **Conditional type:**
+ *    - Returns `IfTrue` if `T` is a non-empty string, otherwise returns `IfFalse`.
+ *    - Optionally trims whitespace before checking.
  * @template T - The string type to check.
  * @template IfTrue - Type returned if `T` is non-empty (default `true`).
  * @template IfFalse - Type returned if `T` is empty (default `false`).
  * @template WithTrim - Whether to trim whitespace before checking (default `true`).
- *
  * @example
  * ```ts
  * type Case1 = IfNonEmptyString<"abc">;

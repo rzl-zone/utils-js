@@ -9,9 +9,9 @@ import {
  * * ***Type guard assertion: `assertIsBigInt`.***
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
- * - Validates that the given `value` is a **bigint**.
- * - After it returns successfully, TypeScript narrows the type of `value` to `bigint`.
  * - **Behavior:**
+ *    - Validates that the given `value` is a **bigint**.
+ *    - After it returns successfully, TypeScript narrows the type of `value` to `bigint`.
  *    - ✅ If `value` is a `bigint` ➔ execution continues normally.
  *    - ❌ If `value` is not a `bigint` ➔ throws a `TypeError` with either:
  *      - A custom error message (`options.message`), or
@@ -19,8 +19,9 @@ import {
  *  - **ℹ️ Note:**
  *    - A `bigint` refers strictly to the JavaScript `bigint` primitive type (e.g., `123n`, `0n`, `-999999999999999999999n`).
  *    - This excludes `BigInt` objects created with `Object(BigInt(123))`.
- * @param {*} value - The value to validate.
- * @param {OptionsAssertIs} [options] - Optional configuration:
+ * @param {*} value - ***The value to validate.***
+ * @param {OptionsAssertIs} [options]
+ *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to `bigint` if no error is thrown.
@@ -41,8 +42,9 @@ import {
  *
  * // ❌ Throws with custom function message + case formatting
  * assertIsBigInt(42, {
- *   message: ({ currentType, validType }) =>
- *     `Expected ${validType} but got (${currentType}).`,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`;
+ *   },
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected bigint but got (number)."

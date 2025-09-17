@@ -1,19 +1,117 @@
-import type { ApplyDefaultOptions, OverWritable } from "./_internal";
-import type { And } from "./and";
+import type { And, AndArr } from "./and";
 import type { ArrayElementType } from "./array-element-type";
 import type { IsEqual } from "./equal";
+import type { Extends } from "./extends";
 import type { AnyFunction } from "./functions";
 import type { Increment } from "./increment";
 import type { IsArrayIndex } from "./is-array-index";
 import type { IsTuple } from "./is-tuple";
 import type { Join } from "./join";
 import type { IsNever } from "./never";
+import type { Not } from "./not";
+import type { Or } from "./or";
+import type { Prettify } from "./prettify";
+import type { IsUnknown } from "./unknown";
 import type { ValueOf, ValueOfArray } from "./value-of";
 
-/** --------------------------------------------------------------
- * * ***Options for {@link PathToFields} type-level utility.***
- * --------------------------------------------------------------
+/** -------------------------------------------------------
+ * * ***Utility Type: `OverWritable`.***
+ * -------------------------------------------------------
+ * **Option type to signal that some properties can be overwritten when
+ * applying default options.**
+ * @property overwriteDefault - If true, all options in the passed `Options`
+ *   object will **overwrite** defaults, even if rules say otherwise.
+ */
+type OverWritable = {
+  /** If true, all options in the passed `Options` object will **overwrite** defaults, even if rules say otherwise, defaultValue: `false`.
+   *
+   * @default false
+   */
+  overwriteDefault?: boolean;
+};
+
+/** -------------------------------------------------------
+ * * ***Utility Type: `ApplyDefaultOptions`.***
+ * -------------------------------------------------------
+ * **Type-level utility that merges a user-specified `Options` object
+ * with a `DefaultOptions` object using a set of `OverwriteRules`.**
+ * @template BaseOptions - The base type of all options.
+ * @template Options - User-specified options that may override defaults.
+ * @template DefaultOptions - Default values for options.
+ * @template OverwriteRules - A mapping that indicates which keys
+ *   should always allow overwriting defaults.
+ * @template OverwriteDefault - If true, all options in `Options`
+ *   overwrite defaults regardless of rules.
+ * @remarks
+ * - Recursively applies defaults for nested objects.
+ * - Only objects that are non-nullable and non-unknown are recursively merged.
+ * - If a property is **not an object** or recursion is not needed,
+ *   it either takes the value from `Options` or merges `Options[K] | DefaultOptions[K]`.
+ * - Helps safely build strongly typed configuration objects with defaults.
+ * @example
+ * ```ts
+ * type Base = {
+ *   a: { x: number; y: string };
+ *   b: boolean;
+ * };
  *
+ * type Defaults = {
+ *   a: { x: 1; y: "default" };
+ *   b: true;
+ * };
+ *
+ * type UserOptions = {
+ *   a: { y: "custom" };
+ * };
+ *
+ * type Result = ApplyDefaultOptions<Base, UserOptions, Defaults, { a: true; b: false }>;
+ * // Result: {
+ * //   a: { x: 1; y: "custom"; tra: "test" };
+ * //   b: boolean;
+ * // }
+ * ```
+ */
+type ApplyDefaultOptions<
+  BaseOptions,
+  Options extends BaseOptions,
+  DefaultOptions extends BaseOptions,
+  OverwriteRules,
+  OverwriteDefault extends boolean = false
+> = Prettify<{
+  [K in keyof BaseOptions]-?: K extends keyof Options
+    ? AndArr<
+        [
+          Extends<NonNullable<BaseOptions[K]>, object>,
+          Not<IsNever<DefaultOptions[K]>>,
+          Not<IsUnknown<BaseOptions[K]>>
+        ]
+      > extends true
+      ? ApplyDefaultOptions<
+          NonNullable<BaseOptions[K]>,
+          // Options[K],
+          Extract<Options[K], NonNullable<BaseOptions[K]>>,
+          // DefaultOptions[K],
+          Extract<DefaultOptions[K], NonNullable<BaseOptions[K]>>,
+          OverwriteRules[K & keyof OverwriteRules],
+          OverwriteDefault
+        > & {
+          tra: "test";
+        }
+      : Or<
+          IsEqual<OverwriteDefault, true>,
+          And<
+            Extends<K, keyof OverwriteRules>,
+            Extends<OverwriteRules[K & keyof OverwriteRules], true>
+          >
+        > extends true
+      ? Options[K]
+      : Options[K] | DefaultOptions[K]
+    : DefaultOptions[K];
+}>;
+
+/** --------------------------------------------------------------
+ * * ***Options for {@link PathToFields | **`PathToFields`**} type-level utility.***
+ * --------------------------------------------------------------
  * @template ignoredTypes - Types to ignore completely.
  * @template stopTypes - Types at which recursion stops and returns `[]`.
  * @template limit - Max recursion depth.
@@ -21,16 +119,53 @@ import type { ValueOf, ValueOfArray } from "./value-of";
  * @template ignoredKeys - Keys to ignore when generating paths.
  * @template arrayIndexing - Options for handling array paths.
  */
-export type PathToFieldsOptions = OverWritable & {
-  ignoredTypes?: unknown;
-  stopTypes?: unknown;
-  limit?: number;
-  format?: "dot" | "array";
-  ignoredKeys?: PropertyKey;
-  arrayIndexing?: {
-    exactIndexes: boolean;
-  };
-};
+export type PathToFieldsOptions = Prettify<
+  OverWritable & {
+    /** Types to ignored completely (default: `undefined`).
+     *
+     * @default undefined
+     */
+    ignoredTypes?: unknown;
+    /** Types at which recursion stops (default: `undefined`).
+     *
+     * @default undefined
+     */
+    stopTypes?: unknown;
+    /** Max recursion depth (default: `10`).
+     *
+     * @default 10
+     */
+    limit?: number;
+    /** Format Output Options:
+     * - `"dot"` ➔ dot-notation strings, default output (`"a.b.c"`).
+     * - `"array"` ➔ array of path segments (`["a", "b", "c"]`).
+     *
+     * @default "dot"
+     */
+    format?: "dot" | "array";
+    /** Keys to skip when generating paths (default: `undefined`).
+     *
+     * @default undefined
+     */
+    ignoredKeys?: PropertyKey;
+    /** Options for array Indexing (default: `{ exactIndexes: false }`).
+     *
+     * When `arrayIndexing.exactIndexes = true` ➔ outputs exact tuple indexes (`"arr.0"`), otherwise generic `"arr.${number}"`.
+     * @default undefined
+     */
+    arrayIndexing?: {
+      /** Options for array Exact Indexing (default: `false`).
+       *
+       * When `exactIndexes = true` ➔ outputs exact tuple indexes (`"arr.0"`), otherwise generic `"arr.${number}"`.
+       * - For increase limit indexing, you can set `limit` options, default
+       *   limit is: `10`.
+       * @default false
+       */
+      exactIndexes: boolean;
+    };
+  },
+  { recursive: true }
+>;
 /** * ***Default options for {@link PathToFields}.*** */
 export type DefaultPathToFieldsOptions = {
   ignoredTypes: never;
@@ -101,15 +236,12 @@ type _PathToFields<
     }>;
 
 /** -------------------------------------------------------
- * * ***PathToFields.***
+ * * ***Utility Type: `PathToFields`.***
  * -------------------------------------------------------
- *
- * Generates **all possible property paths** within a type `T`.
- * Supports nested objects, arrays, tuples, and optional configuration.
- *
+ * **Generates **all possible property paths** within a type `T`.
+ * Supports nested objects, arrays, tuples, and optional configuration.**
  * @template T - Object type to extract paths from.
- * @template Options - Optional configuration. See {@link PathToFieldsOptions}.
- *
+ * @template Options - Optional configuration.
  * @example
  * ```ts
  * // Nested object
@@ -141,20 +273,16 @@ type _PathToFields<
  * >;
  * // Result: "settings" | "nested.inner"
  * ```
- *
  * @remarks
- * - `Options.format = "dot"` → dot-notation strings, default output (`"a.b.c"`).
- * - `Options.format = "array"` → array of path segments (`["a", "b", "c"]`).
- * - `Options.limit` → max recursion depth (default 10).
- * - `Options.stopTypes` → types at which recursion stops.
- * - `Options.ignoredTypes` → types ignored completely.
- * - `Options.ignoredKeys` → keys to skip when generating paths.
- * - `Options.arrayIndexing.exactIndexes = true` → outputs exact tuple indexes (`"arr.0"`), otherwise generic `"arr.${number}"`.
+ * - `Options.format = "dot"` ➔ dot-notation strings, default output (`"a.b.c"`).
+ * - `Options.format = "array"` ➔ array of path segments (`["a", "b", "c"]`).
+ * - `Options.limit` ➔ max recursion depth (default 10).
+ * - `Options.stopTypes` ➔ types at which recursion stops.
+ * - `Options.ignoredTypes` ➔ types ignored completely.
+ * - `Options.ignoredKeys` ➔ keys to skip when generating paths.
+ * - `Options.arrayIndexing.exactIndexes = true` ➔ outputs exact tuple indexes (`"arr.0"`), otherwise generic `"arr.${number}"`.
  */
-export type PathToFields<
-  T,
-  Options extends PathToFieldsOptions & { overwriteDefault?: boolean } = never
-> = (
+export type PathToFields<T, Options extends PathToFieldsOptions = never> = (
   IsNever<Options> extends true
     ? DefaultPathToFieldsOptions
     : ApplyDefaultOptions<

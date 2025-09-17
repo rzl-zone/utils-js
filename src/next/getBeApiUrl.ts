@@ -1,18 +1,20 @@
-import { formatEnvPort } from "@/urls/utils";
-import { removeSpaces } from "@/strings/sanitize";
+import { formatEnvPort } from "@/urls/utils/formatEnvPort";
+import { hasOwnProp } from "@/predicates/has/hasOwnProp";
+import { isPlainObject } from "@/predicates/is/isPlainObject";
+import { removeSpaces } from "@/strings/sanitizations/removeSpaces";
 import { assertIsString } from "@/assertions/strings/assertIsString";
 
 type OptionsGetBeApiUrl = {
-  /** * The Suffix origin base api url, e.g:`http://localhost.com/api`, default: `"/"`.
+  /** * ***The Suffix origin base api url, e.g:`http://localhost.com/api`, default: `"/"`.***
    *
    * @default "/" */
   suffix?: string;
 };
 
 /** ---------------------------------------------------
- * * ***Retrieves the base API URL of the backend.***
+ * * ***Utility for NextJS: `getBeApiUrl`.***
  * ---------------------------------------------------
- * **This function determines the backend API base URL from the `NEXT_PUBLIC_BACKEND_API_URL` environment variable.**
+ * **This function determines the backend API base URL from the `NEXT_PUBLIC_BACKEND_API_URL` environment variable (retrieves the base API URL of the backend).**
  * - **Behavior:**
  *    - If the variable is not set, it defaults to `"http://localhost:8000"`.
  *    - It also allows adding an optional suffix to the returned URL.
@@ -22,7 +24,7 @@ type OptionsGetBeApiUrl = {
  * This function determines the backend API base URL from the `NEXT_PUBLIC_BACKEND_API_URL` environment variable.
  * - If `NEXT_PUBLIC_BACKEND_API_URL` is not set, it defaults to `"http://localhost:8000"`.
  * - If `NEXT_PUBLIC_BACKEND_API_URL` does **not** contain a port, it appends one from `NEXT_PUBLIC_PORT_BE` if available.
- * - Supports appending optional suffix (like "/api").
+ * - Supports appending optional suffix (like `"/api"`).
  * @param {OptionsGetBeApiUrl|undefined} options - Configuration options.
  * @param {OptionsGetBeApiUrl["suffix"]} [options.suffix="/"] - The suffix to append to the base API URL.
  * @returns {string} The formatted backend API base URL.
@@ -45,7 +47,11 @@ type OptionsGetBeApiUrl = {
  * getBeApiUrl({ suffix: "/v1" });
  * // ➔ "http://localhost:8000/v1"
  */
-export const getBeApiUrl = ({ suffix = "/" }: OptionsGetBeApiUrl = {}): string => {
+export const getBeApiUrl = (options: OptionsGetBeApiUrl = {}): string => {
+  if (!isPlainObject(options)) options = {};
+
+  let suffix = hasOwnProp(options, "suffix") ? options.suffix : "/";
+
   // Ensure suffix is a string
   assertIsString(suffix, {
     message({ currentType, validType }) {

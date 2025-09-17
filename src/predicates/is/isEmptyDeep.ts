@@ -45,7 +45,7 @@ import { isObjectOrArray } from "./isObjectOrArray";
  */
 export const isEmptyDeep = (value: unknown): boolean => {
   if (isString(value)) return isEmptyString(value);
-  // Number → only NaN counts as empty
+  // Number ➔ only NaN counts as empty
   if (isNumber(value)) return isNaN(value);
   if (isArray(value)) {
     return isEmptyArray(value) || value.every(isEmptyDeep);

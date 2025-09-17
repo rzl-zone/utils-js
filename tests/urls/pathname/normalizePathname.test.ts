@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 
-import * as Utils from "@/strings/sanitize";
-import { normalizePathname } from "@/urls/pathname";
-import { NormalizePathnameError } from "@/urls/private-exceptions/NormalizePathnameError";
+import * as Utils from "@/strings/sanitizations/removeSpaces";
+import { normalizePathname } from "@/urls/pathname/normalizePathname";
+import { NormalizePathnameError } from "@/urls/_private/NormalizePathnameError";
 
 describe("normalizePathname", () => {
   it("should return defaultPath if pathname is null, undefined, empty or whitespace", () => {

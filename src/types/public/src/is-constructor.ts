@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /** -------------------------------------------------------
- * * ***IsConstructor.***
+ * * ***Utility Type: `IsConstructor`.***
  * -------------------------------------------------------
- * Checks if a given type `T` is a constructor type (`new () => any`).
- *
+ * **Checks if a given type `T` is a constructor type (`new () => any`).**
  * @template T - The type to check.
  * @returns `true` if `T` is a constructor, otherwise `false`.
  * @example

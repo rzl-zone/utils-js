@@ -1,5 +1,5 @@
-import { assertIsArray } from "@/assertions/objects/assertIsArray";
 import { describe, it, expect } from "vitest";
+import { assertIsArray } from "@/assertions/objects/assertIsArray";
 
 describe("assertIsArray", () => {
   it("should not throw for a valid array", () => {

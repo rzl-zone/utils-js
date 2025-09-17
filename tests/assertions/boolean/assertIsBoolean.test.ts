@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
 
-import type { AssertIsOptionsMessageFunction } from "@/assertions/_private/assertIs";
+import type { OptionsMessageFunctionAssertIs } from "@/assertions/_private/assertIs";
 
 describe("assertIsBoolean", () => {
   const validValues = [true, false];
@@ -33,7 +33,7 @@ describe("assertIsBoolean", () => {
 
   it("throws TypeError with function custom message", () => {
     invalidValues.forEach((val) => {
-      const fnMsg = ({ currentType, validType }: AssertIsOptionsMessageFunction) =>
+      const fnMsg = ({ currentType, validType }: OptionsMessageFunctionAssertIs) =>
         `Expected ${validType} but got ${currentType}`;
       const expected = `Expected boolean but got ${getPreciseType(val)}`;
       expect(() => assertIsBoolean(val, { message: fnMsg })).toThrow(expected);
@@ -42,7 +42,7 @@ describe("assertIsBoolean", () => {
 
   it("applies formatCase to actualType when using function message", () => {
     const val = 42;
-    const fnMsg = ({ currentType, validType }: AssertIsOptionsMessageFunction) =>
+    const fnMsg = ({ currentType, validType }: OptionsMessageFunctionAssertIs) =>
       `Expected ${validType} but got ${currentType}`;
     expect(() =>
       assertIsBoolean(val, { message: fnMsg, formatCase: "toKebabCase" })
@@ -59,7 +59,7 @@ describe("assertIsBoolean", () => {
 
   it("trims messages when provided as non-empty strings or function results", () => {
     const val = 42;
-    const fnMsg = ({ currentType, validType }: AssertIsOptionsMessageFunction) =>
+    const fnMsg = ({ currentType, validType }: OptionsMessageFunctionAssertIs) =>
       `  Expected ${validType} but got ${currentType}   `;
     expect(() => assertIsBoolean(val, { message: fnMsg })).toThrow(
       `Expected boolean but got ${getPreciseType(val)}`

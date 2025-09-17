@@ -17,7 +17,7 @@ import { isEmptyString } from "@/predicates/is/isEmptyString";
  *    - Arrays: `[]` is `false`, non-empty is `true`.
  *    - Other objects: uses `Boolean(value)`, so `{}` is `true`.
  * @param {*} value - The value to be converted.
- * @returns {boolean} `true` if the value is truthy, otherwise `false`.
+ * @returns {boolean} Return `true` if the value is truthy, otherwise `false`.
  * @example
  * toBooleanLoose(null);     // ➔ false
  * toBooleanLoose("");       // ➔ false

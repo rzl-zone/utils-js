@@ -1,8 +1,8 @@
-import type { CustomizerIsEqualWith } from "@/types/private";
-import { baseDeepEqual } from "@/predicates/is/private/baseDeepEqual";
+import type { CustomizerIsEqualWith } from "./_private/types.isEqualWith";
+import { baseDeepEqual } from "@/predicates/is/_private/baseDeepEqual";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { isEqual } from "../is/isEqual";
+import type { isEqual } from "../is/isEqual";
 
 /** ----------------------------------------------------
  * * ***Predicate: `isEqualWith`.***

@@ -10,16 +10,14 @@ type _Repeat<
   : _Repeat<T, Count, `${T}${Result}`, Push<Iteration, unknown>>;
 
 /** -------------------------------------------------------
- * * ***Repeat.***
+ * * ***Utility Type: `Repeat`.***
  * -------------------------------------------------------
- *
- * Repeats a string literal type `T` a specified number of times `Count`.
- * - Supports a range of `[0, 999]` due to TypeScript recursion limits.
- * - If `Count > 999`, it is automatically error `Type instantiation is excessively deep and possibly infinite.ts(2589)`.
- *
+ * **Repeats a string literal type `T` a specified number of times `Count`.**
+ * - **Behavior:**
+ *    - Supports a range of `[0, 999]` due to TypeScript recursion limits.
+ *    - If `Count > 999`, it is automatically to `any` because error `Type instantiation is excessively deep and possibly infinite.ts(2589)`.
  * @template T - The string literal to repeat.
  * @template Count - Number of times to repeat.
- *
  * @example
  * ```ts
  * type Case0 = Repeat<'x', 0>;  // ➔ ''

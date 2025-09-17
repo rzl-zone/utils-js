@@ -1,6 +1,6 @@
-import { assertIsString } from "@/assertions/strings/assertIsString";
-import { describe, it, expect } from "vitest";
 import { performance } from "perf_hooks";
+import { describe, it, expect } from "vitest";
+import { assertIsString } from "@/assertions/strings/assertIsString";
 
 // describe("assertIsString vs typeof === 'string' - benchmark", () => {
 //   it("compares performance", { timeout: 30000 }, () => {

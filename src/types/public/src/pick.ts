@@ -1,12 +1,10 @@
 /** --------------------------------------------------
- * * ***PickStrict.***
+ * * ***Utility Type: `PickStrict`.***
  * --------------------------------------------------
- * Utility type that behaves exactly like the native `Pick<T, K>`,
- * but can help with type inference and IDE autocomplete in stricter scenarios.
- *
+ * **Utility type that behaves exactly like the native `Pick<T, K>`,
+ * but can help with type inference and IDE autocomplete in stricter scenarios.**
  * @template T - The base object type.
  * @template K - The keys from `T` to be picked.
- *
  * @example
  * ```ts
  * type A = { a: number; b: string; c: boolean };

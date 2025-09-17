@@ -9,7 +9,7 @@ type isDateOptions = {
    *
    * When `true`, the function only checks that the value is an
    * instance of `Date` without verifying that it represents a valid
-   * date value.
+   * date value, default: `false`.
    *
    * @default false
    */
@@ -31,6 +31,7 @@ type isDateOptions = {
  *      - `Date` instances that represent an invalid time value
  *        (e.g. `new Date("bad")`), unless skipping is enabled.
  * @param {*} value - The value to check.
+ * @param {isDateOptions} [options] - Optional settings.
  * @returns {boolean} Return `true` if value is a valid Date object.
  * @example
  * isDate(new Date());

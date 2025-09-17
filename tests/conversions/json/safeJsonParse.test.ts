@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { safeJsonParse } from "@/conversions/json/parsing";
+import { safeJsonParse } from "@/conversions/json/safeJsonParse";
 
 describe("safeJsonParse", () => {
   it("should parse valid JSON strings", () => {

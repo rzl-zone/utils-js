@@ -1,4 +1,5 @@
 import type { AnObjectNonArray, Extends, IsNever, OrArr } from "@/types";
+
 import { isArray } from "@/predicates/is/isArray";
 import { isObject } from "@/predicates/is/isObject";
 
@@ -40,8 +41,8 @@ type IsObjectOrArray<T> = OrArr<
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the value is an `object` or `array`.
  * @example
- * isObjectOrArray({ name: "Alice" }); // ➔ true
  * isObjectOrArray([1,2,3]);           // ➔ true
+ * isObjectOrArray({ name: "Alice" }); // ➔ true
  * isObjectOrArray(null);              // ➔ false
  * isObjectOrArray(undefined);         // ➔ false
  * isObjectOrArray("hello");           // ➔ false

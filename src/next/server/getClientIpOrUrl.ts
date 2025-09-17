@@ -11,7 +11,7 @@ import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";
  * - **ℹ️ Note:**
  *    - Only supported in **Next.js** environments (specifically in `server-only` contexts).
  *    - Should be used in **middleware** or **server actions** that have access to ***[`NextRequest - NextJS`](https://nextjs.org/docs/app/api-reference/functions/next-request)***.
- * @param {NextRequest} request - The incoming ***`NextJS`*** request object.
+ * @param {NextRequest} request - The incoming ***`NextJS`*** request object, must be instanceof `NextRequest` from `next/server`.
  * @param {boolean|undefined} [includeFullUrl=true] - Whether to return the full URL (`protocol`, `IP`, and `port` like `protocol://ip:port`) or just the IP address, defaultValue: `true`.
  * @returns {string} The extracted client IP address or the full constructed URL.
  * @throws {Error} If the function is used outside a Next.js server environment.

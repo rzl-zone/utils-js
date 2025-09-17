@@ -4,6 +4,7 @@ import type { IsStringLiteral } from "./is-string-literal";
 import type { IsPositive, ParseNumber } from "./number";
 import type { Split } from "./split";
 
+/** @private ***types for {@link CharAt}.*** */
 type _CharAt<
   I extends string,
   N extends number | `${number}`,
@@ -19,17 +20,16 @@ type _CharAt<
 >;
 
 /** -------------------------------------------------------
- * * ***CharAt.***
+ * * ***Utility Type: `CharAt`.***
  * -------------------------------------------------------
- * A type-level utility that extracts the character at a given index `N`
- * from a string literal type `I`.
- * - If the index is out of range, the result is `undefined`.
- * - If `I` is not a literal string (just `string`), the result is `undefined`.
- * - Only **positive indices** are supported (`0` and above`).
- *
+ * **A type-level utility that extracts the character at a given index `N`
+ * from a string literal type `I`.**
+ * - **Behavior:**
+ *    - If the index is out of range, the result is `undefined`.
+ *    - If `I` is not a literal string (just `string`), the result is `undefined`.
+ *    - Only **positive indices** are supported (`0` and above`).
  * @template I - The input string literal to extract the character from.
  * @template N - The zero-based index of the character to retrieve.
- *               Can be a `number` or a stringified number (e.g. `2` or "2").
  * @example
  * ```ts
  * // ✅ Basic usage
@@ -37,7 +37,7 @@ type _CharAt<
  * type B = CharAt<"hello", 1>; // ➔ "e"
  * type C = CharAt<"hello", 4>; // ➔ "o"
  *
- * // ✅ Index out of range → undefined
+ * // ⚠️ Index out of range ➔ undefined
  * type D = CharAt<"hello", 5>; // ➔ undefined
  * type E = CharAt<"abc", 99>;  // ➔ undefined
  *
@@ -47,7 +47,7 @@ type _CharAt<
  * type H = CharAt<"testing", "6">; // ➔ "g"
  * type I = CharAt<"testing", "7">; // ➔ undefined
  *
- * // ⚠️ Non-literal strings → undefined
+ * // ⚠️ Non-literal strings ➔ undefined
  * type J = CharAt<string, 2>; // ➔ undefined
  *
  * // ⚠️ Negative indices are not supported

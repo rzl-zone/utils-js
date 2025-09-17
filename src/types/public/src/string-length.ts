@@ -30,13 +30,11 @@ type _StringLength<
   : _StringLength<S, Parts>;
 
 /** -------------------------------------------------------
- * * ***StringLength.***
+ * * ***Utility Type: `StringLength`.***
  * -------------------------------------------------------
- * Returns the length of a string at the type level.
- * Supports string length in range `[0, 3968]`.
- *
+ * **Returns the length of a string at the type level.**
+ * - Supports string length in range `[0, 3968]`.
  * @template S - The string to measure.
- *
  * @example
  * ```ts
  * type Case1 = StringLength<''>;
@@ -48,21 +46,18 @@ type _StringLength<
 export type StringLength<S extends string> = _StringLength<S>;
 
 /** -------------------------------------------------------
- * * ***CompareStringLength.***
+ * * ***Utility Type: `CompareStringLength`.***
  * -------------------------------------------------------
- * Compares the lengths of two strings and returns one of three possible type values:
- * - `IfStr1Shorter` if the first string is shorter.
- * - `IfStr2Shorter` if the second string is shorter.
- * - `IfEqual` if both strings have the same length.
- *
- * Defaults to `never` if not provided.
- *
+ * - **Compares the lengths of two strings and returns one of three possible type values:**
+ *    - `IfStr1Shorter` if the first string is shorter.
+ *    - `IfStr2Shorter` if the second string is shorter.
+ *    - `IfEqual` if both strings have the same length.
+ * - Defaults to `never` if not provided.
  * @template Str1 - First string.
  * @template Str2 - Second string.
  * @template IfStr1Shorter - Type to return if Str1 is shorter (default `never`).
  * @template IfStr2Shorter - Type to return if Str2 is shorter (default `never`).
  * @template IfEqual - Type to return if both strings have equal length (default `never`).
- *
  * @example
  * ```ts
  * type Case1 = CompareStringLength<'a', 'ab', 'first shorter'>;
@@ -92,13 +87,11 @@ export type CompareStringLength<
   : never;
 
 /** -------------------------------------------------------
- * * ***IsShorterString.***
+ * * ***Utility Type: `IsShorterString`.***
  * -------------------------------------------------------
- * Returns `true` if the first string is shorter than the second string; otherwise `false`.
- *
+ * **Returns `true` if the first string is shorter than the second string; otherwise `false`.**
  * @template Str1 - First string.
  * @template Str2 - Second string.
- *
  * @example
  * ```ts
  * type Case1 = IsShorterString<'a', 'ab'>;
@@ -113,13 +106,11 @@ export type IsShorterString<
 > = CompareStringLength<Str1, Str2, true, false, false>;
 
 /** -------------------------------------------------------
- * * ***IsLongerString.***
+ * * ***Utility Type: `IsLongerString`.***
  * -------------------------------------------------------
- * Returns `true` if the first string is longer than the second string; otherwise `false`.
- *
+ * **Returns `true` if the first string is longer than the second string; otherwise `false`.**
  * @template Str1 - First string.
  * @template Str2 - Second string.
- *
  * @example
  * ```ts
  * type Case1 = IsLongerString<'ab', 'a'>; // ➔ true
@@ -132,13 +123,11 @@ export type IsLongerString<
 > = CompareStringLength<Str1, Str2, false, true, false>;
 
 /** -------------------------------------------------------
- * * ***IsSameLengthString.***
+ * * ***Utility Type: `IsSameLengthString`.***
  * -------------------------------------------------------
- * Returns `true` if two strings have the same length; otherwise `false`.
- *
+ * **Returns `true` if two strings have the same length; otherwise `false`.**
  * @template Str1 - First string.
  * @template Str2 - Second string.
- *
  * @example
  * ```ts
  * type Case1 = IsSameLengthString<'ab', 'ab'>;  // ➔ true

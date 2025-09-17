@@ -1,5 +1,5 @@
-import { slugify } from "@/strings/case";
 import { describe, it, expect } from "vitest";
+import { slugify } from "@/strings/cases/slugify";
 
 describe("slugify", () => {
   it("should handle simple sentence", () => {

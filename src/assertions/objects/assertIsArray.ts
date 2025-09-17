@@ -21,16 +21,17 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
  * * ***Type guard assertion: `assertIsArray`.***
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
- * - Validates that the given `value` is a **array**.
- * - After it returns successfully, TypeScript narrows the type of `value` to `array` **(generic support)**.
  * - **Behavior:**
+ *    - Validates that the given `value` is a **array**.
+ *    - After it returns successfully, TypeScript narrows the type of `value` to `array` **(generic support)**.
  *    - ✅ If `value` is an `array` ➔ execution continues normally.
  *    - ❌ If `value` is not an `array` ➔ throws a `TypeError` with either:
  *      - A custom error message (`options.message`), or
  *      - A default message including the actual type.
  * @template T - The input type being asserted.
- * @param {*} value - The value to validate.
- * @param {OptionsAssertIs} [options] - Optional configuration:
+ * @param {*} value - ***The value to validate.***
+ * @param {OptionsAssertIs} [options]
+ *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to an `array` **(generic support)** if no error is thrown.
@@ -51,13 +52,13 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
  *
  * // ❌ Throws with custom function message + case formatting
  * assertIsArray(42n, {
- *   message: ({ currentType, validType }) =>
- *     `Expected ${validType} but got (${currentType}).`,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`;
+ *   },
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected array but got (big-int)."
  * ```
- *
  * -------------------------------------------------------
  * ✅ ***Real-world usage with generic narrowing***:
  * ```ts
