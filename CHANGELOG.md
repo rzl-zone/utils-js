@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/rzl-zone/utils-js/compare/v3.1.1...v3.2.0) (2025-09-17)
+
+
+### Features
+
+* add new class `CustomPromise`, add new utility type `ExtractStrict`, fixing function `formatPhoneNumber`, move `isServer` from `"@rzl-zone/utils-js/env"` to `"@rzl-zone/utils-js/predicates"`, rename folder structures: (`src/formatting` ➔ `src/formatters`, `src/generator` ➔ `src/generators`, `src/promise` ➔ `src/promises`), drop folder structure: `src/env` because empty, fix almost of functions and type, refactors almost folders `src` structures, fix README.md, fix `exports` at package.json, and fix other configs. ([c5ef41e](https://github.com/rzl-zone/utils-js/commit/c5ef41e75bb1aca71b920c90734756ffa1eac8e4))
+
 ## [3.1.1](https://github.com/rzl-zone/utils-js/compare/v3.1.0...v3.1.1) (2025-09-11)
 
 
