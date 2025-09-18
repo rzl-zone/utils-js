@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/rzl-zone/utils-js/compare/v3.2.0...v3.3.0) (2025-09-18)
+
+
+### Features
+
+* add `generate-reference` script and update package.json exports. ([2e58ef8](https://github.com/rzl-zone/utils-js/commit/2e58ef86e54f4da10a5f70d09c734f9a2f20d333))
+
 ## [3.2.0](https://github.com/rzl-zone/utils-js/compare/v3.1.1...v3.2.0) (2025-09-17)
 
 
