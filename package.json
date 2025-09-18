@@ -7,6 +7,7 @@
   "license": "MIT",
   "unpkg": "./dist/rzl-utils.global.js",
   "jsdelivr": "./dist/rzl-utils.global.js",
+  "types": "./dist/index.d.ts",
   "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
   "homepage": "https://github.com/rzl-zone/utils-js#readme",
   "description": "A modern, lightweight set of JavaScript utility functions with TypeScript support for everyday development, crafted to enhance code readability and maintainability.",
@@ -58,6 +59,9 @@
     "node": ">=16"
   },
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    },
     "./assertions": {
       "import": {
         "types": "./dist/assertions/index.d.ts",
@@ -204,6 +208,9 @@
   },
   "typesVersions": {
     "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
       "assertions": [
         "dist/assertions/index.d.ts"
       ],
@@ -279,13 +286,14 @@
     "url": "git+https://github.com/rzl-zone/utils-js.git"
   },
   "scripts": {
+    "generate:reference": "tsx scripts/generate-reference.ts",
     "clean": "del-cli \"dist/*\"",
     "prepublish": "npm run clean",
     "prepare": "npm run build",
     "prepublishOnly": "npm run barrel",
     "check-publish": "npm pack --dry-run",
     "delete-dist:index": "del-cli \"dist/index.{js,js.map,cjs,cjs.map}\" \"dist/index.d.{ts,cts}\"",
-    "postbuild": "del-cli \"dist/**/*.d.cts\" && npm run delete-dist:index",
+    "postbuild": "del-cli \"dist/**/*.d.cts\" && npm run delete-dist:index && npm run generate:reference",
     "barrel:generate": "npx barrelsby --config barrelsby.config.json",
     "barrel": "npm run barrel:generate && npm run barrel:generate && npx tsx scripts/removeBarrelsbyComment.ts ",
     "barrel:remove-comment-dist": "tsx scripts/removeBarrelsbyComment.ts",
