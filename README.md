@@ -4,9 +4,9 @@
 
 <p align="center">
 🚀 <strong><u>Rzl Utility JS</u></strong> 🚀<br/>
-A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).<br/>
+<i>A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).</i><br/>
 <i>Provides reusable helpers to simplify your JavaScript or TypeScript projects.</i><br/>
-<strong>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</strong>
+<strong><i>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</i></strong>
 </p>
 
 <div align="center">
