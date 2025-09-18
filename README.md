@@ -46,6 +46,8 @@ A lightweight, modern TypeScript utility library for Node.js & browser (via bund
 - ✨ [Features](#features)
 - 🧬 [NextJS Support](#nextjs-support)
 - 💎 [Detailed Features](#detailed-features)
+  - [Full documentation](#full-documentation-rzl-utilsjs-is-currently-under-construction-%EF%B8%8F)
+  - [Hint Autocomplete](#hint-autocomplete)
 - 🔥 [Usage](#usage)
 - ❤️ [Sponsor](#sponsor-this-package)
 - 📜 [Changelog](#changelog)
