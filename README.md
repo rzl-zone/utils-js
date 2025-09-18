@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-🚀 <strong>Rzl Utility JS</strong> 🚀<br/>
+🚀 <strong><u>Rzl Utility JS</u></strong> 🚀<br/>
 A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).<br/>
-Provides reusable helpers to simplify your JavaScript or TypeScript projects.<br/>
+<i>Provides reusable helpers to simplify your JavaScript or TypeScript projects.</i><br/>
 <strong>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</strong>
 </p>
 
@@ -39,7 +39,7 @@ Provides reusable helpers to simplify your JavaScript or TypeScript projects.<br
 
 ---
  
-<h2 id="table-of-contents">📚 Table of Contents</h2>
+<h2 id="table-of-contents">📚 <strong>Table of Contents</strong></h2>
 
 - 💻 [Requirements](#requirements)
 - ⚙️ [Installation](#installation)
@@ -56,35 +56,35 @@ Provides reusable helpers to simplify your JavaScript or TypeScript projects.<br
 
 ---
 
-<h2 id="requirements">💻 Requirements</h2>
+<h2 id="requirements">💻 <strong>Requirements</strong></h2>
 
 - **Node.js `≥16.0.0`**  
   This package leverages modern JavaScript & TypeScript features that require Node.js version 16.0.0 if not using Next.js, and for Next.js it must follow the official minimum Node.js version requirement depending on the version you use.  
   - 🔗 See official Next.js documentation: 
-      <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener">NextJS Installation Requirements</a>
+      <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener"><i>NextJS Installation Requirements.</i></a>
 
-- Works with:
+- **Works with:**
   - ✅ Node.js (16.0.0+) - Without NextJS
   - ✅ Node.js (18.17.0, or higher depending on NextJS version) - With NextJS
   - ✅ Modern browsers (via bundlers like Webpack / Vite)
 
 ---
 
-<h2 id="installation">⚙️ Installation</h2>
+<h2 id="installation">⚙️ <strong>Installation</strong></h2>
 
-#### With NPM
+#### *With NPM*
 
 ```bash
   npm install @rzl-zone/utils-js
 ```
 
-#### With Yarn
+#### *With Yarn*
 
 ```bash
   yarn add @rzl-zone/utils-js
 ```
 
-#### With PNPM
+#### *With PNPM*
 
 ```bash
   pnpm add @rzl-zone/utils-js
@@ -92,7 +92,7 @@ Provides reusable helpers to simplify your JavaScript or TypeScript projects.<br
 
 ---
 
-<h2 id="features">✨ Features</h2>
+<h2 id="features">✨ <strong>Features</strong></h2>
 
 - 🚀 Written in **TypeScript** — fully typed & safe
 - ⚡ Small, tree-shakable & fast
@@ -103,9 +103,9 @@ Provides reusable helpers to simplify your JavaScript or TypeScript projects.<br
 
 ---
 
-<h2 id="nextjs-support">🧬 Next.js Support</h2>
+<h2 id="nextjs-support">🧬 <strong>Next.js Support</strong></h2>
 
-This package also provides utilities specially built for Next.js environments, neatly separated into their own entry points:
+**This package also provides utilities specially built for Next.js environments, neatly separated into their own entry points:**
 
 - <h3 id="nextjs-support--globals">`@rzl-zone/utils-js/next`</h3>  
   Helpers for building URLs, generating dynamic routes, reading environment variables, etc.   
@@ -125,9 +125,9 @@ This package also provides utilities specially built for Next.js environments, n
 
 ---
 
-<h2 id="detailed-features">💎 Detailed Features</h2>
+<h2 id="detailed-features">💎 <strong>Detailed Features</strong></h2>
 
-  ### Full documentation <a href="https://docs-rzl-utils-js.vercel.app" target="_blank" rel="nofollow noreferrer noopener">Rzl UtilsJS</a> is **currently under construction** 🏗️.
+  ### **Full documentation <a href="https://docs-rzl-utils-js.vercel.app" target="_blank" rel="nofollow noreferrer noopener">Rzl UtilsJS</a> is **currently under construction** 🏗️.**
   #### For now, explore the examples or dive into the source — all utilities are documented via **TSDoc** and typed properly.
   
   ```ts
@@ -148,7 +148,38 @@ This package also provides utilities specially built for Next.js environments, n
 
   import type { | } from "@rzl-zone/utils-js/types";
   ```
-  #### Just place your cursor right inside `{ }` or after import from `"@rzl-zone/utils-js/{{ | }}"` like the pipe ("|") above then ctrl + space, there are many functions or types and then hover to each function is complete with how to use it because I have added tsDoc.
+  #### Place your cursor inside { } or after "@rzl-zone/utils-js/{{ | }}" then press Ctrl+Space to see all available functions/types with full TSDoc hints.
+  ---
+  ### **Hint: Autocomplete**
+
+  **To get the best autocomplete hints for folders and files, add the `types` field in your configuration file:**
+
+  #### # **_TypeScript_**:
+  Add this to your `tsconfig.json`:
+  ```jsonc
+  // tsconfig.json
+  {
+    "compilerOptions": {
+      "types": [
+        "@rzl-zone/utils-js"
+      ]
+    }
+  }
+
+  ```
+  #### # **_JavaScript_:**
+  Add this to your `jsconfig.json`:
+  ```jsonc
+  // jsconfig.json
+  {
+    "compilerOptions": {
+      "types": [
+        "@rzl-zone/utils-js"
+      ]
+    }
+  }
+  ```
+  > Tip: For JS projects, consider adding "checkJs": true for better IntelliSense.
 
   <!-- - <h4 id="detailed-features--assertions">
       Assertions - 
@@ -173,11 +204,11 @@ This package also provides utilities specially built for Next.js environments, n
        -->
 ---
 
-<h2 id="usage">🔥 Usage</h2>
+<h2 id="usage">🔥 <strong>Usage</strong></h2>
 
-### Easy to use, just import on your code base.
+### **Easy to use, just import on your code base.**
 
-#### Example Function Import:
+#### *Example Function Import:*
 
 ```ts
 import { isServer } from "@rzl-zone/utils-js/predicates";
@@ -186,7 +217,7 @@ console.log(isServer());
 // ➔ `true` if running on server-side, `false` if in browser.
 ```
 
-#### Example Types Helper Import:
+#### *Example Types Helper Import:*
 
 ```ts
 import type { OmitStrict } from "@rzl-zone/utils-js/types";
@@ -197,46 +228,46 @@ type MyType = OmitStrict<OtherType, "omittingProps">;
 
 ---
 
-<h2 id="sponsor-this-package">❤️ Sponsor this package</h2>
+<h2 id="sponsor-this-package">❤️ <strong>Sponsor this package</strong></h2>
 
-Help support development:  
-[👉 Become a sponsor](https://github.com/sponsors/rzl-app)
-
----
-
-<h2 id="changelog">📝 Changelog</h2>
-
-See [CHANGELOG](CHANGELOG.md).
+**Help support development:**    
+*[👉 Become a sponsor](https://github.com/sponsors/rzl-app)*
 
 ---
 
-<h2 id="contributing">🤝 Contributing</h2>
+<h2 id="changelog">📝 <strong>Changelog</strong></h2>
 
-See [CONTRIBUTING](CONTRIBUTING.md).
-
----
-
-<h2 id="security">🔒 Security</h2>
-
-Please report issues to [rizalvindwiky1998@gmail.com](mailto:rizalvindwiky1998@gmail.com).
+**See [CHANGELOG](CHANGELOG.md).**
 
 ---
 
-<h2 id="credits">🙌 Credits</h2>
+<h2 id="contributing">🤝 <strong>Contributing</strong></h2>
 
-- [Rzl App](https://github.com/rzl-app)
-- [All Contributors](../../contributors)
+**See [CONTRIBUTING](CONTRIBUTING.md).**
 
 ---
 
-<h2 id="license">📜 License</h2>
+<h2 id="security">🔒 <strong>Security</strong></h2>
 
-The MIT License (MIT).  
-Please see [License File](LICENSE.md) for more information.
+**Please report issues to [rizalvindwiky1998@gmail.com](mailto:rizalvindwiky1998@gmail.com).**
+
+---
+
+<h2 id="credits">🙌 <strong>Credits</strong></h2>
+
+**- [Rzl App](https://github.com/rzl-app)**  
+**- [All Contributors](../../contributors)**
+
+---
+
+<h2 id="license">📜 <strong>License</strong></h2>
+
+**The MIT License (MIT).**    
+*Please see **[License File](LICENSE.md)** for more information.*
 
 ---
 
 ✅ **Enjoy using `@rzl-zone/utils-js`?**  
-Star this repo ⭐ and share it with other JavaScript developers!
+*Star this repo [⭐](https://github.com/rzl-zone/utils-js) and share it with other JavaScript developers!*
 
 ---
