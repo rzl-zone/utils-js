@@ -181,7 +181,7 @@ A lightweight, modern TypeScript utility library for Node.js & browser (via bund
     }
   }
   ```
-  > Tip: For JS projects, consider adding "checkJs": true for better IntelliSense.
+  >ℹ️ ***Tip:*** *For JS projects, consider adding "checkJs": true for better IntelliSense.*
 
   <!-- - <h4 id="detailed-features--assertions">
       Assertions - 
