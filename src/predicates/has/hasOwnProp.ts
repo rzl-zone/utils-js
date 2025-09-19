@@ -1,4 +1,9 @@
-import type { AnyFunction, AnyString, IsAny, IsStringLiteral } from "@/types";
+import type {
+  AnyFunction,
+  AnyString,
+  IsAny,
+  IsStringLiteral
+} from "@rzl-zone/ts-types-plus";
 import type {
   DeepRequiredSymbolHasOwnProp,
   GuardedHasOwnProp,

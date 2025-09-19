@@ -1,4 +1,4 @@
-import type { IsAny } from "@/types";
+import type { IsAny } from "@rzl-zone/ts-types-plus";
 
 import { isNil } from "@/predicates/is/isNil";
 import { isString } from "@/predicates/is/isString";

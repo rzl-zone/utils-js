@@ -2,7 +2,7 @@ import type {
   FixNeverArrayRecursive,
   NormalizeEmptyArraysRecursive,
   RemoveEmptyArrayElements
-} from "@/types";
+} from "@rzl-zone/ts-types-plus";
 
 type ExcludeNil<T> = Exclude<T, null | undefined>;
 

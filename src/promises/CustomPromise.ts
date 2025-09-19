@@ -1,4 +1,4 @@
-import type { CustomPromiseType } from "@/types";
+import type { CustomPromiseType } from "@rzl-zone/ts-types-plus";
 
 /** -------------------------------------------------------------
  * * ***Utility Class: `CustomPromise`.***

@@ -3,7 +3,7 @@ import type {
   FixNeverArrayRecursive,
   IfNonEmptyArray,
   NullToUndefined
-} from "@/types";
+} from "@rzl-zone/ts-types-plus";
 
 import { isNonEmptyArray } from "@/predicates/is/isNonEmptyArray";
 

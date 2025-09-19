@@ -1,4 +1,4 @@
-import type { TypedArray } from "@/types";
+import type { TypedArray } from "@rzl-zone/ts-types-plus";
 
 const typedArrayTags = new Set([
   "[object Int8Array]",

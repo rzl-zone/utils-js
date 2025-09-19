@@ -1,4 +1,4 @@
-import type { IsArray, IsReadonlyArray, IsUnknown } from "@/types";
+import type { IsArray, IsReadonlyArray, IsUnknown } from "@rzl-zone/ts-types-plus";
 
 import { isArray } from "@/predicates/is/isArray";
 import {

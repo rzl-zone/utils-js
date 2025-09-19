@@ -1,4 +1,4 @@
-import type { AnyFunction } from "@/types";
+import type { AnyFunction } from "@rzl-zone/ts-types-plus";
 
 type ResUnFTN<Force extends false | "stringOrNumber" | "primitives" | "all" = false> =
   Force extends "all"

@@ -10,7 +10,7 @@ import type {
   IsPositive,
   IsEmptyString,
   AnyString
-} from "@/types";
+} from "@rzl-zone/ts-types-plus";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { hasOwnProp } from "./hasOwnProp";
 

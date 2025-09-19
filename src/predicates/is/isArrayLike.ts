@@ -1,4 +1,4 @@
-import type { AnyFunction } from "@/types";
+import type { AnyFunction } from "@rzl-zone/ts-types-plus";
 
 import { isLength } from "./isLength";
 import { isFunction } from "./isFunction";

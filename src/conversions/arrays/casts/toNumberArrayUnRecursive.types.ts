@@ -1,4 +1,4 @@
-import type { KeepNull, KeepUndef, Nullish } from "@/types";
+import type { KeepNull, KeepUndef, Nullish } from "@rzl-zone/ts-types-plus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { toNumberArrayUnRecursive } from "./toNumberArrayUnRecursive";

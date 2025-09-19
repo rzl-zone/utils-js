@@ -6,7 +6,6 @@ const entries = await fg(
   [
     "src/index.ts",
     "src/*/index.{ts,tsx}",
-    "src/types/index.{ts,tsx}",
     "src/next/index.ts",
     "src/next/server/index.ts"
   ],
@@ -44,6 +43,7 @@ export default defineConfig([
       "tailwind-merge-v3",
       "tailwind-merge-v4"
     ],
+    noExternal: ["@rzl-zone/ts-types-plus"],
     dts: true,
     clean: false,
     terserOptions: {

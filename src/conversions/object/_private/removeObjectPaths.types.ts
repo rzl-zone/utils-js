@@ -1,4 +1,4 @@
-import type { Prettify, NumberRangeUnion } from "@/types";
+import type { Prettify, NumberRangeUnion } from "@rzl-zone/ts-types-plus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { removeObjectPaths } from "../removeObjectPaths";

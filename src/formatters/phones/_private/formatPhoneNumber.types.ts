@@ -1,5 +1,5 @@
 import type { CountryCode, NumberFormat } from "libphonenumber-js";
-import type { ExtractStrict, OverrideTypes, Prettify } from "@/types";
+import type { ExtractStrict, OverrideTypes, Prettify } from "@rzl-zone/ts-types-plus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { formatPhoneNumber } from "../formatPhoneNumber";

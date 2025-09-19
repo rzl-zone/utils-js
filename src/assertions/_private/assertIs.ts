@@ -1,4 +1,4 @@
-import type { AnyString, PickStrict, Prettify } from "@/types";
+import type { AnyString, PickStrict, Prettify } from "@rzl-zone/ts-types-plus";
 
 import { isFunction } from "@/predicates/is/isFunction";
 import { isPlainObject } from "@/predicates/is/isPlainObject";

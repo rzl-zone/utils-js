@@ -9,7 +9,7 @@ import type {
   AndArr,
   Extends,
   OrArr
-} from "@/types";
+} from "@rzl-zone/ts-types-plus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { toStringDeep } from "../toStringDeep";

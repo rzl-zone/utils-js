@@ -18,6 +18,7 @@
     "url": "https://github.com/rzl-zone/utils-js/issues"
   },
   "dependencies": {
+    "@rzl-zone/ts-types-plus": "latest",
     "date-fns": "^4.1.0",
     "libphonenumber-js": "^1.12.17",
     "server-only": "^0.0.1",
@@ -201,9 +202,6 @@
         "types": "./dist/urls/index.d.ts",
         "default": "./dist/urls/index.cjs"
       }
-    },
-    "./types": {
-      "types": "./dist/types/index.d.ts"
     }
   },
   "typesVersions": {
@@ -252,9 +250,6 @@
       ],
       "urls": [
         "dist/urls/index.d.ts"
-      ],
-      "types": [
-        "dist/types/index.d.ts"
       ]
     }
   },

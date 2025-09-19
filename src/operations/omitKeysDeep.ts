@@ -1,4 +1,4 @@
-import type { NumberRangeUnion } from "@/types";
+import type { NumberRangeUnion } from "@rzl-zone/ts-types-plus";
 
 import { findDuplicates } from "./findDuplicates";
 

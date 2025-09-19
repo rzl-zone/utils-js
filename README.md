@@ -101,7 +101,7 @@
 - 📦 Works in **Node.js** & modern browsers
 - ❤️ Simple API, easy to extend
 - 🧬 **Next.js support**: helpers for dynamic routes, building URLs, reading env, extracting client IP
-- 🛠 Additional TypeScript types: `OmitStrict`, `PartialOnly`, etc.
+- 🛠 Additional including TypeScript package **`@rzl-zone/ts-types-plus`** types: `OmitStrict`, `PartialOnly`, etc.
 
 ---
 
@@ -148,7 +148,7 @@
   import { | } from "@rzl-zone/utils-js/tailwind";
   import { | } from "@rzl-zone/utils-js/urls";
 
-  import type { | } from "@rzl-zone/utils-js/types";
+  import type { | } from "@rzl-zone/ts-types-plus";
   ```
   #### Place your cursor inside { } or after "@rzl-zone/utils-js/{{ | }}" then press Ctrl+Space to see all available functions/types with full TSDoc hints.
   ---
@@ -222,7 +222,7 @@ console.log(isServer());
 #### *Example Types Helper Import:*
 
 ```ts
-import type { OmitStrict } from "@rzl-zone/utils-js/types";
+import type { OmitStrict } from "@rzl-zone/ts-types-plus";
 
 type MyType = OmitStrict<OtherType, "omittingProps">;
 // Fully strict TS omit that requires all keys to exist in target

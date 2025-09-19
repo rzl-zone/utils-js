@@ -1,4 +1,4 @@
-import type { Prettify } from "@/types";
+import type { Prettify } from "@rzl-zone/ts-types-plus";
 
 import { isArray } from "@/predicates/is/isArray";
 import { isBoolean } from "@/predicates/is/isBoolean";

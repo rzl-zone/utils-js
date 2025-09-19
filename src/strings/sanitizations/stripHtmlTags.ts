@@ -1,4 +1,4 @@
-import type { Extends } from "@/types";
+import type { Extends } from "@rzl-zone/ts-types-plus";
 import { isString } from "@/predicates/is/isString";
 import { isEmptyString } from "@/predicates/is/isEmptyString";
 

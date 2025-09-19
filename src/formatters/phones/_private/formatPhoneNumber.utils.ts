@@ -1,4 +1,4 @@
-import type { OmitStrict, Prettify } from "@/types";
+import type { OmitStrict, Prettify } from "@rzl-zone/ts-types-plus";
 import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */

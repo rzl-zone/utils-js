@@ -1,4 +1,4 @@
-import type { AnyFunction } from "@/types";
+import type { AnyFunction } from "@rzl-zone/ts-types-plus";
 import { isFunction } from "./isFunction";
 
 const funcToString = Function.prototype.toString;

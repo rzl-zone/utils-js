@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-wrapper-object-types */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 
-import type { AndArr, Extends, OrArr, Prettify, TypedArray } from "@/types";
+import type {
+  AndArr,
+  Extends,
+  OrArr,
+  Prettify,
+  TypedArray
+} from "@rzl-zone/ts-types-plus";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { toNumberDeep } from "../toNumberDeep";
 

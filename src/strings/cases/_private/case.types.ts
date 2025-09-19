@@ -7,7 +7,7 @@ import type { toLowerCase } from "../toLowerCase";
 import type { toPascalCase } from "../toPascalCase";
 import type { toPascalCaseSpace } from "../toPascalCaseSpace";
 import type { toSnakeCase } from "../toSnakeCase";
-import type { Nilable } from "@/types";
+import type { Nilable } from "@rzl-zone/ts-types-plus";
 
 /** --------------------------------------------------
  * * ***Represents a string input.***

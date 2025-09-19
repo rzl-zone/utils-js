@@ -1,4 +1,9 @@
-import type { IsArray, IsNever, IsReadonlyArray, IsUnknown } from "@/types";
+import type {
+  IsArray,
+  IsNever,
+  IsReadonlyArray,
+  IsUnknown
+} from "@rzl-zone/ts-types-plus";
 
 /** @deprecated bugs */
 export type IsArrayResult<T> = IsUnknown<T> extends true

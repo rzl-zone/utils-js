@@ -1,4 +1,4 @@
-import type { AnObjectNonArray, IsArray } from "@/types";
+import type { AnObjectNonArray, IsArray } from "@rzl-zone/ts-types-plus";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { isPlainObject } from "./isPlainObject";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

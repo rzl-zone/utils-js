@@ -1,4 +1,4 @@
-import type { NonPlainObject } from "@/types";
+import type { NonPlainObject } from "@rzl-zone/ts-types-plus";
 
 import { isObject } from "@/predicates/is/isObject";
 

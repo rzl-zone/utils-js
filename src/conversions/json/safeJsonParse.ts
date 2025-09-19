@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { IsAny } from "@/types";
+import type { IsAny } from "@rzl-zone/ts-types-plus";
 import type { ParseParsedDataOptions } from "./_private/types/ParseParsedDataOptions";
 import type { SafeJsonParseResult, UnknownValue } from "./_private/types/safeJsonParse";
 

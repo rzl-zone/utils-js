@@ -1,4 +1,4 @@
-import type { AnObjectNonArray, Extends, IsNever, OrArr } from "@/types";
+import type { AnObjectNonArray, Extends, IsNever, OrArr } from "@rzl-zone/ts-types-plus";
 
 import { isArray } from "@/predicates/is/isArray";
 import { isObject } from "@/predicates/is/isObject";

@@ -1,5 +1,5 @@
 import type { FormatOptions, Locale } from "date-fns";
-import type { AnyString, OmitStrict, Prettify } from "@/types";
+import type { AnyString, OmitStrict, Prettify } from "@rzl-zone/ts-types-plus";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { formatDateFns } from "../formatDateFns";
