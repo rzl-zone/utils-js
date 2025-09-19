@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/rzl-zone/utils-js/compare/v3.3.1...v3.4.0) (2025-09-19)
+
+
+### Features
+
+* Adding Script package **`@rzl-zone/ts-types-plus`** for types-helpers and drop internal types-helper. ([ad5e038](https://github.com/rzl-zone/utils-js/commit/ad5e03894952c663aecadbea4e32ae1359374a54))
+
 ## [3.3.1](https://github.com/rzl-zone/utils-js/compare/v3.3.0...v3.3.1) (2025-09-18)
 
 
