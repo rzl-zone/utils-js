@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.0](https://github.com/rzl-zone/utils-js/compare/v3.4.0...v3.5.0) (2025-09-20)
+
+
+### Features
+
+* **chore:** update types, dependencies, scripts, tsconfig & README ([abd4bbd](https://github.com/rzl-zone/utils-js/commit/abd4bbdf93907d5e0610b0d81520a9b123f0693d))
+
 ## [3.4.0](https://github.com/rzl-zone/utils-js/compare/v3.3.1...v3.4.0) (2025-09-19)
 
 
