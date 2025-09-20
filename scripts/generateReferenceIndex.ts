@@ -1,19 +1,17 @@
-// scripts/generate-barrel.ts
-import { globSync } from "glob";
-import { writeFileSync } from "fs";
 import path from "path";
+import fg from "fast-glob";
+import { writeFileSync } from "fs";
 
 const distDir = path.resolve("./dist");
 const outFile = path.join(distDir, "index.d.ts");
 
 console.log("🔃 Generate reference for dist/index.d.ts Starting...");
 
-// Pastikan folder dist ada
 try {
   writeFileSync(outFile, "");
 } catch {}
 
-const files = globSync(
+const files = await fg(
   [
     "*/index.d.ts",
     "*/**/index.d.ts",

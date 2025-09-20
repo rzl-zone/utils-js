@@ -1,7 +1,7 @@
-import { globSync } from "glob";
+import fg from "fast-glob";
 import { readFileSync, writeFileSync } from "fs";
 
-const files = globSync([
+const files = await fg([
   "dist/**/*.d.ts",
   "dist/**/*.d.mts",
   "dist/**/*.d.cts",
@@ -77,7 +77,7 @@ files.forEach((filePath) => {
       }
     })
     .filter(Boolean)
-    .join("\n"); // <-- newline between parts, triple-slash keep no newline
+    .join("\n");
 
   const finalResult = result
     .replace(/;(?=\/\*\*)/g, ";\n")
