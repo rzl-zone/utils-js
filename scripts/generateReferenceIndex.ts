@@ -1,6 +1,6 @@
+import fs from "fs";
 import path from "path";
 import fg from "fast-glob";
-import { writeFileSync } from "fs";
 
 const distDir = path.resolve("./dist");
 const outFile = path.join(distDir, "index.d.ts");
@@ -8,7 +8,7 @@ const outFile = path.join(distDir, "index.d.ts");
 console.log("🔃 Generate reference for dist/index.d.ts Starting...");
 
 try {
-  writeFileSync(outFile, "");
+  fs.writeFileSync(outFile, "");
 } catch {}
 
 const files = await fg(
@@ -33,6 +33,6 @@ const references = files.map((f) => {
   return `/// <reference path="./${normalized}" />`;
 });
 
-writeFileSync(outFile, references.join("\n") + "\n");
+fs.writeFileSync(outFile, references.join("\n") + "\n");
 
 console.log("✅ Generate reference for dist/index.d.ts finish...");
