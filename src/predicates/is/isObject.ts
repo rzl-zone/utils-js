@@ -6,15 +6,14 @@ import type { isObjectOrArray } from "./isObjectOrArray";
 
 import { isNil } from "./isNil";
 import { isArray } from "./isArray";
-
-type HasKeys<T> = keyof T extends never ? false : true;
+import type { IsHasKeysObject } from "./_private/_types";
 
 type IsObject<T> = unknown extends T
   ? T & Record<PropertyKey, unknown>
   : T extends object
   ? T extends AnObjectNonArray
     ? T
-    : HasKeys<T> extends false
+    : IsHasKeysObject<T> extends false
     ? T & Record<PropertyKey, unknown>
     : IsArray<T> extends true
     ? Exclude<T, unknown[]>

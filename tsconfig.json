@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "bundler",
     "strict": true,
     "declaration": true,
@@ -11,6 +11,7 @@
     "stripInternal": true,
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "paths": {
       "@/*": [
         "./src/*"
@@ -22,7 +23,6 @@
         "./*"
       ],
     },
-    "skipLibCheck": true
   },
   "include": [
     "src",
@@ -33,5 +33,7 @@
     "node_modules",
     "dist",
     "dist/**/*",
+    "**/node_modules/next/dist/next-devtools/**",
+    "**/node_modules/next/dist/server/lib/**",
   ]
 }

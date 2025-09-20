@@ -70,6 +70,13 @@
   - ✅ Node.js (18.17.0, or higher depending on NextJS version) - With NextJS
   - ✅ Modern browsers (via bundlers like Webpack / Vite)
 
+- **TypeScript Build Info:**
+  - Target: `ES2022`
+  - Module: `ES2022`
+  - Module Resolution: `bundler`
+
+  > ℹ️ Note: These TypeScript settings are used to build the package. Consumers do **not** need to match these settings unless they plan to build or modify the source code.
+
 ---
 
 <h2 id="installation">⚙️ <strong>Installation</strong></h2>
@@ -101,8 +108,6 @@
 - 📦 Works in **Node.js** & modern browsers
 - ❤️ Simple API, easy to extend
 - 🧬 **Next.js support**: helpers for dynamic routes, building URLs, reading env, extracting client IP
-- 🛠 Additional including TypeScript package **`@rzl-zone/ts-types-plus`** types: `OmitStrict`, `PartialOnly`, etc.
-
 ---
 
 <h2 id="nextjs-support">🧬 <strong>Next.js Support</strong></h2>
@@ -146,42 +151,95 @@
   import { | } from "@rzl-zone/utils-js/promises";
   import { | } from "@rzl-zone/utils-js/strings";
   import { | } from "@rzl-zone/utils-js/tailwind";
-  import { | } from "@rzl-zone/utils-js/urls";
-
-  import type { | } from "@rzl-zone/ts-types-plus";
+  import { | } from "@rzl-zone/utils-js/urls"; 
   ```
   #### Place your cursor inside { } or after "@rzl-zone/utils-js/{{ | }}" then press Ctrl+Space to see all available functions/types with full TSDoc hints.
+
+  > ***⚠️ Note:*** Starting from version `3.4.0+`, the extra TypeScript types (e.g., `OmitStrict`, `PartialOnly`, etc), have been removed from the package. To use them, you now need to install **[`@rzl-zone/ts-types-plus`](https://www.npmjs.com/package/@rzl-zone/ts-types-plus)** separately.
+
   ---
-  ### **Hint: Autocomplete**
+  ### **Hint: Autocomplete Setup (Step by Step)**
 
-  **To get the best autocomplete hints for folders and files, add the `types` field in your configuration file:**
+  #### Make TypeScript & VSCode automatically provide autocomplete for `@rzl-zone/utils-js` without needing triple-slash references in every file:
 
-  #### # **_TypeScript_**:
-  Add this to your `tsconfig.json`:
-  ```jsonc
-  // tsconfig.json
-  {
-    "compilerOptions": {
-      "types": [
-        "@rzl-zone/utils-js"
-      ]
-    }
-  }
+  - 1️⃣ **Install @rzl-zone/utils-js.**
 
-  ```
-  #### # **_JavaScript_:**
-  Add this to your `jsconfig.json`:
-  ```jsonc
-  // jsconfig.json
-  {
-    "compilerOptions": {
-      "types": [
-        "@rzl-zone/utils-js"
-      ]
-    }
-  }
-  ```
-  >ℹ️ ***Tip:*** *For JS projects, consider adding "checkJs": true for better IntelliSense.*
+    - Make sure the package is installed:
+
+      ```bash
+      npm install @rzl-zone/utils-js
+      # or
+      yarn add @rzl-zone/utils-js
+      # or
+      pnpm add @rzl-zone/utils-js
+      ```
+
+  - 2️⃣ **Create a types folder.**
+
+    - Inside your project root, make a folder called `types`:
+
+      ```pgsql
+      project-root/
+        ├─ src/
+        ├─ types/
+        │  └─ index.d.ts
+        ├─ tsconfig.json
+        └─ jsconfig.json
+      ```
+
+  - 3️⃣ **Add the global reference file.**
+
+    - Create `types/index.d.ts` with this content:
+
+      ```ts
+      /// <reference types="@rzl-zone/utils-js" />
+      ``` 
+
+      - This tells TypeScript to include the types from `@rzl-zone/utils-js` globally.
+      - You can add more references here if needed, for example:
+
+      ```ts
+      /// <reference types="node" />
+      /// <reference types="@rzl-zone/utils-js" />
+      ``` 
+
+  - 4️⃣ **Update tsconfig.json.**
+
+    - Make sure not to override "types" (or leave it empty) so TypeScript automatically picks up your types folder:
+
+      ```jsonc
+      // tsconfig.json
+      {
+        "compilerOptions": { 
+          "typeRoots": ["./types", "./node_modules/@types"],
+          // other your config...
+        },
+        "include": ["src", "types"],
+        // other your config...
+      }
+      ```
+      - `typeRoots` tells TS where to look for global type definitions.
+      - The `types` folder comes first, so your references override or add to the default `@types` packages
+
+  - 5️⃣ **Update jsconfig.json (for JavaScript projects).**
+
+    - If you also work with JS, do the same:
+
+      ```jsonc
+      // jsconfig.json
+      {
+        "compilerOptions": {
+          "checkJs": true,  // Optional, enables type checking 
+          "typeRoots": ["./types", "./node_modules/@types"],
+          // other your config...
+        },
+        "include": ["src", "types"],
+        // other your config...
+      }
+      ```
+      >ℹ️ ***Tip:*** *For JS projects, consider adding "checkJs": true for better IntelliSense.*
+    
+  **Now, all types from @rzl-zone/utils-js are globally available, and you don’t need "types": ["@rzl-zone/utils-js"] in tsconfig.json.** 
 
   <!-- - <h4 id="detailed-features--assertions">
       Assertions - 
@@ -219,21 +277,12 @@ console.log(isServer());
 // ➔ `true` if running on server-side, `false` if in browser.
 ```
 
-#### *Example Types Helper Import:*
-
-```ts
-import type { OmitStrict } from "@rzl-zone/ts-types-plus";
-
-type MyType = OmitStrict<OtherType, "omittingProps">;
-// Fully strict TS omit that requires all keys to exist in target
-```
-
 ---
 
 <h2 id="sponsor-this-package">❤️ <strong>Sponsor this package</strong></h2>
 
 **Help support development:**    
-*[👉 Become a sponsor](https://github.com/sponsors/rzl-app)*
+*[👉 **Become a sponsor**](https://github.com/sponsors/rzl-app)*
 
 ---
 

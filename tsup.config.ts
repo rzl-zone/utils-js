@@ -22,6 +22,20 @@ const entries = await fg(
   }
 );
 
+const nonExternalDefault = ["@rzl-zone/ts-types-plus"];
+const externalDefault = [
+  "next",
+  "react",
+  "clsx",
+  "react-dom",
+  "next/server",
+  "date-fns",
+  "server-only",
+  "libphonenumber-js",
+  "tailwindcss",
+  "tailwind-merge-v3",
+  "tailwind-merge-v4"
+];
 export default defineConfig([
   {
     entry: entries,
@@ -29,21 +43,42 @@ export default defineConfig([
     format: ["cjs", "esm"],
     splitting: true,
     bundle: true,
-    minify: "terser",
+    minify: false,
     treeshake: true,
-    external: [
-      "next",
-      "react",
-      "react-dom",
-      "next/server",
-      "date-fns",
-      "server-only",
-      "libphonenumber-js",
-      "tailwindcss",
-      "tailwind-merge-v3",
-      "tailwind-merge-v4"
-    ],
-    noExternal: ["@rzl-zone/ts-types-plus"],
+    external: externalDefault,
+    noExternal: nonExternalDefault,
+    dts: true,
+    clean: false,
+    terserOptions: {
+      format: {
+        comments: false
+      }
+    },
+    esbuildOptions(options) {
+      options.legalComments = "none";
+      options.ignoreAnnotations = true;
+    },
+    onSuccess: async () => {
+      const removeJs = await fg([
+        "dist/types/**/*.{js,js.map,cjs}",
+        "dist/types/*.{js,js.map,cjs}"
+      ]);
+      for (const file of removeJs) {
+        fs.rmSync(file, { force: true });
+      }
+    }
+  },
+
+  {
+    entry: ["src/next/server/index.ts"],
+    outDir: "dist/next/server",
+    format: ["cjs", "esm"],
+    splitting: true,
+    bundle: true,
+    minify: true,
+    treeshake: true,
+    external: ["next", "next/server", "server-only"],
+    noExternal: nonExternalDefault,
     dts: true,
     clean: false,
     terserOptions: {
@@ -90,7 +125,7 @@ export default defineConfig([
     format: ["iife"],
     globalName: "RzlUtilsJs",
     external: [],
-    minify: "terser",
+    minify: true,
     treeshake: true,
     splitting: false,
     dts: false,

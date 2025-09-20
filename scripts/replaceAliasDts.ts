@@ -7,7 +7,12 @@ function replaceAlias(dir: string) {
     const full = path.join(dir, file);
     if (fs.statSync(full).isDirectory()) {
       replaceAlias(full);
-    } else if (full.endsWith(".d.ts")) {
+    } else if (
+      full.endsWith(".d.ts") ||
+      full.endsWith(".d.dts") ||
+      full.endsWith(".d.cts") ||
+      full.endsWith(".d.esm")
+    ) {
       let content = fs.readFileSync(full, "utf8");
       content = content.replace(/from ["']@\/types["']/g, 'from "../../types"');
       fs.writeFileSync(full, content, "utf8");

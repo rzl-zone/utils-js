@@ -2,8 +2,7 @@ import type { AnObjectNonArray, Extends, IsNever, OrArr } from "@rzl-zone/ts-typ
 
 import { isArray } from "@/predicates/is/isArray";
 import { isObject } from "@/predicates/is/isObject";
-
-type HasKeys<T> = keyof T extends never ? false : true;
+import type { IsHasKeysObject } from "./_private/_types";
 
 type IsObjectOrArray<T> = OrArr<
   [IsNever<T>, Extends<T, Record<PropertyKey, unknown>>, Extends<unknown, T>]
@@ -14,7 +13,7 @@ type IsObjectOrArray<T> = OrArr<
     ? T
     : T extends AnObjectNonArray
     ? T
-    : HasKeys<T> extends false
+    : IsHasKeysObject<T> extends false
     ? T & Record<PropertyKey, unknown>
     : T
   : Extract<T, Record<PropertyKey, unknown> & unknown[]>;

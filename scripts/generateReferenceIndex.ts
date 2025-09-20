@@ -13,16 +13,28 @@ try {
   writeFileSync(outFile, "");
 } catch {}
 
-// Cari semua index.d.ts di subfolder dist
-const files = globSync("*/index.d.ts", { cwd: distDir, absolute: false });
+const files = globSync(
+  [
+    "*/index.d.ts",
+    "*/**/index.d.ts",
+    "*/index.d.mts",
+    "*/**/index.d.mts",
+    "*/index.d.cts",
+    "*/**/index.d.cts",
+    "*/index.d.esm",
+    "*/**/index.d.esm"
+  ],
+  {
+    cwd: distDir,
+    absolute: false
+  }
+);
 
-// Buat reference ke setiap index.d.ts
 const references = files.map((f) => {
-  const normalized = f.replace(/\\/g, "/"); // ubah backslash jadi slash
+  const normalized = f.replace(/\\/g, "/");
   return `/// <reference path="./${normalized}" />`;
 });
 
-// Tulis ke dist/index.d.ts
 writeFileSync(outFile, references.join("\n") + "\n");
 
 console.log("✅ Generate reference for dist/index.d.ts finish...");

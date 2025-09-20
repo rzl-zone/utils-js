@@ -1,8 +1,7 @@
 import type { NonPlainObject } from "@rzl-zone/ts-types-plus";
 
 import { isObject } from "@/predicates/is/isObject";
-
-type HasKeys<T> = keyof T extends never ? false : true;
+import type { IsHasKeysObject } from "./_private/_types";
 
 /** ----------------------------------------------------------
  * * ***Utility type: `IsPlainObjectResult`.***
@@ -12,7 +11,7 @@ type HasKeys<T> = keyof T extends never ? false : true;
  *    - If `T` is `unknown`, the resulting type is `Record<PropertyKey, unknown> & T`.
  *    - If `T` is an object:
  *        - If it is a non-plain object (class instance, built-in object, etc.), the result is `never`.
- *        - If it has no keys (`HasKeys<T>` checked by **{@link HasKeys}** is false), the result is `Record<PropertyKey, unknown> & T`.
+ *        - If it has no keys (`IsHasKeysObject<T>` checked by **{@link IsHasKeysObject}** is false), the result is `Record<PropertyKey, unknown> & T`.
  *        - Otherwise, the result is `T` itself.
  *    - For any other types, the result is `never`.
  * @template T - The input type to be asserted as a plain object.
@@ -33,7 +32,7 @@ export type IsPlainObjectResult<T> = unknown extends T
   : T extends object
   ? T extends NonPlainObject
     ? never
-    : HasKeys<T> extends false
+    : IsHasKeysObject<T> extends false
     ? Record<PropertyKey, unknown> & T
     : T
   : Extract<T, Record<PropertyKey, unknown>>;
