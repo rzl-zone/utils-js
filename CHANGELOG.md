@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.2](https://github.com/rzl-zone/utils-js/compare/v3.5.1...v3.5.2) (2025-09-25)
+
+
+### Bug Fixes
+
+* **build:** Fixing `generateReferenceIndex`. ([498d7e9](https://github.com/rzl-zone/utils-js/commit/498d7e90e2ae89743fb1ecfae90586508af6398f))
+
 ## [3.5.1](https://github.com/rzl-zone/utils-js/compare/v3.5.0...v3.5.1) (2025-09-25)
 
 
