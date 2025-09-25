@@ -134,6 +134,55 @@
       "require": "./dist/urls/index.cjs"
     }
   },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "assertions": [
+        "dist/assertions/index.d.ts"
+      ],
+      "conversions": [
+        "dist/conversions/index.d.ts"
+      ],
+      "events": [
+        "dist/events/index.d.ts"
+      ],
+      "formatters": [
+        "dist/formatters/index.d.ts"
+      ],
+      "generators": [
+        "dist/generators/index.d.ts"
+      ],
+      "next": [
+        "dist/next/index.d.ts"
+      ],
+      "next/server": [
+        "dist/next/server/index.d.ts"
+      ],
+      "operations": [
+        "dist/operations/index.d.ts"
+      ],
+      "parsers": [
+        "dist/parsers/index.d.ts"
+      ],
+      "predicates": [
+        "dist/predicates/index.d.ts"
+      ],
+      "promises": [
+        "dist/promises/index.d.ts"
+      ],
+      "strings": [
+        "dist/strings/index.d.ts"
+      ],
+      "tailwind": [
+        "dist/tailwind/index.d.ts"
+      ],
+      "urls": [
+        "dist/urls/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist",
     "README.md",
