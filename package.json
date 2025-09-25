@@ -18,7 +18,7 @@
     "url": "https://github.com/rzl-zone/utils-js/issues"
   },
   "dependencies": {
-    "@rzl-zone/ts-types-plus": "^0.0.8",
+    "@rzl-zone/ts-types-plus": "latest",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "libphonenumber-js": "^1.12.17",
@@ -43,6 +43,7 @@
     "tsc-alias": "^1.8.16",
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
+    "type-fest": "^5.0.1",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.41.0",
     "vitest": "^3.2.4"
@@ -63,193 +64,74 @@
       "types": "./dist/index.d.ts"
     },
     "./assertions": {
-      "import": {
-        "types": "./dist/assertions/index.d.ts",
-        "default": "./dist/assertions/index.js"
-      },
-      "require": {
-        "types": "./dist/assertions/index.d.ts",
-        "default": "./dist/assertions/index.cjs"
-      }
+      "types": "./dist/assertions/index.d.ts",
+      "import": "./dist/assertions/index.js",
+      "require": "./dist/assertions/index.cjs"
     },
     "./conversions": {
-      "import": {
-        "types": "./dist/conversions/index.d.ts",
-        "default": "./dist/conversions/index.js"
-      },
-      "require": {
-        "types": "./dist/conversions/index.d.ts",
-        "default": "./dist/conversions/index.cjs"
-      }
+      "types": "./dist/conversions/index.d.ts",
+      "import": "./dist/conversions/index.js",
+      "require": "./dist/conversions/index.cjs"
     },
     "./events": {
-      "import": {
-        "types": "./dist/events/index.d.ts",
-        "default": "./dist/events/index.js"
-      },
-      "require": {
-        "types": "./dist/events/index.d.ts",
-        "default": "./dist/events/index.cjs"
-      }
+      "types": "./dist/events/index.d.ts",
+      "import": "./dist/events/index.js",
+      "require": "./dist/events/index.cjs"
     },
     "./formatters": {
-      "import": {
-        "types": "./dist/formatters/index.d.ts",
-        "default": "./dist/formatters/index.js"
-      },
-      "require": {
-        "types": "./dist/formatters/index.d.ts",
-        "default": "./dist/formatters/index.cjs"
-      }
+      "types": "./dist/formatters/index.d.ts",
+      "import": "./dist/formatters/index.js",
+      "require": "./dist/formatters/index.cjs"
     },
     "./generators": {
-      "import": {
-        "types": "./dist/generators/index.d.ts",
-        "default": "./dist/generators/index.js"
-      },
-      "require": {
-        "types": "./dist/generators/index.d.ts",
-        "default": "./dist/generators/index.cjs"
-      }
+      "types": "./dist/generators/index.d.ts",
+      "import": "./dist/generators/index.js",
+      "require": "./dist/generators/index.cjs"
     },
     "./next": {
-      "import": {
-        "types": "./dist/next/index.d.ts",
-        "default": "./dist/next/index.js"
-      },
-      "require": {
-        "types": "./dist/next/index.d.ts",
-        "default": "./dist/next/index.cjs"
-      }
+      "types": "./dist/next/index.d.ts",
+      "import": "./dist/next/index.js",
+      "require": "./dist/next/index.cjs"
     },
     "./next/server": {
-      "import": {
-        "types": "./dist/next/server/index.d.ts",
-        "default": "./dist/next/server/index.js"
-      },
-      "require": {
-        "types": "./dist/next/server/index.d.ts",
-        "default": "./dist/next/server/index.cjs"
-      }
+      "types": "./dist/next/server/index.d.ts",
+      "import": "./dist/next/server/index.js",
+      "require": "./dist/next/server/index.cjs"
     },
     "./operations": {
-      "import": {
-        "types": "./dist/operations/index.d.ts",
-        "default": "./dist/operations/index.js"
-      },
-      "require": {
-        "types": "./dist/operations/index.d.ts",
-        "default": "./dist/operations/index.cjs"
-      }
+      "types": "./dist/operations/index.d.ts",
+      "import": "./dist/operations/index.js",
+      "require": "./dist/operations/index.cjs"
     },
     "./parsers": {
-      "import": {
-        "types": "./dist/parsers/index.d.ts",
-        "default": "./dist/parsers/index.js"
-      },
-      "require": {
-        "types": "./dist/parsers/index.d.ts",
-        "default": "./dist/parsers/index.cjs"
-      }
+      "types": "./dist/parsers/index.d.ts",
+      "import": "./dist/parsers/index.js",
+      "require": "./dist/parsers/index.cjs"
     },
     "./predicates": {
-      "import": {
-        "types": "./dist/predicates/index.d.ts",
-        "default": "./dist/predicates/index.js"
-      },
-      "require": {
-        "types": "./dist/predicates/index.d.ts",
-        "default": "./dist/predicates/index.cjs"
-      }
+      "types": "./dist/predicates/index.d.ts",
+      "import": "./dist/predicates/index.js",
+      "require": "./dist/predicates/index.cjs"
     },
     "./promises": {
-      "import": {
-        "types": "./dist/promises/index.d.ts",
-        "default": "./dist/promises/index.js"
-      },
-      "require": {
-        "types": "./dist/promises/index.d.ts",
-        "default": "./dist/promises/index.cjs"
-      }
+      "types": "./dist/promises/index.d.ts",
+      "import": "./dist/promises/index.js",
+      "require": "./dist/promises/index.cjs"
     },
     "./strings": {
-      "import": {
-        "types": "./dist/strings/index.d.ts",
-        "default": "./dist/strings/index.js"
-      },
-      "require": {
-        "types": "./dist/strings/index.d.ts",
-        "default": "./dist/strings/index.cjs"
-      }
+      "types": "./dist/strings/index.d.ts",
+      "import": "./dist/strings/index.js",
+      "require": "./dist/strings/index.cjs"
     },
     "./tailwind": {
-      "import": {
-        "types": "./dist/tailwind/index.d.ts",
-        "default": "./dist/tailwind/index.js"
-      },
-      "require": {
-        "types": "./dist/tailwind/index.d.ts",
-        "default": "./dist/tailwind/index.cjs"
-      }
+      "types": "./dist/tailwind/index.d.ts",
+      "import": "./dist/tailwind/index.js",
+      "require": "./dist/tailwind/index.cjs"
     },
     "./urls": {
-      "import": {
-        "types": "./dist/urls/index.d.ts",
-        "default": "./dist/urls/index.js"
-      },
-      "require": {
-        "types": "./dist/urls/index.d.ts",
-        "default": "./dist/urls/index.cjs"
-      }
-    }
-  },
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/index.d.ts"
-      ],
-      "assertions": [
-        "dist/assertions/index.d.ts"
-      ],
-      "conversions": [
-        "dist/conversions/index.d.ts"
-      ],
-      "events": [
-        "dist/events/index.d.ts"
-      ],
-      "formatters": [
-        "dist/formatters/index.d.ts"
-      ],
-      "generators": [
-        "dist/generators/index.d.ts"
-      ],
-      "next": [
-        "dist/next/index.d.ts"
-      ],
-      "next/server": [
-        "dist/next/server/index.d.ts"
-      ],
-      "operations": [
-        "dist/operations/index.d.ts"
-      ],
-      "parsers": [
-        "dist/parsers/index.d.ts"
-      ],
-      "predicates": [
-        "dist/predicates/index.d.ts"
-      ],
-      "promises": [
-        "dist/promises/index.d.ts"
-      ],
-      "strings": [
-        "dist/strings/index.d.ts"
-      ],
-      "tailwind": [
-        "dist/tailwind/index.d.ts"
-      ],
-      "urls": [
-        "dist/urls/index.d.ts"
-      ]
+      "types": "./dist/urls/index.d.ts",
+      "import": "./dist/urls/index.js",
+      "require": "./dist/urls/index.cjs"
     }
   },
   "files": [
@@ -283,15 +165,17 @@
     "barrel:generate": "npx barrelsby --config barrelsby.config.json",
     "barrel:remove-comment-dist": "tsx scripts/removeBarrelsbyComment.ts",
     "barrel": "npm run barrel:generate && npm run barrel:generate && npm run barrel:remove-comment-dist",
+    "inject:banner": "tsx scripts/injectBanner",
+    "normalize:new-lines": "tsx scripts/normalizeNewLineDistFiles",
     "clean-dist": "del-cli \"dist/*\"",
     "clean-dist:types-cts": "del-cli \"dist/**/*.d.{cts,mts}\"",
     "clean-dist:js-comments": "tsx scripts/cleanDistJsComments.ts",
     "delete-dist:index-runtime": "del-cli \"dist/index.{js,js.map,cjs,cjs.map}\" \"dist/index.d.{ts,cts,mts,esm}\"",
-    "minify:dist": "tsx scripts/minifyDist.ts",
+    "minify:dts-dist": "tsx scripts/minifyDtsDist.ts",
     "build:types-dts": "dts-bundle-generator --config dts-config.cjs --silent --external-imports next",
     "generate:reference-index": "tsx scripts/generateReferenceIndex.ts",
-    "postbuild": "npm run clean-dist:js-comments && npm run clean-dist:types-cts && npm run delete-dist:index-runtime && npm run generate:reference-index",
-    "build": "npm run clean-dist && npm run barrel && tsup && npm run minify:dist && npm run postbuild",
+    "postbuild": "",
+    "build": "npm run clean-dist && npm run barrel && tsup && npm run minify:dts-dist && npm run clean-dist:js-comments && npm run normalize:new-lines && npm run clean-dist:types-cts && npm run delete-dist:index-runtime && npm run generate:reference-index && npm run inject:banner",
     "format": "prettier --check .",
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix",

@@ -26,6 +26,7 @@
   },
   "include": [
     "src",
+    "scripts",
     "tests",
     "internal-global.d.ts",
   ],

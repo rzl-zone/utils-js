@@ -1,5 +1,8 @@
 {
   "auto-merge": true,
+  "release-type": "node",
+  "extra-files": [],
+  "include-v-in-tag": true,
   "branches": [
     {
       "branch": "main",
@@ -27,9 +30,6 @@
       "type": "patch"
     }
   },
-  "extra-files": [],
-  "include-v-in-tag": true,
   "pull-request-title-pattern": "chore${component ? `(${component})` : ''}: release${prerelease ? ' (beta)' : ''} ${version}",
-  "release-type": "node",
   "skip-github-release": false
 }

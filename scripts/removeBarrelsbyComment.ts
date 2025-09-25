@@ -1,9 +1,18 @@
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 
 const targetDir = "./src";
 
-console.log(`🕧 Removing Barrelsby is Starting`);
+let barrelRemoved = 0;
+
+console.log(
+  chalk.bold(
+    `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
+      "Removing Barrelsby"
+    )} at ${chalk.italic.underline.whiteBright("'" + targetDir + "'")} folder.`
+  )
+);
 
 function removeBarrelsbyComment(filePath: string) {
   let content = fs.readFileSync(filePath, "utf-8");
@@ -17,12 +26,20 @@ function removeBarrelsbyComment(filePath: string) {
 
   if (newContent !== content) {
     fs.writeFileSync(filePath, newContent, "utf-8");
-    console.log(`🟢 Removed barrelsby comment from ${filePath}`);
+    // console.log(`🟢 Removed barrelsby comment from ${filePath}`);
+
+    console.log(
+      `${chalk.bold("   >")} ${chalk.italic(
+        `${chalk.white(barrelRemoved + ".")} ${chalk.white(
+          "Removing Barrelsby"
+        )} ${chalk.cyan("in")} ${chalk.bold.underline.blueBright(filePath)}.`
+      )}`
+    );
   }
 }
 
 function walkDir(dir: string) {
-  for (const file of fs.readdirSync(dir)) {
+  for (const [idx, file] of fs.readdirSync(dir).sort().entries()) {
     const fullPath = path.join(dir, file);
     if (fs.statSync(fullPath).isDirectory()) {
       walkDir(fullPath);
@@ -33,10 +50,34 @@ function walkDir(dir: string) {
       fullPath.endsWith("index.cjs") ||
       fullPath.endsWith("index.js")
     ) {
+      barrelRemoved++;
       removeBarrelsbyComment(fullPath);
     }
   }
 }
+
 walkDir(targetDir);
 
-console.log(`\n✅ Removing Barrelsby Finish`);
+if (barrelRemoved > 0) {
+  console.log(
+    chalk.bold(
+      `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
+        "Removing Barrelsby"
+      )} (${chalk.yellowBright(
+        `${barrelRemoved} file${barrelRemoved > 1 ? "(s)" : ""}`
+      )}) at ${chalk.italic.underline.whiteBright("'" + targetDir + "'")} folder.`
+    )
+  );
+} else {
+  console.log(
+    chalk.bold(
+      `⚠️  ${chalk.yellowBright("Skipping")} ${chalk.underline.blueBright(
+        "Removing Barrelsby"
+      )} ${chalk.white("because")} ${chalk.redBright(
+        "nothing left"
+      )} files at ${chalk.italic.underline.whiteBright(
+        "'dist'"
+      )} folder to ${chalk.dim.redBright("injecting")}.`
+    )
+  );
+}

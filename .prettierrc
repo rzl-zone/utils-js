@@ -1,6 +1,6 @@
 {
-  "htmlWhitespaceSensitivity": "css",
   "insertPragma": false,
+  "htmlWhitespaceSensitivity": "css",
   "objectWrap": "collapse",
   "overrides": [
     {

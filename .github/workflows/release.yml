@@ -72,10 +72,10 @@ jobs:
           BRANCH_NAME="${BRANCH_NAME:-${GITHUB_REF_NAME:-main}}"
 
           if [[ "$BRANCH_NAME" == "beta" ]]; then
-            echo "Publishing with tag beta..."
+            echo "Publishing package with tag beta..."
             npm publish --provenance --access public --tag beta
           else
-            echo "Publishing with tag latest..."
+            echo "Publishing package with tag latest..."
             npm publish --provenance --access public
           fi
         env:

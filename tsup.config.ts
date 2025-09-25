@@ -1,6 +1,6 @@
 import fs from "fs";
 import fg from "fast-glob";
-import { defineConfig } from "tsup";
+import { defineConfig, Options } from "tsup";
 
 const entries = await fg(
   [
@@ -22,8 +22,7 @@ const entries = await fg(
   }
 );
 
-const nonExternalDefault = ["@rzl-zone/ts-types-plus"];
-const externalDefault = [
+const externalDefault: Options["external"] = [
   "next",
   "react",
   "clsx",
@@ -36,6 +35,8 @@ const externalDefault = [
   "tailwind-merge-v3",
   "tailwind-merge-v4"
 ];
+const nonExternalDefault: Options["noExternal"] = ["@rzl-zone/ts-types-plus"];
+
 export default defineConfig([
   {
     entry: entries,
@@ -57,13 +58,15 @@ export default defineConfig([
     esbuildOptions(options) {
       options.legalComments = "none";
       options.ignoreAnnotations = true;
+
+      return options;
     },
     onSuccess: async () => {
       const removeJs = await fg([
         "dist/types/**/*.{js,js.map,cjs}",
         "dist/types/*.{js,js.map,cjs}"
       ]);
-      for (const file of removeJs) {
+      for (const file of removeJs.sort()) {
         fs.rmSync(file, { force: true });
       }
     }
@@ -108,6 +111,8 @@ export default defineConfig([
           }
         }
       ];
+
+      return options;
     },
     onSuccess: async () => {
       const removeJs = await fg([
@@ -142,6 +147,8 @@ export default defineConfig([
       options.minifySyntax = true;
       options.legalComments = "none";
       options.plugins = [];
+
+      return options;
     }
   }
 ]);
