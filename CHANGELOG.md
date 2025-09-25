@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.1](https://github.com/rzl-zone/utils-js/compare/v3.5.0...v3.5.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* **chore:** Update devDeps `@rzl-zone/ts-types-plus` to latest, fixing (tsup, build-scripts, some MD files, and some configs). ([e878e32](https://github.com/rzl-zone/utils-js/commit/e878e3294fcda3a465c8f847b20a8ed1a06d644b))
+
 ## [3.5.0](https://github.com/rzl-zone/utils-js/compare/v3.4.0...v3.5.0) (2025-09-20)
 
 
