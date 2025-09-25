@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.3](https://github.com/rzl-zone/utils-js/compare/v3.5.2...v3.5.3) (2025-09-25)
+
+
+### Bug Fixes
+
+* Fixing exports `typesVersions` at package.json. ([af03417](https://github.com/rzl-zone/utils-js/commit/af034178e75852226a0ac585cc339f61bbf753b5))
+
 ## [3.5.2](https://github.com/rzl-zone/utils-js/compare/v3.5.1...v3.5.2) (2025-09-25)
 
 
