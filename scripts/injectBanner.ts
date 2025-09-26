@@ -30,7 +30,7 @@ export const injectBanner = async (pattern: string | string[]) => {
       if (content.startsWith(topBanner)) continue;
 
       const finalContent = `${
-        typeof topBanner === "string" && topBanner.trim().length ? topBanner + "\n\n" : ""
+        typeof topBanner === "string" && topBanner.trim().length ? topBanner + "\n" : ""
       }${content}`;
       await fs.promises.writeFile(filePath, finalContent, "utf8");
 

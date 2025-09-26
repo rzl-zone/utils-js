@@ -137,5 +137,5 @@ export const generateReferenceIndex = async (
 };
 
 await generateReferenceIndex(["dist/*/**/*.d.{ts,mts,cts,ets}"], {
-  withExportTypes: true
+  withExportTypes: false
 });
