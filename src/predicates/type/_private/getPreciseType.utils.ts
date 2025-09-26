@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { getPreciseType } from "./getPreciseType";
+import type { getPreciseType } from "../getPreciseType";
 
 /** ----------------------------------------------------------
  * * ***List of common acronyms that should remain uppercase in formatted output, extend this list if you have more acronyms to support.***

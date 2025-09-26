@@ -8,7 +8,7 @@ import {
   type GetPreciseTypeOptions,
   getPreciseType
 } from "@/predicates/type/getPreciseType";
-import { FIXES_RAW } from "@/predicates/type/getPreciseType.utils";
+import { FIXES_RAW } from "@/predicates/type/_private/getPreciseType.utils";
 import { toKebabCase } from "@/strings/cases/toKebabCase";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

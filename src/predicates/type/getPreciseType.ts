@@ -12,7 +12,7 @@ import { isNumberObject } from "../is/isNumberObject";
 import { isStringObject } from "../is/isStringObject";
 import { isBooleanObject } from "../is/isBooleanObject";
 import { isInfinityNumber } from "../is/isInfinityNumber";
-import { __internalAcronyms__, FIXES_RAW } from "./getPreciseType.utils";
+import { __internalAcronyms__, FIXES_RAW } from "./_private/getPreciseType.utils";
 
 import { slugify } from "@/strings/cases/slugify";
 import { toDotCase } from "@/strings/cases/toDotCase";

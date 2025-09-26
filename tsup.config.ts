@@ -73,64 +73,11 @@ export default defineConfig([
   },
 
   {
-    entry: ["src/next/server/index.ts"],
-    outDir: "dist/next/server",
-    format: ["cjs", "esm"],
-    splitting: true,
-    bundle: true,
-    minify: true,
-    treeshake: true,
-    external: ["next", "next/server", "server-only"],
-    noExternal: nonExternalDefault,
-    dts: true,
-    clean: false,
-    terserOptions: {
-      format: {
-        comments: false
-      }
-    },
-    esbuildOptions(options) {
-      options.legalComments = "none";
-      options.ignoreAnnotations = true;
-
-      options.plugins = [
-        {
-          name: "remove-types-runtime",
-          setup(build) {
-            build.onResolve({ filter: /\.(types|d)\.(ts|tsx)$/ }, (args) => {
-              return { path: args.path, external: true };
-            });
-
-            build.onResolve({ filter: /^types\// }, (args) => {
-              return { path: args.path, external: true };
-            });
-
-            build.onResolve({ filter: /src\/types\// }, (args) => {
-              return { path: args.path, external: true };
-            });
-          }
-        }
-      ];
-
-      return options;
-    },
-    onSuccess: async () => {
-      const removeJs = await fg([
-        "dist/types/**/*.{js,js.map,cjs}",
-        "dist/types/*.{js,js.map,cjs}"
-      ]);
-      for (const file of removeJs) {
-        fs.rmSync(file, { force: true });
-      }
-    }
-  },
-
-  {
     entry: { "rzl-utils": "src/browser.ts" },
     format: ["iife"],
     globalName: "RzlUtilsJs",
     external: [],
-    minify: true,
+    minify: "terser",
     treeshake: true,
     splitting: false,
     dts: false,
