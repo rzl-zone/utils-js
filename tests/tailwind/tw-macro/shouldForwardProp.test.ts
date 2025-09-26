@@ -10,7 +10,6 @@ describe("shouldForwardProp", () => {
     expect(filter("$internal")).toBe(false);
     expect(filter("custom")).toBe(false);
     expect(filter("visible")).toBe(true);
-    // @ts-expect-error Ignore Required key only for test.
     expect(filter("other")).toBe(true); // prop not in list should be forwarded
   });
 
@@ -19,7 +18,6 @@ describe("shouldForwardProp", () => {
     const filter = shouldForwardProp<Props>([]);
 
     expect(filter("foo")).toBe(true);
-    // @ts-expect-error Ignore Required key only for test.
     expect(filter("bar")).toBe(true);
   });
 
@@ -41,7 +39,7 @@ describe("shouldForwardProp", () => {
 
   it("should work with number keys", () => {
     type Props = { 1: string; 2: string; three: string };
-    const filter = shouldForwardProp<Props>([1]);
+    const filter = shouldForwardProp<Props>(["1"]);
 
     expect(filter(1)).toBe(false);
     expect(filter(2)).toBe(true);
@@ -49,17 +47,16 @@ describe("shouldForwardProp", () => {
   });
 
   it("should treat symbol keys safely", () => {
-    type Props = { normal: string };
+    const sym = Symbol("something");
+    type Props = { normal: string; sym: typeof sym };
     const filter = shouldForwardProp<Props>(["normal"]);
 
-    const sym = Symbol("something");
     // @ts-expect-error Ignore Required key only for test.
     expect(filter(sym)).toBe(true);
   });
 
   it("should coerce prop names to strings for comparison", () => {
     type Props = { foo: string; "data-test": string };
-    // @ts-expect-error Ignore Required key only for test.
     const filter = shouldForwardProp<Props>(["data-test"]);
 
     expect(filter("data-test")).toBe(false);
@@ -72,7 +69,6 @@ describe("shouldForwardProp", () => {
 
     expect(filter("customProp")).toBe(false);
     expect(filter("Another_Prop")).toBe(false);
-    // @ts-expect-error Ignore Required key only for test.
     expect(filter("randomProp")).toBe(true);
   });
 });
