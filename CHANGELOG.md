@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.5](https://github.com/rzl-zone/utils-js/compare/v3.5.4...v3.5.5) (2025-09-26)
+
+
+### Bug Fixes
+
+* fix:  ([55433b8](https://github.com/rzl-zone/utils-js/commit/55433b80304516fd32e13a6dfd07627ecaa40532))
+
 ## [3.5.4](https://github.com/rzl-zone/utils-js/compare/v3.5.3...v3.5.4) (2025-09-26)
 
 
