@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.5.4](https://github.com/rzl-zone/utils-js/compare/v3.5.3...v3.5.4) (2025-09-26)
+
+
+### Bug Fixes
+
+* **build:** Fixing `generateReferenceIndex` to disable exporting types at index.d.ts, remove duplicate double `\n` at injectingBanner. ([ea7e8e0](https://github.com/rzl-zone/utils-js/commit/ea7e8e0b3edd21a50642dcb5865450d07f006282))
+* **chore:** Update devDeps `@rzl-zone/ts-types-plus` to latest, fixing (build-scripts, eslint-config). ([d9fb9a6](https://github.com/rzl-zone/utils-js/commit/d9fb9a634535fb7a461b63aca3b30d53fd20ba64))
+* Fix moving `getPreciseType.utils` to _private folder for avoid mistake from external, and removing unused or duplicate code at tsup config and change build minify type to terser for browser bundle at tsup config. ([fca2b4b](https://github.com/rzl-zone/utils-js/commit/fca2b4b84d10a2fd82efa3ad26b6eb1c1abaa46c))
+
 ## [3.5.3](https://github.com/rzl-zone/utils-js/compare/v3.5.2...v3.5.3) (2025-09-25)
 
 
