@@ -1,7 +1,8 @@
 import fs from "fs";
 import fg from "fast-glob";
 import { isNonEmptyArray } from "@/predicates";
-import chalk from "chalk";
+
+import { BUILD_LOGGER } from "./utils/logger";
 
 const normalizeCleanDistFiles = async (pattern: string | string[]) => {
   try {
@@ -13,13 +14,9 @@ const normalizeCleanDistFiles = async (pattern: string | string[]) => {
       files.push(...matched);
     }
 
-    console.log(
-      chalk.bold(
-        `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
-          "Normalize New Lines"
-        )} at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-      )
-    );
+    BUILD_LOGGER.ON_STARTING({
+      actionName: "Normalize New Lines"
+    });
 
     const filesToClean = [];
     for (const filePath of files) {
@@ -39,47 +36,30 @@ const normalizeCleanDistFiles = async (pattern: string | string[]) => {
       if (finalContent !== content) {
         await fs.promises.writeFile(filePath, finalContent, "utf8");
 
-        console.log(
-          `${chalk.bold("   >")} ${chalk.italic(
-            `${chalk.white(idx + 1 + ".")} ${chalk.white(
-              "Normalize New Lines"
-            )} ${chalk.cyan("in")} ${chalk.bold.underline.blueBright(filePath)}.`
-          )}`
-        );
+        BUILD_LOGGER.ON_PROCESS({
+          actionName: "New Line Normalized",
+          count: idx + 1,
+          nameDirect: filePath
+        });
       }
     }
 
     if (isNonEmptyArray(filesToClean)) {
-      console.log(
-        chalk.bold(
-          `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
-            "Normalize New Lines"
-          )} (${chalk.yellowBright(
-            `${filesToClean.length} file${filesToClean.length > 1 ? "(s)" : ""}`
-          )}) at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-        )
-      );
+      BUILD_LOGGER.ON_FINISH({
+        actionName: "Normalize New Lines",
+        count: filesToClean.length
+      });
     } else {
-      console.log(
-        chalk.bold(
-          `⚠️  ${chalk.yellowBright("Skipping")} ${chalk.underline.blueBright(
-            "Normalize New Lines"
-          )} ${chalk.white("because")} ${chalk.redBright(
-            "nothing left"
-          )} files at ${chalk.italic.underline.whiteBright(
-            "'dist'"
-          )} folder to ${chalk.dim.redBright("normalize")}.`
-        )
-      );
+      BUILD_LOGGER.ON_SKIPPING({
+        actionName: "Normalize New Lines",
+        reasonEndText: "normalize"
+      });
     }
-  } catch (e) {
-    console.error(
-      chalk.bold(
-        `✅ ${chalk.redBright("Error")} to ${chalk.underline.blueBright(
-          "Normalize New Lines"
-        )} at ${chalk.cyan("dist")} folder, because: \n\n > ${chalk.inverse.red(e)}`
-      )
-    );
+  } catch (error) {
+    BUILD_LOGGER.ON_ERROR({
+      actionName: "Normalize New Lines",
+      error
+    });
   }
 };
 

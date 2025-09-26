@@ -1,7 +1,7 @@
 import fs from "fs";
-import chalk from "chalk";
 import fg from "fast-glob";
 import { isNonEmptyArray } from "@/predicates";
+import { BUILD_LOGGER } from "./utils/logger";
 
 type CleanOptions = {
   removeAdjacentEmptyLines?: boolean; // default: false
@@ -21,13 +21,9 @@ const cleanDistJsComments = async (
       files.push(...matched);
     }
 
-    console.log(
-      chalk.bold(
-        `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
-          "Cleaning JS Comment"
-        )} at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-      )
-    );
+    BUILD_LOGGER.ON_STARTING({
+      actionName: "Cleaning JS Comment"
+    });
 
     const filesToClean: string[] = [];
     for (const filePath of files) {
@@ -95,47 +91,31 @@ const cleanDistJsComments = async (
 
       if (finalContent !== content) {
         await fs.promises.writeFile(filePath, finalContent, "utf8");
-        console.log(
-          `${chalk.bold("   >")} ${chalk.italic(
-            `${chalk.white(index + 1 + ".")} ${chalk.white(
-              "Cleaned JS Comment"
-            )} ${chalk.cyan("in")} '${chalk.bold.underline.cyanBright(filePath)}'.`
-          )}`
-        );
+
+        BUILD_LOGGER.ON_PROCESS({
+          actionName: "JS Comment Cleaned",
+          count: index + 1,
+          nameDirect: filePath
+        });
       }
     }
 
     if (isNonEmptyArray(filesToClean)) {
-      console.log(
-        chalk.bold(
-          `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
-            "Cleaned JS Comment"
-          )} (${chalk.yellowBright(
-            `${filesToClean.length} file${filesToClean.length > 1 ? "(s)" : ""}`
-          )}) at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-        )
-      );
+      BUILD_LOGGER.ON_FINISH({
+        actionName: "Cleaning JS Comment",
+        count: filesToClean.length
+      });
     } else {
-      console.log(
-        chalk.bold(
-          `⚠️  ${chalk.yellowBright("Skipping")} ${chalk.underline.blueBright(
-            "Cleaned JS Comment"
-          )} ${chalk.white("because")} ${chalk.redBright(
-            "nothing left"
-          )} files at ${chalk.italic.underline.whiteBright(
-            "'dist'"
-          )} folder to ${chalk.dim.redBright("cleaning")}.`
-        )
-      );
+      BUILD_LOGGER.ON_SKIPPING({
+        actionName: "Cleaning JS Comment",
+        reasonEndText: "cleaning"
+      });
     }
-  } catch (e) {
-    console.error(
-      chalk.bold(
-        `✅ ${chalk.redBright("Error")} to ${chalk.underline.blueBright(
-          "Cleaned JS Comment"
-        )} at ${chalk.cyan("dist")} folder, because: \n\n > ${chalk.inverse.red(e)}`
-      )
-    );
+  } catch (error) {
+    BUILD_LOGGER.ON_ERROR({
+      actionName: "Cleaning JS Comment",
+      error
+    });
   }
 };
 

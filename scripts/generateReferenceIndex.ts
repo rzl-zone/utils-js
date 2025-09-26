@@ -3,6 +3,7 @@ import path from "path";
 import fg from "fast-glob";
 import chalk from "chalk";
 import { isNonEmptyArray } from "@/predicates";
+import { BUILD_LOGGER } from "./utils/logger";
 
 export const generateReferenceIndex = async (
   pattern: string | string[],
@@ -10,8 +11,7 @@ export const generateReferenceIndex = async (
     withExportTypes: false
   }
 ) => {
-  let outFileNormalize: string | undefined;
-
+  let outFileNormalize: string = "dist/index.d.ts";
   try {
     const patterns = Array.isArray(pattern) ? pattern : [pattern];
     const files: string[] = [];
@@ -25,17 +25,14 @@ export const generateReferenceIndex = async (
     const outFile = path.join(distDir, "index.d.ts");
     outFileNormalize = outFile.replace(/\\/g, "/");
 
-    console.log(
-      chalk.bold(
-        `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
-          "Generate Reference"
-        )} at ${chalk.italic.underline.whiteBright(outFileNormalize)} folder.`
-      )
-    );
+    BUILD_LOGGER.ON_STARTING({
+      actionName: "Generating References",
+      atFolder: outFileNormalize
+    });
 
     fs.writeFileSync(outFile, "");
 
-    let references: string[] = [];
+    const references: string[] = [];
 
     if (isNonEmptyArray(files)) {
       references.push("//! References Paths:\n");
@@ -46,17 +43,12 @@ export const generateReferenceIndex = async (
         .map((f, i) => {
           const normalized = f.replace(/\\/g, "/").split("dist/")?.[1];
 
-          console.log(
-            `${chalk.bold("   >")} ${chalk.italic(
-              `${chalk.white(i + 1 + ".")} ${chalk.white(
-                "Generate Reference"
-              )} ${chalk.magentaBright("for")} ${chalk.bold.underline.cyanBright(
-                normalized
-              )} ${chalk.bold.gray("➔")} ${chalk.bold.underline.blueBright(
-                outFileNormalize
-              )}.`
-            )}`
-          );
+          BUILD_LOGGER.ON_PROCESS_REFERENCING({
+            actionName: "Generated Reference",
+            count: i + 1,
+            referenceFrom: normalized,
+            referenceTo: outFileNormalize
+          });
 
           return `/// <reference path="./${normalized}" />`;
         })
@@ -64,27 +56,20 @@ export const generateReferenceIndex = async (
     );
 
     if (isNonEmptyArray(files)) {
-      console.log(
-        chalk.bold(
-          `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
-            "Generate Reference"
-          )} (${chalk.yellowBright(
-            `${files.length} reference${files.length > 1 ? "(s)" : ""}`
-          )}) to ${chalk.italic.underline.whiteBright(outFileNormalize)} file.`
-        )
-      );
+      BUILD_LOGGER.ON_FINISH({
+        actionName: "Generating Reference",
+        count: files.length,
+        typeCount: "reference",
+        textDirectFolder: "to",
+        atFolder: outFileNormalize,
+        typeDirect: "file"
+      });
     } else {
-      console.log(
-        chalk.bold(
-          `⚠️  ${chalk.yellowBright("Skipping")} ${chalk.underline.blueBright(
-            "Generate Reference"
-          )} ${chalk.white("because")} ${chalk.redBright(
-            "nothing left"
-          )} files at ${chalk.italic.underline.whiteBright(
-            "'dist'"
-          )} folder to ${chalk.dim.redBright("referencing")}.`
-        )
-      );
+      BUILD_LOGGER.ON_SKIPPING({
+        actionName: "Generating References",
+        reasonEndText: "referencing",
+        reasonType: "references"
+      });
     }
 
     if (options.withExportTypes) {
@@ -94,13 +79,10 @@ export const generateReferenceIndex = async (
         )
       );
 
-      console.log(
-        chalk.bold(
-          `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
-            "Added Exported Types"
-          )} at ${chalk.italic.underline.whiteBright(outFileNormalize)} folder.`
-        )
-      );
+      BUILD_LOGGER.ON_STARTING({
+        actionName: "Adding Exported Types",
+        atFolder: outFileNormalize
+      });
 
       if (isNonEmptyArray(files)) {
         references.push("\n\n//! Exported Types:\n");
@@ -111,63 +93,49 @@ export const generateReferenceIndex = async (
           .map((f, i) => {
             const normalized = f.replace(/\\/g, "/").split(".")[0].split("dist/")?.[1];
 
-            console.log(
-              `${chalk.bold("   >")} ${chalk.italic(
-                `${chalk.white(i + 1 + ".")} ${chalk.white(
-                  "Added Exported Type"
-                )} ${chalk.magentaBright("from")} ${chalk.bold.underline.cyanBright(
-                  normalized
-                )} ${chalk.bold.gray("➔")} ${chalk.bold.underline.blueBright(
-                  outFileNormalize
-                )}.`
-              )}`
-            );
+            BUILD_LOGGER.ON_PROCESS_REFERENCING({
+              actionName: "Exported Type",
+              count: i + 1,
+              referenceFrom: normalized,
+              referenceTo: outFileNormalize
+            });
+
             return `export * from "./${normalized}";`;
           })
           .join("\n")
       );
 
       if (isNonEmptyArray(files)) {
-        console.log(
-          chalk.bold(
-            `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
-              "Added Exported Types"
-            )} (${chalk.yellowBright(
-              `${files.length} type${files.length > 1 ? "(s)" : ""}`
-            )}) to ${chalk.italic.underline.whiteBright(outFileNormalize)} file.`
-          )
-        );
+        BUILD_LOGGER.ON_FINISH({
+          actionName: "Adding Exported Types",
+          count: files.length,
+          typeCount: "type",
+          textDirectFolder: "to",
+          atFolder: outFileNormalize,
+          typeDirect: "file"
+        });
       } else {
-        console.log(
-          chalk.bold(
-            `⚠️  ${chalk.yellowBright("Skipping")} ${chalk.underline.blueBright(
-              "Added Exported Types"
-            )} ${chalk.white("because")} ${chalk.redBright(
-              "nothing left"
-            )} files at ${chalk.italic.underline.whiteBright(
-              "'dist'"
-            )} folder to ${chalk.dim.redBright("exporting")}.`
-          )
-        );
+        BUILD_LOGGER.ON_SKIPPING({
+          actionName: "Adding Exported Types",
+          reasonEndText: "exporting",
+          reasonType: "types"
+        });
       }
     }
 
     fs.writeFileSync(outFile, references.join("") + "\n");
-  } catch (e) {
-    console.error(
-      chalk.bold(
-        `✅ ${chalk.redBright("Error")} to ${chalk.underline.blueBright(
-          "Generate Reference" +
-            (options.withExportTypes ? " and Adding Exported Types" : "")
-        )} at ${chalk.cyan(outFileNormalize)} file, because: \n\n > ${chalk.inverse.red(
-          e
-        )}`
-      )
-    );
+  } catch (error) {
+    BUILD_LOGGER.ON_ERROR({
+      actionName:
+        "Generating References" +
+        (options.withExportTypes ? " and Adding Exported Types" : ""),
+      error,
+      atFolder: outFileNormalize,
+      typeDirect: "file"
+    });
   }
 };
 
-await generateReferenceIndex(
-  ["dist/*/index.d.{ts,mts,cts,ets}", "dist/*/**/index.d.{ts,mts,cts,ets}"],
-  { withExportTypes: false }
-);
+await generateReferenceIndex(["dist/*/**/*.d.{ts,mts,cts,ets}"], {
+  withExportTypes: true
+});

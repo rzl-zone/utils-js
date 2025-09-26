@@ -1,8 +1,8 @@
-import chalk from "chalk";
 import fg from "fast-glob";
 import { readFileSync, writeFileSync } from "fs";
 
 import { topBanner } from "./constants/banner";
+import { BUILD_LOGGER } from "./utils/logger";
 
 export const minifyDtsDist = async (
   pattern: string | string[],
@@ -17,13 +17,9 @@ export const minifyDtsDist = async (
       files.push(...matched);
     }
 
-    console.log(
-      chalk.bold(
-        `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
-          "Minify DTS"
-        )} at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-      )
-    );
+    BUILD_LOGGER.ON_STARTING({
+      actionName: "Minify DTS"
+    });
 
     files.forEach((filePath, idx) => {
       const content = readFileSync(filePath, "utf-8");
@@ -81,7 +77,7 @@ export const minifyDtsDist = async (
               return index === firstJsDocIndex ? part.content + "" : `${part.content}`;
             case "comment":
               return ` ${part.content.replace(/\n/g, " ").replace(/\s+/g, " ")} `;
-            case "code":
+            case "code": {
               const fragments =
                 part.content.match(/(["'`])(?:\\.|(?!\1).)*\1|[^"'`]+/g) || [];
               return fragments
@@ -96,6 +92,7 @@ export const minifyDtsDist = async (
                     .trim();
                 })
                 .join("");
+            }
           }
         })
         .filter(Boolean)
@@ -107,32 +104,24 @@ export const minifyDtsDist = async (
         .replace(/(^|\n)[ \t]+(\*)/g, "$1 $2");
 
       writeFileSync(filePath, finalResult, "utf-8");
-      console.log(
-        `${chalk.bold("   >")} ${chalk.italic(
-          `${chalk.white(idx + 1 + ".")} ${chalk.white("DTS minified")} ${chalk.cyan(
-            "in"
-          )} ${chalk.bold.underline.blueBright(filePath)}.`
-        )}`
-      );
+
+      BUILD_LOGGER.ON_PROCESS({
+        actionName: "DTS minified",
+        textDirectFolder: "at",
+        count: idx + 1,
+        nameDirect: filePath
+      });
     });
 
-    console.log(
-      chalk.bold(
-        `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
-          "Minify DTS"
-        )} (${chalk.yellowBright(
-          `${files.length} file${files.length > 1 ? "(s)" : ""}`
-        )}) at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-      )
-    );
-  } catch (e) {
-    console.error(
-      chalk.bold(
-        `✅ ${chalk.redBright("Error")} to ${chalk.underline.blueBright(
-          "Minify DTS"
-        )} at ${chalk.cyan("dist")} folder, because: \n\n > ${chalk.inverse.red(e)}`
-      )
-    );
+    BUILD_LOGGER.ON_FINISH({
+      actionName: "Minify DTS",
+      count: files.length
+    });
+  } catch (error) {
+    BUILD_LOGGER.ON_ERROR({
+      actionName: "DTS minified",
+      error
+    });
   }
 };
 

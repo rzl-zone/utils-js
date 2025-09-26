@@ -1,7 +1,7 @@
 import fs from "fs";
-import chalk from "chalk";
 import fg from "fast-glob";
 import { topBanner } from "./constants/banner";
+import { BUILD_LOGGER } from "./utils/logger";
 
 export const injectBanner = async (pattern: string | string[]) => {
   try {
@@ -13,13 +13,9 @@ export const injectBanner = async (pattern: string | string[]) => {
       files.push(...matched);
     }
 
-    console.log(
-      chalk.bold(
-        `🕧 ${chalk.cyanBright("Starting")} to ${chalk.underline.blueBright(
-          "Injecting Banner"
-        )} at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-      )
-    );
+    BUILD_LOGGER.ON_STARTING({
+      actionName: "Injecting Banner"
+    });
 
     let injectedCount = 0;
 
@@ -34,51 +30,36 @@ export const injectBanner = async (pattern: string | string[]) => {
       if (content.startsWith(topBanner)) continue;
 
       const finalContent = `${
-        typeof topBanner === "string" && topBanner.trim().length ? topBanner + "\n" : ""
+        typeof topBanner === "string" && topBanner.trim().length ? topBanner + "\n\n" : ""
       }${content}`;
       await fs.promises.writeFile(filePath, finalContent, "utf8");
 
       injectedCount++;
-      console.log(
-        `${chalk.bold("   >")} ${chalk.italic(
-          `${chalk.white(injectedCount + ".")} ${chalk.white(
-            "Injected banner"
-          )} ${chalk.yellowBright("in")} ${chalk.bold.underline.blueBright(filePath)}.`
-        )}`
-      );
+
+      BUILD_LOGGER.ON_PROCESS({
+        actionName: "Banner Injected",
+        textDirectFolder: "to",
+        count: injectedCount,
+        nameDirect: filePath
+      });
     }
 
     if (injectedCount > 0) {
-      console.log(
-        chalk.bold(
-          `✅ ${chalk.greenBright("Success")} ${chalk.underline.blueBright(
-            "Injecting Banner"
-          )} (${chalk.yellowBright(
-            `${injectedCount} file${injectedCount > 1 ? "(s)" : ""}`
-          )}) at ${chalk.italic.underline.whiteBright("'dist'")} folder.`
-        )
-      );
+      BUILD_LOGGER.ON_FINISH({
+        actionName: "Injecting Banner",
+        count: injectedCount
+      });
     } else {
-      console.log(
-        chalk.bold(
-          `⚠️  ${chalk.yellowBright("Skipping")} ${chalk.underline.blueBright(
-            "Injecting Banner"
-          )} ${chalk.white("because")} ${chalk.redBright(
-            "nothing left"
-          )} files at ${chalk.italic.underline.whiteBright(
-            "'dist'"
-          )} folder to ${chalk.dim.redBright("injecting")}.`
-        )
-      );
+      BUILD_LOGGER.ON_SKIPPING({
+        actionName: "Injecting Banner",
+        reasonEndText: "injecting"
+      });
     }
-  } catch (e) {
-    console.error(
-      chalk.bold(
-        `✅ ${chalk.redBright("Error")} to ${chalk.underline.blueBright(
-          "Injecting Banner"
-        )} at ${chalk.cyan("dist")} folder, because: \n\n > ${chalk.inverse.red(e)}`
-      )
-    );
+  } catch (error) {
+    BUILD_LOGGER.ON_ERROR({
+      actionName: "Injecting Banner",
+      error
+    });
   }
 };
 
