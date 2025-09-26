@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.6](https://github.com/rzl-zone/utils-js/compare/v3.5.5...v3.5.6) (2025-09-26)
+
+
+### Bug Fixes
+
+* Fixing tsDoc `shouldForwardProp`. ([c940ec4](https://github.com/rzl-zone/utils-js/commit/c940ec4c566aa3f7e871dd3e2a79ff81510a1810))
+
 ## [3.5.5](https://github.com/rzl-zone/utils-js/compare/v3.5.4...v3.5.5) (2025-09-26)
 
 
