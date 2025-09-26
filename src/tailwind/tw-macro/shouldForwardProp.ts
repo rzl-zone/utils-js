@@ -10,32 +10,54 @@ import { assertIsArray } from "@/assertions/objects/assertIsArray";
  * * ***Utility: `shouldForwardProp`.***
  * ----------------------------------------------------------
  * **Creates a helper for styled-components `shouldForwardProp`.**
+ *
  * @description
- * This utility returns a predicate function that determines whether a given prop
- * should be forwarded to the DOM, useful for filtering out internal props (e.g.,
- * `$size`, `$active`) so they don't end up as invalid HTML attributes.
+ * 1. Returns a **predicate function** that determines whether a given prop
+ * should be forwarded to the DOM.
+ * 2. Useful for filtering out internal props (e.g., `$size`, `$active`)
+ * so they don't become invalid HTML attributes.
+ *
  * - **Behavior:**
- *    - Accepts a tuple (strict) of prop keys to exclude from forwarding.
- *    - Automatically coerces prop names to string for consistent checking.
- *    - Supports string, number, or symbol keys (via PropertyKey).
- *    - Will throw an error if the provided `props` argument is not an array.
- * @template CustomProps - The type of the component's props.
- * @param {UnionToTupleStrict<keyof CustomProps>} props
+ *    - Accepts a strict tuple of **string keys** to exclude from forwarding.
+ *    - Every key is validated as a **non-empty string** at runtime.
+ *    - Throws a `TypeError` if:
+ *      - `props` is not an array, or
+ *      - any item is not a non-empty string.
+ *    - Automatically coerces the tested prop name to string for matching.
+ *
+ * @template CustomProps
+ *   The component props type to validate against.
+ *
+ * @param {readonly Stringify<keyof CustomProps>[]}
+ *   props
  *   The list of prop names (keys of `CustomProps`) to exclude from forwarding.
- * @returns {(propName: PropertyKey) => boolean}
- *   A function that takes a prop name and returns `true` if it should be forwarded, `false` if it should be blocked.
- * @throws {TypeError} If `props` is not an array.
+ *
+ * @returns {(propName: keyof CustomProps | ({} & string)) => boolean}
+ *   A function that receives a prop name and returns:
+ *   - `true`  ➔ the prop **will** be forwarded to the DOM.
+ *   - `false` ➔ the prop **will not** be forwarded.
+ *
+ * @throws {TypeError}
+ *   Thrown when:
+ *   - `props` is not an array, or
+ *   - any item is not a non-empty string.
+ *
  * @example
+ * // Basic usage
  * type Props = { $size: string; color: string; visible: boolean };
  * const filter = shouldForwardProp<Props>(["$size"]);
- * filter("$size");   // ➔ false (blocked)
- * filter("color");   // ➔ true (forwarded)
- * filter("visible"); // ➔ true (forwarded)
+ *
+ * filter("$size");   // ➔ false (blocked).
+ * filter("color");   // ➔ true  (forwarded).
+ * filter("visible"); // ➔ true  (forwarded).
+ *
  * @example
- * // Using with styled-components:
+ * // With styled-components
+ * type CustomProps = { $internal: boolean; public: string; another: boolean };
+ *
  * styled.div.withConfig({
  *   shouldForwardProp: shouldForwardProp<CustomProps>(["$internal"])
- * })
+ * });
  */
 export const shouldForwardProp = <CustomProps extends Record<string, unknown>>(
   props: readonly Stringify<keyof CustomProps>[]
