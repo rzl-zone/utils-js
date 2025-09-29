@@ -17,14 +17,32 @@ import { assertIsString } from "@/assertions/strings/assertIsString";
  *   will remove it and re-enable interactions.
  * - **Validation:**
  *    - Throws `TypeError` if the `className` parameter is not a string.
+ * @defaultValue `"on_processing"`
  * @param {string} [className="on_processing"] - The CSS class to remove, defaults to `"on_processing"`.
  * @returns {void} Does not return anything.
  * @throws {TypeError} If `className` is not a string.
  * @example
+ * * ***Example in your code:***
+ * ```ts
  * enableUserInteraction();          // ➔ Removes "on_processing" class
  * enableUserInteraction("loading"); // ➔ Removes "loading" class
  * // ❌ Invalid value:
  * enableUserInteraction(123);       // ➔ Throws TypeError
+ * ```
+ * * ***Example in your css file (with defaultValue `className` props [on_processing]):***
+ * ```css
+ * .on_processing {
+ *   cursor: wait;
+ *   touch-action: none;
+ *   user-select: none;
+ * }
+ *
+ * .on_processing > * {
+ *   pointer-events: none;
+ *   touch-action: none;
+ *   user-select: none;
+ * }
+ * ```
  */
 export const enableUserInteraction = (className: string = "on_processing"): void => {
   // Ensure function runs only in the browser
