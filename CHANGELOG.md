@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.7](https://github.com/rzl-zone/utils-js/compare/v3.5.6...v3.5.7) (2025-09-29)
+
+
+### Bug Fixes
+
+* **docs:** TsDoc `disableUserInteraction` and `enableUserInteraction`. ([d75c9a5](https://github.com/rzl-zone/utils-js/commit/d75c9a546462e5be895a4c8355a9eec112a5f9cb))
+
 ## [3.5.6](https://github.com/rzl-zone/utils-js/compare/v3.5.5...v3.5.6) (2025-09-26)
 
 
