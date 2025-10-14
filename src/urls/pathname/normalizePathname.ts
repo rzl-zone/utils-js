@@ -1,10 +1,10 @@
 import type { Prettify } from "@rzl-zone/ts-types-plus";
-import isValidDomain from "is-valid-domain";
 
 import { isNil } from "@/predicates/is/isNil";
 import { isNull } from "@/predicates/is/isNull";
 import { isError } from "@/predicates/is/isError";
 import { isString } from "@/predicates/is/isString";
+import { isValidDomain } from "@/predicates/is/isValidDomain";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
 import { assertIsBoolean } from "@/assertions/booleans/assertIsBoolean";

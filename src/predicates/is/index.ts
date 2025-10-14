@@ -52,5 +52,6 @@ export * from "./isSymbol";
 export * from "./isTypedArray";
 export * from "./isUndefined";
 export * from "./isURL";
+export * from "./isValidDomain";
 export * from "./isValidURL";
 export * from "./isWeakMap";
