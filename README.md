@@ -134,7 +134,7 @@
 
 <h2 id="detailed-features">💎 <strong>Detailed Features</strong></h2>
 
-  ### **Full documentation <a href="https://docs-rzl-utils-js.vercel.app" target="_blank" rel="nofollow noreferrer noopener">Rzl UtilsJS</a> is **currently under construction** 🏗️.**
+  ### **Full documentation <a href="https://rzlzone.pages.dev/docs/utils-js" target="_blank" rel="nofollow noreferrer noopener">Rzl UtilsJS</a> is **currently under construction** 🏗️.**
   #### For now, explore the examples or dive into the source — all utilities are documented via **TSDoc** and typed properly.
   
   ```ts
