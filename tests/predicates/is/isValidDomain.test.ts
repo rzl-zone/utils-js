@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import sldMap from "../../../src/predicates/is/_private/data/domain/sldMap.json";
 import { isValidDomain } from "@/predicates/is/isValidDomain";
 
+type ArrayForTest = [string, boolean, Partial<Parameters<typeof isValidDomain>[1]>?][];
+
 describe("isValidDomain", () => {
   it("should validate standard domains", () => {
     expect(isValidDomain("example.com")).toBe(true);
@@ -55,7 +57,7 @@ describe("isValidDomain", () => {
 
 // --- TLD and simple subdomains ---
 describe("isValidDomain - tld and simple subdomains", () => {
-  const tests = [
+  const tests: ArrayForTest = [
     ["example.com", true],
     ["foo.example.com", true],
     ["bar.foo.example.com", true],
@@ -81,7 +83,7 @@ describe("isValidDomain - tld and simple subdomains", () => {
 
 // --- More subdomains ---
 describe("isValidDomain - more subdomains", () => {
-  const tests: [string, boolean, any?][] = [
+  const tests: ArrayForTest = [
     ["example.com", true],
     ["foo.example.com", true],
     ["example.com", true, { subdomain: true }],
@@ -134,7 +136,7 @@ describe("isValidDomain - sld", () => {
 
 // --- punycode / unicode ---
 describe("isValidDomain - punycode & unicode", () => {
-  const tests: [string, boolean, any?][] = [
+  const tests: ArrayForTest = [
     ["xn--6qq79v.xn--fiqz9s", true],
     ["xn--ber-goa.com", true],
     ["xn--a--ber-goa.com", false],
@@ -169,5 +171,192 @@ describe("isValidDomain - country code tld", () => {
     expect(isValidDomain("ae.")).toBe(false);
     expect(isValidDomain("ae.", { topLevel: true })).toBe(true);
     expect(isValidDomain("xx.", { topLevel: true })).toBe(false);
+  });
+});
+
+// --- options allowPort & allowLocalhost ---
+describe("isValidDomain - new options allowPort & allowLocalhost", () => {
+  it("should validate localhost with allowLocalhost=true", () => {
+    expect(isValidDomain("localhost", { allowLocalhost: true })).toBe(true);
+  });
+
+  it("should reject localhost if allowLocalhost=false", () => {
+    expect(isValidDomain("localhost", { allowLocalhost: false })).toBe(false);
+  });
+
+  it("should validate localhost with port when allowLocalhost & allowPort are true", () => {
+    expect(
+      isValidDomain("localhost:3000", { allowLocalhost: true, allowPort: true })
+    ).toBe(true);
+  });
+
+  it("should reject localhost with port if allowPort=false", () => {
+    expect(
+      isValidDomain("localhost:3000", { allowLocalhost: true, allowPort: false })
+    ).toBe(false);
+  });
+
+  it("should validate example.com with port if allowPort=true", () => {
+    expect(isValidDomain("example.com:8080", { allowPort: true })).toBe(true);
+  });
+
+  it("should reject example.com with invalid port", () => {
+    expect(isValidDomain("example.com:99999", { allowPort: true })).toBe(false);
+    expect(isValidDomain("example.com:0", { allowPort: true })).toBe(false);
+  });
+
+  it("should reject example.com with port if allowPort=false", () => {
+    expect(isValidDomain("example.com:8080", { allowPort: false })).toBe(false);
+  });
+
+  it("should still validate normal domains without port or localhost", () => {
+    expect(isValidDomain("google.com")).toBe(true);
+    expect(isValidDomain("sub.example.com")).toBe(true);
+  });
+});
+
+// --- options allowProtocol ---
+describe("isValidDomain - allowProtocol option", () => {
+  it("should extract hostname from http/https URLs and validate correctly", () => {
+    expect(
+      isValidDomain("https://localhost", { allowProtocol: true, allowLocalhost: true })
+    ).toBe(true);
+    expect(isValidDomain("https://example.com", { allowProtocol: true })).toBe(true);
+    expect(isValidDomain("http://sub.example.com", { allowProtocol: true })).toBe(true);
+    expect(
+      isValidDomain("https://example.com/path/to/page", { allowProtocol: true })
+    ).toBe(true);
+    expect(
+      isValidDomain("https://example.com:8080/path", {
+        allowProtocol: true,
+        allowPort: true
+      })
+    ).toBe(true);
+  });
+
+  it("should reject invalid URLs even with allowProtocol=true", () => {
+    expect(isValidDomain("https://-example.com", { allowProtocol: true })).toBe(false);
+    expect(isValidDomain("http://example-.com", { allowProtocol: true })).toBe(false);
+    expect(isValidDomain("https://exa..mple.com", { allowProtocol: true })).toBe(false);
+  });
+
+  it("should fallback to raw string if not a valid URL", () => {
+    // Without protocol, should behave like normal domain validation
+    expect(isValidDomain("example.com", { allowProtocol: true })).toBe(true);
+    expect(isValidDomain("sub.example.com", { allowProtocol: true })).toBe(true);
+  });
+
+  it("should handle URLs with ports correctly", () => {
+    expect(
+      isValidDomain("https://localhost:8080", {
+        allowProtocol: true,
+        allowPort: true,
+        allowLocalhost: true
+      })
+    ).toBe(true);
+    expect(
+      isValidDomain("https://example.com:8080", { allowProtocol: true, allowPort: true })
+    ).toBe(true);
+    expect(
+      isValidDomain("https://example.com:99999", { allowProtocol: true, allowPort: true })
+    ).toBe(false); // invalid port
+  });
+
+  it("should ignore path, query, and fragment", () => {
+    expect(
+      isValidDomain("https://example.com/path?query=1#fragment", { allowProtocol: true })
+    ).toBe(true);
+    expect(
+      isValidDomain("http://sub.example.com/foo/bar?x=1#top", { allowProtocol: true })
+    ).toBe(true);
+  });
+});
+
+describe("isValidDomain - options coverage", () => {
+  // --- subdomain ---
+  it("should respect subdomain option", () => {
+    expect(isValidDomain("sub.example.com", { subdomain: true })).toBe(true);
+    expect(isValidDomain("sub.example.com", { subdomain: false })).toBe(false);
+    expect(isValidDomain("example.com", { subdomain: false })).toBe(true);
+  });
+
+  // --- topLevel ---
+  it("should validate top-level domains only when topLevel=true", () => {
+    expect(isValidDomain("ai", { topLevel: true })).toBe(true);
+    expect(isValidDomain("ai.", { topLevel: true })).toBe(true);
+    expect(isValidDomain("com", { topLevel: true })).toBe(false); // common SLD
+    expect(isValidDomain("example.com", { topLevel: true })).toBe(true);
+  });
+
+  // --- wildcard ---
+  it("should validate wildcard domains only when wildcard=true", () => {
+    expect(isValidDomain("*.example.com", { wildcard: true })).toBe(true);
+    expect(isValidDomain("*.example.com", { wildcard: false })).toBe(false);
+    expect(isValidDomain("sub.*.example.com", { wildcard: true })).toBe(false);
+  });
+
+  // --- allowUnicode ---
+  it("should validate Unicode domains with allowUnicode=true", () => {
+    expect(isValidDomain("пример.рф", { allowUnicode: true })).toBe(true);
+    expect(isValidDomain("пример.рф", { allowUnicode: false })).toBe(false);
+    expect(isValidDomain("xn--e1afmkfd.xn--p1ai", { allowUnicode: false })).toBe(true);
+  });
+
+  // --- allowProtocol ---
+  it("should extract hostname from URLs when allowProtocol=true", () => {
+    expect(isValidDomain("https://example.com", { allowProtocol: true })).toBe(true);
+    expect(isValidDomain("http://sub.example.com/path", { allowProtocol: true })).toBe(
+      true
+    );
+    expect(isValidDomain("ftp://example.com", { allowProtocol: true })).toBe(false);
+  });
+
+  // --- allowPort & allowLocalhost ---
+  it("should validate localhost and ports correctly", () => {
+    expect(isValidDomain("localhost", { allowLocalhost: true })).toBe(true);
+    expect(
+      isValidDomain("localhost:3000", { allowLocalhost: true, allowPort: true })
+    ).toBe(true);
+    expect(isValidDomain("example.com:8080", { allowPort: true })).toBe(true);
+    expect(isValidDomain("example.com:99999", { allowPort: true })).toBe(false);
+    expect(isValidDomain("example.com:8080", { allowPort: false })).toBe(false);
+  });
+
+  // --- combined scenarios ---
+  it("should handle combinations of options correctly", () => {
+    expect(
+      isValidDomain("https://*.пример.рф:8080", {
+        allowUnicode: true,
+        allowProtocol: true,
+        allowPort: true,
+        wildcard: true,
+        subdomain: true
+      })
+    ).toBe(true);
+
+    expect(
+      isValidDomain("https://*.пример.рф:8080", {
+        allowUnicode: true,
+        allowProtocol: true,
+        allowPort: true,
+        wildcard: false,
+        subdomain: true
+      })
+    ).toBe(false);
+
+    expect(
+      isValidDomain("https://*.example.com:8080", {
+        allowProtocol: true,
+        allowPort: false,
+        wildcard: true
+      })
+    ).toBe(false);
+
+    expect(
+      isValidDomain("sub.example.com", {
+        subdomain: false,
+        allowProtocol: true
+      })
+    ).toBe(false);
   });
 });

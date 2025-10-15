@@ -1,33 +1,36 @@
 /** ---------------------------------------------------------
  * * ***Constants for `Punycode-UtilsJS` algorithm.***
  * ---------------------------------------------------------
- * These constants are used internally for encoding and decoding
+ * These constants are used internally for encoding and decoding.
+ *
  * Unicode domain names to ASCII (`Punycode-UtilsJS`) and vice versa.
  */
+
+/** Constant `maxInt` for validate. */
 const maxInt = 2147483647;
 
-/** Bootstring parameters for `Punycode-UtilsJS` */
+/** Bootstring parameters for `Punycode-UtilsJS`. */
 const base = 36,
   tMin = 1,
   tMax = 26,
   skew = 38,
   damp = 700;
 
-/** Initial bias and code point */
+/** Initial bias and code point. */
 const initialBias = 72,
   initialN = 128,
   delimiter = "-";
 
-/** Regular expressions used internally
- * Matches `Punycode-UtilsJS` prefix
+/** Regular expressions used internally.
+ * Matches `Punycode-UtilsJS` prefix.
  */
 const regexPunycode = /^xn--/;
-/** Regular expressions used internally
- * Matches non-ASCII chars
+/** Regular expressions used internally.
+ * Matches non-ASCII chars.
  */
 const regexNonASCII = /[^\0-\x7F]/;
-/** Regular expressions used internally
- * Matches domain label separators
+/** Regular expressions used internally.
+ * Matches domain label separators.
  */
 const regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g;
 
@@ -38,24 +41,26 @@ const errors: Record<string, string> = {
   "invalid-input": "Invalid input"
 };
 
-/** Aliases of `Math.floor` */
+/** Aliases of `Math.floor`. */
 const floor = Math.floor;
-/** Aliases of `String.fromCharCode` */
+/** Aliases of `String.fromCharCode`. */
 const stringFromCharCode = String.fromCharCode;
 
 /** ---------------------------------------------------------
- * * Throws a RangeError with a predefined error message.
- * @param type - Key of the error type to throw
+ * * ***Throws a RangeError with a predefined error message.***
+ * ---------------------------------------------------------
+ * @param type - Key of the error type to throw.
  */
 function error(type: keyof typeof errors): never {
   throw new RangeError(errors[type]);
 }
 
 /** ---------------------------------------------------------
- * * Maps an array using a callback function.
- * @param array - Array to transform
- * @param fn - Function to apply to each element
- * @returns Transformed array
+ * * ***Maps an array using a callback function.***
+ * ---------------------------------------------------------
+ * @param array - Array to transform.
+ * @param fn - Function to apply to each element.
+ * @returns Transformed array.
  */
 function map<T, U>(array: T[], fn: (v: T) => U): U[] {
   const result: U[] = [];
@@ -65,11 +70,12 @@ function map<T, U>(array: T[], fn: (v: T) => U): U[] {
 }
 
 /** ---------------------------------------------------------
- * * Maps a domain name using a callback on each label.
+ * * ***Maps a domain name using a callback on each label.***
+ * ---------------------------------------------------------
  * Handles email-like domains (local@domain).
- * @param domain - Domain string to process
- * @param fn - Function applied to each domain label
- * @returns Transformed domain string
+ * @param domain - Domain string to process.
+ * @param fn - Function applied to each domain label.
+ * @returns Transformed domain string.
  */
 function mapDomain(domain: string, fn: (v: string) => string): string {
   const parts = domain.split("@");
@@ -84,9 +90,10 @@ function mapDomain(domain: string, fn: (v: string) => string): string {
 }
 
 /** ---------------------------------------------------------
- * * Converts a UCS-2 encoded string to an array of Unicode code points.
- * @param input - String to decode
- * @returns Array of Unicode code points
+ * * ***Converts a UCS-2 encoded string to an array of Unicode code points.***
+ * ---------------------------------------------------------
+ * @param input - String to decode.
+ * @returns Array of Unicode code points.
  */
 function ucs2decode(input: string): number[] {
   const output: number[] = [];
@@ -108,16 +115,18 @@ function ucs2decode(input: string): number[] {
 }
 
 /** ---------------------------------------------------------
- * * Encodes an array of Unicode code points to a string.
- * @param points - Array of Unicode code points
- * @returns Encoded string
+ * * ***Encodes an array of Unicode code points to a string.***
+ * ---------------------------------------------------------
+ * @param points - Array of Unicode code points.
+ * @returns Encoded string.
  */
 const ucs2encode = (points: number[]): string => String.fromCodePoint(...points);
 
 /** ---------------------------------------------------------
- * * Converts a basic code point to its digit value for `Punycode-UtilsJS`.
- * @param codePoint - Unicode code point
- * @returns Digit value
+ * * ***Converts a basic code point to its digit value for `Punycode-UtilsJS`.***
+ * ---------------------------------------------------------
+ * @param codePoint - Unicode code point.
+ * @returns Digit value.
  */
 function basicToDigit(codePoint: number): number {
   if (codePoint >= 0x30 && codePoint < 0x3a) return 26 + (codePoint - 0x30);
@@ -127,21 +136,23 @@ function basicToDigit(codePoint: number): number {
 }
 
 /** ---------------------------------------------------------
- * * Converts a digit to a basic code point for `Punycode-UtilsJS`.
- * @param digit - Numeric value
- * @param flag - Bias flag (0 or 1)
- * @returns Code point
+ * * ***Converts a digit to a basic code point for `Punycode-UtilsJS`.***
+ * ---------------------------------------------------------
+ * @param digit - Numeric value.
+ * @param flag - Bias flag (0 or 1).
+ * @returns Code point.
  */
 function digitToBasic(digit: number, flag: number): number {
   return digit + 22 + 75 * (digit < 26 ? 1 : 0) - Number(flag !== 0) * 32;
 }
 
 /** ---------------------------------------------------------
- * * Bias adaptation function for `Punycode-UtilsJS` encoding/decoding.
- * @param delta - Delta value
- * @param numPoints - Number of code points
- * @param firstTime - Indicates first adaptation
- * @returns Adapted bias
+ * * ***Bias adaptation function for `Punycode-UtilsJS` encoding/decoding.***
+ * ---------------------------------------------------------
+ * @param delta - Delta value.
+ * @param numPoints - Number of code points.
+ * @param firstTime - Indicates first adaptation.
+ * @returns Adapted bias.
  */
 function adapt(delta: number, numPoints: number, firstTime: boolean): number {
   let k = 0;
@@ -155,9 +166,10 @@ function adapt(delta: number, numPoints: number, firstTime: boolean): number {
 }
 
 /** ---------------------------------------------------------
- * * Decodes a `Punycode-UtilsJS` string to Unicode.
- * @param input - `Punycode-UtilsJS` string
- * @returns Decoded Unicode string
+ * * ***Decodes a `Punycode-UtilsJS` string to Unicode.***
+ * ---------------------------------------------------------
+ * @param input - `Punycode-UtilsJS` string.
+ * @returns Decoded Unicode string.
  */
 function decode(input: string): string {
   const output: number[] = [];
@@ -200,9 +212,10 @@ function decode(input: string): string {
 }
 
 /** ---------------------------------------------------------
- * * Encodes a Unicode string to `Punycode-UtilsJS`.
- * @param input - Unicode string
- * @returns `Punycode-UtilsJS` string
+ * * ***Encodes a Unicode string to `Punycode-UtilsJS`.***
+ * ---------------------------------------------------------
+ * @param input - Unicode string.
+ * @returns `Punycode-UtilsJS` string.
  */
 function encode(input: string): string {
   const output: string[] = [];
@@ -250,9 +263,10 @@ function encode(input: string): string {
 }
 
 /** ---------------------------------------------------------
- * * Converts `Punycode-UtilsJS` to Unicode for domain names.
- * @param input - Domain or label
- * @returns Unicode string
+ * * ***Converts `Punycode-UtilsJS` to Unicode for domain names.***
+ * ---------------------------------------------------------
+ * @param input - Domain or label.
+ * @returns Unicode string.
  */
 function toUnicode(input: string): string {
   return mapDomain(input, (str) =>
@@ -261,9 +275,10 @@ function toUnicode(input: string): string {
 }
 
 /** ---------------------------------------------------------
- * * Converts Unicode to ASCII (`Punycode-UtilsJS`) for domain names.
- * @param input - Domain or label
- * @returns ASCII string
+ * * ***Converts Unicode to ASCII (`Punycode-UtilsJS`) for domain names.***
+ * ---------------------------------------------------------
+ * @param input - Domain or label.
+ * @returns ASCII string.
  */
 function toASCII(input: string): string {
   return mapDomain(input, (str) =>
@@ -272,17 +287,22 @@ function toASCII(input: string): string {
 }
 
 type PunycodeUtilsJS = {
-  /** * ***Version of the `Punycode-UtilsJS` implementation.***
+  /** ---------------------------------------------------------
+   * * ***Version of the `Punycode-UtilsJS` implementation.***
+   * ---------------------------------------------------------
    *
    * @example
    * console.log(punycodeUtilsJS.version); // "1.0.0"
    */
   version: string;
-  /**
+  /** ---------------------------------------------------------
    * * ***UCS-2 utility functions.***
+   * ---------------------------------------------------------
    */
   ucs2: {
-    /** * ***Decodes a UCS-2 encoded string to an array of Unicode code points.***
+    /** ---------------------------------------------------------
+     * * ***Decodes a UCS-2 encoded string to an array of Unicode code points.***
+     * ---------------------------------------------------------
      *
      * @param input - The UCS-2 string to decode.
      * @returns Array of Unicode code points.
@@ -291,7 +311,9 @@ type PunycodeUtilsJS = {
      * // ➔ [66376]
      */
     decode: (input: string) => number[];
-    /** * ***Encodes an array of Unicode code points to a UCS-2 string.***
+    /** ---------------------------------------------------------
+     * * ***Encodes an array of Unicode code points to a UCS-2 string.***
+     * ---------------------------------------------------------
      *
      * @param points - Array of Unicode code points.
      * @returns Encoded string.
@@ -301,7 +323,9 @@ type PunycodeUtilsJS = {
      */
     encode: (points: number[]) => string;
   };
-  /** * ***Decodes a `Punycode-UtilsJS` string to a Unicode string.***
+  /** ---------------------------------------------------------
+   * * ***Decodes a `Punycode-UtilsJS` string to a Unicode string.***
+   * ---------------------------------------------------------
    *
    * @param input - The `Punycode-UtilsJS` string to decode.
    * @returns Decoded Unicode string.
@@ -310,7 +334,9 @@ type PunycodeUtilsJS = {
    * // ➔ "ü"
    */
   decode: (input: string) => string;
-  /** * ***Encodes a Unicode string to `Punycode-UtilsJS`.***
+  /** ---------------------------------------------------------
+   * * ***Encodes a Unicode string to `Punycode-UtilsJS`.***
+   * ---------------------------------------------------------
    *
    * @param input - Unicode string to encode.
    * @returns `Punycode-UtilsJS` string.
@@ -319,7 +345,9 @@ type PunycodeUtilsJS = {
    * // ➔ "xn--fsq"
    */
   encode: (input: string) => string;
-  /** * ***Converts a Unicode domain or label to ASCII (`Punycode-UtilsJS`).***
+  /** ---------------------------------------------------------
+   * * ***Converts a Unicode domain or label to ASCII (`Punycode-UtilsJS`).***
+   * ---------------------------------------------------------
    *
    * @param input - Domain or label string.
    * @returns ASCII string suitable for DNS.
@@ -328,7 +356,9 @@ type PunycodeUtilsJS = {
    * // ➔ "xn--e1afmkfd.xn--p1ai"
    */
   toASCII: (input: string) => string;
-  /** * ***Converts an ASCII (`Punycode-UtilsJS`) domain or label to Unicode.***
+  /** ---------------------------------------------------------
+   * * ***Converts an ASCII (`Punycode-UtilsJS`) domain or label to Unicode.***
+   * ---------------------------------------------------------
    *
    * @param input - ASCII string (with xn-- prefix if needed).
    * @returns Unicode string.
@@ -338,6 +368,7 @@ type PunycodeUtilsJS = {
    */
   toUnicode: (input: string) => string;
 };
+
 /** ---------------------------------------------------------
  * * ***`Punycode-UtilsJS` object exposing all API functions and version.***
  * ---------------------------------------------------------
@@ -360,6 +391,3 @@ const punycodeUtilsJS: PunycodeUtilsJS = {
 
 /** Export individual functions */
 export { punycodeUtilsJS };
-
-/** Default export of `Punycode-UtilsJS` object */
-// export default punycodeUtilsJS;
