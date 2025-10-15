@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.6.0](https://github.com/rzl-zone/utils-js/compare/v3.5.7...v3.6.0) (2025-10-15)
+
+
+### Features
+
+* add new utils function `isValidDomain`, `punycodeUtilsJS`, and fixing some bug at `normalizePathname`. ([b8dcdaa](https://github.com/rzl-zone/utils-js/commit/b8dcdaa9f6163d44ab75129745d05d98b62608b3))
+* **normalizePathname:** introduce `NormalizePathnameOptions' and replace `defaultPath' param. ([0d49833](https://github.com/rzl-zone/utils-js/commit/0d49833c6313d85455a0c4ff71e6beb9faf3b1d1))
+
+
+### Bug Fixes
+
+* fixing keywords at `package.json`. ([0a10833](https://github.com/rzl-zone/utils-js/commit/0a10833b49752517055885ebed64ded836641aca))
+* Fixing some bug at utility `isValidDomain` and add extra options `allowPort`, `allowLocalhost`, and `allowProtocol`, also refactor tsDoc at `punycodeUtilsJS` utility. ([7f94fa0](https://github.com/rzl-zone/utils-js/commit/7f94fa0c88dee34ea65950f203d7115edbf3f805))
+* Update url docs web at README.md ([8069cc9](https://github.com/rzl-zone/utils-js/commit/8069cc9f3635e9012eaf687b7383b7b43817373b))
+
 ## [3.5.7](https://github.com/rzl-zone/utils-js/compare/v3.5.6...v3.5.7) (2025-09-29)
 
 
