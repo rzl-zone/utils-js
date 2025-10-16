@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* Fixing tsDoc example import types from `ClassesValue` to `ClassValues`  at `twMergeDefaultV3` and `twMergeDefaultV3` and `twMergeDefaultV4`. ([65b255f](https://github.com/rzl-zone/utils-js/commit/65b255f033113e682559afcc2dca3012becdc136))
+* Fixing tsDoc example import types from `ClassesValue` to `ClassValues` at `twMergeDefaultV3` and `twMergeDefaultV4`. ([65b255f](https://github.com/rzl-zone/utils-js/commit/65b255f033113e682559afcc2dca3012becdc136))
 
 ## [3.7.0](https://github.com/rzl-zone/utils-js/compare/v3.6.0...v3.7.0) (2025-10-16)
 
