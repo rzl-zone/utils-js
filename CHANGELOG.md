@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.0](https://github.com/rzl-zone/utils-js/compare/v3.6.0...v3.7.0) (2025-10-16)
+
+
+### Features
+
+* **cx:** introduce internal `cx` utility and revamp class type system ([78456ed](https://github.com/rzl-zone/utils-js/commit/78456ed14722a31f539f5ecc488d8bf9dda5d2e4))
+
 ## [3.6.0](https://github.com/rzl-zone/utils-js/compare/v3.5.7...v3.6.0) (2025-10-15)
 
 
