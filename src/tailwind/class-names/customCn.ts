@@ -1,8 +1,6 @@
-import type { ClassesValue } from "./_private/types";
 import type { TwMergeDefaultFnV3 } from "../tw-merge/v3/_private/types";
 import type { TwMergeDefaultFnV4 } from "../tw-merge/v4/_private/types";
 
-import clsx from "clsx";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { twMergeDefaultV3 } from "../tw-merge/v3/twMergeDefault";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -10,8 +8,9 @@ import { twMergeDefaultV4 } from "../tw-merge/v4/twMergeDefault";
 
 import { isFunction } from "@/predicates/is/isFunction";
 import { getPreciseType } from "@/predicates/type/getPreciseType";
+import { cx, type ClassValues } from "./cx";
 
-export type { ClassesValue };
+export type { ClassValues };
 
 /** -------------------------------------------------------------
  * * ***Factory utility for building a custom `cn` helper (Tailwind `v3`).***
@@ -23,12 +22,12 @@ export type { ClassesValue };
  *      - You extend Tailwind merge rules (`classGroups`, `tailwind.config`).
  *      - You need multiple `cn*` variants across apps/packages.
  * @param {TwMergeDefaultFnV3} customTwMergeV3 - Merge function created via {@link twMergeDefaultV3 | `twMergeDefaultV3`}.
- * @param {ClassesValue} classes - Class values (`string`, `array`, `object`, `etc`).
+ * @param {ClassValues} classes - Class values (`string`, `array`, `object`, `etc`).
  * @returns {string} Merged Tailwind class string.
  * @example
  * ```ts
  * import tailwindConfig from "../tailwind.config";
- * import { twMergeDefaultV3, customCnV3, type ClassesValue } from "@rzl-zone/utils-js/tailwind";
+ * import { twMergeDefaultV3, customCnV3, type ClassValues } from "@rzl-zone/utils-js/tailwind";
  *
  * // 1. Create a custom merge function
  * const myCustomTwMerge = twMergeDefaultV3({
@@ -41,7 +40,7 @@ export type { ClassesValue };
  * });
  *
  * // 2. Build your helper using `customCnV3`
- * export const cnApp = (...classes: ClassesValue) => {
+ * export const cnApp = (...classes: ClassValues) => {
  *   return customCnV3(myCustomTwMerge, ...classes);
  * };
  * // ✅ Usage
@@ -52,7 +51,7 @@ export type { ClassesValue };
  */
 export const customCnV3 = (
   customTwMergeV3: TwMergeDefaultFnV3,
-  ...classes: ClassesValue
+  ...classes: ClassValues
 ): string => {
   if (!isFunction(customTwMergeV3)) {
     throw new TypeError(
@@ -62,7 +61,7 @@ export const customCnV3 = (
     );
   }
 
-  return customTwMergeV3(clsx(...classes));
+  return customTwMergeV3(cx(...classes));
 };
 
 /** -------------------------------------------------------------
@@ -75,12 +74,12 @@ export const customCnV3 = (
  *      - You extend Tailwind merge rules (`classGroups`, `tailwind.config`).
  *      - You need multiple `cn*` variants across apps/packages.
  * @param {TwMergeDefaultFnV4} customTwMergeV4 - Merge function created via {@link twMergeDefaultV4 | `twMergeDefaultV4`}.
- * @param {ClassesValue} classes - Class values (`string`, `array`, `object`, `etc`).
+ * @param {ClassValues} classes - Class values (`string`, `array`, `object`, `etc`).
  * @returns {string} Merged Tailwind class string.
  * @example
  * ```ts
  * import tailwindConfig from "../tailwind.config";
- * import { twMergeDefaultV4, customCnV4, type ClassesValue } from "@rzl-zone/utils-js/tailwind";
+ * import { twMergeDefaultV4, customCnV4, type ClassValues } from "@rzl-zone/utils-js/tailwind";
  *
  * // 1. Create a custom merge function
  * const myCustomTwMerge = twMergeDefaultV4({
@@ -93,7 +92,7 @@ export const customCnV3 = (
  * });
  *
  * // 2. Build your helper using `customCnV4`
- * export const cnApp = (...classes: ClassesValue) => {
+ * export const cnApp = (...classes: ClassValues) => {
  *   return customCnV4(myCustomTwMerge, ...classes);
  * };
  *
@@ -105,7 +104,7 @@ export const customCnV3 = (
  */
 export const customCnV4 = (
   customTwMergeV4: TwMergeDefaultFnV4,
-  ...classes: ClassesValue
+  ...classes: ClassValues
 ): string => {
   if (!isFunction(customTwMergeV4)) {
     throw new TypeError(
@@ -115,5 +114,5 @@ export const customCnV4 = (
     );
   }
 
-  return customTwMergeV4(clsx(...classes));
+  return customTwMergeV4(cx(...classes));
 };

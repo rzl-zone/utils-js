@@ -28,7 +28,7 @@ const configs = fg
         exportReferencedTypes: false
       },
       libraries: {
-        inlinedLibraries: ["@rzl-zone/ts-types-plus", "clsx"],
+        inlinedLibraries: ["@rzl-zone/ts-types-plus"],
         importedLibraries: [
           "react",
           "react-dom",

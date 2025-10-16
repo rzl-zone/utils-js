@@ -1,7 +1,6 @@
-import type { ClassesValue } from "./_private/types";
+import type { ClassValues } from "./cx";
 
-import clsx from "clsx";
-
+import { cx } from "./cx";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { customCnV3, customCnV4 } from "./customCn";
 import { twMergeDefaultV3 } from "../tw-merge/v3/twMergeDefault";
@@ -23,7 +22,7 @@ const defaultTwMergeV4 = twMergeDefaultV4();
  *    - Create a project-wide helper using
  *      {@link twMergeDefaultV3 | `twMergeDefaultV3`} +
  *      {@link customCnV3 | `customCnV3`} (see Example 2).
- * @param {ClassesValue} classes - Class values (`string`, `array`, `object`, `etc`).
+ * @param {ClassValues} classes - Class values (`string`, `array`, `object`, `etc`).
  * @returns {string} Merged Tailwind class string.
  * @example
  * #### Example 1: ✅ Default usage (Tailwind v3).
@@ -40,9 +39,9 @@ const defaultTwMergeV4 = twMergeDefaultV4();
  * #### Example 2: ⚡ Custom project-wide usage with Tailwind config.
  * ```ts
  * import tailwindConfig from "../tailwind.config";
- * import { twMergeDefaultV3, customCnV3, type ClassesValue } from "@rzl-zone/utils-js/tailwind";
+ * import { twMergeDefaultV3, customCnV3, type ClassValues } from "@rzl-zone/utils-js/tailwind";
  *
- * const cnApp = (...classes: ClassesValue) => {
+ * const cnApp = (...classes: ClassValues) => {
  *   return customCnV3(
  *     twMergeDefaultV3({
  *       config: tailwindConfig,
@@ -65,8 +64,8 @@ const defaultTwMergeV4 = twMergeDefaultV4();
  * cnApp("text-base text-xxs");  // ➔ "text-xxs" (resolved from config)
  * ```
  */
-export const cnV3 = (...classes: ClassesValue): string => {
-  return defaultTwMergeV3(clsx(...classes));
+export const cnV3 = (...classes: ClassValues): string => {
+  return defaultTwMergeV3(cx(...classes));
 };
 
 /** -------------------------------------------------------------
@@ -82,7 +81,7 @@ export const cnV3 = (...classes: ClassesValue): string => {
  *    - Create a project-wide helper using
  *      {@link twMergeDefaultV4 | `twMergeDefaultV4`} +
  *      {@link customCnV4 | `customCnV4`} (see Example 2).
- * @param {ClassesValue} classes - Class values (`string`, `array`, `object`, `etc`).
+ * @param {ClassValues} classes - Class values (`string`, `array`, `object`, `etc`).
  * @returns {string} Merged Tailwind class string.
  * @example
  * #### Example 1: ✅ Default usage (Tailwind v4).
@@ -99,9 +98,9 @@ export const cnV3 = (...classes: ClassesValue): string => {
  * #### Example 2: ⚡ Custom project-wide usage with Tailwind config.
  * ```ts
  * import tailwindConfig from "../tailwind.config";
- * import { twMergeDefaultV4, customCnV4, type ClassesValue } from "@rzl-zone/utils-js/tailwind";
+ * import { twMergeDefaultV4, customCnV4, type ClassValues } from "@rzl-zone/utils-js/tailwind";
  *
- * const cnApp = (...classes: ClassesValue) => {
+ * const cnApp = (...classes: ClassValues) => {
  *   return customCnV4(
  *     twMergeDefaultV4({
  *       config: tailwindConfig,
@@ -124,6 +123,6 @@ export const cnV3 = (...classes: ClassesValue): string => {
  * cnApp("text-base text-xxs");  // ➔ "text-xxs" (resolved from config)
  * ```
  */
-export const cnV4 = (...classes: ClassesValue): string => {
-  return defaultTwMergeV4(clsx(...classes));
+export const cnV4 = (...classes: ClassValues): string => {
+  return defaultTwMergeV4(cx(...classes));
 };

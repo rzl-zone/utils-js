@@ -25,7 +25,6 @@ const entries = await fg(
 const externalDefault: Options["external"] = [
   "next",
   "react",
-  "clsx",
   "react-dom",
   "next/server",
   "date-fns",

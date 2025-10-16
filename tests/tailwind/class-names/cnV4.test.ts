@@ -7,12 +7,12 @@ describe("cnV4 (default cnV4 with twMergeDefault)", () => {
     expect(result).toBe("p-4");
   });
 
-  it("should merge clsx arrays", () => {
+  it("should merge cx arrays", () => {
     const result = cnV4(["p-2", "p-4"], ["m-1", "m-3"]);
     expect(result).toBe("p-4 m-3");
   });
 
-  it("should merge clsx objects", () => {
+  it("should merge cx objects", () => {
     const result = cnV4(
       { "text-red-500": true, "text-blue-500": false },
       "text-green-500"

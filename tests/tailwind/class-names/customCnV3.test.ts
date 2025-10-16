@@ -43,7 +43,7 @@ describe("customCn with twMergeDefaultV3", () => {
     expect(result).toBe("text-shadow-lg");
   });
 
-  it("should handle clsx array/object/falsy values", () => {
+  it("should handle cx array/object/falsy values", () => {
     const result = customCnV3(
       twMerge,
       ["p-2", "p-4"],
