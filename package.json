@@ -1,6 +1,6 @@
 {
   "name": "@rzl-zone/utils-js",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "sideEffects": false,
   "engineStrict": true,
   "license": "MIT",
