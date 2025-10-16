@@ -64,7 +64,7 @@ const defaultConfig = getDefaultConfig();
  * #### Example 4: ***Project-wide helper (recommended).***
  * ```ts
  * import configTwCss from "../tailwind.config";
- * import { customCnV3, twMergeDefaultV3, type ClassesValue } from "@rzl-zone/utils-js/tailwind";
+ * import { customCnV3, twMergeDefaultV3, type ClassValues } from "@rzl-zone/utils-js/tailwind";
  *
  * const customTwMerge = twMergeDefaultV3({
  *   config: configTwCss,
@@ -73,7 +73,7 @@ const defaultConfig = getDefaultConfig();
  *   },
  * });
  *
- * export const cnApp = (...classes: ClassesValue) => {
+ * export const cnApp = (...classes: ClassValues) => {
  *   return customCnV3(customTwMerge, ...classes);
  * };
  *
