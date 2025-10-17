@@ -24,8 +24,7 @@ export type { CustomPromiseType };
  * @template Error    Type of the rejection reason (default `unknown`).
  * @example
  * ```ts
- * import type { CustomPromiseType } from "@rzl-zone/ts-types-plus";
- * import { CustomPromise } from "@rzl-zone/utils-js/promises";
+ * import { CustomPromise, type CustomPromiseType } from "@rzl-zone/utils-js/promises";
  *
  * type User = { id: number; name: string };
  * type ApiError = { message: string };
