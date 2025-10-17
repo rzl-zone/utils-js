@@ -5,7 +5,7 @@
 
 ### Features
 
-* **randomUUID:** Introduce new `randomUUID` utility, and fix tsDoc some utils, and fix some minor bugs. ([a9d6223](https://github.com/rzl-zone/utils-js/commit/a9d622362a9eed3d6202e893c94ccb4c5ac98a3f))
+* **randomUUID:** Introduce new `randomUUID` utility, fixing some tsDoc utils, and fixing some minor bugs. ([a9d6223](https://github.com/rzl-zone/utils-js/commit/a9d622362a9eed3d6202e893c94ccb4c5ac98a3f))
 
 ## [3.7.1](https://github.com/rzl-zone/utils-js/compare/v3.7.0...v3.7.1) (2025-10-16)
 
