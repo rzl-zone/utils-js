@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.0](https://github.com/rzl-zone/utils-js/compare/v3.7.1...v3.8.0) (2025-10-17)
+
+
+### Features
+
+* **randomUUID:** Introduce new `randomUUID` utility, fixing some tsDoc utils, and fixing some minor bugs. ([a9d6223](https://github.com/rzl-zone/utils-js/commit/a9d622362a9eed3d6202e893c94ccb4c5ac98a3f))
+
 ## [3.7.1](https://github.com/rzl-zone/utils-js/compare/v3.7.0...v3.7.1) (2025-10-16)
 
 
