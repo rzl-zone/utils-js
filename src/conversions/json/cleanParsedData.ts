@@ -8,10 +8,8 @@ import { isUndefined } from "@/predicates/is/isUndefined";
 import { isEmptyArray } from "@/predicates/is/isEmptyArray";
 import { isEmptyObject } from "@/predicates/is/isEmptyObject";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { safeJsonParse } from "./safeJsonParse";
-import { validateJsonParsingOptions } from "./_private/utils/validateJsonParsingOptions";
 import { parseCustomDate } from "./parseCustomDate";
+import { validateJsonParsingOptions } from "./_private/utils/validateJsonParsingOptions";
 
 /** --------------------------------------------------
  * * ***Utility: `cleanParsedData`.***
@@ -21,7 +19,7 @@ import { parseCustomDate } from "./parseCustomDate";
  * @param {*} data - The parsed JSON data.
  * @param {ParseParsedDataOptions} [options] - The cleaning options.
  * @returns {T | null | undefined} The cleaned data.
- * - ***⚠️ Notice:*** _If data is JSON string, we recommend use **{@link safeJsonParse | `safeJsonParse`}** for more safe._
+ * - ***⚠️ Notice:*** _If data is JSON string, we recommend use ***`safeJsonParse` utility function*** for more safe._
  * - ***⚠️ Note:*** _If using **`convertDates`** **options**, result may contain Date objects, you may need type assertions in strict TypeScript settings._
  * @example
  * ```ts

@@ -2,14 +2,13 @@ const RzlUtilsJs: Record<string, unknown> = Object.create(null);
 
 import * as assertions from "./assertions/index";
 import * as conversions from "./conversions/index";
-import * as env from "./predicates/index";
 import * as events from "./events/index";
-import * as formatting from "./formatters/index";
-import * as generator from "./generators/index";
+import * as formatters from "./formatters/index";
+import * as generators from "./generators/index";
 import * as operations from "./operations/index";
 import * as parsers from "./parsers/index";
 import * as predicates from "./predicates/index";
-import * as promise from "./promises/index";
+import * as promises from "./promises/index";
 import * as strings from "./strings/index";
 import * as urls from "./urls/index";
 
@@ -21,14 +20,13 @@ Object.assign(
   RzlUtilsJs,
   assertions,
   conversions,
-  env,
   events,
-  formatting,
-  generator,
+  formatters,
+  generators,
   operations,
   parsers,
   predicates,
-  promise,
+  promises,
   strings,
   urls
 );

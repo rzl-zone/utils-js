@@ -30,7 +30,7 @@ type CensorEmailOptions = {
  * @param {string | null | undefined} email - The email address to censor.
  * @param {CensorEmailOptions} [options={}] - Options object for mode.
  * @returns {string} The censored email, or an empty string if input is invalid.
- * @throws {TypeError} If `options` is not a plain object or `mode` is invalid.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not a plain object or `mode` is invalid.
  * @example
  * // Fixed mode (default, deterministic)
  * censorEmail("john.doe@gmail.com");
@@ -66,7 +66,9 @@ export const censorEmail = (
     throw new TypeError(
       `Parameter \`mode\` property of the \`options\` (second parameter) must be one of "fixed" or "random", but received: \`${getPreciseType(
         mode
-      )}\`, with value: \`${safeStableStringify(mode)}\`.`
+      )}\`, with value: \`${safeStableStringify(mode, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

@@ -42,7 +42,7 @@ const formatIndianNumber = (numStr: string, separator: string) => {
  *          - `"CHF 12'345.60"` ***(Swiss)***.
  *          - `"1,23,456.78"` ***(Indian)***.
  * - Auto extracts numeric value with smart multi-locale parsing
- *   via ***{@link parseCurrencyString | `parseCurrencyString`}***.
+ *   via ***`parseCurrencyString` utility function***.
  * - Strong type checks & clear errors for misconfigured options.
  * - **Handles:**
  *    - Thousands separators: `.`, `,`, `'`, ` `.
@@ -122,8 +122,7 @@ const formatIndianNumber = (numStr: string, separator: string) => {
  *    - `"Rp 15.000,10.-"`.
  *    - `"15'000.10 USD"`.
  *    - `"12,34,567.89"`.
- * @throws {TypeError}
- *  ***Will throw TypeError If:***
+ * @throws **{@link TypeError | `TypeError`}** ***If:***
  *    - The `value` is not string or number.
  *    - Cannot parse to valid number.
  *    - Options have invalid types.
@@ -262,7 +261,9 @@ export const formatCurrency = (
     throw new TypeError(
       `First parameter (\`value\`) must be of type \`string\` or \`primitive-number\`, but received: \`${getPreciseType(
         value
-      )}\`, with value: \`${safeStableStringify(value)}\`.`
+      )}\`, with value: \`${safeStableStringify(value, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 
@@ -322,7 +323,9 @@ export const formatCurrency = (
     throw new TypeError(
       `Parameter \`totalDecimal\` property of the \`options\` (second parameter) must be of type \`integer-number\`, but received: \`${getPreciseType(
         totalDecimal
-      )}\`, with value: \`${safeStableStringify(length)}\`.`
+      )}\`, with value: \`${safeStableStringify(length, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 
@@ -337,7 +340,9 @@ export const formatCurrency = (
     throw new TypeError(
       `Parameter \`roundedDecimal\` property of the \`options\` (second parameter) must be of type \`false\` or \`string\` must be one of "round" | "ceil" | "floor", but received: \`${getPreciseType(
         roundedDecimal
-      )}\`, with value: \`${safeStableStringify(roundedDecimal)}\`.`
+      )}\`, with value: \`${safeStableStringify(roundedDecimal, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 
@@ -352,7 +357,9 @@ export const formatCurrency = (
     throw new TypeError(
       `Parameter \`negativeFormat\` property of the \`options\` (second parameter) must be of type \`string\` must be one of "abs" | "brackets" | "dash" or \`plain-object\` type, but received: \`${getPreciseType(
         negativeFormat
-      )}\`, with value: \`${safeStableStringify(negativeFormat)}\`.`
+      )}\`, with value: \`${safeStableStringify(negativeFormat, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 
@@ -463,7 +470,9 @@ export const formatCurrency = (
           throw new TypeError(
             `Parameter \`negativeFormat.style\` property of the \`options\` (second parameter) must be of type \`string\` must be of type "abs" | "brackets" | "dash", but received: \`${getPreciseType(
               formatStyleNegative
-            )}\`, with value: \`${safeStableStringify(formatStyleNegative)}\`.`
+            )}\`, with value: \`${safeStableStringify(formatStyleNegative, {
+              keepUndefined: true
+            })}\`.`
           );
         }
 

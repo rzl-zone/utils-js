@@ -30,7 +30,7 @@ type OptionsAssertIsNumber = OptionsAssertIs & IsNumberOptions;
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  *   - `includeNaN`: Whether to treat `NaN` as valid.
  * @returns {boolean} Narrows `value` to `number` if no error is thrown.
- * @throws {TypeError} If the value is not a number (or is `NaN` when `includeNaN` is `false`).
+ * @throws **{@link TypeError | `TypeError`}** if the value is not a number (or is `NaN` when `includeNaN` is `false`).
  * @example
  * ```ts
  * // ✅ Simple usage

@@ -25,7 +25,7 @@ type FormatEnvPortOptions = {
  * @param {string | null | undefined} envVar The environment variable string.
  * @param {FormatEnvPortOptions} [options] Optional object: `{ prefixColon?: boolean }`.
  * @returns {string} A string like `":8080"` or `"8080"`, or `""` if no digits.
- * @throws {TypeError} If `options` is not an object or `prefixColon` is not boolean.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or `prefixColon` is not boolean.
  * @example
  * formatEnvPort("port:8080");
  * // ➔ "8080"

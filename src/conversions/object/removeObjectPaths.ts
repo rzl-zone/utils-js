@@ -49,8 +49,7 @@ import { deleteExactPathOnce } from "./_private/utils/deleteExactPathOnce";
  * @returns {Partial<T>}
  *   - A new object with specified keys removed if `deepClone` is `true`.
  *   - The *same mutated object* if `deepClone` is `false`.
- * @throws {TypeError}
- *   - If `keysToDelete` is not an array of `{ key, deep? }` objects.
+ * @throws **{@link TypeError | `TypeError`}** if `keysToDelete` is not an array of `{ key, deep? }` objects.
  * @example
  * // Shallow deletion
  * removeObjectPaths(
@@ -100,14 +99,20 @@ export function removeObjectPaths<
   assertIsArray(keysToDelete, {
     message: ({ currentType, validType }) =>
       `Second parameter (\`keysToDelete\`) must be of type \`${validType}\` with value of { key: string, deep?: boolean } plain-object, but received: \`${currentType}\`, with value: \`${safeStableStringify(
-        keysToDelete
+        keysToDelete,
+        {
+          keepUndefined: true
+        }
       )}\`.`
   });
 
   if (!keysToDelete.every((k) => isPlainObject(k) && "key" in k)) {
     throw new TypeError(
       `Each element in Second Parameter (\`keysToDelete\`) must be of type \`plain-object\` with at least a "key" property (optionally "deep"), but received: \`${safeStableStringify(
-        keysToDelete
+        keysToDelete,
+        {
+          keepUndefined: true
+        }
       )}\`.`
     );
   }

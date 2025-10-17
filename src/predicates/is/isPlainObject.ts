@@ -11,7 +11,7 @@ import type { IsHasKeysObject } from "./_private/_types";
  *    - If `T` is `unknown`, the resulting type is `Record<PropertyKey, unknown> & T`.
  *    - If `T` is an object:
  *        - If it is a non-plain object (class instance, built-in object, etc.), the result is `never`.
- *        - If it has no keys (`IsHasKeysObject<T>` checked by **{@link IsHasKeysObject}** is false), the result is `Record<PropertyKey, unknown> & T`.
+ *        - If it has no keys (`IsHasKeysObject<T>` checked by **{@link IsHasKeysObject|`IsHasKeysObject`}** is false), the result is `Record<PropertyKey, unknown> & T`.
  *        - Otherwise, the result is `T` itself.
  *    - For any other types, the result is `never`.
  * @template T - The input type to be asserted as a plain object.

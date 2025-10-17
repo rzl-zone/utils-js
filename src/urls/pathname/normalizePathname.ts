@@ -137,8 +137,8 @@ type ResKeepNullable<T> = T extends string
  * @returns {string | null | undefined} ***Normalized pathname, or original nullable value if `keepNullable` is `true`
  * _(except if `pathname` is empty-string, will keep returning `defaultPath`)_.***
  *
- * @throws {TypeError} If `defaultPath` is invalid when `keepNullable` is false.
- * @throws {NormalizePathnameError} If normalization fails (e.g., invalid URL).
+ * @throws **{@link TypeError | `TypeError`}** if `defaultPath` is invalid when `keepNullable` is false.
+ * @throws **`NormalizePathnameError` extends {@link Error | `Error`}** If normalization fails (e.g., invalid URL).
  *
  * @example
  * // Basic normalization
@@ -270,7 +270,9 @@ export function normalizePathname(
     throw new TypeError(
       `Parameter \`defaultPath\` property of the \`options\` (second parameter) must be of type \`string\` and not empty-string, but received: \`${getPreciseType(
         defaultPath
-      )}\`, with value: \`${safeStableStringify(defaultPath)}\`.`
+      )}\`, with value: \`${safeStableStringify(defaultPath, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

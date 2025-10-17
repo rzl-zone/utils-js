@@ -2,13 +2,10 @@ import type { AnyFunction } from "@rzl-zone/ts-types-plus";
 import { isLength } from "./isLength";
 import { isObjectOrArray } from "./isObjectOrArray";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { isArrayLike } from "./isArrayLike";
-
 /** ----------------------------------------------------
  * * ***Type guard: `isArrayLikeObject`.***
  * ----------------------------------------------------
- * **This method is like ***{@link isArrayLike | `isArrayLike`}*** except that
+ * **This method is like ***`isArrayLike` utility function*** except that
  *   it also checks if `value` is an object.**
  * @template T - The type of the value being checked.
  * @param {*} value The value to check.

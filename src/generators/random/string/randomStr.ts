@@ -27,7 +27,7 @@ import { safeStableStringify } from "@/conversions/stringify/safeStableStringify
  * @param {OptionsRandomStr["replaceGenInt"]} [options.replaceGenInt] - A custom character set to use when `type` is `"number"`.
  * @param {OptionsRandomStr["addChar"]} [options.addChar] - Additional characters to always include in the character set.
  * @returns {string} The randomly generated string or numeric string of the desired length.
- * @throws {TypeError} If provided options are invalid (such as minLength > maxLength, invalid type, or empty character set).
+ * @throws **{@link TypeError | `TypeError`}** if provided options are invalid (such as minLength > maxLength, invalid type, or empty character set).
  * @example
  * randomStr();
  * // ➔ Generates a 40-character random alphanumeric string
@@ -65,11 +65,13 @@ export const randomStr = (options?: OptionsRandomStr): string => {
     throw new TypeError(
       `Parameters \`minLength\` and \`maxLength\` must be of type \`integer-number\`, but received: ['minLength': \`${getPreciseType(
         minLength
-      )}\` - (with value: ${safeStableStringify(
-        minLength
-      )}), 'maxLength': \`${getPreciseType(
+      )}\` - (with value: ${safeStableStringify(minLength, {
+        keepUndefined: true
+      })}), 'maxLength': \`${getPreciseType(
         maxLength
-      )}\` - (with value: ${safeStableStringify(maxLength)})].`
+      )}\` - (with value: ${safeStableStringify(maxLength, {
+        keepUndefined: true
+      })})].`
     );
   }
 
@@ -85,7 +87,9 @@ export const randomStr = (options?: OptionsRandomStr): string => {
     throw new TypeError(
       `Parameter \`type\` must be of type \`string\` with value one of "string" | "number", but received: \`${getPreciseType(
         type
-      )}\`, with value: ${safeStableStringify(type)}.`
+      )}\`, with value: ${safeStableStringify(type, {
+        keepUndefined: true
+      })}.`
     );
   }
 

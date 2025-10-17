@@ -37,8 +37,8 @@ import { assertIsArray } from "@/assertions/objects/assertIsArray";
  *   - `true`  ➔ the prop **will** be forwarded to the DOM.
  *   - `false` ➔ the prop **will not** be forwarded.
  *
- * @throws {TypeError}
- *   Thrown when:
+ * @throws **{@link TypeError | `TypeError`}**
+ *   when:
  *   - `props` is not an array, or
  *   - any item is not a non-empty string.
  *

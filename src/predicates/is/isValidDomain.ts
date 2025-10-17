@@ -126,34 +126,24 @@ type IsValidDomainOptions = {
  * @example
  * isValidDomain("google.com");
  * // ➔ true
- *
  * isValidDomain("пример.рф", { allowUnicode: true });
  * // ➔ true
- *
  * isValidDomain("sub.example.com", { subdomain: false });
  * // ➔ false
- *
  * isValidDomain("*.example.com", { wildcard: true });
  * // ➔ true
- *
  * isValidDomain("com", { topLevel: true });
  * // ➔ false (common TLD rejected because it's part of SLD)
- *
  * isValidDomain("ai.", { topLevel: true });
  * // ➔ true (country-code TLD accepted)
- *
  * isValidDomain("localhost", { allowLocalhost: true });
  * // ➔ true
- *
  * isValidDomain("localhost:3000", { allowLocalhost: true, allowPort: true });
  * // ➔ true
- *
  * isValidDomain("example.com:8080", { allowPort: true });
  * // ➔ true
- *
  * isValidDomain("https://example.com/foo/bar", { allowProtocol: true });
  * // ➔ true (protocol stripped and hostname validated)
- *
  * isValidDomain("invalid_domain.com");
  * // ➔ false
  */

@@ -13,7 +13,7 @@ import { removeSpaces } from "@/strings/sanitizations/removeSpaces";
  * - ***⚠️ Warning:***
  *    - ***This function only support when using ***[`NextJS`](https://nextjs.org/)***.***
  * @returns {string} The resolved base URL of the application.
- * @throws {Error} If the constructed URL is invalid or malformed.
+ * @throws **{@link Error | `Error`}** if the constructed URL is invalid or malformed.
  * @example
  * // With environment variable set at `*.env` file
  * NEXT_PUBLIC_BASE_URL = "https://example.com";

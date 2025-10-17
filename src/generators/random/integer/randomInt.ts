@@ -13,14 +13,14 @@ import { safeStableStringify } from "@/conversions/stringify/safeStableStringify
  * @param {number} min - The minimum value (inclusive), must be an integer.
  * @param {number} max - The maximum value (inclusive), must be an integer.
  * @returns {number} A random integer N where `min ≤ N ≤ max`.
- * @throws {TypeError} If:
- * - `min` or `max` is not an integer and value is `Number.MIN_VALUE`.
+ * @throws **{@link TypeError | `TypeError`}** if:
+ * - `min` or `max` is not an integer, or value is `Number.MIN_VALUE`.
  * - `min` is greater than `max`.
  * @example
- * randomInt(1, 10);   // ➔ returns 1 to 10
- * randomInt(50, 100); // ➔ returns 50 to 100
- * randomInt(5, 5);    // ➔ always returns 5
- * randomInt(-5, 3);   // ➔ always returns ≥ 1, since min is adjusted
+ * randomInt(1, 10);   // ➔ returns 1 up-to 10 (random)
+ * randomInt(50, 100); // ➔ returns 50 up-to 100 (random)
+ * randomInt(5, 5);    // ➔ always returns 5 (exact)
+ * randomInt(-5, 3);   // ➔ always returns ≥ 1, since min is adjusted (exact)
  * randomInt(1, Number.MAX_SAFE_INTEGER + 10000);
  * // ➔ still safely capped at MAX_SAFE_INTEGER
  * randomInt(Number.MIN_VALUE, 3);
@@ -34,16 +34,25 @@ export const randomInt = (min: number, max: number): number => {
         max
       )}value, but received: ['min': \`${getPreciseType(
         min
-      )}\` - (with value: \`${safeStableStringify(min)})\`, 'max': \`${getPreciseType(
-        max
-      )}\` - (with value: \`${safeStableStringify(max)}\`)].`
+      )}\` - (with value: \`${safeStableStringify(min, {
+        keepUndefined: true
+      })})\`, 'max': \`${getPreciseType(max)}\` - (with value: \`${safeStableStringify(
+        max,
+        {
+          keepUndefined: true
+        }
+      )}\`)].`
     );
   }
   if (min > max) {
     throw new RangeError(
       `First parameter (\`min\`) must be less than or equal to second parameter (\`max\`), but received: ['min': ${formatValue(
         min
-      )}, 'max': ${formatValue(max)}].`
+      )} - (with value: \`${safeStableStringify(min, {
+        keepUndefined: true
+      })})\`, 'max': ${formatValue(max)} - (with value: \`${safeStableStringify(max, {
+        keepUndefined: true
+      })})\`].`
     );
   }
 

@@ -20,8 +20,7 @@ import { safeStableStringify } from "@/conversions/stringify/safeStableStringify
  *    - If `true`, will sort both arrays recursively before comparing, default is `false`.
  * @returns {boolean}
  *    Returns `true` if both arrays are deeply equal, otherwise `false`.
- * @throws {TypeError}
- *    Throws if `array1` or `array2` are not arrays, or if `ignoreOrder` is not a boolean.
+ * @throws **{@link TypeError | `TypeError`}** if `array1` or `array2` are not arrays, or if `ignoreOrder` is not a boolean.
  * @example
  * ```ts
  * areArraysEqual([1, 2, 3], [1, 2, 3]);

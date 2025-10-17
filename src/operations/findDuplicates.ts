@@ -6,7 +6,7 @@ import { assertIsArray } from "@/assertions/objects/assertIsArray";
  * ----------------------------------------------------------------------
  * **Finds duplicate values in an array by deep equality comparison.**
  * - **Behavior:**
- *    - Uses ***{@link isEqual | `isEqual`}*** to compare elements
+ *    - Uses ***`isEqual` utility function*** to compare elements
  *      (handles objects, arrays, dates, NaN, etc.).
  *    - Returns a new array containing only the *first occurrences* of duplicated values.
  *    - Does **not mutate** the original array.
@@ -15,7 +15,7 @@ import { assertIsArray } from "@/assertions/objects/assertIsArray";
  * @param {T[]} values - The array to check for duplicates.
  * @returns {T[]} An array of the duplicate values found in the input,
  *                preserving order of their first duplicate appearance.
- * @throws {TypeError} If the provided `values` argument is not an array.
+ * @throws **{@link TypeError | `TypeError`}** if the provided `values` argument is not an array.
  * @example
  * findDuplicates([1, 2, 2, 3, 4, 4]);
  * // ➔ [2, 4]

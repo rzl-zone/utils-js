@@ -18,7 +18,7 @@ import { isNonEmptyString } from "@/predicates/is/isNonEmptyString";
  *    - `null | undefined` → ignored
  *    - `ClassObject` → objects where **keys with truthy values** are included
  *    - `ClassValues` → arrays recursively flattened
- * - Used internally by **{@link cx | `cx`}** to process mixed input values.
+ * - Used internally by ***`cx` utility function*** to process mixed input values.
  * @example
  * ```ts
  * const val1: ClassValue = "button";              // ➔ string
@@ -128,7 +128,15 @@ function toStringValue(value: ClassValue): string {
  * * ***Utility: `cx`.***
  * ----------------------------------------------------------
  * **Merge multiple class values into a single, space-separated string suitable for CSS usage.**
- * @param {ClassValues} args
+ * @description
+ * - Supports **nested combinations** of arrays and objects, recursively.
+ * - **Falsy values** are skipped:
+ *   - `false`, `null`, `undefined`, empty strings `""` are ignored anywhere.
+ *   - Numbers `0` are ignored inside nested arrays/objects.
+ * - **Boxed primitives** are correctly unwrapped to their primitive value.
+ * - **Inherited object keys** are included in the final class string.
+ * - Optimized for **CSS class merging** where conditional inclusion is common.
+ * @param {ClassValues} values
  *   A list of mixed class values, which can include:
  *   - **Strings** → literal class names.
  *   - **Numbers** → numeric class names.
@@ -139,14 +147,6 @@ function toStringValue(value: ClassValue): string {
  *   - **Falsy values** (`false`, `null`, `undefined`, `""`, `0`) are ignored according to original behavior.
  * @returns {string}
  *   A single space-separated string containing all valid class names.
- * @description
- * - Supports **nested combinations** of arrays and objects, recursively.
- * - **Falsy values** are skipped:
- *   - `false`, `null`, `undefined`, empty strings `""` are ignored anywhere.
- *   - Numbers `0` are ignored inside nested arrays/objects.
- * - **Boxed primitives** are correctly unwrapped to their primitive value.
- * - **Inherited object keys** are included in the final class string.
- * - Optimized for **CSS class merging** where conditional inclusion is common.
  * @example
  * ```ts
  * // Basic string merge
@@ -177,12 +177,12 @@ function toStringValue(value: ClassValue): string {
  * // ➔ "own inherited"
  * ```
  */
-export function cx(...args: ClassValues): string {
+export function cx(...values: ClassValues): string {
   let str = "";
 
-  for (const arg of args) {
-    if (!arg) continue; // skip falsy arguments
-    const x = toStringValue(arg);
+  for (const value of values) {
+    if (!value) continue; // skip falsy arguments
+    const x = toStringValue(value);
     if (!x) continue;
     if (str) str += " ";
     str += x;

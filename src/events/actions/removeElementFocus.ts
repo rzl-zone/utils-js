@@ -5,10 +5,10 @@ import { isServer } from "@/predicates/is/isServer";
  * ----------------------------------------------------------
  * **Removes focus from the currently active element in the document.**
  * - **Features**:
- *    - This function works **only in browser environments**.
- *    - If an element is focused, it will lose focus by calling `blur()`.
+ *    - This function works **only in browser environments** ***(safely no-ops in server environments)***.
+ *    - If an element is focused, it will lose focus by calling `HTMLElement.blur()`.
  *    - If no element is focused or the active element is not an `HTMLElement`, nothing happens.
- * @returns {void} Does not return anything.
+ * @returns {void} Does not return anything (void).
  * @example
  * removeElementFocus(); // ➔ Removes focus from the currently active element
  */

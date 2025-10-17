@@ -142,8 +142,7 @@ type SafeStableStringifyOptions = {
  *    - `pretty` (boolean) – Whether to pretty-print JSON output with 2-space indentation, default: `false`.
  * @returns {string}
  *   A stable JSON string representation of the input value.
- * @throws {TypeError}
- *   Throws if `sortKeys`, `sortArray`, or `pretty` are not strictly boolean.
+ * @throws **{@link TypeError | `TypeError`}** if `sortKeys`, `sortArray`, or `pretty` are not strictly boolean.
  * @example
  * ```ts
  * // Basic object key sorting

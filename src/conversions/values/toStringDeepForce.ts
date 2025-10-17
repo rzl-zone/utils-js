@@ -120,7 +120,9 @@ export function toStringDeepForce(
     throw new TypeError(
       `Second parameter \`forceToString\` must be of type \`false\` or \`string\` with value one of "stringOrNumber" | "primitives" | "all", but received: \`${getPreciseType(
         forceToString
-      )}\`, with value: \`${safeStableStringify(forceToString)}\`.`
+      )}\`, with value: \`${safeStableStringify(forceToString, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

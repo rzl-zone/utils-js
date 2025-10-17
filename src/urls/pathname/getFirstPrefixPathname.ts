@@ -100,8 +100,7 @@ import { normalizePathname } from "./normalizePathname";
  *      - Defaults to `"/"`.
  * @returns {string}
  *   ***The first valid normalized pathname, or the normalized default.***
- * @throws {TypeError}
- *   ***If `result` is not a valid type, or `defaultValue` is not a string or empty-string.***
+ * @throws **{@link TypeError | `TypeError`}** ***if `result` is not a valid type, or `defaultValue` is not a string or empty-string.***
  */
 export const getFirstPrefixPathname = (
   result: string | string[] | null | undefined,
@@ -111,7 +110,9 @@ export const getFirstPrefixPathname = (
     throw new TypeError(
       `Second parameter (\`defaultValue\`) must be of type \`string\` and not an \`empty-string\`, but received: \`${getPreciseType(
         defaultValue
-      )}\`, with value: \`${safeStableStringify(defaultValue)}\`.`
+      )}\`, with value: \`${safeStableStringify(defaultValue, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 
@@ -120,7 +121,9 @@ export const getFirstPrefixPathname = (
       throw new TypeError(
         `First parameter (\`result\`) must be of type \`string\` or \`array of string\`, but received: \`${getPreciseType(
           result
-        )}\`, with value: \`${safeStableStringify(result)}\`.`
+        )}\`, with value: \`${safeStableStringify(result, {
+          keepUndefined: true
+        })}\`.`
       );
     }
 

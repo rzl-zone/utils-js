@@ -26,11 +26,15 @@ describe("getRandomItem", () => {
     expect(getRandomItem(undefined)).toBeUndefined();
 
     // intentionally invalid to test robustness
-    const value: string | string[] | number[] | number[][] = "not-an-array" as any;
+    const value: string | string[] | number[] | number[][] | string[][][] =
+      "not-an-array" as any;
     expect(getRandomItem(value)).toBeUndefined();
   });
 
   it("should handle arrays with a single element", () => {
+    expect(getRandomItem([0])).toBe(0);
     expect(getRandomItem([42])).toBe(42);
+    expect(getRandomItem([true])).toBe(true);
+    expect(getRandomItem([false])).toBe(false);
   });
 });

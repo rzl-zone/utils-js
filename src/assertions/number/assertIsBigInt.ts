@@ -25,7 +25,7 @@ import {
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to `bigint` if no error is thrown.
- * @throws {TypeError} If the value is not a bigint.
+ * @throws **{@link TypeError | `TypeError`}** if the value is not a bigint.
  * @example
  * ```ts
  * // ✅ Simple usage

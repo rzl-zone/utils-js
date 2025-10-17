@@ -11,8 +11,8 @@ const defaultConfig = getDefaultConfig();
 /** -------------------------------------------------------------
  * * ***Customized Tailwind class merger Version 4 with extended rules.***
  * -------------------------------------------------------------
- * **Wraps **{@link extendTailwindMerge| `extendTailwindMerge`}** with Tailwind’s default config
- * ({@link getDefaultConfig | `getDefaultConfig()`}) to create a **project-ready `twMerge`**.**
+ * **Wraps ***`extendTailwindMerge` from tailwind-merge-v4*** with Tailwind’s default
+ * config (_*`getDefaultConfig()` from tailwind-merge-v4*_) to create a **project-ready `twMerge`**.**
  * - 🔑 **When to use it?**
  *    - Your project uses **Tailwind v4**.
  *    - Extend **class groups** (e.g. add `text-shadow`).

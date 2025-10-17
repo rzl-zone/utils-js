@@ -61,8 +61,8 @@ type GetPrefixPathnameOptions = {
  *    - A single string if only one unique prefix/base is found.
  *    - An array of strings if multiple different prefixes/bases are found.
  *    - `null` if no matching base is found when using `base`.
- * @throws {TypeError}
- *  ***Throws if:***
+ * @throws **{@link TypeError | `TypeError`}**
+ *  ***if:***
  *    - `url` is `not a string` or `not an array of strings`.
  *    - `base` is `not a string`, `array of strings`, or `null`.
  *    - `options` is `not an object`.
@@ -190,7 +190,9 @@ export const getPrefixPathname = (
     errors.push(
       `Parameter \`levels\` property of the \`options\` (second parameter) must be of type \`integer-number\` and minimum is \`0\`, but received: \`${getPreciseType(
         levels
-      )}\`, with value: \`${safeStableStringify(levels)}\`.`
+      )}\`, with value: \`${safeStableStringify(levels, {
+        keepUndefined: true
+      })}\`.`
     );
   }
   if (!isBoolean(removeDuplicates)) {

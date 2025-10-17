@@ -51,7 +51,7 @@ type ScrollToTopOptions = {
  *   - Non-integer number are truncated to an integer.
  *   - Force to `2147483647` if number is larger than `2147483647`.
  *   - Default force to `1` if `missing`, `NaN`, `invalid`, or `less-than` `1`.
- * @returns {void} Does not return anything, only scrolling to top.
+ * @returns {void} Does not return anything, only scrolling to top (void).
  * @example
  * // ✅ Valid options value:
  * scrollToTop();

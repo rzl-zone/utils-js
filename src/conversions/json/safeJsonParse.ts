@@ -57,7 +57,7 @@ import { fixSingleQuotesEscapeBackslash } from "./_private/utils/fixSingleQuotes
  * @param {ParseParsedDataOptions} [options] - Options to clean, convert types, enable strict mode,
  *   support custom date formats, enable logging, or handle errors via callback.
  * @returns {SafeJsonParseResult<TData, TInput>} Parsed and optionally cleaned result, or `null`/`undefined`.
- * @throws {TypeError} If `options` is provided but not a valid object.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is provided but not a valid object.
  * @example
  * 1. ***Basic parse with number & boolean conversion:***
  *  ```ts

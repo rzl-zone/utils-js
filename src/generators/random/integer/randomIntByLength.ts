@@ -40,14 +40,14 @@ type OptionsRandomIntByLength = {
  * @param {OptionsRandomIntByLength["maxLength"]} [options.maxLength=16] - Maximum number of digits (must be ≤ `16`).
  * @param {OptionsRandomIntByLength["avoidZero"]} [options.avoidZero=false] - If true, will ensure the result is never zero.
  * @returns {number} A randomly generated integer within the specified constraints.
- * @throws {TypeError} If parameters are invalid, such as:
+ * @throws **{@link TypeError | `TypeError`}** if parameters are invalid, such as:
  * - `minLength` < `1`
  * - `maxLength` > `16`
  * - `minLength` > `maxLength`
  * - non-integer values for `minLength` or `maxLength`
  * @example
  * randomIntByLength({ minLength: 3, maxLength: 5 });
- * // ➔ (`4829` << random), (`192` << random) or (`71492` << random).
+ * // ➔ `4829` (random), `192` (random) or `71492` (random).
  * randomIntByLength({ minLength: 4, maxLength: 4 });
  * // ➔ `5930` (exact 4 digits)
  * randomIntByLength({ avoidZero: true });
@@ -72,11 +72,13 @@ export const randomIntByLength = (options?: OptionsRandomIntByLength): number =>
     throw new TypeError(
       `Parameters \`minLength\` and \`maxLength\` must be of type \`integer-number\`, but received: ['minLength': \`${getPreciseType(
         minLength
-      )}\` - (with value: ${safeStableStringify(
-        minLength
-      )}), 'maxLength': \`${getPreciseType(
+      )}\` - (with value: ${safeStableStringify(minLength, {
+        keepUndefined: true
+      })}), 'maxLength': \`${getPreciseType(
         maxLength
-      )}\` - (with value: ${safeStableStringify(maxLength)})].`
+      )}\` - (with value: ${safeStableStringify(maxLength, {
+        keepUndefined: true
+      })})].`
     );
   }
 

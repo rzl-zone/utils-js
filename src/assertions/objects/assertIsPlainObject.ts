@@ -22,7 +22,7 @@ import {
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to a `plain-object` **(generic support)** if no error is thrown.
- * @throws {TypeError} If `value` is not a `plain-object`.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not a `plain-object`.
  * @example
  * ```ts
  * // ✅ Simple usage

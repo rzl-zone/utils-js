@@ -6,7 +6,7 @@ import { parseCurrencyString } from "@/conversions/currency/parsing";
  * * ***Predicate: `isCurrencyLike`.***
  * -----------------------------------------------------------
  * **Determines if the given `input` can be interpreted as a currency-like number,
- * using the same **multi-locale parsing logic** as ***{@link parseCurrencyString | `parseCurrencyString`}***.**
+ * using the same **multi-locale parsing logic** as ***`parseCurrencyString`***.**
  * - **Highlights:**
  *    - *Supports strings or numbers like:*
  *      - `"15.000,10"` ***(European)***.
@@ -17,7 +17,7 @@ import { parseCurrencyString } from "@/conversions/currency/parsing";
  *    - Also accepts simple numbers (`15300.95`).
  * - **ℹ️ Note:**
  *    - Uses the same core logic as
- *      ***{@link parseCurrencyString | `parseCurrencyString`}*** but
+ *      ***`parseCurrencyString`*** but
  *      just checks if a final parsed float is sensible.
  * @param {*} input - The input value to check.
  * @returns {boolean} Return `true` if it can be reasonably parsed into a currency-like number, `false` otherwise.

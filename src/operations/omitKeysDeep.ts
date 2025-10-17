@@ -51,9 +51,8 @@ type DotPath<T, Prev extends string = ""> = T extends Array<infer U>
  * @returns {Partial<I>}
  *  A new deeply cloned object with the specified keys omitted, with resulting
  *  empty objects or arrays fully removed (even if it collapses to `{}`).
- * @throws {TypeError}
- *    If `keysToOmit` is not an array will throw TypeError.
- * @throws {Error} If `keysToOmit` contains duplicate paths will throw Error.
+ * @throws **{@link TypeError | `TypeError`}** if `keysToOmit` is not an array.
+ * @throws **{@link Error | `Error`}** if `keysToOmit` contains duplicate paths.
  * @example
  * omitKeysDeep({ arr: [{ a: 1 }] }, ["arr.0.a"]);
  * // ➔ {} (array becomes empty and removed)
@@ -109,7 +108,10 @@ export const omitKeysDeep = <I extends Record<string, unknown>>(
   if (isNonEmptyArray(duplicates)) {
     throw new Error(
       `Function "omitKeysDeep" Error: Duplicate keys detected - \`${safeStableStringify(
-        duplicates
+        duplicates,
+        {
+          keepUndefined: true
+        }
       )}\`.`
     );
   }

@@ -39,12 +39,11 @@ import { isNonEmptyArray } from "@/predicates/is/isNonEmptyArray";
  * getRandomItem(tuple); // 1 | "two" | true
  */
 export function getRandomItem(array: undefined): undefined;
-export function getRandomItem(array: null): undefined;
 export function getRandomItem(array: []): undefined;
 export function getRandomItem<T extends readonly unknown[]>(
   array: T
 ): T extends never[][]
-  ? []
+  ? undefined
   : number extends T["length"]
   ? NullToUndefined<FixNeverArrayRecursive<T[number]>>
   : IfNonEmptyArray<T, NullToUndefined<FixNeverArrayRecursive<T[number]>>, undefined>;
@@ -65,7 +64,7 @@ export function getRandomItem<T>(array: T): unknown extends T
   Extends<readonly any[], T> extends true
   ? Extract<T, unknown[] | readonly unknown[]>[number] | undefined
   : undefined;
-export function getRandomItem(array: unknown) {
+export function getRandomItem(array: unknown): unknown {
   if (!isNonEmptyArray(array)) return undefined;
 
   const randomIndex = Math.floor(Math.random() * (array.length || 0));

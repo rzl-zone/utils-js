@@ -158,6 +158,29 @@
   > ***⚠️ Note:*** Starting from version `3.4.0+`, the extra TypeScript types (e.g., `OmitStrict`, `PartialOnly`, etc), have been removed from the package. To use them, you now need to install **[`@rzl-zone/ts-types-plus`](https://www.npmjs.com/package/@rzl-zone/ts-types-plus)** separately.
 
   ---
+  
+  ### **CDN Usage [@rzl-zone/utils-js](https://www.npmjs.com/package/@rzl-zone/utils-js)**
+
+  > ⚠️ **Note:**  
+  > When using the library via CDN in the browser:  
+  > - Always include first the \<script\> tag before your own scripts when using the CDN version.
+  > - Some Node.js-specific utilities may **not** be available, e.g.:  
+  >   - Category utils of `tailwind`, `next`, `next/server`.  
+  >   - Server-only features (like Next.js helpers) will **not** be available.  
+  > - The global object provided is `RzlUtilsJs`.  
+  > - The CDN bundle is **~350KB minified**. For production, consider using bundlers or npm packages for smaller size and tree-shaking.
+
+  #### **Including via CDN**
+  ```xml
+  <!-- jsDelivr -->
+  <script src="https://cdn.jsdelivr.net/npm/@rzl-zone/utils-js@latest"></script>
+
+  <!-- unpkg -->
+  <script src="https://unpkg.com/@rzl-zone/utils-js@latest"></script>
+  ```
+
+
+  ---
   ### **Hint: Autocomplete Setup (Step by Step)**
 
   #### Make TypeScript & VSCode automatically provide autocomplete for `@rzl-zone/utils-js` without needing triple-slash references in every file:

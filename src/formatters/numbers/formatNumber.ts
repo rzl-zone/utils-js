@@ -20,8 +20,7 @@ import { getPreciseType } from "@/predicates/type/getPreciseType";
  * @param {string} [separator=","] - The thousands separator to use, examples: `","` ***(default)***, `"."`, `" "`, etc.
  * @returns {string} The formatted string with thousands separators and
  *   appropriate decimal separator.
- * @throws {TypeError} If `value` is not a string or number,
- * or `separator` is not a string.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not a string or number, or `separator` is not a string.
  * @example
  * formatNumber(1000000);
  * // ➔ "1,000,000"

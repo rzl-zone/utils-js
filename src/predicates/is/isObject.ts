@@ -1,12 +1,8 @@
 import type { AnObjectNonArray, IsArray } from "@rzl-zone/ts-types-plus";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { isPlainObject } from "./isPlainObject";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { isObjectOrArray } from "./isObjectOrArray";
 
 import { isNil } from "./isNil";
 import { isArray } from "./isArray";
-import type { IsHasKeysObject } from "./_private/_types";
+import { IsHasKeysObject } from "./_private/_types";
 
 type IsObject<T> = unknown extends T
   ? T & Record<PropertyKey, unknown>
@@ -40,8 +36,8 @@ type IsObject<T> = unknown extends T
  *    - Boxed primitives: `new String()`, `new Number()`, `new Boolean()`
  *    - `undefined` (including `NaN`, which is a primitive number)
  * - **ℹ️ Note:**
- *    - If you specifically need to check for ***plain-objects*** only, use **{@link isPlainObject}** instead.
- *    - If you specifically need to check for ***object***, ***plain-objects***, and include ***array***, use **{@link isObjectOrArray}** instead.
+ *    - If you specifically need to check for ***plain-objects*** only, use ***`isPlainObject` utility function*** instead.
+ *    - If you specifically need to check for ***object***, ***plain-objects***, and include ***array***, use ***`isObjectOrArray` utility function*** instead.
  * @template T - The type of the value being checked.
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the value is a ***plain-objects***, otherwise `false`.

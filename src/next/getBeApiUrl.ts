@@ -28,8 +28,8 @@ type OptionsGetBeApiUrl = {
  * @param {OptionsGetBeApiUrl|undefined} options - Configuration options.
  * @param {OptionsGetBeApiUrl["suffix"]} [options.suffix="/"] - The suffix to append to the base API URL.
  * @returns {string} The formatted backend API base URL.
- * @throws {TypeError} If `suffix` is not a `string`.
- * @throws {Error} If `NEXT_PUBLIC_BACKEND_API_URL` is invalid.
+ * @throws **{@link TypeError | `TypeError`}** if `suffix` is not a `string`.
+ * @throws **{@link Error | `Error`}** if `NEXT_PUBLIC_BACKEND_API_URL` is invalid.
  * @example
  * // With NEXT_PUBLIC_BACKEND_API_URL set at `*.env` file
  * NEXT_PUBLIC_BACKEND_API_URL = "https://api.example.com";

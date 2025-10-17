@@ -15,9 +15,6 @@ import { isArguments } from "./isArgument";
 import { isTypedArray } from "./isTypedArray";
 import { isPlainObject } from "./isPlainObject";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { isEmptyValue } from "./isEmptyValue";
-
 /** ----------------------------------------------------
  * * ***Predicate: `isEmpty`.***
  * ----------------------------------------------------------
@@ -32,7 +29,7 @@ import type { isEmptyValue } from "./isEmptyValue";
  *    - **Functions** are considered empty if they have no own enumerable keys.
  * - **ℹ️ Note:**
  *    - For more `Strict`, you can use
- *      **{@link isEmptyValue | `isEmptyValue`}** instead.
+ *      ***`isEmptyValue` utility function*** instead.
  * @template T - The type of the value being checked.
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is empty, else `false`.

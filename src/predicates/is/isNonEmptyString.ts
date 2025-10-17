@@ -18,7 +18,7 @@ type IsNonEmptyStringOptions = {
  * @description
  * Determines whether the given `value` is a string containing at least one non-whitespace character, with optional trimming behavior.
  * - **Behavior:**
- *    - Ensures the value is a string using **{@link isString | `isString`}**.
+ *    - Ensures the value is a string using ***`isString` utility function***.
  *    - Optionally trims whitespace before checking (`trim` defaults to `true`).
  *    - Narrows type to `string` when true.
  * @param {*} value - The value to test.

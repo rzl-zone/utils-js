@@ -41,9 +41,9 @@ type OptionsCreateBeApiUrl = {
  * @param {OptionsCreateBeApiUrl["prefix"]} [options.prefix="/api"] - The prefix for the API path (default is `"/api"`).
  * @param {OptionsCreateBeApiUrl["withOrigin"]} [options.withOrigin=true] - Whether to include the full base URL or return only the API path.
  * @returns {string} The formatted API URL.
- * @throws {TypeError} If `withOrigin` is not a boolean.
- * @throws {TypeError} If `prefix` and `pathname` is not a string.
- * @throws {Error} If constructing the API URL fails due to an invalid base URL.
+ * @throws **{@link TypeError | `TypeError`}** if `withOrigin` is not a boolean.
+ * @throws **{@link TypeError | `TypeError`}** if `prefix` and `pathname` is not a string.
+ * @throws **{@link Error | `Error`}** if constructing the API URL fails due to an invalid base URL.
  * @example
  * createBeApiUrl("/users")
  * // ➔ "http://localhost:8000/api/users"

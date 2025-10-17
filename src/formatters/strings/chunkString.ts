@@ -99,7 +99,9 @@ export function chunkString(
     throw new TypeError(
       `Second parameter (\`limiter\`) must be of type \`integer-number\`, but received: \`${getPreciseType(
         limiter
-      )}\`, with value: \`${safeStableStringify(limiter)}\`.`
+      )}\`, with value: \`${safeStableStringify(limiter, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

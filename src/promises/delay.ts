@@ -33,11 +33,10 @@ class AbortError extends Error {
  * @returns {Promise<void>}
  *  A promise that resolves after the specified delay or
  *  rejects with an `AbortError` if aborted.
- * @throws {TypeError} Validates `milliSeconds` and `signal`:
+ * @throws **{@link TypeError | `TypeError`}** while validates `milliSeconds` and `signal`:
  *  - If `milliSeconds` **is not a valid** an `integer-number`, `NaN`, `negative-number`, or `≤ 0`.
  *  - If `signal` **is not a valid** an`AbortSignal`.
- * @throws {DOMException}
- * If the delay is aborted using the signal, rejects with `"AbortError"`.
+ * @throws **{@link DOMException | `DOMException`}** if the delay is aborted using the signal, rejects with `AbortError`.
  * @example
  * // Waits for 2 seconds
  * await delay(2000);
@@ -55,7 +54,9 @@ export const delay = (
     throw new TypeError(
       `First parameter (\`milliSeconds\`) must be of type \`number\` and value must be a \`non-zero\`, \`non-NaN\`, \`non-negative\`, and \`integer-number\`, but received: \`${getPreciseType(
         milliSeconds
-      )}\`, with value: \`${safeStableStringify(milliSeconds)}\`.`
+      )}\`, with value: \`${safeStableStringify(milliSeconds, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

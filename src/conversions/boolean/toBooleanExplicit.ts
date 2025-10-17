@@ -44,7 +44,7 @@ type ToBooleanExplicitOptions = {
  * @param {ToBooleanExplicitOptions["trimString"]} [options.trimString=true] - Whether to trim whitespace before comparison, default: `true`.
  * @param {ToBooleanExplicitOptions["includeIndeterminate"]} [options.includeIndeterminate=false] - If `true`, the string `"indeterminate"` is considered a truthy value, defaults to `false`.
  * @returns {boolean} Return `true` if the value matches a truthy representation, otherwise `false`.
- * @throws {TypeError} Throws if any option provided is not a boolean.
+ * @throws **{@link TypeError | `TypeError`}** if any option provided is not a boolean.
  * @example
  * toBooleanExplicit(1);
  * // ➔ true

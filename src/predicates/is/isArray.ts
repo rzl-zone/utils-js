@@ -1,20 +1,20 @@
-import type {
-  IsArray,
-  IsNever,
-  IsReadonlyArray,
-  IsUnknown
-} from "@rzl-zone/ts-types-plus";
+// import type {
+//   IsArray,
+//   IsNever,
+//   IsReadonlyArray,
+//   IsUnknown
+// } from "@rzl-zone/ts-types-plus";
 
-/** @deprecated bugs */
-export type IsArrayResult<T> = IsUnknown<T> extends true
-  ? unknown[] & T
-  : IsNever<T> extends true
-  ? []
-  : IsReadonlyArray<T> extends true
-  ? T
-  : IsArray<T> extends true
-  ? T
-  : unknown[];
+// /** @deprecated bugs */
+// export type IsArrayResult<T> = IsUnknown<T> extends true
+//   ? unknown[] & T
+//   : IsNever<T> extends true
+//   ? []
+//   : IsReadonlyArray<T> extends true
+//   ? T
+//   : IsArray<T> extends true
+//   ? T
+//   : unknown[];
 
 /** ----------------------------------------------------------
  * * ***Type guard: `isArray`.***

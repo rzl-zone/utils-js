@@ -43,8 +43,8 @@ import { safeStableStringify } from "@/conversions/stringify/safeStableStringify
  * - **E.164 compliance:**
  *    - Optional leading `+` is recommended but **not required**.
  *    - If Without leading `+`, you must passing `defaultCountry`.
- * @throws {TypeError} If `value` is not string, number, null or undefined.
- * @throws {TypeError} If `options` is not an object or contains wrong types.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not string, number, null or undefined.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or contains wrong types.
  * @param {ValueFormatPhoneNumber} value
  *  ***Phone number to format, accepts:***
  *   - `string` (recommended to preserve leading zeros).
@@ -171,8 +171,8 @@ export function formatPhoneNumber(
  * - **E.164 compliance:**
  *    - Optional leading `+` is recommended but **not required**.
  *    - If Without leading `+`, you must passing `defaultCountry`.
- * @throws {TypeError} If `value` is not string, number, null or undefined.
- * @throws {TypeError} If `options` is not an object or contains wrong types.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not string, number, null or undefined.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or contains wrong types.
  * @param {ValueFormatPhoneNumber} value
  *   Phone number to format. Accepts:
  *   - `string` (recommended to preserve leading zeros)
@@ -230,8 +230,8 @@ export function formatPhoneNumber(
  * - **E.164 compliance:**
  *    - Optional leading `+` is recommended but **not required**.
  *    - If Without leading `+`, you must passing `defaultCountry`.
- * @throws {TypeError} If `value` is not string, number, null or undefined.
- * @throws {TypeError} If `options` is not an object or contains wrong types.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not string, number, null or undefined.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or contains wrong types.
  * @param {ValueFormatPhoneNumber} value
  *  Phone number to format. Accepts:
  *   - `string` (recommended to preserve leading zeros).
@@ -293,8 +293,8 @@ export function formatPhoneNumber(
  * - **E.164 compliance:**
  *    - Optional leading `+` is recommended but **not required**.
  *    - If Without leading `+`, you must passing `defaultCountry`.
- * @throws {TypeError} If `value` is not string, number, null or undefined.
- * @throws {TypeError} If `options` is not an object or contains wrong types.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not string, number, null or undefined.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or contains wrong types.
  * @param {ValueFormatPhoneNumber} value
  *  Phone number to format. Accepts:
  *   - `string` (recommended to preserve leading zeros).
@@ -412,8 +412,8 @@ export function formatPhoneNumber(
  * - **E.164 compliance:**
  *    - Optional leading `+` is recommended but **not required**.
  *    - If Without leading `+`, you must passing `defaultCountry`.
- * @throws {TypeError} If `value` is not string, number, null or undefined.
- * @throws {TypeError} If `options` is not an object or contains wrong types.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not string, number, null or undefined.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or contains wrong types.
  * @param {ValueFormatPhoneNumber} value
  *   Phone number to format. Accepts:
  *   - `string` (recommended to preserve leading zeros)
@@ -494,8 +494,8 @@ export function formatPhoneNumber(
  * - **E.164 compliance:**
  *    - Optional leading `+` is recommended but **not required**.
  *    - If Without leading `+`, you must passing `defaultCountry`.
- * @throws {TypeError} If `value` is not string, number, null or undefined.
- * @throws {TypeError} If `options` is not an object or contains wrong types.
+ * @throws **{@link TypeError | `TypeError`}** if `value` is not string, number, null or undefined.
+ * @throws **{@link TypeError | `TypeError`}** if `options` is not an object or contains wrong types.
  * @param {ValueFormatPhoneNumber} value
  *  Phone number to format. Accepts:
  *   - `string` (recommended to preserve leading zeros).

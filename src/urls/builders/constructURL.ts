@@ -21,7 +21,7 @@ import { toStringArrayUnRecursive } from "@/conversions/arrays/casts/toStringArr
  * ----------------------------------------------------------
  * **Represents a non-empty array of key–value pairs.**
  * @description
- * Type for `queryParams` parameter, the second parameter of **{@link constructURL | `constructURL`}**.
+ * Type for `queryParams` parameter, the second parameter of ***`constructURL` utility function***.
  * - **Behavior:**
  *    - Each inner tuple strictly follows the `[string, string | number]` shape.
  *    - Ensures the outer array contains **at least one pair** (non-empty).
@@ -54,7 +54,7 @@ export type QueryParamPairs = [[string, string | number], ...[string, string | n
  * @param {string[]} [removeParams]
  *   A list of query parameter keys to remove from the final URL, whether they were in the base URL or provided queryParams.
  * @returns {URL} A new URL object representing the constructed URL with merged and cleaned query parameters.
- * @throws {TypeError} Throws if `baseUrl` is not a valid non-empty string or URL object, or if `queryParams` is not iterable, or if `removeParams` is not an array of strings.
+ * @throws **{@link TypeError | `TypeError`}** if `baseUrl` is not a valid non-empty string or URL object, or if `queryParams` is not iterable, or if `removeParams` is not an array of strings.
  * @example
  *    1. #### Basic Usage:
  * ```ts
@@ -106,11 +106,13 @@ export const constructURL = (
     throw new TypeError(
       `First parameter (\`baseUrl\`) must be of type an URL instance or a \`string\` and a non empty-string, but received: \`${getPreciseType(
         baseUrl
-      )}\`, with current value: \`${safeStableStringify(baseUrl)}\`.`
+      )}\`, with current value: \`${safeStableStringify(baseUrl, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 
-  // 🔍 Check removeParams
+  // Check removeParams
   if (!isUndefined(removeParams)) {
     assertIsArray(removeParams, {
       message: ({ currentType, validType }) =>
@@ -125,12 +127,14 @@ export const constructURL = (
   }
 
   try {
-    // 🔍 Check queryParams
+    // Check queryParams
     if (!isUndefined(queryParams) && !isFunction(queryParams[Symbol.iterator])) {
       throw new TypeError(
         `Second parameter (\`queryParams\`) must be iterable (like URLSearchParams.entries() or an array of [[string, string | number]...]), but received: \`${getPreciseType(
           queryParams
-        )}\`, with value: \`${safeStableStringify(queryParams)}\`.`
+        )}\`, with value: \`${safeStableStringify(queryParams, {
+          keepUndefined: true
+        })}\`.`
       );
     }
 
@@ -150,7 +154,9 @@ export const constructURL = (
             throw new TypeError(
               `Second parameter (\`queryParams\`) must be iterable (like URLSearchParams.entries() or an array of [[string, string | number]...]), but received: \`${getPreciseType(
                 queryParams
-              )}\`, with value: \`${safeStableStringify(queryParams)}\`.`
+              )}\`, with value: \`${safeStableStringify(queryParams, {
+                keepUndefined: true
+              })}\`.`
             );
           }
 

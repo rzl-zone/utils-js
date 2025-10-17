@@ -37,7 +37,7 @@ import { safeStableStringify } from "@/conversions/stringify/safeStableStringify
  * @param {unknown[]} inputArray - The array to deduplicate, can be deeply nested and contain any mix of types.
  * @param {DedupeArrayOptions<ForceToString, Flattening>|undefined} [options] - Options to control string conversion.
  * @returns {DedupeResult<ForceToString, Flattening>} Deduplicated array with optional transformations.
- * @throws {TypeError} If the input is not an array, or options is not an object, or if `forceToString` is invalid.
+ * @throws **{@link TypeError | `TypeError`}** if the input is not an array, or options is not an object, or if `forceToString` is invalid.
  * @example
  * ```ts
  * dedupeArray(["apple", "banana", "apple"]);
@@ -131,7 +131,9 @@ export const dedupeArray = <
     throw new TypeError(
       `Parameter \`forceToString\` property of the \`options\` (second parameter) must be of type \`false\` or \`string\` with value one of "stringOrNumber" | "primitives" | "all", but received: \`${getPreciseType(
         forceToString
-      )}\`, with value: \`${safeStableStringify(forceToString)}\`.`
+      )}\`, with value: \`${safeStableStringify(forceToString, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

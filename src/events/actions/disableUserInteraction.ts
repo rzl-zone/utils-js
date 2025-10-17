@@ -19,8 +19,8 @@ import { assertIsString } from "@/assertions/strings/assertIsString";
  *    - Throws `TypeError` if the `className` parameter is not a string.
  * @defaultValue `"on_processing"`
  * @param {string} [className="on_processing"] - The CSS class to add, defaults to `"on_processing"`.
- * @returns {void} Does not return anything.
- * @throws {TypeError} If `className` is not a string.
+ * @returns {void} Does not return anything (void).
+ * @throws **{@link TypeError | `TypeError`}** if `className` is not a string.
  * @example
  * * ***Example in your code:***
  * ```ts

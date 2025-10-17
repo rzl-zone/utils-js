@@ -10,7 +10,7 @@ import { safeStableStringify } from "../stringify/safeStableStringify";
  * @param {string} dateString - Date string to parse.
  * @param {string} format - Date format to match.
  * @returns {Date | null} Returns a `Date` object if valid, otherwise `null`.
- * @throws {TypeError} Throw an type-error if `dateString` **(first parameter)** and `format` **(second parameter)** is not a string or empty-string.
+ * @throws **{@link TypeError | `TypeError`}** if `dateString` **(first parameter)** and `format` **(second parameter)** is not a string or empty-string.
  * @example
  * // Valid: European format (DD/MM/YYYY)
  * const date1 = parseCustomDate("03/09/2025", "DD/MM/YYYY");
@@ -37,11 +37,13 @@ export const parseCustomDate = (dateString: string, format: string): Date | null
     throw new TypeError(
       `Parameter \`dateString\` and \`format\` must be of type \`string\` and not empty-string, but received: "['dateString': \`${getPreciseType(
         dateString
-      )}\` - (current value: \`${safeStableStringify(
-        dateString
-      )}\`), 'format': \`${getPreciseType(
+      )}\` - (current value: \`${safeStableStringify(dateString, {
+        keepUndefined: true
+      })}\`), 'format': \`${getPreciseType(
         format
-      )}\` - (current value: \`${safeStableStringify(format)}\`)]".`
+      )}\` - (current value: \`${safeStableStringify(format, {
+        keepUndefined: true
+      })}\`)]".`
     );
   }
 

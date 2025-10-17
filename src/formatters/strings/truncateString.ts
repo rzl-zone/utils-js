@@ -48,11 +48,8 @@ type TruncateStringOptions = {
  *    - `length` (number, default 10): Maximum length of the truncated string.
  *    - `ending` (string, default `"..."`): String to append if truncation occurs.
  *    - `trim` (boolean, default `true`): Whether to trim the input before truncation.
- * @returns {string} The truncated string with optional trimming and ending.
- *                   Returns `""` if input is empty or length < 1.
- * @throws {TypeError} If `options.length` is not a finite number,
- *                     or if `options.ending` is not a string,
- *                     or if `options.trim` is not a boolean.
+ * @returns {string} The truncated string with optional trimming and ending, returns `""` if input is empty or length < 1.
+ * @throws **{@link TypeError | `TypeError`}** if `options.length` is not a finite number, or if `options.ending` is not a string, or if `options.trim` is not a boolean.
  * @example
  * truncateString("hello world", { length: 5 });
  * // ➔ "hello..."
@@ -88,7 +85,9 @@ export const truncateString = (
     throw new TypeError(
       `Parameter \`length\` property of the \`options\` (second parameter) must be of type \`integer-number\`, but received: \`${getPreciseType(
         length
-      )}\`, with value: \`${safeStableStringify(length)}\`.`
+      )}\`, with value: \`${safeStableStringify(length, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

@@ -15,9 +15,6 @@ import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 
 import { filterNilArray } from "../transforms/filterNilArray";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { toStringDeep } from "@/conversions/values/toStringDeep";
-
 /** ---------------------------------------------
  * * ***Utility: `toStringArrayUnRecursive`.***
  * ---------------------------------------------
@@ -31,7 +28,7 @@ import type { toStringDeep } from "@/conversions/values/toStringDeep";
  *    - Other unsupported types will be converted to `undefined` (and removed
  *      if `removeInvalidValue=true`).
  * - **ℹ️ Note:**
- *    - _For recursive / nested arrays, use **{@link toStringDeep | `toStringDeep`}** instead._
+ *    - _For recursive / nested arrays, use ***`toStringDeep` utility function*** instead._
  * @template T - Element type of the input array.
  * @template R - Whether invalid values should be removed (`true`) or kept (`false`).
  * @param {Array<string | number | bigint | boolean | null | undefined> | null | undefined} [array] - The array to convert, returns `undefined` if not an array.

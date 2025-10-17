@@ -1,16 +1,13 @@
 import type { CustomizerIsEqualWith } from "./_private/types.isEqualWith";
 import { baseDeepEqual } from "@/predicates/is/_private/baseDeepEqual";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { isEqual } from "../is/isEqual";
-
 /** ----------------------------------------------------
  * * ***Predicate: `isEqualWith`.***
  * ----------------------------------------------------
  * **Performs a deep comparison between two values with support for a
  * customizer function.**
  * @description
- * This method is like **{@link isEqual | `isEqual`}** except that it
+ * This method is like ***`isEqual` utility function*** except that it
  * accepts a `customizer` which is invoked to compare values.
  * - **Behavior:**
  *     - If `customizer` returns `undefined`, the comparison is handled by

@@ -75,10 +75,10 @@ type GenerateRouteResult<T> = true extends IsAny<T>
  * @param {T} route - The route string containing dynamic segments.
  * @param {ExtractRouteParams<T>} [params] - An object containing key-value pairs that match the dynamic segments in the route.
  * @returns {string} The formatted URL with all dynamic segments replaced.
- * @throws {Error} If the route contains dynamic segments but no parameters object is provided.
- * @throws {Error} If a required parameter is missing from the `params` object.
- * @throws {Error} If a parameter value is an empty string.
- * @throws {Error} If any parameter contains invalid characters like `?`, `&`, `=`, `#`, `/`, spaces, `'`, `"`, `(`, `)`, `+`, `;`, `%`, `@`, or `:`, which can cause URL issues.
+ * @throws **{@link Error | `Error`}** if the route contains dynamic segments but no parameters object is provided.
+ * @throws **{@link Error | `Error`}** if a required parameter is missing from the `params` object.
+ * @throws **{@link Error | `Error`}** if a parameter value is an empty string.
+ * @throws **{@link Error | `Error`}** if any parameter contains invalid characters like `?`, `&`, `=`, `#`, `/`, spaces, `'`, `"`, `(`, `)`, `+`, `;`, `%`, `@`, or `:`, which can cause URL issues.
  * @example
  * // Basic usage
  * generateRoute("/user/[id]", { id: "123" });
@@ -125,7 +125,9 @@ export function generateRoute<T>(
     throw new TypeError(
       `❌ 'generateRoute' Failed:\n- Invalid 'route' value.\n- Must be of type \`string\` and non-empty string, but received: "${getPreciseType(
         route
-      )}": \`${safeStableStringify(route)}\`.`
+      )}": \`${safeStableStringify(route, {
+        keepUndefined: true
+      })}\`.`
     );
   }
 

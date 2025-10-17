@@ -24,7 +24,7 @@ import {
  *   - `message`: A custom error message (`string` or `function`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to `string` if no error is thrown.
- * @throws {TypeError} If the value is not a string.
+ * @throws **{@link TypeError | `TypeError`}** if the value is not a string.
  * @example
  * ```ts
  * // ✅ Simple usage

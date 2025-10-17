@@ -2,9 +2,6 @@ import { findDuplicates } from "./findDuplicates";
 import { isPlainObject } from "@/predicates/is/isPlainObject";
 import { assertIsArray } from "@/assertions/objects/assertIsArray";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { isEqual } from "../predicates/is/isEqual";
-
 /** --------------------------------
  * * ***Utility: `omitKeys`.***
  * --------------------------------
@@ -14,15 +11,15 @@ import type { isEqual } from "../predicates/is/isEqual";
  *    - It will return a new object without mutating the original.
  *    - It also validates that ***`keysToOmit`*** does not contain duplicate keys.
  * - **ℹ️ Internally:**
- *    - It uses ***{@link isEqual | `isEqual`}*** to check for duplicates in
+ *    - It uses ***`isEqual`*** to check for duplicates in
  *      the ***`keysToOmit`*** array.
  * @template I The type of the input object.
  * @template K The keys to omit from the object.
  * @param {I} object - The source object to omit keys from.
  * @param {K[]} keysToOmit - An array of keys to exclude from the returned object.
  * @returns {Omit<I, K>} A new object without the specified keys.
- * @throws {TypeError} If `keysToOmit` is not an array.
- * @throws {Error} If duplicate keys are found in `keysToOmit`.
+ * @throws **{@link TypeError | `TypeError`}** if `keysToOmit` is not an array.
+ * @throws **{@link Error | `Error`}** if duplicate keys are found in `keysToOmit`.
  * @example
  * omitKeys({ a: 1, b: 2, c: 3 }, ["b", "c"]);
  * //➔ { a: 1 }

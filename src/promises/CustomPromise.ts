@@ -1,5 +1,7 @@
 import type { CustomPromiseType } from "@rzl-zone/ts-types-plus";
 
+export type { CustomPromiseType };
+
 /** -------------------------------------------------------------
  * * ***Utility Class: `CustomPromise`.***
  * -------------------------------------------------------------
@@ -22,8 +24,8 @@ import type { CustomPromiseType } from "@rzl-zone/ts-types-plus";
  * @template Error    Type of the rejection reason (default `unknown`).
  * @example
  * ```ts
- * import type { CustomPromiseType } from "@rzl-zone/types";
- * import { CustomPromise } from "@rzl-zone/promises";
+ * import type { CustomPromiseType } from "@rzl-zone/ts-types-plus";
+ * import { CustomPromise } from "@rzl-zone/utils-js/promises";
  *
  * type User = { id: number; name: string };
  * type ApiError = { message: string };
