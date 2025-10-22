@@ -6,6 +6,9 @@
  * Unicode domain names to ASCII (`Punycode-UtilsJS`) and vice versa.
  */
 
+import { getPreciseType } from "@/predicates/type/getPreciseType";
+import { assertIsString } from "@/assertions/strings/assertIsString";
+
 /** Constant `maxInt` for validate. */
 const maxInt = 2147483647;
 
@@ -96,6 +99,11 @@ function mapDomain(domain: string, fn: (v: string) => string): string {
  * @returns Array of Unicode code points.
  */
 function ucs2decode(input: string): number[] {
+  assertIsString(input, {
+    message: ({ currentType, validType }) =>
+      `Utils \`punycodeUtilsJS.ucs2.decode\`, parameter \`input\` must be of type \`${validType}\`, but received: \`${currentType}\`.`
+  });
+
   const output: number[] = [];
   let counter = 0;
   const length = input.length;
@@ -120,7 +128,20 @@ function ucs2decode(input: string): number[] {
  * @param points - Array of Unicode code points.
  * @returns Encoded string.
  */
-const ucs2encode = (points: number[]): string => String.fromCodePoint(...points);
+const ucs2encode = (points: number[]): string => {
+  if (
+    !Array.isArray(points) ||
+    !points.every((p) => typeof p === "number" && Number.isFinite(p))
+  ) {
+    throw new TypeError(
+      `Utils \`punycodeUtilsJS.ucs2.encode\`, parameter \`points\` must be an array of numbers, but received: \`${getPreciseType(
+        points
+      )}\`.`
+    );
+  }
+
+  return String.fromCodePoint(...points);
+};
 
 /** ---------------------------------------------------------
  * * ***Converts a basic code point to its digit value for `Punycode-UtilsJS`.***
@@ -172,6 +193,11 @@ function adapt(delta: number, numPoints: number, firstTime: boolean): number {
  * @returns Decoded Unicode string.
  */
 function decode(input: string): string {
+  assertIsString(input, {
+    message: ({ currentType, validType }) =>
+      `Utils \`punycodeUtilsJS.decode\`, parameter \`input\` must be of type \`${validType}\`, but received: \`${currentType}\`.`
+  });
+
   const output: number[] = [];
   const inputLength = input.length;
   let i = 0,
@@ -218,6 +244,11 @@ function decode(input: string): string {
  * @returns `Punycode-UtilsJS` string.
  */
 function encode(input: string): string {
+  assertIsString(input, {
+    message: ({ currentType, validType }) =>
+      `Utils \`punycodeUtilsJS.encode\`, parameter \`input\` must be of type \`${validType}\`, but received: \`${currentType}\`.`
+  });
+
   const output: string[] = [];
   const points = ucs2decode(input);
   const inputLength = points.length;
@@ -269,6 +300,11 @@ function encode(input: string): string {
  * @returns Unicode string.
  */
 function toUnicode(input: string): string {
+  assertIsString(input, {
+    message: ({ currentType, validType }) =>
+      `Utils \`punycodeUtilsJS.toUnicode\`, parameter \`input\` must be of type \`${validType}\`, but received: \`${currentType}\`.`
+  });
+
   return mapDomain(input, (str) =>
     regexPunycode.test(str) ? decode(str.slice(4).toLowerCase()) : str
   );
@@ -281,6 +317,11 @@ function toUnicode(input: string): string {
  * @returns ASCII string.
  */
 function toASCII(input: string): string {
+  assertIsString(input, {
+    message: ({ currentType, validType }) =>
+      `Utils \`punycodeUtilsJS.toASCII\`, parameter \`input\` must be of type \`${validType}\`, but received: \`${currentType}\`.`
+  });
+
   return mapDomain(input, (str) =>
     regexNonASCII.test(str) ? "xn--" + encode(str) : str
   );

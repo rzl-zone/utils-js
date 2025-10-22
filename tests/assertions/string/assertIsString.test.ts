@@ -1,6 +1,7 @@
 import { performance } from "perf_hooks";
 import { describe, it, expect } from "vitest";
 import { assertIsString } from "@/assertions/strings/assertIsString";
+import { getPreciseType } from "@/predicates/type/getPreciseType";
 
 // describe("assertIsString vs typeof === 'string' - benchmark", () => {
 //   it("compares performance", { timeout: 30000 }, () => {
@@ -112,6 +113,47 @@ describe("assertIsString", () => {
   it("should fallback to default message if empty string given", () => {
     expect(() => assertIsString(42, { message: "   " })).toThrow(
       "Parameter input (`value`) must be of type `string`, but received: `number`."
+    );
+  });
+});
+
+describe("assertIsString - respect to errorType options", () => {
+  it("throws the correct error type when errorType is specified", () => {
+    const val = 42 as unknown;
+    const errorTypes = [
+      "Error",
+      "EvalError",
+      "RangeError",
+      "ReferenceError",
+      "SyntaxError",
+      "TypeError",
+      "URIError"
+    ] as const;
+
+    errorTypes.forEach((type) => {
+      expect(() => assertIsString(val, { errorType: type })).toThrowError(
+        new globalThis[type](
+          `Parameter input (\`value\`) must be of type \`string\`, but received: \`${getPreciseType(
+            val
+          )}\`.`
+        )
+      );
+    });
+  });
+
+  it("falls back to TypeError if invalid errorType is provided", () => {
+    const val = 42 as unknown;
+    // @ts-expect-error: testing invalid errorType
+    expect(() => assertIsString(val, { errorType: "SomeUnknownError" })).toThrowError(
+      TypeError
+    );
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsString(val, { errorType: "SomeUnknownError" })
+    ).toThrow(
+      `Parameter input (\`value\`) must be of type \`string\`, but received: \`${getPreciseType(
+        val
+      )}\`.`
     );
   });
 });

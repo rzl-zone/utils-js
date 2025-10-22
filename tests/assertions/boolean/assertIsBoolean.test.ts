@@ -66,3 +66,44 @@ describe("assertIsBoolean", () => {
     );
   });
 });
+
+describe("assertIsBoolean - respect to errorType options", () => {
+  it("throws the correct error type when errorType is specified", () => {
+    const val = 42;
+    const errorTypes = [
+      "Error",
+      "EvalError",
+      "RangeError",
+      "ReferenceError",
+      "SyntaxError",
+      "TypeError",
+      "URIError"
+    ] as const;
+
+    errorTypes.forEach((type) => {
+      expect(() => assertIsBoolean(val, { errorType: type })).toThrowError(
+        new globalThis[type](
+          `Parameter input (\`value\`) must be of type \`boolean\`, but received: \`${getPreciseType(
+            val
+          )}\`.`
+        )
+      );
+    });
+  });
+
+  it("falls back to TypeError if invalid errorType is provided", () => {
+    const val = 42;
+    // @ts-expect-error: testing invalid errorType
+    expect(() => assertIsBoolean(val, { errorType: "SomeUnknownError" })).toThrowError(
+      TypeError
+    );
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsBoolean(val, { errorType: "SomeUnknownError" })
+    ).toThrow(
+      `Parameter input (\`value\`) must be of type \`boolean\`, but received: \`${getPreciseType(
+        val
+      )}\`.`
+    );
+  });
+});

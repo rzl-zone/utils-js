@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { assertIsPlainObject } from "@/assertions/objects/assertIsPlainObject";
 import { type OptionsMessageFunctionAssertIs } from "@/assertions/_private/assertIs";
+import { getPreciseType } from "@/predicates/type/getPreciseType";
 
 describe("assertIsPlainObject", () => {
   it("does not throw for plain objects", () => {
@@ -52,5 +53,46 @@ describe("assertIsPlainObject", () => {
     assertIsPlainObject(obj);
     // after this line, TypeScript knows obj is a plain object
     expect(obj.foo).toBe("bar");
+  });
+});
+
+describe("assertIsPlainObject - respect to errorType options", () => {
+  it("throws the correct error type when errorType is specified", () => {
+    const val = 123 as unknown;
+    const errorTypes = [
+      "Error",
+      "EvalError",
+      "RangeError",
+      "ReferenceError",
+      "SyntaxError",
+      "TypeError",
+      "URIError"
+    ] as const;
+
+    errorTypes.forEach((type) => {
+      expect(() => assertIsPlainObject(val, { errorType: type })).toThrowError(
+        new globalThis[type](
+          `Parameter input (\`value\`) must be of type \`plain-object\`, but received: \`${getPreciseType(
+            val
+          )}\`.`
+        )
+      );
+    });
+  });
+
+  it("falls back to TypeError if invalid errorType is provided", () => {
+    const val = 123 as unknown;
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsPlainObject(val, { errorType: "SomeUnknownError" })
+    ).toThrowError(TypeError);
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsPlainObject(val, { errorType: "SomeUnknownError" })
+    ).toThrow(
+      `Parameter input (\`value\`) must be of type \`plain-object\`, but received: \`${getPreciseType(
+        val
+      )}\`.`
+    );
   });
 });

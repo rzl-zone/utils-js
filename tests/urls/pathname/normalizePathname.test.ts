@@ -8,7 +8,9 @@ describe("normalizePathname", () => {
   it("should return defaultPath if pathname is null, undefined, empty or whitespace", () => {
     expect(normalizePathname(undefined)).toBe("/");
     expect(normalizePathname(null)).toBe("/");
-    expect(normalizePathname("", { defaultPath: " localhost " })).toBe("/");
+    expect(
+      normalizePathname("", { defaultPath: " localhost ", localhostDomain: true })
+    ).toBe("/");
     expect(normalizePathname("    ")).toBe("/");
   });
 
@@ -27,6 +29,7 @@ describe("normalizePathname", () => {
     expect(() => normalizePathname("test", null as any)).toThrow(TypeError);
 
     expect(() => normalizePathname("test", 123 as any)).toThrow(TypeError);
+    expect(() => normalizePathname("http://")).toThrow(Error);
   });
 
   it("should prepend slash to relative pathnames", () => {
@@ -196,5 +199,158 @@ describe("normalizePathname", () => {
     expect(() => normalizePathname("test")).toThrow(/fake error/);
 
     spy.mockRestore();
+  });
+});
+
+describe("normalizePathname - ignoreDomainExtensions (extended tests)", () => {
+  it("should preserve first segment only basic", () => {
+    expect(normalizePathname("image.png", { ignoreDomainExtensions: [".png"] })).toBe(
+      "/image.png"
+    );
+  });
+
+  it("should preserve first segment with query and hash", () => {
+    expect(
+      normalizePathname("image.png?version=2#top", { ignoreDomainExtensions: [".png"] })
+    ).toBe("/image.png?version=2#top");
+
+    expect(
+      normalizePathname("archive.tar.gz#download?x=1", {
+        ignoreDomainExtensions: [".tar.gz"]
+      })
+    ).toBe("/archive.tar.gz#download?x=1");
+  });
+
+  it("should preserve filenames with unicode and emoji", () => {
+    expect(
+      normalizePathname("🔥.png#section", { ignoreDomainExtensions: [".png"] })
+    ).toBe("/🔥.png#section");
+
+    expect(
+      normalizePathname("测试.tar.gz?file=1", { ignoreDomainExtensions: [".tar.gz"] })
+    ).toBe("/测试.tar.gz?file=1");
+  });
+
+  it("should respect keepTrailingSlash when first segment is preserved", () => {
+    expect(
+      normalizePathname("image.png/", {
+        ignoreDomainExtensions: [".png"],
+        keepTrailingSlash: true
+      })
+    ).toBe("/image.png/");
+
+    expect(
+      normalizePathname("archive.tar.gz///", {
+        ignoreDomainExtensions: [".tar.gz"],
+        keepTrailingSlash: true
+      })
+    ).toBe("/archive.tar.gz/");
+  });
+
+  it("should handle multi-segment path, only first segment checked", () => {
+    expect(
+      normalizePathname("folder/image.png/file.txt", { ignoreDomainExtensions: [".png"] })
+    ).toBe("/folder/image.png/file.txt"); // first segment is folder → domain stripped normally
+
+    expect(
+      normalizePathname("image.png/folder/file.txt", { ignoreDomainExtensions: [".png"] })
+    ).toBe("/image.png/folder/file.txt"); // first segment matches → preserved
+  });
+
+  it("should ignore extensions option if first segment is full domain or has protocol", () => {
+    expect(normalizePathname("https://example.com/image.png", {})).toBe("/image.png");
+
+    expect(normalizePathname("example.com/image.png")).toBe("/image.png");
+
+    expect(normalizePathname("http://localhost/test.png")).toBe("/test.png");
+  });
+
+  it("should throw TypeError for invalid entries in Set or array", () => {
+    expect(() =>
+      normalizePathname("image.png", { ignoreDomainExtensions: [""] })
+    ).toThrow(TypeError);
+
+    expect(() =>
+      normalizePathname("image.png", { ignoreDomainExtensions: ["png"] })
+    ).toThrow(TypeError);
+
+    expect(() =>
+      normalizePathname("image.png", { ignoreDomainExtensions: new Set([""]) })
+    ).toThrow(TypeError);
+
+    expect(() =>
+      normalizePathname("image.png", { ignoreDomainExtensions: new Set(["png", ".png"]) })
+    ).toThrow(TypeError);
+  });
+});
+
+describe("normalizePathname - ignoreDomainExtensions (extended tests v2)", () => {
+  it("should preserve first segment with query only", () => {
+    expect(
+      normalizePathname("image.png?version=3", { ignoreDomainExtensions: [".png"] })
+    ).toBe("/image.png?version=3");
+  });
+
+  it("should preserve first segment with hash only", () => {
+    expect(
+      normalizePathname("image.png#anchor", { ignoreDomainExtensions: [".png"] })
+    ).toBe("/image.png#anchor");
+  });
+
+  it("should preserve first segment with query + hash + trailing slash", () => {
+    expect(
+      normalizePathname("archive.tar.gz?x=1#top/", {
+        ignoreDomainExtensions: [".tar.gz"],
+        keepTrailingSlash: true
+      })
+    ).toBe("/archive.tar.gz?x=1#top/");
+  });
+
+  it("should preserve first segment with emoji in filename", () => {
+    expect(
+      normalizePathname("🚀.js?module=true", { ignoreDomainExtensions: [".js"] })
+    ).toBe("/🚀.js?module=true");
+  });
+
+  it("should preserve first segment when relative path looks like domain", () => {
+    expect(
+      normalizePathname("example.com.js/path/file", { ignoreDomainExtensions: [".js"] })
+    ).toBe("/example.com.js/path/file");
+  });
+
+  it("should ignore ignoreDomainExtensions if first segment is protocol + domain", () => {
+    expect(
+      normalizePathname("https://example.com/script.js", {
+        ignoreDomainExtensions: [".js"]
+      })
+    ).toBe("/script.js");
+
+    expect(
+      normalizePathname("http://sub.domain.com/archive.tar.gz", {
+        ignoreDomainExtensions: [".tar.gz"]
+      })
+    ).toBe("/archive.tar.gz");
+  });
+
+  it("should throw TypeError when ignoreDomainExtensions contains non-string or invalid string", () => {
+    expect(() =>
+      normalizePathname("file.png", { ignoreDomainExtensions: [123 as any] })
+    ).toThrow(TypeError);
+
+    expect(() => normalizePathname("file.png", { ignoreDomainExtensions: [""] })).toThrow(
+      TypeError
+    );
+
+    expect(() =>
+      normalizePathname("file.png", { ignoreDomainExtensions: [".png", "jpg"] })
+    ).toThrow(TypeError);
+  });
+
+  it("should handle Set<string> correctly", () => {
+    expect(
+      normalizePathname("archive.tar.bz#download", {
+        ignoreDomainExtensions: new Set([".tar.bz"])
+      })
+    ).toBe("/archive.tar.bz#download");
   });
 });

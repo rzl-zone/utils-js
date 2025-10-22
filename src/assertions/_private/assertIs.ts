@@ -16,6 +16,7 @@ const validType = Object.values({
   ...FIXES_RAW,
   plainobject: "Plain Object"
 } as const);
+
 type RequiredValidType =
   | Lowercase<(typeof validType)[number]>
   | Capitalize<(typeof validType)[number]>
@@ -103,9 +104,95 @@ export type OptionsAssertIs = Prettify<
      * ```
      */
     message?: OptionsMessageAssertIs;
+
+    /** -------------------------------------------------------
+     * * ***Custom error type for assertion failures.***
+     * -------------------------------------------------------
+     * **This option allows overriding the default error type** that will be thrown
+     * when a value does not match the required type.
+     *
+     * - **Behavior:**
+     *    - Must be one of the standard JavaScript built-in error types:
+     *      `"Error" | "EvalError" | "RangeError" | "ReferenceError" | "SyntaxError" | "TypeError" | "URIError"`
+     *    - **Default:** `"TypeError"` if not provided or if an invalid value is passed.
+     *    - The assertion function will **always throw a valid built-in error**, ensuring
+     *   fallback to `TypeError` in case of an unknown or incorrect type.
+     * @example
+     * ```ts
+     * // Valid: Throw a RangeError instead of TypeError
+     * { errorType: "RangeError" }
+     *
+     * // Valid: Throw a ReferenceError
+     * { errorType: "ReferenceError" }
+     *
+     * // Invalid value ➔ fallback to TypeError
+     * { errorType: "SomeUnknownError" as ErrorType }
+     * ```
+     */
+    errorType?: ErrorType;
   } & PickStrict<GetPreciseTypeOptions, "formatCase">,
   { recursive: true }
 >;
+
+type ErrorType =
+  | "Error"
+  | "EvalError"
+  | "RangeError"
+  | "ReferenceError"
+  | "SyntaxError"
+  | "TypeError"
+  | "URIError";
+
+/** -------------------------------------------------------
+ * * ***Throws a JavaScript built-in error based on type.***
+ * -------------------------------------------------------
+ * **This function asserts and throws a specific built-in error (`ErrorType`) with an optional message.**
+ * - **Behavior:**
+ *    1. Throws the error corresponding to the `type` argument:
+ *       - `"Error"` ➔ `Error`
+ *       - `"EvalError"` ➔ `EvalError`
+ *       - `"RangeError"` ➔ `RangeError`
+ *       - `"ReferenceError"` ➔ `ReferenceError`
+ *       - `"SyntaxError"` ➔ `SyntaxError`
+ *       - `"TypeError"` ➔ `TypeError`
+ *       - `"URIError"` ➔ `URIError`
+ *    2. **Default fallback**: If `type` does not match any case, a `TypeError` is thrown.
+ * @param {ErrorType} type - The type of error to throw.
+ * @param {string} [message] - Optional error message to include in the thrown error.
+ * @returns {never} This function never returns; it always throws.
+ * @example
+ * ```ts
+ * // Throw a RangeError with a custom message
+ * determineErrorTypeAssertion("RangeError", "Value out of range!");
+ *
+ * // Throw a TypeError with default message
+ * determineErrorTypeAssertion("TypeError");
+ *
+ * // Fallback to TypeError for unknown type (should not occur with proper ErrorType)
+ * determineErrorTypeAssertion("UnknownType" as ErrorType, "Fallback to TypeError");
+ * ```
+ * @internal
+ */
+const determineErrorTypeAssertion = (type?: ErrorType, message?: string): never => {
+  switch (type) {
+    case "Error":
+      throw new Error(message);
+    case "EvalError":
+      throw new EvalError(message);
+    case "RangeError":
+      throw new RangeError(message);
+    case "ReferenceError":
+      throw new ReferenceError(message);
+    case "SyntaxError":
+      throw new SyntaxError(message);
+    case "URIError":
+      throw new URIError(message);
+    case "TypeError":
+      throw new TypeError(message);
+    default:
+      throw new TypeError(message); // default fallback TypeError
+  }
+};
 
 type ParamsResolveErrorMessageAssertions<T> = {
   value: T;
@@ -165,10 +252,14 @@ type ParamsResolveErrorMessageAssertions<T> = {
  */
 export function resolveErrorMessageAssertions<T>(
   params: ParamsResolveErrorMessageAssertions<T>
-): string {
+): never {
   const { requiredValidType, value, options } = params || {};
 
-  const { message, formatCase } = isPlainObject(options) ? options : {};
+  const {
+    message,
+    formatCase,
+    errorType = "TypeError"
+  } = isPlainObject(options) ? options : {};
 
   const validType = toKebabCase(requiredValidType);
   const currentType = getPreciseType(value, { formatCase });
@@ -184,5 +275,5 @@ export function resolveErrorMessageAssertions<T>(
     ? message.trim()
     : defaultMessage;
 
-  return errorMessage;
+  return determineErrorTypeAssertion(errorType, errorMessage);
 }

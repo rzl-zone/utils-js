@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { assertIsNumber } from "@/assertions/number/assertIsNumber";
 
 describe("assertIsNumber", () => {
@@ -31,5 +32,46 @@ describe("assertIsNumber", () => {
 
     const doubled = maybe * 2;
     expect(doubled).toBe(84);
+  });
+});
+
+describe("assertIsNumber - respect to errorType options", () => {
+  it("throws the correct error type when errorType is specified", () => {
+    const val = "not a number" as unknown;
+    const errorTypes = [
+      "Error",
+      "EvalError",
+      "RangeError",
+      "ReferenceError",
+      "SyntaxError",
+      "TypeError",
+      "URIError"
+    ] as const;
+
+    errorTypes.forEach((type) => {
+      expect(() => assertIsNumber(val, { errorType: type })).toThrowError(
+        new globalThis[type](
+          `Parameter input (\`value\`) must be of type \`number\`, but received: \`${getPreciseType(
+            val
+          )}\`.`
+        )
+      );
+    });
+  });
+
+  it("falls back to TypeError if invalid errorType is provided", () => {
+    const val = "not a number" as unknown;
+    // @ts-expect-error: testing invalid errorType
+    expect(() => assertIsNumber(val, { errorType: "SomeUnknownError" })).toThrowError(
+      TypeError
+    );
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsNumber(val, { errorType: "SomeUnknownError" })
+    ).toThrow(
+      `Parameter input (\`value\`) must be of type \`number\`, but received: \`${getPreciseType(
+        val
+      )}\`.`
+    );
   });
 });

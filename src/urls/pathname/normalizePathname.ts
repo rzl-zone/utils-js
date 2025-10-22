@@ -1,7 +1,9 @@
-import type { Prettify } from "@rzl-zone/ts-types-plus";
+import type { OverrideTypes, Prettify } from "@rzl-zone/ts-types-plus";
 
+import { isSet } from "@/predicates/is/isSet";
 import { isNil } from "@/predicates/is/isNil";
 import { isNull } from "@/predicates/is/isNull";
+import { isArray } from "@/predicates/is/isArray";
 import { isError } from "@/predicates/is/isError";
 import { isString } from "@/predicates/is/isString";
 import { isValidDomain } from "@/predicates/is/isValidDomain";
@@ -14,6 +16,7 @@ import { removeSpaces } from "@/strings/sanitizations/removeSpaces";
 import { safeStableStringify } from "@/conversions/stringify/safeStableStringify";
 
 import { NormalizePathnameError } from "../_private/NormalizePathnameError";
+import { isUndefined } from "@/predicates/is/isUndefined";
 
 /** Options when `keepNullable` is false (default).
  *
@@ -59,11 +62,102 @@ type KeepNullableOptions = {
 };
 
 type MainNormalizePathnameOptions = {
-  /** * ***Preserve trailing slash at the end of the normalized pathname, defaultValue: `false`.***
+  /** --------------------------------------------------------
+   * * ***Preserve trailing slash at the end of the normalized pathname, defaultValue: `false`.***
+   * --------------------------------------------------------
    *
    * @defaultValue `false`
    */
   keepTrailingSlash?: boolean;
+
+  /** --------------------------------------------------------
+   * * ***Allow special localhost domain at the beginning of the pathname.***
+   * --------------------------------------------------------
+   * @description
+   * If `true`, the first segment of the pathname that is `/localhost` or `localhost`
+   * (with or without a port, e.g., `localhost:3000`) will be treated as a special domain
+   * and **removed** from the normalized pathname.
+   *
+   * - **Examples (`localhostDomain: true`)**:
+   *    - `"/localhost/path"` ➔ `"/path"`
+   *    - `"localhost:3000/path"` ➔ `"/path"`
+   *    - `"localhost"` ➔ `"/"` (entire path removed)
+   *
+   * - Only the **first path segment** is affected. Any subsequent occurrences of `"localhost"`
+   *   will remain intact.
+   *
+   * @defaultValue `false`
+   */
+  localhostDomain?: boolean;
+
+  /**
+   * --------------------------------------------------------
+   * * ***Custom list of file extensions that prevent the first path segment from being treated as a domain.***
+   * --------------------------------------------------------
+   *
+   * **Description:**
+   * - The first segment of a pathname is often interpreted as a domain (e.g., `example.com`).
+   * - If this first segment ends with any of the extensions listed here, it will **not** be considered a domain,
+   *   and will instead be preserved as part of the relative path.
+   * - This is useful for cases where filenames appear at the start of a path and you want them treated as relative paths,
+   *   such as `"image.png?version=2"` or `"archive.tar.gz#download"`.
+   * - Only the **first path segment** is affected; all other segments are processed normally.
+   * - **Ignored** if:
+   *    1. The pathname starts with a full URL protocol (`http://` or `https://`), e.g., `"https://example.com/file.png"`.
+   *    2. The first path segment is already a valid domain, e.g., `"example.com/image.png"`.
+   *
+   * **Type & Validation:**
+   * - Must be a `Set<string>` or `string[]`.
+   * - Each string **must include the leading dot**, e.g., `.png`, `.tar.gz`.
+   * - Multi-part extensions (like `.tar.gz`, `.tar.bz`) are supported.
+   * - Throws a **TypeError** if:
+   *    1. The type is not a `Set<string>` or `string[]`.
+   *    2. Any string in the array/set is empty.
+   *    3. Any string does not start with a dot (`.`).
+   *
+   * **Usage Notes:**
+   * - Only applied when the first segment is otherwise domain-like **and** pathname is relative or domain-like without protocol.
+   * - Query strings (`?x=1`) and hash fragments (`#section`) are preserved.
+   *
+   * **Examples (relative paths, option active):**
+   * ```ts
+   * normalizePathname("image.png?version=2", {
+   *   ignoreDomainExtensions: [".png", ".jpg"]
+   * });
+   * // ➔ "/image.png?version=2"
+   *
+   * normalizePathname("archive.tar.gz#download", {
+   *   ignoreDomainExtensions: new Set([".tar.gz"])
+   * });
+   * // ➔ "/archive.tar.gz#download"
+   *
+   * normalizePathname("script.js?module=true#top", {
+   *   ignoreDomainExtensions: [".js"]
+   * });
+   * // ➔ "/script.js?module=true#top"
+   * ```
+   *
+   * **Examples (full URL or explicit domain - option ignored):**
+   * ```ts
+   * normalizePathname("https://example.com/image.png?version=2", {
+   *   ignoreDomainExtensions: [".png"]
+   * });
+   * // ➔ "/image.png?version=2"  // URL is parsed normally; ignoreDomainExtensions has no effect
+   *
+   * normalizePathname("example.com/script.js?module=true#top", {
+   *   ignoreDomainExtensions: [".js"]
+   * });
+   * // ➔ "/script.js?module=true#top"  // domain recognized; option ignored
+   * ```
+   *
+   * **Notes:**
+   * - Only the **first path segment** is checked.
+   * - Prevents false-positive domain stripping for filenames that look like domains.
+   * - Throws **TypeError** if invalid type or invalid string is provided.
+   *
+   * @defaultValue `undefined` (feature inactive if not provided)
+   */
+  ignoreDomainExtensions?: Set<string> | string[];
 };
 
 /** Options for main `normalizePathname`.
@@ -100,156 +194,133 @@ type ResKeepNullable<T> = T extends string
 /** --------------------------------------------------------
  * * ***Utility: `normalizePathname`.***
  * --------------------------------------------------------
+ *
  * - **Description:**
- *    - Normalizes a given pathname string for consistent routing, URL handling, and string hygiene.
- *    - It trims whitespace, collapses redundant slashes, handles full URLs, query strings, hash fragments,
- *    - Unicode characters, emojis, and optionally preserves `null` or `undefined`.
- *    - Trailing slash behavior can be controlled via `keepTrailingSlash`.
+ *    Normalizes any pathname or URL string to a clean, predictable format.
+ *    Useful for routing, file paths, and URL handling.
+ *    - Handles:
+ *      - Leading/trailing spaces
+ *      - Internal spaces in path segments
+ *      - Redundant slashes (`//`)
+ *      - Full URLs vs relative paths
+ *      - Query (`?`) and hash (`#`) preservation
+ *      - Unicode & emoji characters
+ *      - Optional nullable preservation (`keepNullable`)
+ *      - Optional trailing slash preservation (`keepTrailingSlash`)
+ *      - Optional removal of localhost first segment (`localhostDomain`)
+ *      - Prevention of false-positive domain stripping (`ignoreDomainExtensions`)
  *
- * - **Behavior Details:**
- *    - Trims leading and trailing whitespace.
- *    - Removes all internal spaces.
- *    - Collapses multiple consecutive slashes into a single `/`.
- *    - Prepends a leading slash if missing.
- *    - Preserves trailing slash only if `keepTrailingSlash` is `true`.
- *    - Supports full URLs (`http://` or `https://`) and relative paths only also detect valid domain and
- *      subdomain (with support handle wildcard eg: *.example.com) (with optional with port) eg (localhost, localhost:3000, example.com, sub.domain.com, *.domain.test, etc).
- *    - Preserves query strings (`?key=value`) and hash fragments (`#anchor`) intact.
- *    - Handles emojis and Unicode safely.
- *    - Returns `string`, `null` or `undefined` as-is if `keepNullable` is true.
- *    - Returns `undefined` if pathname is not a string and `keepNullable` is `true`.
- *    - Returns `defaultPath` if pathname is empty-string even when `keepNullable` is true.
- *    - Returns `defaultPath` if pathname is empty/invalid and `keepNullable` is `false`.
+ * - **Key Steps Internally:**
+ *    1. Validate `options` (plain object, correct types)
+ *    2. Validate `defaultPath` (non-empty string if `keepNullable` is false)
+ *    3. Validate `ignoreDomainExtensions` (Set<string> | string[], each starts with `.`)
+ *    4. Handle nullable:
+ *       - Returns `null` / `undefined` if `keepNullable: true`
+ *       - Otherwise uses `defaultPath`
+ *    5. Trim spaces, remove internal spaces
+ *    6. If full URL: parse using `URL` constructor
+ *    7. If relative path or domain-like:
+ *       - Remove `localhost`/`localhost:port` if `localhostDomain`
+ *       - Remove first segment if domain-like and **not** in `ignoreDomainExtensions`
+ *    8. Normalize slashes
+ *    9. Ensure leading slash
+ *    10. Handle trailing slash
+ *    11. Decode Unicode safely
+ *    12. Return normalized pathname + search + hash
  *
- * - **Options (`options`)**:
- *    - `defaultPath` (***`string`***, default: **`"/"`**)
- *       - Fallback path if the input is invalid (**empty-string**, **null**, **undefined**) and
- *          `keepNullable` is **false**, if `keepNullable` is true, used only when pathname is empty-string.
- *    - `keepNullable` (***`boolean`***, default: **`false`**)
- *       - If **true**, preserves `null` or `undefined` as-is instead of returning
- *         `defaultPath` (except if `pathname` is **empty-string**).
- *    - `keepTrailingSlash` (***`boolean`***, default: **`false`**)
- *      - If **true**, preserves a trailing slash at the end of the normalized pathname.
+ * - **Error Handling:**
+ *    - **TypeError**:
+ *       - `defaultPath` invalid (non-string or empty) when `keepNullable: false`
+ *       - `keepNullable`, `keepTrailingSlash`, `localhostDomain` not boolean
+ *       - `ignoreDomainExtensions` invalid
+ *    - **NormalizePathnameError** (extends ***Error***):
+ *       - Invalid URL parsing
+ *       - Unexpected normalization errors
  *
- * @param {string | null | undefined} pathname - ***The pathname to normalize.***
- * @param {NormalizePathnameOptions} [options] - ***Configuration options.***
- *
- * @returns {string | null | undefined} ***Normalized pathname, or original nullable value if `keepNullable` is `true`
- * _(except if `pathname` is empty-string, will keep returning `defaultPath`)_.***
- *
- * @throws **{@link TypeError | `TypeError`}** if `defaultPath` is invalid when `keepNullable` is false.
- * @throws **`NormalizePathnameError` extends {@link Error | `Error`}** If normalization fails (e.g., invalid URL).
+ * - **Options:**
+ *    ```ts
+ *    {
+ *      // fallback if invalid path, default: "/"
+ *      defaultPath?: string;
+ *      // preserve null/undefined, default: false
+ *      keepNullable?: boolean;
+ *      // preserve trailing slash, default: false
+ *      keepTrailingSlash?: boolean;
+ *      // remove localhost:port first segment, default: false
+ *      localhostDomain?: boolean;
+ *      // prevent domain stripping, default: undefined
+ *      ignoreDomainExtensions?: Set<string> | string[];
+ *    }
+ *    ```
  *
  * @example
- * // Basic normalization
+ * // Basic path cleaning
  * normalizePathname("   /foo//bar  ");
  * // ➔ "/foo/bar"
  *
- * // Full URL with query and hash
+ * // Trailing slash control
+ * normalizePathname("/api//v1//user//", { keepTrailingSlash: true });
+ * // ➔ "/api/v1/user/"
+ * normalizePathname("/api//v1//user//", { keepTrailingSlash: false });
+ * // ➔ "/api/v1/user"
+ *
+ * // Full URL normalization
  * normalizePathname("https://example.com//path///to/resource?x=1#hash");
  * // ➔ "/path/to/resource?x=1#hash"
  *
- * // Empty string returns defaultPath
- * normalizePathname("   ");
- * // ➔ "/"
- *
- * // Return defaultPath if isn't valid pathname and keepNullable is `undefined` or `false`.
- * normalizePathname(null, { defaultPath: "/home" });
- * // ➔ "/home"
- *
- * // Preserve null
+ * // Null/undefined preservation
  * normalizePathname(null, { keepNullable: true });
  * // ➔ null
- *
- * // Preserve undefined
  * normalizePathname(undefined, { keepNullable: true });
  * // ➔ undefined
  *
- * // Return defaultPath if pathname is empty-string even with keepNullable
- * normalizePathname("  ", { keepNullable: true, defaultPath:"/home" });
+ * // Default fallback
+ * normalizePathname("", { defaultPath: "/home" });
  * // ➔ "/home"
  *
- * // Return undefined if pathname is not a valid-string.
- * normalizePathname(true, { keepNullable: true, defaultPath:"/home" });
- * // ➔ undefined
+ * // Localhost removal
+ * normalizePathname("localhost:3000/path/to/resource", { localhostDomain: true });
+ * // ➔ "/path/to/resource"
  *
- * // Collapse multiple slashes
- * normalizePathname("/double//slashes");
- * // ➔ "/double/slashes"
+ * // Prevent false-positive domain stripping
+ * normalizePathname("archive.tar.gz#download", { ignoreDomainExtensions: [".tar.gz"] });
+ * // ➔ "/archive.tar.gz#download"
+ * normalizePathname("image.png?version=2", { ignoreDomainExtensions: [".png"] });
+ * // ➔ "/image.png?version=2"
  *
- * // Handles emoji and Unicode
- * normalizePathname(" nested / path / 🚀 ");
- * // ➔ "/nested/path/🚀"
+ * // Emojis and Unicode
+ * normalizePathname("🔥//deep//path///🚀");
+ * // ➔ "/🔥/deep/path/🚀"
  *
- * // Query and hash preserved
- * normalizePathname("/dashboard///stats?view=all#top");
- * // ➔ "/dashboard/stats?view=all#top"
- *
- * // Leading/trailing slashes normalized
- * normalizePathname("///api//v1///user/");
- * // ➔ "/api/v1/user"
- *
- * // Keep trailing slash if option enabled
- * normalizePathname("///api//v1///user//", { keepTrailingSlash: true });
- * // ➔ "/api/v1/user/"
- *
- * // Relative-like paths handled safely
- * normalizePathname("path/to/page");
- * // ➔ "/path/to/page"
- *
- * // Query-only path
+ * // Query-only or hash-only
  * normalizePathname("?page=2");
  * // ➔ "/?page=2"
- *
- * // Hash-only path
  * normalizePathname("#section3");
  * // ➔ "/#section3"
  *
- * // URL parsing failure triggers custom error
+ * // Complex nested paths
+ * normalizePathname("   //nested///folder//file.txt  ");
+ * // ➔ "/nested/folder/file.txt"
+ *
+ * // Invalid URL triggers error
  * try {
- *    normalizePathname("http://");
+ *   normalizePathname("http://");
  * } catch (e) {
- *    // ➔ console.log(e);
+ *   // console.log(e);
  * }
  *
- * // Internal encoded spaces preserved
- * normalizePathname("/search/%20item%20");
- * // ➔ "/search/%20item%20"
- *
- * // Edge case: relative URL-like input
- * normalizePathname("localhost/path");
- * // ➔ "/path"
- * normalizePathname("localhost:3000/path");
- * // ➔ "/path"
- * normalizePathname("example.com/path");
- * // ➔ "/path"
- * normalizePathname("sub.domain.com/path");
- * // ➔ "/path"
- * normalizePathname("*.domain.com/path");
- * // ➔ "/path"
- *
- * // Deeply nested messy path
- * normalizePathname("   /🔥//deep//path///🚀  ");
- * // ➔ "/🔥/deep/path/🚀"
- *
- * // Edge case: root slash
- * normalizePathname("/");
- * // ➔ "/"
- *
- * // Edge case: multiple spaces only
- * normalizePathname("    ");
- * // ➔ "/"
+ * // First segment is domain but ignored due to extension
+ * normalizePathname("example.tar.bz/file", { ignoreDomainExtensions: [".tar.bz"] });
+ * // ➔ "/example.tar.bz/file"
  */
 export function normalizePathname<T>(
   pathname: T,
   options?: NormalizePathnameOptionsKeepNullableFalse
 ): ResUnKeepNullable<T>;
-
 export function normalizePathname<T>(
   pathname: T,
   options?: NormalizePathnameOptionsKeepNullableTrue
 ): ResKeepNullable<T>;
-
 export function normalizePathname(
   pathname: unknown,
   options: NormalizePathnameOptions = {
@@ -263,7 +334,13 @@ export function normalizePathname(
     }
   });
 
-  const { defaultPath = "/", keepNullable = false, keepTrailingSlash = false } = options;
+  const {
+    defaultPath = "/",
+    keepNullable = false,
+    keepTrailingSlash = false,
+    localhostDomain = false,
+    ignoreDomainExtensions = undefined
+  } = options;
 
   // Validate defaultPath
   if (!isNonEmptyString(defaultPath)) {
@@ -276,11 +353,59 @@ export function normalizePathname(
     );
   }
 
+  assertIsBoolean(keepNullable, {
+    message({ currentType, validType }) {
+      return `Parameter \`keepNullable\` property of the \`options\` (second parameter)  must be of type \`${validType}\`, but received: \`${currentType}\`.`;
+    }
+  });
   assertIsBoolean(keepTrailingSlash, {
     message({ currentType, validType }) {
       return `Parameter \`keepTrailingSlash\` property of the \`options\` (second parameter)  must be of type \`${validType}\`, but received: \`${currentType}\`.`;
     }
   });
+  assertIsBoolean(localhostDomain, {
+    message({ currentType, validType }) {
+      return `Parameter \`localhostDomain\` property of the \`options\` (second parameter) must be of type \`${validType}\`, but received: \`${currentType}\`.`;
+    }
+  });
+
+  let ignoreDomainExtsSet: Set<string> | undefined;
+
+  if (!isUndefined(ignoreDomainExtensions)) {
+    if (!isSet(ignoreDomainExtensions) && !isArray(ignoreDomainExtensions)) {
+      throw new TypeError(
+        `Parameter \`ignoreDomainExtensions\` must be of type a \`Set<string>\` or \`string[]\`, but received: \`${getPreciseType(
+          ignoreDomainExtensions
+        )}\`.`
+      );
+    }
+
+    ignoreDomainExtsSet = isSet(ignoreDomainExtensions)
+      ? ignoreDomainExtensions
+      : new Set(ignoreDomainExtensions);
+
+    // validation every ext
+    let idx = 0;
+    for (const ext of ignoreDomainExtsSet) {
+      if (!isNonEmptyString(ext)) {
+        throw new TypeError(
+          `Parameter \`ignoreDomainExtensions[${idx}]\` must be a \`string\` and \`non-empty string\`, but received: \`${safeStableStringify(
+            ext,
+            { keepUndefined: true }
+          )}\`.`
+        );
+      }
+      if (!ext.startsWith(".")) {
+        throw new TypeError(
+          `Parameter \`ignoreDomainExtensions[${idx}]\` must start with a dot (.), but received: ${safeStableStringify(
+            ext,
+            { keepUndefined: true }
+          )}`
+        );
+      }
+      idx++;
+    }
+  }
 
   try {
     if (keepNullable && (isNil(pathname) || !isString(pathname))) {
@@ -297,7 +422,11 @@ export function normalizePathname(
       ""
     ); // remove all space
 
-    currentPathName = stripLeadingDomain(currentPathName);
+    currentPathName = stripLeadingDomain(currentPathName, {
+      keepTrailingSlash,
+      localhostDomain,
+      ignoreDomainExtensions: ignoreDomainExtsSet
+    });
 
     let _pathName: string = currentPathName;
     let search = "";
@@ -342,18 +471,14 @@ export function normalizePathname(
     return _pathName + search + hash;
   } catch (error) {
     // Handle any errors that occur during processing
-    const err = isError(error)
-      ? error
-      : new Error("Unknown error from function `normalizePathname()`.");
-
-    throw new NormalizePathnameError(
-      `Failed to normalize pathname in function \`normalizePathname()\`: ${err.message}`,
-      err
-    );
+    throwError(error);
   }
 }
 
-function decodeUnicodeSequences(str: string): string {
+// --- Internal Helper Utils ----
+
+/** @internal */
+const decodeUnicodeSequences = (str: string): string => {
   return str.replace(/(?:%(?:[0-9A-F]{2})){2,}/gi, (match) => {
     try {
       const decoded = decodeURIComponent(match);
@@ -365,71 +490,84 @@ function decodeUnicodeSequences(str: string): string {
       return match;
     }
   });
-}
-
-function stripLeadingDomain(path: string) {
+};
+/** @internal */
+const stripLeadingDomain = (
+  path: string,
+  options: OverrideTypes<
+    MainNormalizePathnameOptions,
+    { ignoreDomainExtensions?: Set<string> }
+  >
+): string => {
   let currentPath = path;
 
-  // If full URL (has protocol), use URL parsing
-  if (/^https?:\/\//i.test(currentPath)) {
-    // Full URL with protocol
-    // if (/^(https?:\/\/)/i.test(currentPathName)) {
-    //   const url = new URL(currentPathName, "http://localhost");
-    //   _pathName = url.pathname;
-    //   search = url.search;
-    //   hash = url.hash;
-    // }
+  const { ignoreDomainExtensions, localhostDomain } = options;
 
+  // Full URL (protocol) -> only normalize path, ignore ignoreDomainExtensions
+  if (/^https?:\/\//i.test(currentPath)) {
     try {
       const url = new URL(currentPath);
-      // Return pathname + search + hash
       currentPath =
-        "/" +
-        url.pathname.replace(/^\/+/, "").replace(/\/{2,}/g, "/") +
-        url.search +
-        url.hash;
-    } catch {
-      // fallback
+        url.pathname.replace(/^\/+/, "").replace(/\/{2,}/g, "/") + url.search + url.hash;
+
+      return ensureLeadingSlash(currentPath);
+    } catch (error) {
+      // fallback: keep as-is
+      // Handle any errors that occur during processing
+      throwError(error);
     }
   }
 
-  // // Normalize slashes
-  // currentPath.replace(/\/{2,}/g, "/");
-
-  // remove leading slash for check domain-like
-  // let leadingSlash = "";
+  // relative path: remove leading slash
   if (currentPath.startsWith("/")) {
-    // leadingSlash = "/";
     currentPath = currentPath.replace(/\/{2,}/g, "/").slice(1);
   }
 
-  // take only before first slash
-  const firstPart = currentPath.split("/")[0]; // ex: example.com, localhost:3000
-  const domainPart = firstPart.split(":")[0]; // remove port
+  // take first segment
+  const segments = currentPath.split("/");
+  const firstPart = segments[0];
+  const domainPart = firstPart.split(":")[0];
 
-  if (
-    isValidDomain(domainPart, {
-      subdomain: true,
-      allowUnicode: true,
-      wildcard: true,
-      topLevel: false
-    }) ||
-    domainPart === "localhost"
-  ) {
-    currentPath = currentPath.slice(firstPart.length);
+  const isDomain = isValidDomain(domainPart, {
+    subdomain: true,
+    allowUnicode: true,
+    wildcard: true,
+    allowLocalhost: localhostDomain,
+    allowPort: true,
+    allowProtocol: true,
+    topLevel: false
+  });
+
+  // ignoreDomainExtensions only applies for relative/non-protocol paths
+  let hasIgnoredExtension = false;
+  if (ignoreDomainExtensions) {
+    for (const ext of ignoreDomainExtensions) {
+      if (firstPart.endsWith(ext)) {
+        hasIgnoredExtension = true;
+        break;
+      }
+    }
   }
 
-  // const domainLikeStrict =
-  //   /^(?:https?:\/\/)?(?:[\w.-]+\.[a-z]{2,}|localhost)(:\d+)?(?=\/|$)/i;
-  // if (
-  //   !/^(https?:\/\/)/i.test(currentPathName) &&
-  //   domainLikeStrict.test(currentPathName)
-  // ) {
-  //   currentPathName = currentPathName.replace(domainLikeStrict, "");
-  // }
+  if (isDomain && !hasIgnoredExtension) {
+    segments.shift(); // remove first segment
+  }
 
-  // Ensure prepend leading slash
-  if (!currentPath.startsWith("/")) currentPath = "/" + currentPath;
-
-  return currentPath;
-}
+  return ensureLeadingSlash(segments.join("/"));
+};
+/** @internal */
+const ensureLeadingSlash = (path: string): string => {
+  if (!path.startsWith("/")) path = "/" + path;
+  return path;
+};
+/** @internal */
+const throwError = (error: unknown): never => {
+  // Handle any errors that occur during processing
+  const err = isError(error)
+    ? error
+    : new Error("Unknown error from function `normalizePathname()`.");
+  throw new NormalizePathnameError(
+    `Failed to normalize pathname in function \`normalizePathname()\`: ${err.message}`,
+    err
+  );
+};

@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { assertIsBigInt } from "@/assertions/number/assertIsBigInt";
 
 describe("assertIsBigInt", () => {
@@ -40,5 +41,46 @@ describe("assertIsBigInt", () => {
         formatCase: "toKebabCase"
       })
     ).toThrowError("Expected big-int but got (number).");
+  });
+});
+
+describe("assertIsBigInt - respect to errorType options", () => {
+  it("throws the correct error type when errorType is specified", () => {
+    const val = 123 as unknown;
+    const errorTypes = [
+      "Error",
+      "EvalError",
+      "RangeError",
+      "ReferenceError",
+      "SyntaxError",
+      "TypeError",
+      "URIError"
+    ] as const;
+
+    errorTypes.forEach((type) => {
+      expect(() => assertIsBigInt(val, { errorType: type })).toThrowError(
+        new globalThis[type](
+          `Parameter input (\`value\`) must be of type \`big-int\`, but received: \`${getPreciseType(
+            val
+          )}\`.`
+        )
+      );
+    });
+  });
+
+  it("falls back to TypeError if invalid errorType is provided", () => {
+    const val = 123 as unknown;
+    // @ts-expect-error: testing invalid errorType
+    expect(() => assertIsBigInt(val, { errorType: "SomeUnknownError" })).toThrowError(
+      TypeError
+    );
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsBigInt(val, { errorType: "SomeUnknownError" })
+    ).toThrow(
+      `Parameter input (\`value\`) must be of type \`big-int\`, but received: \`${getPreciseType(
+        val
+      )}\`.`
+    );
   });
 });

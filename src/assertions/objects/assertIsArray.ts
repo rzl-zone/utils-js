@@ -22,20 +22,32 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
  * -------------------------------------------------------
  * **This function is an **assertion function**.**
  * - **Behavior:**
- *    - Validates that the given `value` is a **array**.
+ *    - Validates that the given `value` is an **array**.
  *    - After it returns successfully, TypeScript narrows the type of `value` to `array` **(generic support)**.
  *    - ✅ If `value` is an `array` ➔ execution continues normally.
- *    - ❌ If `value` is not an `array` ➔ throws a `TypeError` with either:
+ *    - ❌ If `value` is not an `array` ➔ throws a built-in error with either:
  *      - A custom error message (`options.message`), or
  *      - A default message including the actual type.
+ * - **⚠️ Error type selection (`options.errorType`):**
+ *    - You can override the type of error thrown when validation fails.
+ *    - Must be one of the standard JavaScript built-in errors:
+ *      - [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) |
+ *        [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) |
+ *        [`EvalError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError) |
+ *        [`RangeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) |
+ *        [`ReferenceError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) |
+ *        [`SyntaxError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError) |
+ *        [`URIError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError)
+ *    - **Default:** `"TypeError"` if not provided or invalid.
  * @template T - The input type being asserted.
  * @param {*} value - ***The value to validate.***
  * @param {OptionsAssertIs} [options]
  *  ***Optional configuration:***
  *   - `message`: A custom error message (`string` or `function`).
+ *   - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
  *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
  * @returns {boolean} Narrows `value` to an `array` **(generic support)** if no error is thrown.
- * @throws **{@link TypeError | `TypeError`}** if the value is not an array.
+ * @throws [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) | [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) | [`EvalError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError) | [`RangeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) | [`ReferenceError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) | [`SyntaxError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError) | [`URIError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError) if the value is not an array.
  * @example
  * ```ts
  * // ✅ Simple usage
@@ -50,11 +62,13 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
  * assertIsArray(42, { message: "Must be an array!" });
  * // ➔ TypeError: "Must be an array!"
  *
+ * // ❌ Throws RangeError instead of TypeError
+ * assertIsArray(42, { errorType: "RangeError" });
+ * // ➔ RangeError: "Parameter input (`value`) must be of type `array`, but received: `number`."
+ *
  * // ❌ Throws with custom function message + case formatting
  * assertIsArray(42n, {
- *   message: ({ currentType, validType }) => {
- *     return `Expected ${validType} but got (${currentType}).`;
- *   },
+ *   message: ({ currentType, validType }) => `Expected ${validType} but got (${currentType}).`,
  *   formatCase: "toKebabCase"
  * });
  * // ➔ TypeError: "Expected array but got (big-int)."
@@ -65,8 +79,7 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
  * const mixedValue: string | number[] | undefined = getUserInput();
  *
  * // ❌ Throws if not array
- * // ⚠️ Code below after this call, will NOT be executed if TypeError is thrown
- * assertIsArray(mixedValue, { message: "Must be an array!" });
+ * assertIsArray(mixedValue, { message: "Must be an array!", errorType: "RangeError" });
  *
  * // ✅ After this call, TypeScript knows `mixedValue` is narrowed to number[]
  * const result: number[] = mixedValue; // ➔ Safe to use
@@ -88,11 +101,9 @@ export function assertIsArray(
 export function assertIsArray<T>(value: T, options?: OptionsAssertIs): unknown {
   if (isArray(value)) return;
 
-  const errorMessage = resolveErrorMessageAssertions({
+  resolveErrorMessageAssertions({
     value,
     options,
     requiredValidType: "array"
   });
-
-  throw new TypeError(errorMessage);
 }

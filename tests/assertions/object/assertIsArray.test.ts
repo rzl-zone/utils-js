@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { getPreciseType } from "@/predicates/type/getPreciseType";
 import { assertIsArray } from "@/assertions/objects/assertIsArray";
 
 describe("assertIsArray", () => {
@@ -44,5 +45,46 @@ describe("assertIsArray", () => {
     assertIsArray(mixed);
     // TS should know it's number[] now
     expect(mixed.every((x) => typeof x === "number")).toBe(true);
+  });
+});
+
+describe("assertIsArray - respect to errorType options", () => {
+  it("throws the correct error type when errorType is specified", () => {
+    const val = 123 as unknown;
+    const errorTypes = [
+      "Error",
+      "EvalError",
+      "RangeError",
+      "ReferenceError",
+      "SyntaxError",
+      "TypeError",
+      "URIError"
+    ] as const;
+
+    errorTypes.forEach((type) => {
+      expect(() => assertIsArray(val, { errorType: type })).toThrowError(
+        new globalThis[type](
+          `Parameter input (\`value\`) must be of type \`array\`, but received: \`${getPreciseType(
+            val
+          )}\`.`
+        )
+      );
+    });
+  });
+
+  it("falls back to TypeError if invalid errorType is provided", () => {
+    const val = 123 as unknown;
+    // @ts-expect-error: testing invalid errorType
+    expect(() => assertIsArray(val, { errorType: "SomeUnknownError" })).toThrowError(
+      TypeError
+    );
+    expect(() =>
+      // @ts-expect-error: testing invalid errorType
+      assertIsArray(val, { errorType: "SomeUnknownError" })
+    ).toThrow(
+      `Parameter input (\`value\`) must be of type \`array\`, but received: \`${getPreciseType(
+        val
+      )}\`.`
+    );
   });
 });
