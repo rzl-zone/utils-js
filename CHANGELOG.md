@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.9.1](https://github.com/rzl-zone/utils-js/compare/v3.9.0...v3.9.1) (2025-10-22)
+
+
+### Bug Fixes
+
+* Try update logo to circle with custom width. ([db77828](https://github.com/rzl-zone/utils-js/commit/db77828c4dcdf532ec544e83b958cae4e8ea76d1))
 ## [3.9.0](https://github.com/rzl-zone/utils-js/compare/v3.8.0...v3.9.0) (2025-10-22)
 
 
