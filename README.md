@@ -1,6 +1,6 @@
 <div align="center" style="display: flex; flex-direction: column; align-items: center;gap: 0.25rem">
   <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png">
-    <img src="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png" align="middle" alt="RzlZone Logo" style="max-width: 25%;">
+    <img src="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png" align="middle" alt="RzlZone Logo" width="110" style="max-width: 100%;">
   </a>
 
   <h1><strong>⚡️ <code>@rzl-zone/utils-js</code> 🚀</strong></h1>
