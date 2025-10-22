@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.0](https://github.com/rzl-zone/utils-js/compare/v3.8.0...v3.9.0) (2025-10-22)
+
+
+### Features
+
+* Enhance `extractFileName`, `normalizePathname`, `punycodeUtilsJS` and `assertIs*` functions. ([9fcb842](https://github.com/rzl-zone/utils-js/commit/9fcb8420ad346d4a33a74836be6bc1d98be865fe))
+
 ## [3.8.0](https://github.com/rzl-zone/utils-js/compare/v3.7.1...v3.8.0) (2025-10-17)
 
 
