@@ -1,16 +1,16 @@
-<div align="center" style="display: flex; flex-direction: column; align-items: center;gap: 0.25rem">
+<div align="center" style="display: flex; flex-direction: column; align-items: center;gap: 0rem">
   <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png">
     <img src="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png" align="middle" alt="RzlZone Logo" width="110" style="max-width: 100%;">
   </a>
 
-  <h1><strong>⚡️ <code>@rzl-zone/utils-js</code> 🚀</strong></h1>
 </div>
 
-<p align="center">
-🚀 <strong><u>Rzl Utility JS</u></strong> 🚀<br/>
-<i>A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).</i><br/>
-<i>Provides reusable helpers to simplify your JavaScript or TypeScript projects.</i><br/>
-<strong><i>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</i></strong>
+<h1 align="center">Rzl Utils JS</h1>
+
+<p align="center"> 
+  <i>A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).</i><br/>
+  <i>Provides reusable helpers to simplify your JavaScript or TypeScript projects.</i><br/>
+  <strong><i>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</i></strong>
 </p>
 
 <div align="center">
