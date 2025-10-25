@@ -52,7 +52,7 @@
 - ✨ [Features](#features)
 - 🧬 [NextJS Support](#nextjs-support)
 - 💎 [Detailed Features](#detailed-features)
-  - [Full documentation](#detailed-features--full-documentation)
+  - [Full Documentation](#detailed-features--full-documentation)
   - [CDN Usage](#detailed-features--cdn-usage)
   - [Hint Autocomplete](#detailed-features--hint-autocomplete-setup)
 - 🔥 [Usage](#usage)
