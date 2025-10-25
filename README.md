@@ -2,10 +2,9 @@
   <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png">
     <img src="https://raw.githubusercontent.com/rzl-zone/utils-js/main/logo-circle.png" align="middle" alt="RzlZone Logo" width="110" style="max-width: 100%;">
   </a>
-
 </div>
 
-<h1 align="center">Rzl Utils JS</h1>
+<h1 align="center"><strong>Utils JS (Rzl Zone)</strong></h1>
 
 <p align="center"> 
   <i>A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).</i><br/>
@@ -16,27 +15,30 @@
 <div align="center">
 
 <p>
-<a href="https://npmjs.com/package/@rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/npm/v/@rzl-zone/utils-js?color=blue&style=flat-rounded" alt="Latest Version on NPM" data-canonical-src="https://img.shields.io/npm/v/@rzl-zone/utils-js?color=blue&amp;style=flat-rounded">
-</a>
-<a href="https://npmjs.com/package/@rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/npm/dt/@rzl-zone/utils-js?style=flat-rounded" alt="Downloads">
-</a>
-<a href="https://nodejs.org/en/" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/badge/node-≥16.0.0-blue.svg?logo=node.js&style=flat-rounded" alt="Node.js">
-</a>
-<a href="https://github.com/rzl-zone/utils-js/blob/main/CONTRIBUTING.md" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome">
-</a>
-<a href="https://github.com/rzl-zone/utils-js/blob/main/LICENSE.md" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license">
-</a>
-<a href="https://github.com/rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/badge/GitHub-rzl--zone%2Futils--js-181717?logo=github" alt="GitHub">
-</a>
-<a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">
-  <img src="https://img.shields.io/badge/Repo-on%20GitHub-181717?logo=github&style=flat-rounded" alt="Repo on GitHub">
-</a>
+  <a href="https://npmjs.com/package/@rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/npm/v/@rzl-zone/utils-js?logo=npm&label=Latest%20Version&color=4CAF50&logoColor=CB3837&style=flat-rounded" alt="Latest Version on NPM">
+  </a>
+  <a href="https://npmjs.com/package/@rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/npm/dt/@rzl-zone/utils-js?logo=npm&label=Total%20Downloads&color=007EC6&logoColor=CB3837&style=flat-rounded" alt="NPM Total Downloads">
+  </a>
+  <a href="https://npmjs.com/package/@rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/npm/dw/@rzl-zone/utils-js?logo=npm&label=Weekly%20Downloads&color=CB3837&logoColor=CB3837&style=flat-rounded" alt="NPM Weekly Downloads">
+  </a>
+  <a href="https://nodejs.org/en/" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/badge/Node.js-18.18.0%2B-green.svg?logo=node.js&color=339933&style=flat-rounded" alt="Node.js">
+  </a>
+  <a href="https://github.com/rzl-zone/utils-js/blob/main/CONTRIBUTING.md" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?color=28A745" alt="PRs Welcome">
+  </a>
+  <a href="https://github.com/rzl-zone/utils-js/blob/main/LICENSE.md" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?color=3DA639" alt="GitHub license">
+  </a>
+  <a href="https://github.com/rzl-zone/utils-js" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/badge/Repo-on%20GitHub-181717?logo=github" alt="GitHub">
+  </a>
+  <a href="https://github.com/orgs/rzl-zone/repositories" target="_blank" rel="nofollow noreferrer noopener">
+    <img src="https://img.shields.io/badge/Org-rzl--zone-24292e?logo=github&style=flat-rounded" alt="Repo on GitHub">
+  </a>
 </p>
 
 </div>
@@ -50,8 +52,9 @@
 - ✨ [Features](#features)
 - 🧬 [NextJS Support](#nextjs-support)
 - 💎 [Detailed Features](#detailed-features)
-  - [Full documentation](#full-documentation-rzl-utilsjs-is-currently-under-construction-%EF%B8%8F)
-  - [Hint Autocomplete](#hint-autocomplete)
+  - [Full documentation](#detailed-features--full-documentation)
+  - [CDN Usage](#detailed-features--cdn-usage)
+  - [Hint Autocomplete](#detailed-features--hint-autocomplete-setup)
 - 🔥 [Usage](#usage)
 - ❤️ [Sponsor](#sponsor-this-package)
 - 📜 [Changelog](#changelog)
@@ -64,22 +67,22 @@
 
 <h2 id="requirements">💻 <strong>Requirements</strong></h2>
 
-- **Node.js `≥16.0.0`**  
-  This package leverages modern JavaScript & TypeScript features that require Node.js version 16.0.0 if not using Next.js, and for Next.js it must follow the official minimum Node.js version requirement depending on the version you use.  
-  - 🔗 See official Next.js documentation: 
-      <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener"><i>NextJS Installation Requirements.</i></a>
+- **Node.js `≥18.18.0`**  
+  This package leverages modern JavaScript & TypeScript features that require Node.js version 18.18.0 if not using Next.js, and for Next.js it must follow the official minimum Node.js version requirement depending on the version you use.  
+  - 🔗 See official Next.js documentation:
+      <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener"><i>NextJS Installation Requirements</i></a>.
 
 - **Works with:**
-  - ✅ Node.js (16.0.0+) - Without NextJS
-  - ✅ Node.js (18.17.0, or higher depending on NextJS version) - With NextJS
-  - ✅ Modern browsers (via bundlers like Webpack / Vite)
+  - ✅ Node.js (18.18.0+) - ***Without NextJS***.
+  - ✅ Node.js (20.9.0, or higher depending on NextJS version) - ***With NextJS***.
+  - ✅ Modern browsers (via bundlers like Webpack / Vite).
 
 - **TypeScript Build Info:**
   - Target: `ES2022`
   - Module: `ES2022`
   - Module Resolution: `bundler`
 
-  > ℹ️ Note: These TypeScript settings are used to build the package. Consumers do **not** need to match these settings unless they plan to build or modify the source code.
+  > ℹ️ Note: These TypeScript settings are used to build the package, consumers do **not** need to match these settings unless they plan to build or modify the source code.
 
 ---
 
@@ -88,19 +91,19 @@
 #### *With NPM*
 
 ```bash
-  npm install @rzl-zone/utils-js
+npm install @rzl-zone/utils-js@latest
 ```
 
 #### *With Yarn*
 
 ```bash
-  yarn add @rzl-zone/utils-js
+yarn add @rzl-zone/utils-js@latest
 ```
 
 #### *With PNPM*
 
 ```bash
-  pnpm add @rzl-zone/utils-js
+pnpm add @rzl-zone/utils-js@latest
 ```
 
 ---
@@ -130,7 +133,7 @@
 - <h3 id="nextjs-support--server-only">`@rzl-zone/utils-js/next/server`</h3>   
   Utilities meant to run in Next.js server-only contexts (like middleware or server actions) for tasks such as extracting real client IPs.  
   
-  ⚠️ Will throw if used outside a Next.js server environment.
+  > ⚠️ Will throw Error if used outside a ***Next.js* server environment**.
 
   [Read More Docs](/docs/next-js/server-only.md#docs-sub-main--title)
 
@@ -138,7 +141,13 @@
 
 <h2 id="detailed-features">💎 <strong>Detailed Features</strong></h2>
 
-  ### **Full documentation <a href="https://rzlzone.pages.dev/docs/utils-js" target="_blank" rel="nofollow noreferrer noopener">Rzl UtilsJS</a> is **currently under construction** 🏗️.**
+  <h3 id="detailed-features--full-documentation">
+    <strong>
+      Full documentation <a href="https://rzlzone.vercel.app/docs/utils-js" target="_blank" rel="nofollow noreferrer noopener">Utils JS</a> is 
+        <strong>currently under construction 🏗️</strong>.
+    </strong>
+  </h3>
+
   #### For now, explore the examples or dive into the source — all utilities are documented via **TSDoc** and typed properly.
   
   ```ts
@@ -163,16 +172,11 @@
 
   ---
   
-  ### **CDN Usage [@rzl-zone/utils-js](https://www.npmjs.com/package/@rzl-zone/utils-js)**
-
-  > ⚠️ **Note:**  
-  > When using the library via CDN in the browser:  
-  > - Always include first the \<script\> tag before your own scripts when using the CDN version.
-  > - Some Node.js-specific utilities may **not** be available, e.g.:  
-  >   - Category utils of `tailwind`, `next`, `next/server`.  
-  >   - Server-only features (like Next.js helpers) will **not** be available.  
-  > - The global object provided is `RzlUtilsJs`.  
-  > - The CDN bundle is **~350KB minified**. For production, consider using bundlers or npm packages for smaller size and tree-shaking.
+  <h3 id="detailed-features--cdn-usage">
+    <strong>
+      CDN Usage.
+    </strong>
+  </h3>
 
   #### **Including via CDN**
   ```xml
@@ -183,9 +187,21 @@
   <script src="https://unpkg.com/@rzl-zone/utils-js@latest"></script>
   ```
 
+  > ⚠️ **Note:**  
+  > When using the library via CDN in the browser:  
+  > - Always include first the \<script\> tag before your own scripts when using the CDN version.
+  > - Some Node.js-specific utilities may **not** be available, e.g.:  
+  >   - Category utils of `tailwind`, `next`, `next/server`.  
+  >   - Server-only features (like Next.js helpers) will **not** be available.  
+  > - The global object provided is `RzlUtilsJs`.  
+  > - The CDN bundle is **~350KB minified**, for production, consider using bundlers or npm packages for smaller size and tree-shaking.
 
   ---
-  ### **Hint: Autocomplete Setup (Step by Step)**
+  <h3 id="detailed-features--hint-autocomplete-setup">
+    <strong>
+      Hint: Autocomplete Setup (Step by Step).
+    </strong>
+  </h3>
 
   #### Make TypeScript & VSCode automatically provide autocomplete for `@rzl-zone/utils-js` without needing triple-slash references in every file:
 
@@ -194,11 +210,11 @@
     - Make sure the package is installed:
 
       ```bash
-      npm install @rzl-zone/utils-js
+      npm install @rzl-zone/utils-js@latest
       # or
-      yarn add @rzl-zone/utils-js
+      yarn add @rzl-zone/utils-js@latest
       # or
-      pnpm add @rzl-zone/utils-js
+      pnpm add @rzl-zone/utils-js@latest
       ```
 
   - 2️⃣ **Create a types folder.**
@@ -220,14 +236,17 @@
 
       ```ts
       /// <reference types="@rzl-zone/utils-js" />
-      ``` 
+      ```
 
       - This tells TypeScript to include the types from `@rzl-zone/utils-js` globally.
       - You can add more references here if needed, for example:
 
       ```ts
-      /// <reference types="node" />
       /// <reference types="@rzl-zone/utils-js" />
+
+      // eg more references (if needed):
+      /// <reference types="node" />
+      /// <reference types="react" />
       ``` 
 
   - 4️⃣ **Update tsconfig.json.**
@@ -238,6 +257,7 @@
       // tsconfig.json
       {
         "compilerOptions": { 
+          "strict": true,
           "typeRoots": ["./types", "./node_modules/@types"],
           // other your config...
         },
@@ -266,7 +286,7 @@
       ```
       >ℹ️ ***Tip:*** *For JS projects, consider adding "checkJs": true for better IntelliSense.*
     
-  **Now, all types from @rzl-zone/utils-js are globally available, and you don’t need "types": ["@rzl-zone/utils-js"] in tsconfig.json.** 
+  #### **Now, all types from `@rzl-zone/utils-js` are globally available, and you don’t need `"types": ["@rzl-zone/utils-js"]` in tsconfig.json.**
 
   <!-- - <h4 id="detailed-features--assertions">
       Assertions - 
@@ -309,7 +329,7 @@ console.log(isServer());
 <h2 id="sponsor-this-package">❤️ <strong>Sponsor this package</strong></h2>
 
 **Help support development:**    
-*[👉 **Become a sponsor**](https://github.com/sponsors/rzl-app)*
+*[👉 **Become a sponsor**](https://github.com/sponsors/rzl-app).*
 
 ---
 
@@ -327,7 +347,7 @@ console.log(isServer());
 
 <h2 id="security">🔒 <strong>Security</strong></h2>
 
-**Please report issues to [rizalvindwiky1998@gmail.com](mailto:rizalvindwiky1998@gmail.com).**
+**Please report issues to [rzlzone.dev@gmail.com](mailto:rzlzone.dev@gmail.com).**
 
 ---
 
