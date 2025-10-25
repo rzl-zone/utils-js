@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.10.0](https://github.com/rzl-zone/utils-js/compare/v3.9.1...v3.10.0) (2025-10-25)
+
+
+### Features
+
+* **Config:** **Update** _requirement_ minimum engines (`Node.js` to &gt;=18.18.0), _update_ (`README.md`, `CHANGELOG.md`). ([866c158](https://github.com/rzl-zone/utils-js/commit/866c15827e6ac12a5af485076adb9553756de5cc))
+
 ## [3.9.1](https://github.com/rzl-zone/utils-js/compare/v3.9.0...v3.9.1) (2025-10-22)
 
 
