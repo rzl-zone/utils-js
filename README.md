@@ -4,12 +4,14 @@
   </a>
 </div>
 
-<h1 align="center"><strong>Utils JS (Rzl Zone)</strong></h1>
+<h1 align="center"><strong>UtilsJS</strong></h1>
 
 <p align="center"> 
-  <i>A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like Webpack/Vite).</i><br/>
+  <i>
+    A lightweight, modern TypeScript utility library for Node.js & browser (via bundlers like <a href="https://webpack.js.org"><code>Webpack</code></a>, <a href="https://vercel.com/blog/turbopack"><code>Turbopack</code></a>, or <a href="https://vite.dev/"><code>Vite</code></a>).
+  </i><br/>
   <i>Provides reusable helpers to simplify your JavaScript or TypeScript projects.</i><br/>
-  <strong><i>Built with ❤️ by <a href="https://github.com/rzl-app" target="_blank" rel="nofollow noreferrer noopener">@rzl-app</a>.</i></strong>
+  <strong><i>Built with ❤️ by <a href="https://github.com/rzl-zone" target="_blank" rel="nofollow noreferrer noopener">@rzl-zone</a>.</i></strong>
 </p>
 
 <div align="center">
@@ -70,19 +72,20 @@
 - **Node.js `≥18.18.0`**  
   This package leverages modern JavaScript & TypeScript features that require Node.js version 18.18.0 if not using Next.js, and for Next.js it must follow the official minimum Node.js version requirement depending on the version you use.  
   - 🔗 See official Next.js documentation:
-      <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener"><i>NextJS Installation Requirements</i></a>.
+      <a href="https://nextjs.org/docs/getting-started/installation#system-requirements" target="_blank" rel="nofollow noreferrer noopener"><i><strong>NextJS System Requirements</strong></i></a>.
 
 - **Works with:**
   - ✅ Node.js (18.18.0+) - ***Without NextJS***.
   - ✅ Node.js (20.9.0, or higher depending on NextJS version) - ***With NextJS***.
-  - ✅ Modern browsers (via bundlers like Webpack / Vite).
+  - ✅ Modern browsers (via bundlers like [`Webpack`](https://webpack.js.org), [`Turbopack`](https://vercel.com/blog/turbopack), or [`Vite`](https://vite.dev)).
 
 - **TypeScript Build Info:**
   - Target: `ES2022`
   - Module: `ES2022`
   - Module Resolution: `bundler`
 
-  > ℹ️ Note: These TypeScript settings are used to build the package, consumers do **not** need to match these settings unless they plan to build or modify the source code.
+  > ℹ️ Note:  
+  > These TypeScript settings are used to build the package, consumers do **not** need to match these settings unless they plan to build or modify the source code.
 
 ---
 
@@ -121,21 +124,21 @@ pnpm add @rzl-zone/utils-js@latest
 
 **This package also provides utilities specially built for Next.js environments, neatly separated into their own entry points:**
 
-- <h3 id="nextjs-support--globals">`@rzl-zone/utils-js/next`</h3>  
+- <h4 id="nextjs-support--globals"><strong><code>@rzl-zone/utils-js/next</code></strong></h4>  
   Helpers for building URLs, generating dynamic routes, reading environment variables, etc.   
 
   ✅ Safe to use in both Next.js pages & API routes.
 
-  [Read More Docs](/docs/next-js/global.md#docs-sub-main--title)
+  [**Read More Docs**](/docs/next-js/global.md#docs-sub-main--title)
 
   ***
 
-- <h3 id="nextjs-support--server-only">`@rzl-zone/utils-js/next/server`</h3>   
+- <h4 id="nextjs-support--server-only"><strong><code>@rzl-zone/utils-js/next/server</code></strong></h4>  
   Utilities meant to run in Next.js server-only contexts (like middleware or server actions) for tasks such as extracting real client IPs.  
   
   > ⚠️ Will throw Error if used outside a ***Next.js* server environment**.
 
-  [Read More Docs](/docs/next-js/server-only.md#docs-sub-main--title)
+  [**Read More Docs**](/docs/next-js/server-only.md#docs-sub-main--title)
 
 ---
 
@@ -143,7 +146,7 @@ pnpm add @rzl-zone/utils-js@latest
 
   <h3 id="detailed-features--full-documentation">
     <strong>
-      Full documentation <a href="https://rzlzone.vercel.app/docs/utils-js" target="_blank" rel="nofollow noreferrer noopener">Utils JS</a> is 
+      Full documentation <a href="https://rzlzone.vercel.app/docs/utils-js" target="_blank" rel="nofollow noreferrer noopener">UtilsJS</a> is 
         <strong>currently under construction 🏗️</strong>.
     </strong>
   </h3>
@@ -168,7 +171,7 @@ pnpm add @rzl-zone/utils-js@latest
   ```
   #### Place your cursor inside { } or after "@rzl-zone/utils-js/{{ | }}" then press Ctrl+Space to see all available functions/types with full TSDoc hints.
 
-  > ***⚠️ Note:*** Starting from version `3.4.0+`, the extra TypeScript types (e.g., `OmitStrict`, `PartialOnly`, etc), have been removed from the package. To use them, you now need to install **[`@rzl-zone/ts-types-plus`](https://www.npmjs.com/package/@rzl-zone/ts-types-plus)** separately.
+  > ***⚠️ Note:*** Starting from version `3.4.0+`, the extra TypeScript types (e.g., `OmitStrict`, `PartialOnly`, etc), have been removed from the package, to use them, you now need to install **[`@rzl-zone/ts-types-plus`](https://www.npmjs.com/package/@rzl-zone/ts-types-plus)** separately.
 
   ---
   
@@ -258,10 +261,16 @@ pnpm add @rzl-zone/utils-js@latest
       {
         "compilerOptions": { 
           "strict": true,
-          "typeRoots": ["./types", "./node_modules/@types"],
+          "typeRoots": [
+            "./types", 
+            "./node_modules/@types"
+          ],
           // other your config...
         },
-        "include": ["src", "types"],
+        "include": [
+          "src", 
+          "types"
+        ],
         // other your config...
       }
       ```
@@ -277,10 +286,16 @@ pnpm add @rzl-zone/utils-js@latest
       {
         "compilerOptions": {
           "checkJs": true,  // Optional, enables type checking 
-          "typeRoots": ["./types", "./node_modules/@types"],
+          "typeRoots": [
+            "./types", 
+            "./node_modules/@types"
+          ],
           // other your config...
         },
-        "include": ["src", "types"],
+        "include": [
+          "src", 
+          "types"
+        ],
         // other your config...
       }
       ```
@@ -365,7 +380,8 @@ console.log(isServer());
 
 ---
 
-✅ **Enjoy using `@rzl-zone/utils-js`?**  
+<h2>✅ <strong>Enjoy using <code>@rzl-zone/utils-js</code>?</strong></h2>
+
 *Star this repo [⭐](https://github.com/rzl-zone/utils-js) and share it with other JavaScript developers!*
 
 ---
