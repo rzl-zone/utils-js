@@ -84,6 +84,8 @@
   - Module: `ES2022`
   - Module Resolution: `bundler`
 
+  <br/>
+  
   > ℹ️ Note:  
   > These TypeScript settings are used to build the package, consumers do **not** need to match these settings unless they plan to build or modify the source code.
 
