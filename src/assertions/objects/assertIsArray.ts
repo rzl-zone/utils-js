@@ -89,15 +89,15 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
 export function assertIsArray<T extends unknown[]>(
   value: T,
   options?: OptionsAssertIs
-): value is Extract<T, unknown[]>;
+): asserts value is Extract<T, unknown[]>;
 export function assertIsArray<T extends readonly unknown[]>(
   value: T,
   options?: OptionsAssertIs
-): value is Extract<T, readonly unknown[]>;
+): asserts value is Extract<T, readonly unknown[]>;
 export function assertIsArray(
   value: unknown,
   options?: OptionsAssertIs
-): value is unknown[];
+): asserts value is unknown[];
 export function assertIsArray<T>(value: T, options?: OptionsAssertIs): unknown {
   if (isArray(value)) return;
 
