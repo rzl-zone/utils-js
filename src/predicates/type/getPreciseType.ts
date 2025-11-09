@@ -1,5 +1,3 @@
-/* eslint-disable no-useless-escape */
-
 import { isNaN } from "../is/isNaN";
 import { isNull } from "../is/isNull";
 import { isError } from "../is/isError";
@@ -7,146 +5,36 @@ import { isObject } from "../is/isObject";
 import { isBuffer } from "../is/isBuffer";
 import { isFunction } from "../is/isFunction";
 import { isPlainObject } from "../is/isPlainObject";
-import { isObjectOrArray } from "../is/isObjectOrArray";
 import { isNumberObject } from "../is/isNumberObject";
 import { isStringObject } from "../is/isStringObject";
 import { isBooleanObject } from "../is/isBooleanObject";
+import { isObjectOrArray } from "../is/isObjectOrArray";
 import { isInfinityNumber } from "../is/isInfinityNumber";
-import { __internalAcronyms__, FIXES_RAW } from "./_private/getPreciseType.utils";
 
-import { slugify } from "@/strings/cases/slugify";
-import { toDotCase } from "@/strings/cases/toDotCase";
-import { toCamelCase } from "@/strings/cases/toCamelCase";
-import { toKebabCase } from "@/strings/cases/toKebabCase";
-import { toSnakeCase } from "@/strings/cases/toSnakeCase";
-import { toLowerCase } from "@/strings/cases/toLowerCase";
-import { toPascalCase } from "@/strings/cases/toPascalCase";
-import { toPascalCaseSpace } from "@/strings/cases/toPascalCaseSpace";
-
-/** Normalize a string key for consistent lookup.
- *
- * Removes spaces, underscores, and hyphens,
- * then converts all characters to lowercase.
- *
- * @param {string} k - The input key string to normalize.
- * @returns {string} The normalized lowercase key without spaces or symbols.
- *
- */
-const normalizeKey = (k: string): string => k.replace(/[\s_\-]+/g, "").toLowerCase();
-
-/** Pre-computes a normalized FIXES lookup table to allow flexible case- and separator-insensitive matching of type keys. */
-const FIXES: Record<string, string> = Object.entries(FIXES_RAW).reduce((acc, [k, v]) => {
-  acc[normalizeKey(k)] = v;
-  return acc;
-}, {} as Record<string, string>);
-
-/** Detects if a value is a Proxy by attempting to define/delete a property.
- *
- * This works because Proxy traps will throw or behave differently on such operations.
- *
- * Note: Transparent Proxy without traps will NOT be detected.
- *
- * @param {unknown} value - Value to test
- * @returns {boolean} True if likely a Proxy, false otherwise
- */
-function isProxy(value: unknown): boolean {
-  if (typeof value !== "object" || value === null) return false;
-
-  // Some built-in types we can exclude early to avoid false positives
-  const tag = Object.prototype.toString.call(value);
-  const skipTags = [
-    "[object Array]",
-    "[object Date]",
-    "[object RegExp]",
-    "[object Map]",
-    "[object Set]",
-    "[object WeakMap]",
-    "[object WeakSet]",
-    "[object Function]",
-    "[object Error]",
-    "[object Promise]",
-    "[object Generator]",
-    "[object GeneratorFunction]",
-    "[object AsyncFunction]"
-  ];
-  if (skipTags.includes(tag)) return false;
-
-  try {
-    Reflect.defineProperty(value, "__proxy_detect__", {
-      configurable: true,
-      value: 1
-    });
-    Reflect.deleteProperty(value, "__proxy_detect__");
-    return false;
-  } catch {
-    return true;
-  }
-}
-
-/** ----------------------------------------------------------
- * * ***Helper function to convert an input string to a specific casing/format.***
- * ----------------------------------------------------------
- *
- * @description
- * - Chooses the conversion function based on the `formatCase` option.
- * - Supports multiple casing/formatting functions:
- *   - `toPascalCaseSpace`.
- *   - `toPascalCase`.
- *   - `toCamelCase`.
- *   - `toKebabCase`.
- *   - `toSnakeCase`.
- *   - `toDotCase`.
- *   - `slugify`.
- * - Uses `__internalAcronyms__` as ignored words for certain conversion functions.
- *
- * @param {string} input - The string to convert.
- * @param {GetPreciseTypeOptions["formatCase"]} formatCase - The conversion method to apply.
- * @returns {string} The converted string according to the selected format.
- *
- * @example
- * converterHelper("hello world", "toCamelCase");
- * // ➔ "helloWorld"
- *
- * @example
- * converterHelper("my URL path", "slugify");
- * // ➔ "my-URL-path"
- */
-const converterHelper = (
-  input: string,
-  formatCase: GetPreciseTypeOptions["formatCase"]
-): string => {
-  if (formatCase === "toPascalCaseSpace")
-    return toPascalCaseSpace(input, __internalAcronyms__);
-  if (formatCase === "slugify") return slugify(input, __internalAcronyms__);
-  if (formatCase === "toCamelCase") return toCamelCase(input, __internalAcronyms__);
-  if (formatCase === "toDotCase") return toDotCase(input, __internalAcronyms__);
-  if (formatCase === "toKebabCase") return toKebabCase(input, __internalAcronyms__);
-  if (formatCase === "toPascalCase") return toPascalCase(input, __internalAcronyms__);
-  if (formatCase === "toSnakeCase") return toSnakeCase(input, __internalAcronyms__);
-
-  return toLowerCase(input, __internalAcronyms__);
-};
+import { PreciseType } from "./_private/getPreciseType.utils";
 
 /** ---------------------------------------------------------------------------
- * * ***Type Options for {@link getPreciseType | `getPreciseType`}.***
+ * * ***Options for controlling how {@link getPreciseType | `getPreciseType`} formats and normalizes detected types.***
  * ---------------------------------------------------------------------------
+ * These options customize the string transformation behavior and acronym handling
+ * when converting JavaScript type names to human-readable strings.
  */
 export type GetPreciseTypeOptions = {
   /** -------------------------------------------------------
    * * ***Specifies the format in which the returned string type should be transformed.***
    * -------------------------------------------------------
    * **ℹ️ For special string literals in `SPECIAL_CASES` (`"-Infinity" | "Infinity" | "NaN"`), which will remain unchanged.**
-   * @default "toLowerCase"
+   * @default "toKebabCase"
    * @description
    * Supported formats:
-   * - `"toLowerCase"` (default) — converts all letters to lowercase.
+   * - `"toKebabCase"` (default) — words separated by hyphens.
+   *   - ➔ `"result-example-type"`
+   * - `"toLowerCase"` - converts all letters to lowercase.
    *   - ➔ `"result example type"`
    * - `"toDotCase"` — words separated by dots.
    *   - ➔ `"result.example.type"`
    * - `"toCamelCase"` — first word lowercase, subsequent words capitalized.
    *   - ➔ `"resultExampleType"`
-   * - `"toKebabCase"` — words separated by hyphens.
-   *   - ➔ `"result-example-type"`
    * - `"toSnakeCase"` — words separated by underscores.
    *   - ➔ `"result_example_type"`
    * - `"toPascalCase"` — all words capitalized, no spaces.
@@ -156,7 +44,7 @@ export type GetPreciseTypeOptions = {
    * - `"slugify"` — URL-friendly slug (lowercase with hyphens).
    *   - ➔ `"result-example-type"`
    * @note
-   * ⚠️ If an invalid value is provided, the function will automatically fallback to the default `"toLowerCase"`.
+   * ⚠️ If an invalid value is provided, the function will automatically fallback to the default `"toKebabCase"`.
    */
   formatCase?:
     | "toPascalCaseSpace"
@@ -167,122 +55,250 @@ export type GetPreciseTypeOptions = {
     | "toDotCase"
     | "slugify"
     | "toLowerCase";
+
+  /** -------------------------------------------------------
+   * * ***Indicates whether internal acronyms should remain uppercase during type name formatting.***
+   * -------------------------------------------------------
+   * **When enabled (`true`), common technical acronyms (e.g., `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, `"DOM"`)**
+   * **will be preserved in their original uppercase form** instead of being lowercased or transformed by case-formatting utilities.
+   *
+   * - **When `false` (default):**
+   *    - Acronyms will be treated like normal words and affected by the chosen `formatCase`.
+   *    - Example:
+   *      - `HTMLDivElement` ➔ `"html-div-element"` (for `"toKebabCase"`)
+   *      - `DOMParser` ➔ `"dom-parser"`
+   * - **When `true`:**
+   *    - Acronyms are preserved as-is in uppercase form.
+   *    - Example:
+   *      - `HTMLDivElement` ➔ `"HTML-div-element"` (for `"toKebabCase"`)
+   *      - `DOMParser` ➔ `"DOM-parser"`
+   *
+   * @default false
+   * @description
+   * The list of recognized acronyms can be found in {@link AcronymsList | **`AcronymsList`**},
+   * which includes default entries like `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, `"DOM"`, and others.
+   *
+   * @note
+   * ⚠️ This option only affects **formatting output**, not type detection.
+   * Acronym preservation applies **after** the base type name is detected and formatted.
+   */
+  useAcronyms?: boolean;
 };
+
+/** ---------------------------------------------------------------------------
+ * * ***Type alias for the list of common acronyms preserved in uppercase.***
+ * ---------------------------------------------------------------------------
+ *
+ * Use this type to reference the full set of recognized acronyms
+ * used internally by the {@link getPreciseType | **`getPreciseType`**} function for formatting purposes.
+ */
+export type AcronymsList = (typeof PreciseType)["acronymsList"];
 
 /** ----------------------------------------------------------
  * * ***Utility-Predicate: `getPreciseType`.***
  * ----------------------------------------------------------
  * **Returns a detailed and normalized type string for the given value.**
  * @description
- * The returned string is human-readable _**toLowerCase**_ with spaces _***(by default)***_ or formatted according to the `options.formatCase` setting.
+ * The returned string is human-readable ***toKebabCase*** with spaces ***(by default)*** or formatted according to the `options.formatCase` setting.
  * - **Handles:**
  *    - Primitives (`string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`)
  *    - Built-in objects (`Array`, `Map`, `Set`, `Error subclasses`, `Typed Arrays`, `etc`)
  *    - Objects created with `Object.create(null)`
+ *    - Objects wrapper (`new String`, `new Number`, `new Boolean`)
+ *    - DOM Node type (may not be fully accurate outside the browser environment)
  *    - Generator instances
  *    - Node.js `Buffer` instances
- *    - Proxy detection (returns `"Proxy"` if detected; detection is not 100% accurate)
- *    - Uses cached mapping table (`FIXES`) for known types to provide consistent naming
+ *    - Proxy detection (returns `"Proxy"` if detected; detection ***is not 100% accurate***)
+ *    - Uses cached mapping table (`FIXES_CASTABLE_TABLE`) for known types to provide consistent naming
  *    - Falls back to constructor name or `Object.prototype.toString` tag
  * @param {*} value - The value to detect the precise type of
  * @param {GetPreciseTypeOptions} [options] - Optional configuration
  * @param {GetPreciseTypeOptions["formatCase"]} [options.formatCase="toLowerCase"]
  *   Specifies how the returned type string should be formatted.
- *   - ⚠️ Special string literals in `SPECIAL_CASES`
- *     (`"-Infinity" | "Infinity" | "NaN"`) will remain
- *     unchanged even if a different `formatCase` is applied.
+ *      - ⚠️ Special string literals in `SPECIAL_CASES`
+ *        (`"-Infinity" | "Infinity" | "NaN"`) will remain
+ *        unchanged even if a different `formatCase` is applied.
+ * @param {boolean} [options.useAcronyms=false]
+ *   Indicates whether internal acronyms should remain uppercase during formatting.
+ *      - When `true`, recognized acronyms such as `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, and `"DOM"`
+ *        are preserved in uppercase instead of being lowercased or otherwise transformed.
+ *      - When `false` (default), acronyms are formatted like regular words according to `formatCase`.
+ *      - ⚠️ This option affects **formatting output only**, not type detection.
+ *
  * @returns {string} The normalized and formatted type string
  * @example
- * getPreciseType(123);  // ➔ "number"
- * getPreciseType(null); // ➔ "null"
- * getPreciseType(/regex/,{ formatCase: "toKebabCase" });
- * // ➔ "reg-exp"
+ * getPreciseType(123);     // ➔ "number"
+ * getPreciseType(null);    // ➔ "null"
+ * getPreciseType(/regex/); // ➔ "reg-exp"
+ * getPreciseType(/regex/, { formatCase: "toPascalCase" });
+ * // ➔ "RegExp"
  * getPreciseType(function* () {}, { formatCase: "toCamelCase" });
  * // ➔ "generatorFunction"
  * getPreciseType(async function () {}, { formatCase: "toPascalCaseSpace" });
  * // ➔ "Async Function"
- * getPreciseType(NaN, { formatCase: "toKebabCase" });
- * // ➔ "NaN" (SPECIAL_CASES remain)
+ *
+ * // (SPECIAL_CASES remain)
+ * getPreciseType(NaN, { formatCase: "toLowerCase" });
+ * // ➔ "NaN"
+ * getPreciseType(Infinity, { formatCase: "toLowerCase" });
+ * // ➔ "Infinity"
+ * getPreciseType(-Infinity, { formatCase: "toLowerCase" });
+ * // ➔ "-Infinity"
+ *
+ * // Acronym usage examples:
+ * getPreciseType(new URL("https://example.com"));
+ * // ➔ "url"
+ * getPreciseType(new URL("https://example.com"), { useAcronyms: true });
+ * // ➔ "URL"
+ *
+ * getPreciseType(new URLSearchParams, { formatCase: "toPascalCase" });
+ * // ➔ "UrlSearchParams"
+ * getPreciseType(new URLSearchParams, { formatCase: "toPascalCase", useAcronyms: true });
+ * // ➔ "URLSearchParams"
  */
-export const getPreciseType = (
-  value: unknown,
-  options: GetPreciseTypeOptions = { formatCase: "toLowerCase" }
-): string => {
-  if (!isPlainObject(options)) options = {};
+export const getPreciseType = (() => {
+  const cache = new Map<string, PreciseType>();
+  const MAX_CACHE_SIZE = 25;
 
-  const formatCase = options.formatCase;
+  return (value: unknown, options: GetPreciseTypeOptions = {}): string => {
+    if (!isPlainObject(options)) options = {};
 
-  // Handle null explicitly, because typeof null === "object"
-  if (isNull(value)) {
-    // Use normalized "null" label from FIXES dictionary or fallback to "Null"
-    return converterHelper(FIXES[normalizeKey("null")] ?? "Null", formatCase);
-  }
+    // ✅ Create a stable cache key
+    const key = JSON.stringify({
+      formatCase: options.formatCase || "toKebabCase",
+      useAcronyms: options.useAcronyms ?? false
+    });
 
-  if (isNaN(value)) return "NaN";
-  if (isInfinityNumber(value)) return String(value);
+    let ClassPrecise = cache.get(key);
 
-  if (isNumberObject(value)) return converterHelper("Number Constructor", formatCase);
-  if (isStringObject(value)) return converterHelper("String Constructor", formatCase);
-  if (isBooleanObject(value)) return converterHelper("Boolean Constructor", formatCase);
+    if (!ClassPrecise) {
+      if (cache.size >= MAX_CACHE_SIZE) cache.clear();
+      ClassPrecise = new PreciseType(options);
+      cache.set(key, ClassPrecise);
+    }
 
-  // Get the primitive typeof string
-  const prim = typeof value;
+    // Handle `null` explicitly because typeof null === "object"
+    if (isNull(value)) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("null")] ?? "Null"
+      );
+    }
 
-  // For all primitives except objects and functions, return mapped or formatted type
-  if (!isObjectOrArray(value) && !isFunction(value)) {
-    // Try to find a friendly name in FIXES, otherwise convert primitive name to spaced PascalCase
-    return converterHelper(FIXES[normalizeKey(prim)] ?? prim, formatCase);
-  }
+    // Handle NaN and Infinity values
+    if (isNaN(value)) return "NaN";
+    if (isInfinityNumber(value)) return String(value);
 
-  // Node.js Buffer detection: Buffer is subclass of Uint8Array but special
-  if (isBuffer(value)) {
-    return converterHelper(FIXES[normalizeKey("buffer")] ?? "Buffer", formatCase);
-  }
+    // Handle wrapper objects like new Number(), new String(), new Boolean(), or BigInt
+    if (value === BigInt) return "bigint-constructor";
+    if (isNumberObject(value) || value === Number) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("number-constructor")]
+      );
+    }
+    if (isStringObject(value) || value === String) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("string-constructor")]
+      );
+    }
+    if (isBooleanObject(value) || value === Boolean) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("boolean-constructor")]
+      );
+    }
 
-  // If the value is detected as a Proxy, return "Proxy"
-  if (isProxy(value)) {
-    return converterHelper(FIXES[normalizeKey("proxy")] ?? "Proxy", formatCase);
-  }
+    // Handle primitive types other than symbol, function, object, or array
+    const prim = typeof value;
+    if (!isObjectOrArray(value) && !isFunction(value) && prim !== "symbol") {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase(prim)] ?? prim
+      );
+    }
 
-  // Detect Generator objects by presence of `.next` and `.throw` functions
-  if (
-    isObject(value) &&
-    isFunction((value as Record<string, unknown>)?.next) &&
-    isFunction((value as Record<string, unknown>)?.throw)
-  ) {
-    return converterHelper(FIXES[normalizeKey("generator")] ?? "Generator", formatCase);
-  }
+    // Handle Symbol types, including special well-known symbols
+    if (prim === "symbol") {
+      return ClassPrecise.getSymbolName(value as symbol);
+    }
 
-  // Handle Error instances and subclasses, returning their constructor name
-  if (isError(value)) {
-    const ctorName = value.constructor?.name ?? "Error";
-    // Try FIXES dictionary with constructor name, else fallback to spaced PascalCase
-    return converterHelper(
-      FIXES[normalizeKey(ctorName)] ??
-        FIXES[normalizeKey(ctorName.replace(/\s+/g, ""))] ??
-        ctorName,
-      formatCase
-    );
-  }
+    // Detect Node.js EventEmitter instances by constructor name
+    if (isObjectOrArray(value) && value.constructor?.name === "EventEmitter") {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("eventemitter")] ??
+          "Event Emitter"
+      );
+    }
 
-  // Handle objects created with `Object.create(null)` which have null prototype
-  if (isNull(Object.getPrototypeOf(value))) {
-    return converterHelper(FIXES[normalizeKey("object")] ?? "Object", formatCase);
-  }
+    const domType = ClassPrecise.detectDomNodeType(value);
+    if (domType) return domType;
 
-  // Get the internal [[Class]] tag from Object.prototype.toString, e.g. "Date", "Map"
-  const tag = Object.prototype.toString.call(value).slice(8, -1) || "Object";
+    // Detect Node.js Buffer instances
+    if (isBuffer(value)) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("buffer")] ?? "Buffer"
+      );
+    }
 
-  // Check if tag has a mapped friendly name in FIXES dictionary
-  const mapped = FIXES[normalizeKey(tag)];
-  if (mapped) return converterHelper(mapped, formatCase);
+    // Detect Proxy objects by attempting to define/delete a property (may throw)
+    if (ClassPrecise.isProxy(value)) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("proxy")] ?? "Proxy"
+      );
+    }
 
-  // Fallback: try to get constructor name and use that if not "Object"
-  const ctorName = value?.constructor?.name;
-  if (ctorName && ctorName !== "Object") {
-    return converterHelper(FIXES[normalizeKey(ctorName)] ?? ctorName, formatCase);
-  }
+    // Detect Generator objects by presence of .next and .throw methods
+    if (isObject(value) && isFunction(value?.next) && isFunction(value?.throw)) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("generator")] ??
+          "Generator"
+      );
+    }
 
-  // Final fallback: format the tag string to spaced PascalCase and return
-  return converterHelper(tag, formatCase);
-};
+    // Handle Error instances and subclasses, returning their constructor name
+    if (isError(value)) {
+      const ctorName = value.constructor?.name ?? "Error";
+      // Try FIXES_CASTABLE_TABLE dictionary with constructor name, else fallback to spaced PascalCase
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase(ctorName)] ??
+          PreciseType.castableTable[
+            PreciseType.normalizeKeyForCase(ctorName.replace(/\s+/g, ""))
+          ] ??
+          ctorName
+      );
+    }
+
+    if (
+      isObjectOrArray(value) &&
+      "done" in value &&
+      "value" in value &&
+      Object.keys(value).length === 2
+    ) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("iterator-result")]
+      );
+    }
+
+    // Handle objects created with `Object.create(null)` which have null prototype
+    if (isNull(Object.getPrototypeOf(value))) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("object")] ?? "Object"
+      );
+    }
+
+    // Get the internal [[Class]] tag from Object.prototype.toString, e.g. "Date", "Map"
+    const tag = Object.prototype.toString.call(value).slice(8, -1) || "Object";
+
+    // Check if tag has a mapped friendly name in ClassPrecise.FIXES_CASTABLE_TABLE ClassPrecise.dictionary
+    const mapped = PreciseType.castableTable[PreciseType.normalizeKeyForCase(tag)];
+    if (mapped) return ClassPrecise.converter(mapped);
+
+    // Fallback: try to get constructor name and use that if not "Object"
+    const ctorName = value?.constructor?.name;
+    if (ctorName && ctorName !== "Object") {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase(ctorName)] ?? ctorName
+      );
+    }
+
+    // Final fallback: format the tag string to spaced PascalCase and return
+    return ClassPrecise.converter(tag);
+  };
+})();

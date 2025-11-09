@@ -8,19 +8,14 @@ import {
   type GetPreciseTypeOptions,
   getPreciseType
 } from "@/predicates/type/getPreciseType";
-import { FIXES_RAW } from "@/predicates/type/_private/getPreciseType.utils";
 import { toKebabCase } from "@/strings/cases/toKebabCase";
+import { PreciseType } from "@/predicates/type/_private/getPreciseType.utils";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const validType = Object.values({
-  ...FIXES_RAW,
-  plainobject: "Plain Object"
-} as const);
-
+type FixedRaw = (typeof PreciseType)["fixesRaw"];
 type RequiredValidType =
-  | Lowercase<(typeof validType)[number]>
-  | Capitalize<(typeof validType)[number]>
-  | Uppercase<(typeof validType)[number]>
+  | Lowercase<FixedRaw[keyof FixedRaw]>
+  | Capitalize<FixedRaw[keyof FixedRaw]>
+  | Uppercase<FixedRaw[keyof FixedRaw]>
   | AnyString;
 
 /** -------------------------------------------------------
@@ -130,7 +125,7 @@ export type OptionsAssertIs = Prettify<
      * ```
      */
     errorType?: ErrorType;
-  } & PickStrict<GetPreciseTypeOptions, "formatCase">,
+  } & PickStrict<GetPreciseTypeOptions, "formatCase" | "useAcronyms">,
   { recursive: true }
 >;
 

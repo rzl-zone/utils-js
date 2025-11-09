@@ -11,6 +11,7 @@ export default defineConfig({
     extensions: [".js", ".ts", ".json"]
   },
   test: {
+    setupFiles: ["./tests/vitest.setup.ts"],
     exclude: [...configDefaults.exclude, "**/*deprecated*/**", "**/*deprecated*.test.ts"]
   }
 });

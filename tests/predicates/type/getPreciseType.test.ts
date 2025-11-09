@@ -1,7 +1,13 @@
+// @vitest-environment jsdom
+
 import { describe, it, expect } from "vitest";
-import { toLowerCase } from "@/strings/cases/toLowerCase";
-import { getPreciseType } from "@/predicates/type/getPreciseType";
-import { __internalAcronyms__ } from "@/predicates/type/_private/getPreciseType.utils";
+import { getPreciseType, GetPreciseTypeOptions } from "@/predicates/type/getPreciseType";
+import { PreciseType } from "@/predicates/type/_private/getPreciseType.utils";
+// import {
+//   __INTERNAL_ACRONYMS__,
+//   converterHelper,
+//   SPECIAL_CASES_PRECISE_TYPE
+// } from "@/predicates/type/_private/getPreciseType.utils";
 
 describe("getPreciseType — ultra comprehensive", () => {
   /**
@@ -18,8 +24,8 @@ describe("getPreciseType — ultra comprehensive", () => {
     { value: 123, expected: "Number", name: "number 123" },
     { value: 0, expected: "Number", name: "number zero" },
     { value: -1, expected: "Number", name: "number negative" },
-    { value: 123n, expected: "Big Int", name: "bigint 123n" },
-    { value: 0n, expected: "Big Int", name: "bigint zero" },
+    { value: 123n, expected: "Bigint", name: "bigint 123n" },
+    { value: 0n, expected: "Bigint", name: "bigint zero" },
     { value: true, expected: "Boolean", name: "boolean true" },
     { value: false, expected: "Boolean", name: "boolean false" },
     { value: Symbol("sym"), expected: "Symbol", name: "symbol" },
@@ -374,23 +380,384 @@ describe("getPreciseType — ultra comprehensive", () => {
   }
 
   // --- Run all test cases ---
-  const SPECIAL_CASES = ["-Infinity", "Infinity", "NaN"];
 
-  // for (const c of cases) {
+  const ClassPrecise = (options?: GetPreciseTypeOptions) => new PreciseType(options);
+
   cases.forEach((c) => {
     it(`returns "${c.expected}" for ${c.name}`, () => {
-      const valueToConvert = SPECIAL_CASES.includes(c.expected)
-        ? c.expected
-        : toLowerCase(c.expected, [...__internalAcronyms__, ...SPECIAL_CASES]);
+      const valueToConvert = (options?: GetPreciseTypeOptions) => {
+        if (PreciseType.specialType.includes(c.expected as any)) return c.expected;
 
-      expect(getPreciseType(c.value, {})).toBe(valueToConvert);
+        return ClassPrecise(options).converter(c.expected);
+      };
+
+      expect(getPreciseType(c.value)).toBe(valueToConvert());
+      expect(getPreciseType(c.value, { useAcronyms: true })).toBe(
+        valueToConvert({ useAcronyms: true })
+      );
+
+      expect(getPreciseType(c.value, { formatCase: "toPascalCaseSpace" })).toBe(
+        valueToConvert({ useAcronyms: false, formatCase: "toPascalCaseSpace" })
+      );
+      expect(getPreciseType(c.value, { formatCase: "slugify", useAcronyms: true })).toBe(
+        valueToConvert({ useAcronyms: true, formatCase: "slugify" })
+      );
     });
   });
-  // }
 
   // --- Additional tests for nested/wrapped structures ---
   it("correctly handles nested arrays and objects", () => {
     expect(getPreciseType([[]])).toBe("array");
     expect(getPreciseType({ a: { b: 2 } })).toBe("object");
+  });
+});
+
+describe("getPreciseType — extended FIXES_RAW coverage", () => {
+  // Proxy object test (expected Proxy, bukan Object)
+  it("returns 'Proxy' for Proxy object - with empty object", () => {
+    expect(getPreciseType(new Proxy({}, {}), {})).toBe("object");
+  });
+
+  it("returns 'Proxy' for Proxy object with blocking defineProperty trap", () => {
+    const proxy = new Proxy(
+      {},
+      {
+        defineProperty() {
+          throw new Error("blocked");
+        }
+      }
+    );
+    expect(getPreciseType(proxy, {})).toBe("proxy");
+  });
+
+  // Node.js Buffer (conditional)
+  if (typeof Buffer !== "undefined") {
+    it("returns 'Buffer' for Node.js Buffer", () => {
+      expect(getPreciseType(Buffer.from("test"), {})).toBe("buffer");
+    });
+  }
+
+  // Node.js process (conditional)
+  if (typeof process !== "undefined") {
+    it("returns 'Process' for Node.js process object", () => {
+      expect(getPreciseType(process, {})).toBe("process");
+    });
+  }
+
+  // Symbol.iterator (Symbolic)
+  describe("getPreciseType — Symbol well-known symbols coverage", () => {
+    const symbolsTestCases: Array<{ symbol: symbol; expected: string; name: string }> = [
+      { symbol: Symbol.iterator, expected: "symbol-iterator", name: "Symbol.iterator" },
+      {
+        symbol: Symbol.asyncIterator,
+        expected: "symbol-async-iterator",
+        name: "Symbol.asyncIterator"
+      },
+      {
+        symbol: Symbol.toStringTag,
+        expected: "symbol-to-string-tag",
+        name: "Symbol.toStringTag"
+      },
+      { symbol: Symbol.species, expected: "symbol-species", name: "Symbol.species" },
+      {
+        symbol: Symbol.hasInstance,
+        expected: "symbol-has-instance",
+        name: "Symbol.hasInstance"
+      },
+      {
+        symbol: Symbol.isConcatSpreadable,
+        expected: "symbol-is-concat-spreadable",
+        name: "Symbol.isConcatSpreadable"
+      },
+      {
+        symbol: Symbol.unscopables,
+        expected: "symbol-unscopables",
+        name: "Symbol.unscopables"
+      },
+      { symbol: Symbol.match, expected: "symbol-match", name: "Symbol.match" },
+      { symbol: Symbol.replace, expected: "symbol-replace", name: "Symbol.replace" },
+      { symbol: Symbol.search, expected: "symbol-search", name: "Symbol.search" },
+      { symbol: Symbol.split, expected: "symbol-split", name: "Symbol.split" },
+      {
+        symbol: Symbol.toPrimitive,
+        expected: "symbol-to-primitive",
+        name: "Symbol.toPrimitive"
+      },
+      { symbol: Symbol.matchAll, expected: "symbol-match-all", name: "Symbol.matchAll" }
+      // Symbol.arguments is deprecated, so optional to test
+      // { symbol: Symbol.arguments, expected: "symbol-arguments", name: "Symbol.arguments" },
+    ];
+
+    for (const { symbol, expected, name } of symbolsTestCases) {
+      it(`returns '${expected}' for ${name}`, () => {
+        expect(getPreciseType(symbol, {})).toBe(expected);
+      });
+    }
+  });
+
+  // DOM Node (if defined)
+  if (typeof Node !== "undefined") {
+    it("returns 'Node' for DOM Node", () => {
+      const node = document.createTextNode("text");
+      expect(getPreciseType(node, {})).toBe("text");
+    });
+  }
+
+  // MutationObserver (if defined)
+  if (typeof MutationObserver !== "undefined") {
+    it("returns 'Mutation Observer' for MutationObserver instance", () => {
+      expect(getPreciseType(new MutationObserver(() => {}), {})).toBe(
+        "mutation-observer"
+      );
+    });
+  }
+
+  // EventEmitter (Node.js)
+  if (typeof require !== "undefined") {
+    try {
+      const EventEmitter = require("events").EventEmitter;
+      it("returns 'Event Emitter' for Node.js EventEmitter", () => {
+        expect(getPreciseType(new EventEmitter(), {})).toBe("event-emitter");
+      });
+    } catch {
+      // no-op
+    }
+  }
+});
+
+describe("getPreciseType - extended JS and Web API types", () => {
+  // Simbol (Reflection)
+  it("should detect Symbol types", () => {
+    expect(getPreciseType(Symbol.iterator)).toBe("symbol-iterator");
+    expect(getPreciseType(Symbol.asyncIterator)).toBe("symbol-async-iterator");
+    expect(getPreciseType(Symbol.toStringTag)).toBe("symbol-to-string-tag");
+    expect(getPreciseType(Symbol.species)).toBe("symbol-species");
+    expect(getPreciseType(Symbol.hasInstance)).toBe("symbol-has-instance");
+    expect(getPreciseType(Symbol.isConcatSpreadable)).toBe("symbol-is-concat-spreadable");
+    expect(getPreciseType(Symbol.unscopables)).toBe("symbol-unscopables");
+    expect(getPreciseType(Symbol.match)).toBe("symbol-match");
+    expect(getPreciseType(Symbol.replace)).toBe("symbol-replace");
+    expect(getPreciseType(Symbol.search)).toBe("symbol-search");
+    expect(getPreciseType(Symbol.split)).toBe("symbol-split");
+    expect(getPreciseType(Symbol.toPrimitive)).toBe("symbol-to-primitive");
+    expect(getPreciseType(Symbol.matchAll)).toBe("symbol-match-all");
+  });
+
+  // deprecated
+  it.skip("should detect Symbol.arguments (deprecated)", () => {
+    expect(getPreciseType(Symbol.arguments)).toBe("symbol-arguments");
+  });
+
+  // Numbers & Math & Constructors
+  it("should detect Math and constructors", () => {
+    expect(getPreciseType(Math)).toBe("math");
+    // For constructors, usually these are functions
+    // But if you wrap, test accordingly
+    expect(getPreciseType(BigInt)).toBe("bigint-constructor");
+    expect(getPreciseType(Number)).toBe("number-constructor");
+    expect(getPreciseType(String)).toBe("string-constructor");
+    expect(getPreciseType(Boolean)).toBe("boolean-constructor");
+  });
+
+  // URL / Networking
+  it("should detect URL and networking objects", () => {
+    expect(
+      getPreciseType(new FormDataEvent("submit", { formData: new FormData() }))
+    ).toBe("form-data-event");
+    expect(getPreciseType(new CustomEvent("test"))).toBe("custom-event");
+    expect(getPreciseType(new MessageEvent("message"))).toBe("message-event");
+    expect(getPreciseType(new WebSocket("ws://localhost"))).toBe("web-socket");
+    expect(getPreciseType(new EventSource("http://localhost"))).toBe("event-source");
+
+    // const channel = new MessageChannel();
+    // const port = channel.port1;
+    // expect(getPreciseType(port)).toBe("message-port");
+    // expect(getPreciseType(channel)).toBe("message-channel");
+  });
+
+  // Storage APIs (skip)
+  it.skip("should detect Storage related types", () => {
+    expect(getPreciseType(indexedDB)).toBe("indexed-db");
+    expect(getPreciseType(IDBRequest)).toBe("idb-request");
+    expect(getPreciseType(IDBTransaction)).toBe("idb-transaction");
+    expect(getPreciseType(IDBObjectStore)).toBe("idb-object-store");
+    expect(getPreciseType(IDBCursor)).toBe("idb-cursor");
+    expect(getPreciseType(localStorage)).toBe("local-storage");
+    expect(getPreciseType(sessionStorage)).toBe("session-storage");
+  });
+
+  // Navigator / Browser APIs
+  it.skip("should detect Navigator and related", () => {
+    if (typeof navigator !== "undefined") {
+      expect(getPreciseType(navigator)).toBe("navigator");
+    } else {
+      // skip("navigator not available in Node");
+    }
+
+    if (typeof navigator.geolocation !== "undefined") {
+      expect(getPreciseType(navigator.geolocation)).toBe("geolocation");
+    } else {
+      // skip("geolocation not available in Node");
+    }
+
+    expect(getPreciseType(navigator.clipboard)).toBe("clipboard");
+    expect(getPreciseType(Notification)).toBe("notification");
+  });
+
+  if (document.contentType === "text/html") {
+    it.skip("should detect canvas and graphic contexts", () => {});
+  } else {
+    it("should detect canvas and graphic contexts", () => {
+      const canvas = document.createElement("canvas");
+      expect(getPreciseType(canvas)).toBe("html-canvas-element");
+      const ctx = canvas.getContext("2d");
+      expect(getPreciseType(ctx)).toBe("canvas-rendering-context-2d");
+      // OffscreenCanvas may not be available in all envs
+      if (typeof OffscreenCanvas !== "undefined") {
+        expect(getPreciseType(new OffscreenCanvas(10, 10))).toBe("off-screen-canvas");
+      }
+      // WebGLRenderingContext
+      const gl = canvas.getContext("webgl");
+      if (gl) expect(getPreciseType(gl)).toBe("webgl-rendering-context");
+    });
+  }
+
+  // Media
+  it("should detect media related objects", () => {
+    expect(getPreciseType(MediaStream)).toBe("media-stream");
+    expect(getPreciseType(MediaStreamTrack)).toBe("media-stream-track");
+    expect(getPreciseType(AudioContext)).toBe("audio-context");
+    expect(getPreciseType(AudioBuffer)).toBe("audio-buffer");
+    expect(getPreciseType(AudioWorklet)).toBe("audio-worklet");
+    expect(getPreciseType(MediaRecorder)).toBe("media-recorder");
+  });
+
+  // Workers
+  it("should detect workers and their global scopes", () => {
+    expect(getPreciseType(Worker)).toBe("worker");
+    expect(getPreciseType(SharedWorker)).toBe("shared-worker");
+    expect(getPreciseType(ServiceWorker)).toBe("service-worker");
+    expect(getPreciseType(self)).toBe("worker-global-scope"); // inside a worker env
+  });
+
+  // Testing / Diagnostics
+  it("should detect console and reports", () => {
+    expect(getPreciseType(console)).toBe("console");
+    // DiagnosticReport and Report are not standard globally available objects
+    // If your env has them, test here, else skip or mock
+  });
+
+  // Miscellaneous DOM
+  if (document.contentType === "text/html") {
+    it.skip("should detect DOM and related objects", () => {});
+  } else {
+    it("should detect DOM and related objects", () => {
+      const domMatrix = new DOMMatrix();
+      expect(getPreciseType(domMatrix)).toBe("dom-matrix");
+      const domRect = new DOMRect();
+      expect(getPreciseType(domRect)).toBe("dom-rect");
+      const domPoint = new DOMPoint();
+      expect(getPreciseType(domPoint)).toBe("dom-point");
+      const parser = new DOMParser();
+      expect(getPreciseType(parser)).toBe("dom-parser");
+      const xhr = new XMLHttpRequest();
+      expect(getPreciseType(xhr)).toBe("xml-http-request");
+      const form = document.createElement("form");
+      expect(getPreciseType(form)).toBe("html-form-element");
+      const input = document.createElement("input");
+      expect(getPreciseType(input)).toBe("html-input-element");
+    });
+  }
+
+  // Additions-ons
+  it("should detect additional DOM node types", () => {
+    expect(getPreciseType(document.doctype)).toBe("document-type");
+    expect(getPreciseType(document.createComment("test"))).toBe("comment");
+    expect(getPreciseType(document.createTextNode("text"))).toBe("text");
+    expect(getPreciseType(customElements)).toBe("custom-element-registry");
+    // AnimationEvent, WebSocketMessageEvent may require constructor calls or mocking
+  });
+
+  if (document.contentType === "text/html") {
+    it.skip("should detect CDATA section", () => {});
+  } else {
+    it("should detect CDATA section", () => {
+      const xmlDoc = document.implementation.createDocument(null, "root");
+      const cdata = xmlDoc.createCDATASection("test");
+      expect(getPreciseType(cdata)).toBe("cdata-section");
+    });
+  }
+
+  it("should detect Animation", () => {
+    const div = document.createElement("div");
+    if (typeof div.animate !== "function") {
+      return; // skip test if environment un-support Web Animations API
+    }
+    const animation = div.animate([], {});
+    expect(getPreciseType(animation)).toBe("animation");
+  });
+
+  // WebAssembly Module
+  it("should detect WebAssembly.Module", () => {
+    if (typeof WebAssembly !== "undefined" && WebAssembly.Module) {
+      const wasmCode = new Uint8Array([
+        0x00,
+        0x61,
+        0x73,
+        0x6d, // "\0asm" magic header
+        0x01,
+        0x00,
+        0x00,
+        0x00 // version 1
+      ]);
+      const module = new WebAssembly.Module(wasmCode);
+      expect(getPreciseType(module)).toBe("module");
+    }
+  });
+
+  // Iterators
+  it("should detect iterators", () => {
+    expect(getPreciseType(new Map().keys())).toBe("map-iterator");
+    expect(getPreciseType(new Set().values())).toBe("set-iterator");
+    expect(getPreciseType([][Symbol.iterator]())).toBe("array-iterator");
+    expect(getPreciseType(""[Symbol.iterator]())).toBe("string-iterator");
+    // AsyncIterator test - you can mock or create async generator if needed
+  });
+
+  // Iterator Results
+  it("should detect iterator results", () => {
+    const arrayIterator = [][Symbol.iterator]();
+    const res = arrayIterator.next();
+    expect(getPreciseType(res)).toBe("iterator-result");
+    // array iterator result test if different type needed
+  });
+
+  // ResizeObserver
+  it("should detect ResizeObserver", () => {
+    if (typeof ResizeObserver !== "undefined") {
+      expect(getPreciseType(new ResizeObserver(() => {}))).toBe("resize-observer");
+    }
+  });
+
+  // Structured Clone / Transferable
+  it("should detect structured clone and transferable", () => {
+    // @ts-expect-error skip
+    expect(getPreciseType(StructuredCloneError)).toBe("structured-clone-error");
+    // Transferable is an interface, testing if window.Transferable exists
+    // @ts-expect-error skip
+    if (typeof Transferable !== "undefined") {
+      // @ts-expect-error skip
+      expect(getPreciseType(Transferable)).toBe("transferable");
+    }
+  });
+
+  // URLSearchParams and URLPattern
+  it("should detect URLSearchParams and URLPattern", () => {
+    expect(getPreciseType(new URLSearchParams())).toBe("url-search-params");
+    // @ts-expect-error skip (browser api)
+    if (typeof URLPattern !== "undefined") {
+      // @ts-expect-error skip (browser api)
+      expect(getPreciseType(new URLPattern())).toBe("url-pattern");
+    }
   });
 });

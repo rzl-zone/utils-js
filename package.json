@@ -228,7 +228,7 @@
     "clean-dist:types-cts": "del-cli \"dist/**/*.d.{cts,mts}\"",
     "clean-dist:js-comments": "tsx scripts/cleanDistJsComments.ts",
     "delete-dist:index-runtime": "del-cli \"dist/index.{js,js.map,cjs,cjs.map}\" \"dist/index.d.{ts,cts,mts,esm}\"",
-    "minify:dts-dist": "tsx scripts/minifyDtsDist.ts",
+    "minify:dts-dist": "echo 'Skip tsx scripts/minifyDtsDist.ts'",
     "build:types-dts": "dts-bundle-generator --config dts-config.cjs --silent --external-imports next",
     "generate:reference-index": "tsx scripts/generateReferenceIndex.ts",
     "postbuild": "",

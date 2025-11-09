@@ -133,3 +133,4 @@ dist
 dev
 /deprecated
 deprecated/
+_internal
