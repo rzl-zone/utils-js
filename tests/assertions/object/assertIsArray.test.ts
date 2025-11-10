@@ -37,7 +37,7 @@ describe("assertIsArray", () => {
         message: (type) => `Expected ${type.validType} but got (${type.currentType}).`,
         formatCase: "toKebabCase"
       })
-    ).toThrowError("Expected array but got (big-int).");
+    ).toThrowError("Expected array but got (bigint).");
   });
 
   it("should work with union narrowing", () => {

@@ -31,7 +31,7 @@ describe("assertIsBigInt", () => {
       assertIsBigInt(42, {
         message: (type) => `Expected ${type.validType} but got (${type.currentType}).`
       })
-    ).toThrowError(/Expected big-int but got \(number\)/);
+    ).toThrowError(/Expected bigint but got \(number\)/);
   });
 
   it("should respect formatCase option", () => {
@@ -40,7 +40,7 @@ describe("assertIsBigInt", () => {
         message: (type) => `Expected ${type.validType} but got (${type.currentType}).`,
         formatCase: "toKebabCase"
       })
-    ).toThrowError("Expected big-int but got (number).");
+    ).toThrowError("Expected bigint but got (number).");
   });
 });
 
@@ -60,7 +60,7 @@ describe("assertIsBigInt - respect to errorType options", () => {
     errorTypes.forEach((type) => {
       expect(() => assertIsBigInt(val, { errorType: type })).toThrowError(
         new globalThis[type](
-          `Parameter input (\`value\`) must be of type \`big-int\`, but received: \`${getPreciseType(
+          `Parameter input (\`value\`) must be of type \`bigint\`, but received: \`${getPreciseType(
             val
           )}\`.`
         )
@@ -78,7 +78,7 @@ describe("assertIsBigInt - respect to errorType options", () => {
       // @ts-expect-error: testing invalid errorType
       assertIsBigInt(val, { errorType: "SomeUnknownError" })
     ).toThrow(
-      `Parameter input (\`value\`) must be of type \`big-int\`, but received: \`${getPreciseType(
+      `Parameter input (\`value\`) must be of type \`bigint\`, but received: \`${getPreciseType(
         val
       )}\`.`
     );

@@ -11,7 +11,7 @@ import {
 import { toKebabCase } from "@/strings/cases/toKebabCase";
 import { PreciseType } from "@/predicates/type/_private/getPreciseType.utils";
 
-type FixedRaw = (typeof PreciseType)["fixesRaw"];
+type FixedRaw = (typeof PreciseType)["fixesRaw"] & { plainobject: "plain object" };
 type RequiredValidType =
   | Lowercase<FixedRaw[keyof FixedRaw]>
   | Capitalize<FixedRaw[keyof FixedRaw]>
@@ -253,11 +253,12 @@ export function resolveErrorMessageAssertions<T>(
   const {
     message,
     formatCase,
+    useAcronyms,
     errorType = "TypeError"
   } = isPlainObject(options) ? options : {};
 
   const validType = toKebabCase(requiredValidType);
-  const currentType = getPreciseType(value, { formatCase });
+  const currentType = getPreciseType(value, { formatCase, useAcronyms });
   const messageFnOptions = { currentType, validType };
 
   const defaultMessage = `Parameter input (\`value\`) must be of type \`${validType}\`, but received: \`${currentType}\`.`;

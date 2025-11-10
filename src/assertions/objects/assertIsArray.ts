@@ -43,47 +43,89 @@ type AssertIsArrayResult<T> = IsUnknown<T> extends true
  * @param {*} value - ***The value to validate.***
  * @param {OptionsAssertIs} [options]
  *  ***Optional configuration:***
- *   - `message`: A custom error message (`string` or `function`).
- *   - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
- *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
+ *    - `message`: A custom error message (`string` or `function`).
+ *    - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
+ *    - `formatCase`: Controls how detected type names are formatted case in error messages.
+ *    - `useAcronyms`: Control uppercase preservation of recognized acronyms during formatting.
  * @returns {boolean} Narrows `value` to an `array` **(generic support)** if no error is thrown.
  * @throws [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) | [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) | [`EvalError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError) | [`RangeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) | [`ReferenceError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) | [`SyntaxError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError) | [`URIError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError) if the value is not an array.
  * @example
  * ```ts
  * // ✅ Simple usage
- * assertIsArray([1, 2, 3]);
+ * assertIsArray([]);
+ * assertIsArray(["123", 456]);
+ * assertIsArray(Array.from(["abc"]));
  * // No error, value is array
  *
- * // ❌ Throws TypeError with default message
- * assertIsArray({ a: 1 });
- * // ➔ TypeError: "Parameter input (`value`) must be of type `array`, but received: `plain-object`."
+ * // ❌ Throws TypeError (default behavior)
+ * // Case 1: Invalid input type — received a string instead of a array
+ * assertIsArray("42");
+ * // ➔ TypeError: "Parameter input (`value`) must be of type `array`, but received: `string`."
  *
- * // ❌ Throws with custom string message
- * assertIsArray(42, { message: "Must be an array!" });
- * // ➔ TypeError: "Must be an array!"
+ * // ❌ Throws custom error type (e.g., RangeError)
+ * assertIsArray(async function () {}, { errorType: "RangeError" });
+ * // ➔ RangeError: "Parameter input (`value`) must be of type `array`, but received: `async-function`."
  *
- * // ❌ Throws RangeError instead of TypeError
- * assertIsArray(42, { errorType: "RangeError" });
- * // ➔ RangeError: "Parameter input (`value`) must be of type `array`, but received: `number`."
+ * // ❌ Throws a TypeError with a custom string static message
+ * assertIsArray("123", { message: "Must be a array!" });
+ * // ➔ TypeError: "Must be a array!"
  *
- * // ❌ Throws with custom function message + case formatting
- * assertIsArray(42n, {
- *   message: ({ currentType, validType }) => `Expected ${validType} but got (${currentType}).`,
- *   formatCase: "toKebabCase"
+ * // ❌ Throws a TypeError with a custom message function and formatCase
+ * assertIsArray(/regex/, {
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ *   formatCase: "toPascalCaseSpace"
  * });
- * // ➔ TypeError: "Expected array but got (big-int)."
+ * // ➔ TypeError: "Expected array but got (Reg Exp)."
+ *
+ * // ❌ Throws a TypeError with a custom useAcronyms option
+ * // Case 1:
+ * assertIsArray(new URL("https://example.com"),{
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected array but got (url)."
+ * assertIsArray(new URL("https://example.com"), {
+ *   useAcronyms: true,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected array but got (URL)."
+ *
+ * // Case 2:
+ * assertIsArray(new URLSearchParams, {
+ *   formatCase: "toPascalCase",
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected array but got (UrlSearchParams)."
+ * assertIsArray(new URLSearchParams, {
+ *   useAcronyms: true,
+ *   formatCase: "toPascalCase",
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected array but got (URLSearchParams)."
  * ```
  * -------------------------------------------------------
- * ✅ ***Real-world usage with generic narrowing***:
+ * ✅ ***Real-world usage example***:
  * ```ts
  * const mixedValue: string | number[] | undefined = getUserInput();
  *
- * // ❌ Throws if not array
- * assertIsArray(mixedValue, { message: "Must be an array!", errorType: "RangeError" });
+ * // Runtime assertion: throws if `mixedValue` is not a `number[]`
+ * assertIsArray(mixedValue, {
+ *   errorType: "RangeError",
+ *   message: "Must be array!"
+ * });
  *
- * // ✅ After this call, TypeScript knows `mixedValue` is narrowed to number[]
- * const result: number[] = mixedValue; // ➔ Safe to use
- * console.log(result.length);
+ * // ✅ If no error thrown, TypeScript narrows `mixedValue` to `number[]` here
+ * const result: number[] = mixedValue; // ➔ Safe type assignment
+ * console.log(result.push(1, 2, 3));   // ➔ Safe to use array methods
  * ```
  */
 export function assertIsArray<T extends unknown[]>(

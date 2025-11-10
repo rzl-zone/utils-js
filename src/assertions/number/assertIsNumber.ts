@@ -37,56 +37,97 @@ type OptionsAssertIsNumber = OptionsAssertIs & IsNumberOptions;
  * @param {*} value - ***The value to validate.***
  * @param {OptionsAssertIsNumber} [options]
  *  ***Optional configuration:***
- *   - `message`: A custom error message (`string` or `function`).
- *   - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
- *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
- *   - `includeNaN`: Whether to treat `NaN` as valid.
+ *    - `message`: A custom error message (`string` or `function`).
+ *    - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
+ *    - `formatCase`: Controls how detected type names are formatted case in error messages.
+ *    - `useAcronyms`: Control uppercase preservation of recognized acronyms during formatting.
+ *    - `includeNaN`: Whether to treat `NaN` as valid.
  * @returns {boolean} Narrows `value` to `number` if no error is thrown.
  * @throws [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) | [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) | [`EvalError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError) | [`RangeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) | [`ReferenceError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) | [`SyntaxError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError) | [`URIError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError) if the value is not a number (or is `NaN` when `includeNaN` is `false`).
  * @example
  * ```ts
  * // ✅ Simple usage
  * assertIsNumber(123);
+ * assertIsNumber(NaN, { includeNaN: true });
  * // No error, value is number
  *
- * // ❌ Throws TypeError with default message
+ * // ❌ Throws TypeError (default behavior)
+ * // Case 1: Invalid input type — received a string instead of a number
  * assertIsNumber("42");
  * // ➔ TypeError: "Parameter input (`value`) must be of type `number`, but received: `string`."
  *
- * // ❌ Throws with custom string message
- * assertIsNumber(true, { message: "Must be a number!" });
- * // ➔ TypeError: "Must be a number!"
- *
- * // ❌ Throws RangeError instead of TypeError
- * assertIsNumber("42", { errorType: "RangeError" });
- * // ➔ RangeError: "Parameter input (`value`) must be of type `number`, but received: `string`."
- *
- * // ❌ Throws with custom function message + case formatting
- * assertIsNumber("hello", {
- *   message: ({ currentType, validType }) => `Expected ${validType} but got (${currentType}).`,
- *   formatCase: "toKebabCase"
- * });
- * // ➔ TypeError: "Expected number but got (string)."
- *
- * // ⚠️ NaN is invalid by default
+ * // Case 2: Default option includeNaN is false
  * assertIsNumber(NaN);
  * // ➔ TypeError: "Parameter input (`value`) must be of type `number`, but received: `NaN`."
  *
- * // ✅ Allow NaN explicitly
- * assertIsNumber(NaN, { includeNaN: true });
- * // No error
+ * // Case 3: The new Number() is a Number object (constructor), not a primitive number
+ * assertIsNumber(new Number("123"));
+ * // ➔ TypeError: "Parameter input (`value`) must be of type `number`, but received: `number-constructor`."
+ *
+ * // ❌ Throws custom error type (e.g., RangeError)
+ * assertIsNumber(async function () {}, { errorType: "RangeError" });
+ * // ➔ RangeError: "Parameter input (`value`) must be of type `number`, but received: `async-function`."
+ *
+ * // ❌ Throws a TypeError with a custom string static message
+ * assertIsNumber("123", { message: "Must be a number!" });
+ * // ➔ TypeError: "Must be a number!"
+ *
+ * // ❌ Throws a TypeError with a custom message function and formatCase
+ * assertIsNumber(/regex/, {
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ *   formatCase: "toPascalCaseSpace"
+ * });
+ * // ➔ TypeError: "Expected number but got (Reg Exp)."
+ *
+ * // ❌ Throws a TypeError with a custom useAcronyms option
+ * // Case 1:
+ * assertIsNumber(new URL("https://example.com"),{
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected number but got (url)."
+ * assertIsNumber(new URL("https://example.com"), {
+ *   useAcronyms: true,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected number but got (URL)."
+ *
+ * // Case 2:
+ * assertIsNumber(new URLSearchParams, {
+ *   formatCase: "toPascalCase",
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected number but got (UrlSearchParams)."
+ * assertIsNumber(new URLSearchParams, {
+ *   useAcronyms: true,
+ *   formatCase: "toPascalCase",
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected number but got (URLSearchParams)."
  * ```
  * -------------------------------------------------------
  * ✅ ***Real-world usage example***:
  * ```ts
  * const mixedValue: string | number | undefined = getUserInput();
  *
- * // ❌ Throws if not number
- * assertIsNumber(mixedValue, { message: "Must be a number!", errorType: "RangeError" });
+ * // Runtime assertion: throws if `mixedValue` is not a `number`
+ * assertIsNumber(mixedValue, {
+ *   errorType: "RangeError",
+ *   message: "Must be number!"
+ * });
  *
- * // ✅ After this call, TypeScript knows `mixedValue` is number
- * const result: number = mixedValue; // ➔ Safe to use
- * console.log(result + 100);
+ * // ✅ If no error thrown, TypeScript narrows `mixedValue` to `number` here
+ * const result: number = mixedValue; // ➔ Safe type assignment
+ * console.log(result + 100);         // ➔ Safe to operation
  * ```
  */
 export const assertIsNumber: (

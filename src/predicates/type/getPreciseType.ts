@@ -57,30 +57,29 @@ export type GetPreciseTypeOptions = {
     | "toLowerCase";
 
   /** -------------------------------------------------------
-   * * ***Indicates whether internal acronyms should remain uppercase during type name formatting.***
+   * * ***Control uppercase preservation of recognized acronyms during formatting.***
    * -------------------------------------------------------
-   * **When enabled (`true`), common technical acronyms (e.g., `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, `"DOM"`)**
-   * **will be preserved in their original uppercase form** instead of being lowercased or transformed by case-formatting utilities.
+   * When enabled (`true`), common technical acronyms (e.g., `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, `"DOM"`)
+   * are preserved in their original uppercase form instead of being lowercased or altered by case-formatting utilities.
+   *
    *
    * - **When `false` (default):**
-   *    - Acronyms will be treated like normal words and affected by the chosen `formatCase`.
+   *    - Acronyms are treated as normal words and formatted according to the selected `formatCase`.
    *    - Example:
-   *      - `HTMLDivElement` ➔ `"html-div-element"` (for `"toKebabCase"`)
+   *      - `HTMLDivElement` ➔ `"html-div-element"` (with `"toKebabCase"`)
    *      - `DOMParser` ➔ `"dom-parser"`
    * - **When `true`:**
-   *    - Acronyms are preserved as-is in uppercase form.
+   *    - Acronyms remain uppercase.
    *    - Example:
-   *      - `HTMLDivElement` ➔ `"HTML-div-element"` (for `"toKebabCase"`)
+   *      - `HTMLDivElement` ➔ `"HTML-div-element"` (with `"toKebabCase"`)
    *      - `DOMParser` ➔ `"DOM-parser"`
    *
    * @default false
    * @description
-   * The list of recognized acronyms can be found in {@link AcronymsList | **`AcronymsList`**},
-   * which includes default entries like `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, `"DOM"`, and others.
+   * The list of recognized acronyms is defined in {@link AcronymsList | **`AcronymsList`**},
+   * including entries like `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, `"DOM"`, and others.
    *
-   * @note
-   * ⚠️ This option only affects **formatting output**, not type detection.
-   * Acronym preservation applies **after** the base type name is detected and formatted.
+   * ⚠️ This option affects **formatting output only**, not the underlying type detection, acronym preservation is applied **after** detecting and formatting the base type name.
    */
   useAcronyms?: boolean;
 };
@@ -119,7 +118,7 @@ export type AcronymsList = (typeof PreciseType)["acronymsList"];
  *        (`"-Infinity" | "Infinity" | "NaN"`) will remain
  *        unchanged even if a different `formatCase` is applied.
  * @param {boolean} [options.useAcronyms=false]
- *   Indicates whether internal acronyms should remain uppercase during formatting.
+ *   Control uppercase preservation of recognized acronyms during formatting.
  *      - When `true`, recognized acronyms such as `"URL"`, `"HTTP"`, `"HTML"`, `"SVG"`, `"XML"`, and `"DOM"`
  *        are preserved in uppercase instead of being lowercased or otherwise transformed.
  *      - When `false` (default), acronyms are formatted like regular words according to `formatCase`.
@@ -189,20 +188,24 @@ export const getPreciseType = (() => {
     if (isInfinityNumber(value)) return String(value);
 
     // Handle wrapper objects like new Number(), new String(), new Boolean(), or BigInt
-    if (value === BigInt) return "bigint-constructor";
+    if (typeof BigInt !== "undefined" && value === BigInt) {
+      return ClassPrecise.converter(
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("bigint constructor")]
+      );
+    }
     if (isNumberObject(value) || value === Number) {
       return ClassPrecise.converter(
-        PreciseType.castableTable[PreciseType.normalizeKeyForCase("number-constructor")]
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("number constructor")]
       );
     }
     if (isStringObject(value) || value === String) {
       return ClassPrecise.converter(
-        PreciseType.castableTable[PreciseType.normalizeKeyForCase("string-constructor")]
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("string constructor")]
       );
     }
     if (isBooleanObject(value) || value === Boolean) {
       return ClassPrecise.converter(
-        PreciseType.castableTable[PreciseType.normalizeKeyForCase("boolean-constructor")]
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("boolean constructor")]
       );
     }
 
@@ -222,7 +225,7 @@ export const getPreciseType = (() => {
     // Detect Node.js EventEmitter instances by constructor name
     if (isObjectOrArray(value) && value.constructor?.name === "EventEmitter") {
       return ClassPrecise.converter(
-        PreciseType.castableTable[PreciseType.normalizeKeyForCase("eventemitter")] ??
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("event emitter")] ??
           "Event Emitter"
       );
     }
@@ -272,7 +275,7 @@ export const getPreciseType = (() => {
       Object.keys(value).length === 2
     ) {
       return ClassPrecise.converter(
-        PreciseType.castableTable[PreciseType.normalizeKeyForCase("iterator-result")]
+        PreciseType.castableTable[PreciseType.normalizeKeyForCase("iterator result")]
       );
     }
 

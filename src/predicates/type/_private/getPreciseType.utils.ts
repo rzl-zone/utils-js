@@ -12,6 +12,7 @@ import { toPascalCaseSpace } from "@/strings/cases/toPascalCaseSpace";
 
 import { isNull } from "@/predicates/is/isNull";
 import { isObjectOrArray } from "@/predicates/is/isObjectOrArray";
+import { AnyString } from "@rzl-zone/ts-types-plus";
 
 export class PreciseType {
   /** ----------------------------------------------------------
@@ -25,6 +26,8 @@ export class PreciseType {
    * - **⚠️ Internal:**
    *    - Used internally by {@link getPreciseType | `getPreciseType`}.
    *    - Not intended for direct use in application code.
+   *
+   * @internal
    */
   private static readonly FIXES_RAW = Object.freeze({
     // primitives
@@ -43,10 +46,10 @@ export class PreciseType {
     atomics: "Atomics",
 
     // core / objects
-    object: "Object",
     array: "Array",
-    arguments: "Arguments",
+    object: "Object",
     function: "Function",
+    arguments: "Arguments",
 
     // functions
     asyncfunction: "Async Function",
@@ -173,9 +176,9 @@ export class PreciseType {
     htmlcollection: "HTML Collection",
 
     // observers / misc DOM
+    resizeobserver: "Resize Observer",
     mutationobserver: "Mutation Observer",
     intersectionobserver: "Intersection Observer",
-    resizeobserver: "Resize Observer",
 
     // Reflection / Symbolic
     symboliterator: "Symbol. Iterator",
@@ -229,16 +232,16 @@ export class PreciseType {
     canvasrenderingcontext2d: "Canvas Rendering Context 2D",
     offscreencanvas: "Offscreen Canvas",
     webglrenderingcontext: "WebGL Rendering Context",
-    imagebitmap: "Image Bitmap",
     imagedata: "Image Data",
+    imagebitmap: "Image Bitmap",
 
     // Media
     mediastream: "Media Stream",
+    mediarecorder: "Media Recorder",
     mediastreamtrack: "Media Stream Track",
     audiocontext: "Audio Context",
     audiobuffer: "Audio Buffer",
     audioworklet: "Audio Worklet",
-    mediarecorder: "Media Recorder",
 
     // Workers
     worker: "Worker",
@@ -270,9 +273,9 @@ export class PreciseType {
     documenttype: "Document Type",
     characterdata: "Character Data",
     animationevent: "Animation Event",
-    customlementregistry: "Custom Element Registry",
+    customemmetregistry: "Custom Emmet Registry",
     websocketmessageevent: "WebSocket Message Event"
-  });
+  } as const);
 
   /** ----------------------------------------------------------
    * * ***List of JavaScript special numeric values.***
@@ -283,6 +286,8 @@ export class PreciseType {
    *
    * - **⚠️ Internal:**
    *    - Used by {@link getPreciseType | `getPreciseType`} for numeric edge-case detection.
+   *
+   * @internal
    */
   private static readonly SPECIAL_TYPE = Object.freeze([
     "-Infinity",
@@ -301,6 +306,8 @@ export class PreciseType {
    *
    * - **⚠️ Internal:**
    *    - Used internally by {@link getPreciseType | `getPreciseType`} and related formatters.
+   *
+   * @internal
    */
   private static readonly ACRONYMS = Object.freeze([
     // Web & Protocols
@@ -648,6 +655,8 @@ export class PreciseType {
    *
    * - **⚠️ Internal:**
    *    - Helper table for {@link getPreciseType | `getPreciseType`} and related matchers.
+   *
+   * @internal
    */
   private static readonly FIXES_CASTABLE_TABLE = Object.freeze(
     Object.entries(PreciseType.FIXES_RAW).reduce((acc, [k, v]) => {
@@ -656,14 +665,9 @@ export class PreciseType {
     }, {} as Record<string, string>)
   );
 
-  // private FIXES_CASTABLE_TABLE: Record<string, string> = Object.entries(
-  //   this.FIXES_RAW
-  // ).reduce((acc, [k, v]) => {
-  //   acc[PreciseType.normalizeKeyForCase(k)] = v;
-  //   return acc;
-  // }, {} as Record<string, string>);
-
+  /** @internal */
   private formatCase: GetPreciseTypeOptions["formatCase"] = "toKebabCase";
+  /** @internal */
   private useAcronyms: GetPreciseTypeOptions["useAcronyms"] = false;
 
   constructor(params?: GetPreciseTypeOptions) {
@@ -671,6 +675,7 @@ export class PreciseType {
     this.useAcronyms = params?.useAcronyms;
   }
 
+  /** @internal */
   private determineOptions(options?: GetPreciseTypeOptions) {
     return {
       formatCase: options?.formatCase || this.formatCase,
@@ -681,6 +686,7 @@ export class PreciseType {
   // ------------------------
   // Helpers for DOM detection
   // ------------------------
+  /** @internal */
   private getHtmlElementType(
     value: unknown,
     options?: GetPreciseTypeOptions
@@ -810,7 +816,7 @@ export class PreciseType {
 
     return this.converter(displayName, { formatCase, useAcronyms });
   }
-
+  /** @internal */
   private getCommentNodeType(
     value: unknown,
     options?: GetPreciseTypeOptions
@@ -826,7 +832,7 @@ export class PreciseType {
     }
     return null;
   }
-
+  /** @internal */
   private getTextNodeType(
     value: unknown,
     options?: GetPreciseTypeOptions
@@ -842,7 +848,7 @@ export class PreciseType {
     }
     return null;
   }
-
+  /** @internal */
   private getOtherNodeType(
     value: unknown,
     options?: GetPreciseTypeOptions
@@ -896,6 +902,8 @@ export class PreciseType {
    * @param value - The `Symbol` instance to analyze.
    * @param options - Optional settings for case formatting and acronym preservation.
    * @returns The formatted symbol name string.
+   *
+   * @internal
    */
   public getSymbolName(value: symbol, options?: GetPreciseTypeOptions): string {
     const { formatCase, useAcronyms } = this.determineOptions(options);
@@ -975,11 +983,13 @@ export class PreciseType {
    * @param value - The value to be inspected for a DOM node type.
    * @param options - Optional configuration to adjust case formatting and acronym behavior.
    * @returns The detected DOM node type string, or `null` if not applicable.
+   *
+   * @internal
    */
-  public detectDomNodeType = (
+  public detectDomNodeType(
     value: unknown,
     options?: GetPreciseTypeOptions
-  ): string | null => {
+  ): string | null {
     const { formatCase, useAcronyms } = this.determineOptions(options);
 
     try {
@@ -992,7 +1002,7 @@ export class PreciseType {
     } catch {
       return null;
     }
-  };
+  }
 
   /** ----------------------------------------------------------
    * * ***Detects whether a given value is a Proxy instance.***
@@ -1029,8 +1039,10 @@ export class PreciseType {
    * @note
    * - Skips built-in native types (like `Array`, `Date`, `Map`, etc.) to prevent false positives.
    * - This is an **internal heuristic**, not a guaranteed Proxy detector.
+   *
+   * @internal
    */
-  public isProxy = (value: unknown): boolean => {
+  public isProxy(value: unknown): boolean {
     if (isNull(value) || !isObjectOrArray(value)) return false;
 
     // Exclude built-in types to avoid false positives
@@ -1063,7 +1075,7 @@ export class PreciseType {
     } catch {
       return true; // If error, probably Proxy with traps
     }
-  };
+  }
 
   /** ----------------------------------------------------------
    * * ***Helper function to convert an input string to a specific casing/format.***
@@ -1092,6 +1104,8 @@ export class PreciseType {
    * @example
    * converterHelper("my URL path", "slugify");
    * // ➔ "my-URL-path"
+   *
+   * @internal
    */
   public converter(input: string, options?: GetPreciseTypeOptions): string {
     const { formatCase, useAcronyms } = this.determineOptions(options);
@@ -1134,6 +1148,7 @@ export class PreciseType {
    *
    * - **Example:**
    *    ```ts
+   *    PreciseType.normalizeKeyForCase("Map.Type");   // ➔ "maptype"
    *    PreciseType.normalizeKeyForCase("Map-Type");   // ➔ "maptype"
    *    PreciseType.normalizeKeyForCase("Set Type");   // ➔ "settype"
    *    PreciseType.normalizeKeyForCase("Array_Type"); // ➔ "arraytype"
@@ -1145,8 +1160,10 @@ export class PreciseType {
    *
    * @param k - The input string key to normalize.
    * @returns The normalized lowercase key with all separators removed.
+   *
+   * @internal
    */
-  public static normalizeKeyForCase(k: string): string {
+  public static normalizeKeyForCase(k: keyof typeof this.fixesRaw | AnyString): string {
     // eslint-disable-next-line no-useless-escape
     return k.replace(/[\s_\-\.]+/g, "").toLowerCase();
   }

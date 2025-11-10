@@ -32,48 +32,91 @@ import {
  * @param {*} value - ***The value to validate.***
  * @param {OptionsAssertIs} [options]
  *  ***Optional configuration:***
- *   - `message`: A custom error message (`string` or `function`).
- *   - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
- *   - `formatCase`: Controls type formatting (from `GetPreciseTypeOptions`).
+ *    - `message`: A custom error message (`string` or `function`).
+ *    - `errorType`: Built-in JavaScript error type to throw on failure (default `"TypeError"`).
+ *    - `formatCase`: Controls how detected type names are formatted case in error messages.
+ *    - `useAcronyms`: Control uppercase preservation of recognized acronyms during formatting.
  * @returns {boolean} Narrows `value` to `string` if no error is thrown.
  * @throws [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) | [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) | [`EvalError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError) | [`RangeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError) | [`ReferenceError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError) | [`SyntaxError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError) | [`URIError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError) if the value is not a primitive string.
  * @example
  * ```ts
  * // ✅ Simple usage
  * assertIsString("hello");
- * // ➔ ok value is string, no error
+ * // No error, value is string
  *
- * // ❌ Throws TypeError with default message
+ * // ❌ Throws TypeError (default behavior)
+ * // Case 1: Invalid input type — received a string instead of a string
  * assertIsString(42);
  * // ➔ TypeError: "Parameter input (`value`) must be of type `string`, but received: `number`."
  *
- * // ❌ Throws with custom string message
- * assertIsString(42, { message: "Must be a string!" });
+ * // Case 3: The new String() is a String object (constructor), not a primitive string
+ * assertIsString(new String("abc"));
+ * // ➔ TypeError: "Parameter input (`value`) must be of type `string`, but received: `string-constructor`."
+ *
+ * // ❌ Throws custom error type (e.g., RangeError)
+ * assertIsString(async function () {}, { errorType: "RangeError" });
+ * // ➔ RangeError: "Parameter input (`value`) must be of type `string`, but received: `async-function`."
+ *
+ * // ❌ Throws a TypeError with a custom string static message
+ * assertIsString(123, { message: "Must be a string!" });
  * // ➔ TypeError: "Must be a string!"
  *
- * // ❌ Throws RangeError instead of TypeError
- * assertIsString(42, { errorType: "RangeError" });
- * // ➔ RangeError: "Parameter input (`value`) must be of type `string`, but received: `number`."
- *
- * // ❌ Throws with custom message function + case formatting
- * assertIsString(42n, {
- *   message: ({ currentType, validType }) => `Expected ${validType} but got (${currentType}).`,
- *   formatCase: "toKebabCase"
+ * // ❌ Throws a TypeError with a custom message function and formatCase
+ * assertIsString(/regex/, {
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ *   formatCase: "toPascalCaseSpace"
  * });
- * // ➔ TypeError: "Expected string but got (big-int)."
+ * // ➔ TypeError: "Expected string but got (Reg Exp)."
+ *
+ * // ❌ Throws a TypeError with a custom useAcronyms option
+ * // Case 1:
+ * assertIsString(new URL("https://example.com"),{
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected string but got (url)."
+ * assertIsString(new URL("https://example.com"), {
+ *   useAcronyms: true,
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected string but got (URL)."
+ *
+ * // Case 2:
+ * assertIsString(new URLSearchParams, {
+ *   formatCase: "toPascalCase",
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected string but got (UrlSearchParams)."
+ * assertIsString(new URLSearchParams, {
+ *   useAcronyms: true,
+ *   formatCase: "toPascalCase",
+ *   message: ({ currentType, validType }) => {
+ *     return `Expected ${validType} but got (${currentType}).`
+ *   },
+ * });
+ * // ➔ TypeError: "Expected string but got (URLSearchParams)."
  * ```
  * -------------------------------------------------------
  * ✅ ***Real-world usage with generic narrowing***:
  * ```ts
- * type User = { name: string; email: string };
- * const mixedValue: string | User | undefined = getUserInput();
+ * const mixedValue: string | boolean | undefined = getUserInput();
  *
- * // ❌ Throws if the value is not string
- * assertIsString(mixedValue, { message: "Must be a string!", errorType: "RangeError" });
+ * // Runtime assertion: throws if `mixedValue` is not a `string`
+ * assertIsString(mixedValue, {
+ *   errorType: "RangeError",
+ *   message: "Must be a string!"
+ * });
  *
- * // ✅ After this call, TypeScript knows `mixedValue` is string
- * const result: string = mixedValue; // ➔ safe
- * console.log(result.toUpperCase()); // ➔ type-safe
+ * // ✅ If no error thrown, TypeScript narrows `mixedValue` to `string` here
+ * const result: string = mixedValue; // ➔ Safe type assignment
+ * console.log(result.toUpperCase()); // ➔ Safe to call String.prototype methods
  * ```
  */
 export const assertIsString: (
