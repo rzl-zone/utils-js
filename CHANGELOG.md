@@ -6,12 +6,12 @@
 ### Features
 
 * **`assertIs*`:** Change default `formatCase` to `toKebabCase`, add `useAcronyms` option, and improve TSDoc. ([3de179b](https://github.com/rzl-zone/utils-js/commit/3de179b2ed404a75a23e2bae89086d7cc178ce86))
-* **`getPreciseType`:** Add `useAcronyms` option, update defaults, internal refactor, and performance improvements ([5eab467](https://github.com/rzl-zone/utils-js/commit/5eab46708a3eac620f048fc614c251ecd4901906))
+* **`getPreciseType`:** Add `useAcronyms` option, update defaults, internal refactor, and performance improvements. ([5eab467](https://github.com/rzl-zone/utils-js/commit/5eab46708a3eac620f048fc614c251ecd4901906))
 
 
 ### Bug Fixes
 
-* ****`assertIsArray`**:** Ensure correct assertion signature for improved type narrowing. ([9093cd6](https://github.com/rzl-zone/utils-js/commit/9093cd69ef07be27a6025dad49aab2467ae5b910))
+* **`assertIsArray`:** Ensure correct assertion signature for improved type narrowing. ([9093cd6](https://github.com/rzl-zone/utils-js/commit/9093cd69ef07be27a6025dad49aab2467ae5b910))
 
 ## [3.10.0](https://github.com/rzl-zone/utils-js/compare/v3.9.1...v3.10.0) (2025-10-25)
 
