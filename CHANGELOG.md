@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.11.1](https://github.com/rzl-zone/utils-js/compare/v3.11.0...v3.11.1) (2026-03-29)
+
+
+### Bug Fixes
+
+* Fixing `isArray` overload type. ([acf1a71](https://github.com/rzl-zone/utils-js/commit/acf1a71d9f0fe2a47f5f8692cd327deb5574c76a))
+
 ## [3.11.0](https://github.com/rzl-zone/utils-js/compare/v3.10.0...v3.11.0) (2025-11-10)
 
 
