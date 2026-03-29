@@ -5,6 +5,8 @@
 //   IsUnknown
 // } from "@rzl-zone/ts-types-plus";
 
+import { IsNever } from "@rzl-zone/ts-types-plus";
+
 // /** @deprecated bugs */
 // export type IsArrayResult<T> = IsUnknown<T> extends true
 //   ? unknown[] & T
@@ -15,6 +17,10 @@
 //   : IsArray<T> extends true
 //   ? T
 //   : unknown[];
+type ArrayFallback<T> =
+  IsNever<Extract<T, unknown[] | readonly unknown[]>> extends true
+    ? unknown[] & T
+    : Extract<T, unknown[] | readonly unknown[]>;
 
 /** ----------------------------------------------------------
  * * ***Type guard: `isArray`.***
@@ -41,10 +47,8 @@
  * isArray(undefined);
  * // ➔ false
  */
-export function isArray<T extends unknown[]>(value: T): value is Extract<T, unknown[]>;
-export function isArray<T extends readonly unknown[]>(
-  value: T
-): value is Extract<T, readonly unknown[]>;
+export function isArray<T>(value: T): value is ArrayFallback<T>;
+// export function isArray<T>(value: T): value is IsNever<Extract<T, unknown[]>> extends true ? unknown[]: Extract<T, unknown[]>;
 export function isArray(value: unknown): value is unknown[];
 export function isArray(value: unknown): boolean {
   return Array.isArray(value);

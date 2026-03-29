@@ -8,11 +8,11 @@
   "unpkg": "./dist/rzl-utils.global.js",
   "jsdelivr": "./dist/rzl-utils.global.js",
   "types": "./dist/index.d.ts",
-  "author": "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>",
+  "author": "Rizalvin Dwiky <rizalvindwiky@gmail.com>",
   "homepage": "https://github.com/rzl-zone/utils-js#readme",
   "description": "A modern, lightweight set of JavaScript utility functions with TypeScript support for everyday development, crafted to enhance code readability and maintainability.",
   "contributors": [
-    "Rizalvin Dwiky <rizalvindwiky1998@gmail.com>"
+    "Rizalvin Dwiky <rizalvindwiky@gmail.com>"
   ],
   "bugs": {
     "url": "https://github.com/rzl-zone/utils-js/issues"
@@ -237,6 +237,8 @@
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix",
     "prepublishOnly": "npm run build",
+    "tsc:check": "tsc --noEmit",
+    "test": "vitest run",
     "check-publish": "npm run build && npm pack --dry-run",
     "release-patch": "npm version patch && git push && git push --tags && npm publish"
   }
